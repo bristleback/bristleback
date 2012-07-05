@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context-2.5.xsd
+          http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+            http://www.springframework.org/schema/mvc
+             http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+  <context:component-scan base-package="sample"/>
+
+  <context:annotation-config/>
+
+  <bean class="pl.bristleback.server.bristle.conf.resolver.message.ObjectSenderInjector">
+  </bean>
+
+  <bean id="system.sender.condition" class="pl.bristleback.server.bristle.message.sender.ConditionObjectSender"
+        scope="prototype"/>
+
+  <bean id="helloService" class="sample.service.HelloServiceBean"/>
+
+  <bean id="initialConfigResolver"
+        class="pl.bristleback.server.bristle.conf.resolver.init.PropertiesFileConfigResolver">
+    <property name="configurationPath" value="conf/bristleback.properties"/>
+  </bean>
+
+  <bean id="initPojoConfigResolver" class="pl.bristleback.server.bristle.conf.resolver.init.PojoConfigResolver">
+    <!--<property name="serializationEngine" value="system.jacksonSerializer"/>-->
+  </bean>
+
+  <bean id="bristlebackApp" class="pl.bristleback.server.bristle.app.StandaloneServerRunner">
+    <property name="initialConfigurationResolver" ref="initPojoConfigResolver"/>
+  </bean>
+
+
+  <bean id="outgoingPointcut" class="org.springframework.aop.support.ComposablePointcut">
+    <constructor-arg index="0" ref="outputAnnotationPointcut"/>
+    <constructor-arg index="1" ref="outputActionAnnotationPointcut"/>
+  </bean>
+
+  <bean id="outputAnnotationPointcut"
+        class="org.springframework.aop.support.annotation.AnnotationClassFilter">
+    <constructor-arg index="0" value="pl.bristleback.server.bristle.api.annotations.Outgoing"/>
+  </bean>
+
+  <bean id="outputActionAnnotationPointcut"
+        class="org.springframework.aop.support.annotation.AnnotationMethodMatcher">
+    <constructor-arg index="0" value="pl.bristleback.server.bristle.api.annotations.ClientAction"/>
+  </bean>
+
+  <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+  <!-- <bean id="outputMessageProxyAdvisor"
+ class="org.springframework.aop.support.DefaultPointcutAdvisor">
+    <property name="pointcut" ref="outgoingPointcut"/>
+    <property name="advice" ref="debugInterceptor"/>
+  </bean>-->
+
+
+</beans>

@@ -1,0 +1,42 @@
+package pl.bristleback.server.bristle.action.extractor;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
+import pl.bristleback.server.bristle.action.ActionParameterInformation;
+import pl.bristleback.server.bristle.api.BristlebackConfig;
+import pl.bristleback.server.bristle.api.SerializationEngine;
+import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
+import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
+/**
+ * //@todo class description
+ * <p/>
+ * Created on: 2011-07-20 09:29:08 <br/>
+ *
+ * @author Wojciech Niemiec
+ */
+@Component
+public class PlainObjectParameterExtractor implements ActionParameterExtractor {
+  private static Logger log = Logger.getLogger(PlainObjectParameterExtractor.class.getName());
+
+  @Inject
+  @Named("serializationEngine")
+  private SerializationEngine serializationEngine;
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public Object fromTextContent(String text, ActionParameterInformation parameterInformation, IdentifiedUser user) throws Exception {
+    return serializationEngine.deserialize(text, parameterInformation.getPropertySerialization());
+  }
+
+  @Override
+  public boolean isDeserializationRequired() {
+    return true;
+  }
+
+  public void setConfiguration(BristlebackConfig configuration) {
+  }
+}
