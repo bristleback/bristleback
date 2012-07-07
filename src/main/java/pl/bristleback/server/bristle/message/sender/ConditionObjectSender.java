@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.MessageDispatcher;
 import pl.bristleback.server.bristle.api.SerializationEngine;
+import pl.bristleback.server.bristle.api.ServerEngine;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.WebsocketMessage;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
@@ -33,8 +34,11 @@ public class ConditionObjectSender {
 
   private UsersContainer connectedUsers;
 
+  private ServerEngine serverEngine;
+
   public void init(BristlebackConfig configuration, UsersContainer usersContainer) {
     this.connectedUsers = usersContainer;
+    this.serverEngine = configuration.getServerEngine();
     messageDispatcher = configuration.getMessageConfiguration().getMessageDispatcher();
     serializationEngine = configuration.getSerializationEngine();
     serializationResolver = configuration.getSpringIntegration().getFrameworkBean("serializationAnnotationResolver", SerializationAnnotationResolver.class);
@@ -80,6 +84,23 @@ public class ConditionObjectSender {
     List<WebsocketConnector> connectors = connectedUsers().getConnectorsByCondition(users, sendCondition);
     doSendUsingSerialization(message, serializationName, connectors);
   }
+
+  public void closeConnection(SendCondition sendCondition) {
+    List<WebsocketConnector> connectors = connectedUsers().getConnectorsByCondition(sendCondition);
+    closeConnectionInServerEngine(connectors);
+  }
+
+  public void closeConnection(List<IdentifiedUser> users) {
+    List<WebsocketConnector> connectors = connectedUsers().getConnectorsByUsers(users);
+    closeConnectionInServerEngine(connectors);
+  }
+
+  private void closeConnectionInServerEngine(List<WebsocketConnector> connectors) {
+    for (WebsocketConnector connector : connectors) {
+      serverEngine.onConnectionClose(connector);
+    }
+  }
+
 
   private void doSendUsingDefaultSerialization(BristleMessage message, List<WebsocketConnector> connectors) throws Exception {
     Object serialization = getDefaultSerialization(message);
