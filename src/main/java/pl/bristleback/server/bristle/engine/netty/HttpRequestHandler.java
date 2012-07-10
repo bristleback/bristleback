@@ -1,5 +1,11 @@
 package pl.bristleback.server.bristle.engine.netty;
 
+import static org.jboss.netty.handler.codec.http.HttpHeaders.isKeepAlive;
+import static org.jboss.netty.handler.codec.http.HttpHeaders.setContentLength;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -17,19 +23,20 @@ import org.jboss.netty.handler.codec.http.HttpRequest;
 import org.jboss.netty.handler.codec.http.HttpResponse;
 import org.jboss.netty.handler.codec.http.HttpResponseStatus;
 import org.jboss.netty.handler.codec.http.HttpVersion;
-import org.jboss.netty.handler.codec.http.websocket.WebSocketFrameDecoder;
-import org.jboss.netty.handler.codec.http.websocket.WebSocketFrameEncoder;
+import org.jboss.netty.handler.codec.http.websocketx.WebSocket00FrameDecoder;
+import org.jboss.netty.handler.codec.http.websocketx.WebSocket00FrameEncoder;
+import org.jboss.netty.handler.codec.http.websocketx.WebSocket08FrameDecoder;
+import org.jboss.netty.handler.codec.http.websocketx.WebSocket08FrameEncoder;
+import org.jboss.netty.handler.codec.http.websocketx.WebSocket13FrameDecoder;
+import org.jboss.netty.handler.codec.http.websocketx.WebSocket13FrameEncoder;
+import org.jboss.netty.handler.codec.oneone.OneToOneEncoder;
+import org.jboss.netty.handler.codec.replay.ReplayingDecoder;
 import org.jboss.netty.util.CharsetUtil;
+
 import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.engine.WebsocketVersions;
 import pl.bristleback.server.bristle.utils.ExtendedHttpHeaders;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import static org.jboss.netty.handler.codec.http.HttpHeaders.isKeepAlive;
-import static org.jboss.netty.handler.codec.http.HttpHeaders.setContentLength;
 
 /**
  * //@todo class description
@@ -37,6 +44,7 @@ import static org.jboss.netty.handler.codec.http.HttpHeaders.setContentLength;
  * Created on: 2011-07-18 13:52:09 <br/>
  *
  * @author Wojciech Niemiec
+ * @author Andrea Nanni
  */
 public class HttpRequestHandler {
   private static Logger log = Logger.getLogger(HttpRequestHandler.class.getName());
@@ -74,17 +82,32 @@ public class HttpRequestHandler {
 
   }
 
+  @SuppressWarnings("rawtypes")
   private void replaceListeners(ChannelHandlerContext context, HttpRequest request) {
-    ChannelPipeline pipeline = context.getChannel().getPipeline();
-    pipeline.remove("aggregator");
     int maxFrameSize = engine.getEngineConfiguration().getMaxFrameSize();
-    if (hasHeaderWithValue(request, ExtendedHttpHeaders.Names.SEC_WEBSOCKET_VERSION, WebsocketVersions.HYBI_13.getVersionCode())) {
-      pipeline.replace("decoder", "wsDecoder", new HybiFrameDecoder(maxFrameSize));
-      pipeline.replace("encoder", "wsEncoder", new HybiFrameEncoder());
-    } else {
-      pipeline.replace("decoder", "wsDecoder", new WebSocketFrameDecoder(maxFrameSize));
-      pipeline.replace("encoder", "wsEncoder", new WebSocketFrameEncoder());
+    boolean maskPayload = true;
+    
+    WebsocketConnector connector = (WebsocketConnector) context.getAttachment();
+    String wsVersion = connector.getWebsocketVersion();
+    
+    ReplayingDecoder decoder = null;
+    OneToOneEncoder encoder = null;
+    if(wsVersion.equals(WebsocketVersions.HYBI_13.getVersionCode())) {
+      decoder = new WebSocket13FrameDecoder(maskPayload, true, maxFrameSize);
+      encoder = new WebSocket13FrameEncoder(maskPayload);
+    } else if(wsVersion.equals(WebsocketVersions.HYBI_10.getVersionCode())) {
+      decoder = new WebSocket08FrameDecoder(maskPayload, true, maxFrameSize);
+      encoder = new WebSocket08FrameEncoder(maskPayload);
+    } else if(wsVersion.equals(WebsocketVersions.HIXIE_76.getVersionCode())) {
+      decoder = new WebSocket00FrameDecoder(new Long(maxFrameSize));
+      encoder = new WebSocket00FrameEncoder();
     }
+    
+    ChannelPipeline pipeline = context.getChannel().getPipeline();
+    pipeline.replace("decoder", "wsDecoder", decoder);
+    pipeline.replace("encoder", "wsEncoder", encoder);
+    pipeline.remove("aggregator");
+    
   }
 
   private void initializeWebsocketConnector(final ChannelHandlerContext context, final HttpRequest request, HttpResponse response) {

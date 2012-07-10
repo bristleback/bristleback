@@ -22,7 +22,7 @@ import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
 import org.jboss.netty.handler.codec.http.HttpRequest;
-import org.jboss.netty.handler.codec.http.websocket.WebSocketFrame;
+import org.jboss.netty.handler.codec.http.websocketx.WebSocketFrame;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 
 public class WebSocketServerHandler extends SimpleChannelUpstreamHandler {
@@ -46,7 +46,7 @@ public class WebSocketServerHandler extends SimpleChannelUpstreamHandler {
     }
   }
 
-
+  @SuppressWarnings("rawtypes")
   public void channelDisconnected(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
     super.channelDisconnected(ctx, e);
     WebsocketConnector connector = (WebsocketConnector) ctx.getAttachment();
