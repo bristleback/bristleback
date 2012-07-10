@@ -1,4 +1,4 @@
-package pl.bristleback.server.bristle.message.packet;
+package pl.bristleback.server.bristle.message;
 
 import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.WebsocketConnector;

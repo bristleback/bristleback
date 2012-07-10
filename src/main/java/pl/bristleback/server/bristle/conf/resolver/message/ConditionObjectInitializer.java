@@ -8,7 +8,7 @@ import pl.bristleback.server.bristle.api.annotations.Serialize;
 import pl.bristleback.server.bristle.authorisation.user.UsersContainer;
 import pl.bristleback.server.bristle.conf.resolver.SpringConfigurationResolver;
 import pl.bristleback.server.bristle.conf.resolver.serialization.SerializationAnnotationResolver;
-import pl.bristleback.server.bristle.message.sender.ConditionObjectSender;
+import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
 
 import javax.inject.Inject;

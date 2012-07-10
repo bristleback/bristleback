@@ -7,8 +7,8 @@ import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.annotations.AnnotatedObjectSender;
 import pl.bristleback.server.bristle.authorisation.user.UsersContainer;
 import pl.bristleback.server.bristle.conf.resolver.SpringConfigurationResolver;
-import pl.bristleback.server.bristle.message.sender.BristleMessage;
-import pl.bristleback.server.bristle.message.sender.ConditionObjectSender;
+import pl.bristleback.server.bristle.message.BristleMessage;
+import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import pl.bristleback.server.bristle.utils.StringUtils;
 
 import javax.annotation.PostConstruct;

@@ -22,10 +22,6 @@ public class SerializationBundle {
   private Object defaultSerialization;
   private Map<String, Object> serializationMap = new HashMap<String, Object>();
 
-  public SerializationBundle(Field field) {
-    this.field = field;
-  }
-
   public void addDefaultSerialization(Object serialization) {
     if (defaultSerialization != null) {
       throw new SerializationResolvingException("Multiple default serialization operation on field" + field);
@@ -58,5 +54,9 @@ public class SerializationBundle {
 
   public boolean containsDefaultSerialization() {
     return defaultSerialization != null;
+  }
+
+  public void setField(Field field) {
+    this.field = field;
   }
 }

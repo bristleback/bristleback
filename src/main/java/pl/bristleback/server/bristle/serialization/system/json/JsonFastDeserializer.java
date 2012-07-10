@@ -131,7 +131,7 @@ public class JsonFastDeserializer {
     @Override
     public Object deserializeElement(JSONObject input, PropertySerialization information) throws Exception {
       Map<String, Object> map = new HashMap<String, Object>();
-      PropertySerialization elementInformation = information.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
+      PropertySerialization defaultElementInformation = information.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
       Iterator keys = input.keys();
       String key;
       Object value;
@@ -141,11 +141,22 @@ public class JsonFastDeserializer {
         if (value == null) {
           continue;
         }
+        PropertySerialization elementInformation = getMapElementSerialization(key, information, defaultElementInformation);
         Object element = doDeserialize(value, elementInformation);
         map.put(key, element);
       }
 
       return map;
+    }
+
+    private PropertySerialization getMapElementSerialization(String key, PropertySerialization mapInformation, PropertySerialization baseElementInformation) {
+      if (mapInformation.getPropertiesInformation().size() == 1) {
+        return baseElementInformation;
+      }
+      if (mapInformation.containsPropertySerialization(key)) {
+        return mapInformation.getPropertySerialization(key);
+      }
+      return baseElementInformation;
     }
 
     @Override

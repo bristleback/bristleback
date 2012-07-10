@@ -12,9 +12,10 @@ import pl.bristleback.server.bristle.api.annotations.Property;
 import pl.bristleback.server.bristle.api.annotations.Serialize;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 import pl.bristleback.server.bristle.engine.base.users.DefaultUser;
-import pl.bristleback.server.bristle.message.sender.BristleMessage;
-import pl.bristleback.server.bristle.message.sender.ConditionObjectSender;
+import pl.bristleback.server.bristle.message.BristleMessage;
+import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import sample.User;
+import sample.outgoing.SampleClientActionClass;
 import sample.service.HelloServiceBean;
 
 import javax.inject.Inject;
@@ -46,6 +47,9 @@ public class SampleAction implements DefaultAction<DefaultUser, Map<String, BigD
 
   @Inject
   private HelloServiceBean helloServiceBean;
+
+  @Inject
+  private SampleClientActionClass clientActionClass;
 
   @Action(name = "customName", response = {
     @Serialize(properties = {
@@ -80,6 +84,7 @@ public class SampleAction implements DefaultAction<DefaultUser, Map<String, BigD
   @Action
   public String executeDefault(DefaultUser user, Map<String, BigDecimal> message) {
     String helloWorld = helloServiceBean.sayHello(message.get("mapField"));
+    clientActionClass.sendGameToUser("gamee", user, 2);
     return helloWorld;
   }
 

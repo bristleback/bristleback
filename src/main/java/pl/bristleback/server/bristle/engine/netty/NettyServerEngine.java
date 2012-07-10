@@ -1,8 +1,5 @@
 package pl.bristleback.server.bristle.engine.netty;
 
-import java.net.InetSocketAddress;
-import java.util.concurrent.Executors;
-
 import org.apache.log4j.Logger;
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.buffer.ChannelBuffers;
@@ -13,11 +10,13 @@ import org.jboss.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import org.jboss.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.jboss.netty.util.CharsetUtil;
 import org.springframework.stereotype.Component;
-
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.conf.EngineConfig;
 import pl.bristleback.server.bristle.engine.WebsocketVersions;
 import pl.bristleback.server.bristle.engine.base.AbstractServerEngine;
+
+import java.net.InetSocketAddress;
+import java.util.concurrent.Executors;
 
 /**
  * //@todo class description

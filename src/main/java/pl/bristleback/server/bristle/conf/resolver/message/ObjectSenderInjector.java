@@ -7,7 +7,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import pl.bristleback.server.bristle.api.annotations.AnnotatedObjectSender;
-import pl.bristleback.server.bristle.message.sender.ConditionObjectSender;
+import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
 
 import java.lang.reflect.Field;
@@ -55,7 +55,8 @@ public class ObjectSenderInjector implements BeanPostProcessor, ApplicationConte
 
   private ConditionObjectSender resolveSender(Field field) {
     ConditionObjectSender conditionObjectSender = applicationContext.getBean(ConditionObjectSender.class);
-    SerializationBundle serializationBundle = new SerializationBundle(field);
+    SerializationBundle serializationBundle = new SerializationBundle();
+    serializationBundle.setField(field);
 
     conditionObjectSender.setSerializationBundle(serializationBundle);
     registeredSenders.add(conditionObjectSender);

@@ -8,7 +8,7 @@ import pl.bristleback.server.bristle.api.WebsocketMessage;
 import pl.bristleback.server.bristle.authorisation.ActionNameAuthorisationPolicy;
 import pl.bristleback.server.bristle.authorisation.AuthorisationPolicy;
 import pl.bristleback.server.bristle.engine.base.AbstractConnector;
-import pl.bristleback.server.bristle.message.sender.BristleMessage;
+import pl.bristleback.server.bristle.message.BristleMessage;
 
 /**
  * //@todo class description

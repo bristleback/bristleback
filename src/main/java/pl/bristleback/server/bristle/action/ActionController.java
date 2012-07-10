@@ -2,13 +2,14 @@ package pl.bristleback.server.bristle.action;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
+import pl.bristleback.server.bristle.action.client.ClientActionsInitializer;
 import pl.bristleback.server.bristle.action.exception.handler.ActionExceptionHandlers;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.SerializationEngine;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 import pl.bristleback.server.bristle.conf.resolver.action.BristleMessageSerialization;
-import pl.bristleback.server.bristle.message.sender.BristleMessage;
+import pl.bristleback.server.bristle.message.BristleMessage;
 
 import javax.inject.Inject;
 
@@ -23,6 +24,12 @@ public class ActionController implements DataController {
   @Inject
   private ActionExceptionHandlers exceptionHandlers;
 
+  @Inject
+  private BristleMessageSerialization serializationHelper;
+
+  @Inject
+  private ClientActionsInitializer clientActionsInitializer;
+
   private Object messageSerialization;
 
   private SerializationEngine serializationEngine;
@@ -30,7 +37,6 @@ public class ActionController implements DataController {
   @Override
   public void init(BristlebackConfig configuration) {
     this.serializationEngine = configuration.getSerializationEngine();
-    BristleMessageSerialization serializationHelper = new BristleMessageSerialization();
 
     messageSerialization = serializationEngine.getSerializationResolver()
       .resolveDefaultSerialization(serializationHelper.getSerializedArrayMessageType());

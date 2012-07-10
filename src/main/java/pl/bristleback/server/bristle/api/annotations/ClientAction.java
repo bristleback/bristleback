@@ -15,5 +15,5 @@ import java.lang.annotation.Target;
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
 public @interface ClientAction {
 
-  String value();
+  String value() default "";
 }

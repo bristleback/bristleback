@@ -1,11 +1,5 @@
 package pl.bristleback.server.bristle.engine.netty;
 
-import static org.jboss.netty.handler.codec.http.HttpHeaders.isKeepAlive;
-import static org.jboss.netty.handler.codec.http.HttpHeaders.setContentLength;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -32,11 +26,16 @@ import org.jboss.netty.handler.codec.http.websocketx.WebSocket13FrameEncoder;
 import org.jboss.netty.handler.codec.oneone.OneToOneEncoder;
 import org.jboss.netty.handler.codec.replay.ReplayingDecoder;
 import org.jboss.netty.util.CharsetUtil;
-
 import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.engine.WebsocketVersions;
 import pl.bristleback.server.bristle.utils.ExtendedHttpHeaders;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import static org.jboss.netty.handler.codec.http.HttpHeaders.isKeepAlive;
+import static org.jboss.netty.handler.codec.http.HttpHeaders.setContentLength;
 
 /**
  * //@todo class description
@@ -86,28 +85,28 @@ public class HttpRequestHandler {
   private void replaceListeners(ChannelHandlerContext context, HttpRequest request) {
     int maxFrameSize = engine.getEngineConfiguration().getMaxFrameSize();
     boolean maskPayload = true;
-    
+
     WebsocketConnector connector = (WebsocketConnector) context.getAttachment();
     String wsVersion = connector.getWebsocketVersion();
-    
+
     ReplayingDecoder decoder = null;
     OneToOneEncoder encoder = null;
-    if(wsVersion.equals(WebsocketVersions.HYBI_13.getVersionCode())) {
+    if (wsVersion.equals(WebsocketVersions.HYBI_13.getVersionCode())) {
       decoder = new WebSocket13FrameDecoder(maskPayload, true, maxFrameSize);
       encoder = new WebSocket13FrameEncoder(maskPayload);
-    } else if(wsVersion.equals(WebsocketVersions.HYBI_10.getVersionCode())) {
+    } else if (wsVersion.equals(WebsocketVersions.HYBI_10.getVersionCode())) {
       decoder = new WebSocket08FrameDecoder(maskPayload, true, maxFrameSize);
       encoder = new WebSocket08FrameEncoder(maskPayload);
-    } else if(wsVersion.equals(WebsocketVersions.HIXIE_76.getVersionCode())) {
+    } else if (wsVersion.equals(WebsocketVersions.HIXIE_76.getVersionCode())) {
       decoder = new WebSocket00FrameDecoder(new Long(maxFrameSize));
       encoder = new WebSocket00FrameEncoder();
     }
-    
+
     ChannelPipeline pipeline = context.getChannel().getPipeline();
     pipeline.replace("decoder", "wsDecoder", decoder);
     pipeline.replace("encoder", "wsEncoder", encoder);
     pipeline.remove("aggregator");
-    
+
   }
 
   private void initializeWebsocketConnector(final ChannelHandlerContext context, final HttpRequest request, HttpResponse response) {

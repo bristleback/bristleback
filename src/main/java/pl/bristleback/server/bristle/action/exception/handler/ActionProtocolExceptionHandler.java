@@ -4,10 +4,10 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
+import pl.bristleback.server.bristle.action.response.ExceptionResponse;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.action.ActionExceptionHandler;
 import pl.bristleback.server.bristle.exceptions.BrokenActionProtocolException;
-import pl.bristleback.server.bristle.action.response.ExceptionResponse;
 
 /**
  * //@todo class description

@@ -1,7 +1,7 @@
 package pl.bristleback.server.bristle.action;
 
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
-import pl.bristleback.server.bristle.message.sender.BristleMessage;
+import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.utils.StringUtils;
 
 /**

@@ -159,10 +159,11 @@ public class JsonFastSerializer {
       StringBuilder jsonObjectBuilder = new StringBuilder();
       jsonObjectBuilder.append(StringUtils.LEFT_CURLY);
       Iterator<? extends Map.Entry<?, ?>> it = valueAsMap.entrySet().iterator();
-      PropertySerialization elementSerialization = information.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
+      PropertySerialization defaultElementInformation = information.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
       while (it.hasNext()) {
         Map.Entry<?, ?> entry = it.next();
         jsonObjectBuilder.append(JSONObject.quote(entry.getKey().toString())).append(StringUtils.COLON);
+        PropertySerialization elementSerialization = getMapElementSerialization((String) entry.getKey(), information, defaultElementInformation);
         String serializedEntryValue = serializeObject(entry.getValue(), elementSerialization);
         jsonObjectBuilder.append(serializedEntryValue);
         if (it.hasNext()) {
@@ -171,6 +172,16 @@ public class JsonFastSerializer {
       }
       jsonObjectBuilder.append(StringUtils.RIGHT_CURLY);
       return jsonObjectBuilder.toString();
+    }
+
+    private PropertySerialization getMapElementSerialization(String key, PropertySerialization mapInformation, PropertySerialization baseElementInformation) {
+      if (mapInformation.getPropertiesInformation().size() == 1) {
+        return baseElementInformation;
+      }
+      if (mapInformation.containsPropertySerialization(key)) {
+        return mapInformation.getPropertySerialization(key);
+      }
+      return baseElementInformation;
     }
   }
 

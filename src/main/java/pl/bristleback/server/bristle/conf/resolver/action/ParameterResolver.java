@@ -4,11 +4,10 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionParameterInformation;
 import pl.bristleback.server.bristle.action.extractor.ActionExtractorsContainer;
-import pl.bristleback.server.bristle.api.BristlebackConfig;
+import pl.bristleback.server.bristle.api.SerializationEngine;
 import pl.bristleback.server.bristle.api.SerializationResolver;
 import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
 import pl.bristleback.server.bristle.api.annotations.Bind;
-import pl.bristleback.server.bristle.conf.resolver.SpringConfigurationResolver;
 import pl.bristleback.server.bristle.conf.resolver.serialization.SerializationInputResolver;
 import pl.bristleback.server.bristle.exceptions.SerializationResolvingException;
 import pl.bristleback.server.bristle.serialization.SerializationInput;
@@ -39,8 +38,8 @@ public class ParameterResolver {
   private ActionExtractorsResolver actionExtractorsResolver;
 
   @Inject
-  @Named(SpringConfigurationResolver.CONFIG_BEAN_NAME)
-  private BristlebackConfig configuration;
+  @Named("serializationEngine")
+  private SerializationEngine serializationEngine;
 
   private ActionExtractorsContainer actionExtractorsContainer;
 
@@ -58,7 +57,7 @@ public class ParameterResolver {
   }
 
   private void resolveParameterDetails(ActionParameterInformation parameterInformation, Type parameterType, Annotation[] parameterAnnotations) {
-    SerializationResolver serializationResolver = configuration.getSerializationEngine().getSerializationResolver();
+    SerializationResolver serializationResolver = serializationEngine.getSerializationResolver();
     Object propertySerialization = null;
     Bind bindAnnotation = findBindAnnotation(parameterAnnotations);
     if (parameterInformation.getExtractor().isDeserializationRequired()) {

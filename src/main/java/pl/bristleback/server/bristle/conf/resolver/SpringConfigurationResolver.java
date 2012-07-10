@@ -20,7 +20,7 @@ import pl.bristleback.server.bristle.conf.resolver.message.ObjectSenderInjector;
 import pl.bristleback.server.bristle.engine.base.users.DefaultUserFactory;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.listener.ListenersContainer;
-import pl.bristleback.server.bristle.message.sender.ConditionObjectSender;
+import pl.bristleback.server.bristle.message.ConditionObjectSender;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -223,11 +223,27 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
 
   private void createMapSerialization(PropertySerialization parentSerialization, PropertySerialization propertySerialization, SerializationInput input) {
     propertySerialization.setPropertyType(PropertyType.MAP);
-    Type entryValueType = getMapEntryValueType(parentSerialization, propertySerialization, input);
-    if (entryValueType != null) {
-      PropertySerialization elementSerialization = doResolveSerialization(propertySerialization, entryValueType, input);
+    Type defaultEntryValueType = getMapEntryValueType(parentSerialization, propertySerialization, input);
+    if (defaultEntryValueType != null) {
+      PropertySerialization elementSerialization = doResolveSerialization(propertySerialization, defaultEntryValueType, input);
       propertySerialization.addSerializedProperty(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME, elementSerialization);
     }
+    for (Map.Entry<String, SerializationInput> inputEntry : input.getNonDefaultProperties().entrySet()) {
+      if (!inputEntry.getKey().equals(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME)) {
+        SerializationInput entryInput = inputEntry.getValue();
+        Type entryValueType = getEntryValueType(defaultEntryValueType, entryInput);
+
+        PropertySerialization elementSerialization = doResolveSerialization(propertySerialization, entryValueType, entryInput);
+        propertySerialization.addSerializedProperty(inputEntry.getKey(), elementSerialization);
+      }
+    }
+  }
+
+  private Type getEntryValueType(Type defaultEntryValueType, SerializationInput entryInput) {
+    if (entryInput.hasSpecifiedType()) {
+      return entryInput.getPropertyInformation().getType();
+    }
+    return defaultEntryValueType;
   }
 
   private Type getMapEntryValueType(PropertySerialization parentSerialization, PropertySerialization propertySerialization, SerializationInput input) {
@@ -239,11 +255,14 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
       ParameterizedType parametrizedCollection = (ParameterizedType) propertySerialization.getGenericType();
       Type containerElementType = parametrizedCollection.getActualTypeArguments()[parameterIndexInType];
       return resolveType(parentSerialization, containerElementType);
-    } else if (!input.getPropertyInformation().getElementClass().equals(Object.class)) {
-      return input.getPropertyInformation().getElementClass();
     }
-    throw new SerializationResolvingException("Error while resolving container element type, such information is not available. \n "
-      + "Provide parametrised type of container or specify container element type via " + Serialize.class.getSimpleName() + " annotation");
+    Class elementClass = input.getPropertyInformation().getElementClass();
+    if (elementClass == null || elementClass.equals(Object.class)) {
+      log.debug("Error while resolving container element type, such information is not available. \n "
+        + "Provide parametrised type of container or specify container element type via " + Serialize.class.getSimpleName() + " annotation");
+      return null;
+    }
+    return input.getPropertyInformation().getElementClass();
   }
 
 

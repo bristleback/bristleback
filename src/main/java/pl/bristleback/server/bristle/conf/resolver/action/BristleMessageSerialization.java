@@ -2,7 +2,7 @@ package pl.bristleback.server.bristle.conf.resolver.action;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
-import pl.bristleback.server.bristle.message.sender.BristleMessage;
+import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.utils.PropertyUtils;
 
 import java.lang.reflect.Type;

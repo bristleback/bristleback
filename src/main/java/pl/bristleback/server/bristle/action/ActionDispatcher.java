@@ -2,11 +2,11 @@ package pl.bristleback.server.bristle.action;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
+import pl.bristleback.server.bristle.action.response.ResponseHelper;
 import pl.bristleback.server.bristle.api.action.ActionInformation;
 import pl.bristleback.server.bristle.conf.resolver.action.ActionClassesResolver;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
-import pl.bristleback.server.bristle.action.response.ResponseHelper;
-import pl.bristleback.server.bristle.message.sender.BristleMessage;
+import pl.bristleback.server.bristle.message.BristleMessage;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;

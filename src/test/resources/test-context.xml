@@ -15,7 +15,7 @@
   <bean class="pl.bristleback.server.bristle.conf.resolver.message.ObjectSenderInjector">
   </bean>
 
-  <bean id="system.sender.condition" class="pl.bristleback.server.bristle.message.sender.ConditionObjectSender"
+  <bean id="system.sender.condition" class="pl.bristleback.server.bristle.message.ConditionObjectSender"
         scope="prototype"/>
 
   <bean id="mockBeansFactory" class="pl.bristleback.server.mock.beans.SpringMockBeansFactory"/>

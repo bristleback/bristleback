@@ -1,6 +1,7 @@
 package pl.bristleback.server.bristle.utils;
 
 import org.apache.log4j.Logger;
+import pl.bristleback.server.bristle.exceptions.BristleInitializationException;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -98,6 +99,35 @@ public final class ReflectionUtils {
       Class interfaceOfClass = implementation.getInterfaces()[i];
       if (parametrizedInterface.equals(interfaceOfClass)) {
         return implementation.getGenericInterfaces()[i];
+      }
+    }
+    return null;
+  }
+
+  public static <T> T chooseBestClassStrategy(Map<Class, T> strategies, Class requiredType) {
+    Class currentType = requiredType;
+    T extractor = null;
+    while (extractor == null) {
+      extractor = strategies.get(currentType);
+      if (extractor == null) {
+        extractor = checkImplementedInterfaces(strategies, currentType);
+      }
+      if (extractor == null && currentType == Object.class) {
+        throw new BristleInitializationException("Cannot retrieve strategy for type: " + requiredType);
+      }
+      currentType = currentType.getSuperclass();
+      if (currentType == null) {
+        currentType = Object.class;
+      }
+    }
+    return extractor;
+  }
+
+  private static <T> T checkImplementedInterfaces(Map<Class, T> strategies, Class currentType) {
+    Class[] interfaces = currentType.getInterfaces();
+    for (Class interFace : interfaces) {
+      if (strategies.containsKey(interFace)) {
+        return strategies.get(interFace);
       }
     }
     return null;

@@ -19,7 +19,7 @@
   <bean class="pl.bristleback.server.bristle.conf.resolver.message.ObjectSenderInjector">
   </bean>
 
-  <bean id="system.sender.condition" class="pl.bristleback.server.bristle.message.sender.ConditionObjectSender"
+  <bean id="system.sender.condition" class="pl.bristleback.server.bristle.message.ConditionObjectSender"
         scope="prototype"/>
 
   <bean id="helloService" class="sample.service.HelloServiceBean"/>
@@ -45,7 +45,7 @@
 
   <bean id="outputAnnotationPointcut"
         class="org.springframework.aop.support.annotation.AnnotationClassFilter">
-    <constructor-arg index="0" value="pl.bristleback.server.bristle.api.annotations.Outgoing"/>
+    <constructor-arg index="0" value="pl.bristleback.server.bristle.api.annotations.ClientActionClass"/>
   </bean>
 
   <bean id="outputActionAnnotationPointcut"
@@ -55,11 +55,14 @@
 
   <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
 
-  <!-- <bean id="outputMessageProxyAdvisor"
- class="org.springframework.aop.support.DefaultPointcutAdvisor">
+  <bean id="clientActionsInterceptor"
+        class="pl.bristleback.server.bristle.action.client.ClientActionProxyInterceptor"/>
+
+  <bean id="outputMessageProxyAdvisor"
+        class="org.springframework.aop.support.DefaultPointcutAdvisor">
     <property name="pointcut" ref="outgoingPointcut"/>
-    <property name="advice" ref="debugInterceptor"/>
-  </bean>-->
+    <property name="advice" ref="clientActionsInterceptor"/>
+  </bean>
 
 
 </beans>

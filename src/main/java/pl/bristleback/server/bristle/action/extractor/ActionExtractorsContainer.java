@@ -2,7 +2,7 @@ package pl.bristleback.server.bristle.action.extractor;
 
 import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
-import pl.bristleback.server.bristle.exceptions.BristleInitializationException;
+import pl.bristleback.server.bristle.utils.ReflectionUtils;
 
 import java.util.Map;
 
@@ -23,32 +23,7 @@ public class ActionExtractorsContainer {
   }
 
   public ActionParameterExtractor getParameterExtractor(Class parameterClass) {
-    Class currentParameterClass = parameterClass;
-    ActionParameterExtractor extractor = null;
-    while (extractor == null) {
-      extractor = parameterExtractors.get(currentParameterClass);
-      if (extractor == null) {
-        extractor = checkImplementedInterfaces(currentParameterClass);
-      }
-      if (extractor == null && currentParameterClass == Object.class) {
-        throw new BristleInitializationException("Cannot retrieve message processor for type: " + parameterClass);
-      }
-      currentParameterClass = currentParameterClass.getSuperclass();
-      if (currentParameterClass == null) {
-        currentParameterClass = Object.class;
-      }
-    }
-    return extractor;
-  }
-
-  private ActionParameterExtractor checkImplementedInterfaces(Class currentParameterClass) {
-    Class[] interfaces = currentParameterClass.getInterfaces();
-    for (Class interFace : interfaces) {
-      if (parameterExtractors.containsKey(interFace)) {
-        return parameterExtractors.get(interFace);
-      }
-    }
-    return null;
+    return ReflectionUtils.chooseBestClassStrategy(parameterExtractors, parameterClass);
   }
 
   public void setParameterExtractors(Map<Class, ActionParameterExtractor> parameterExtractors) {
