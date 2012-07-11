@@ -26,35 +26,16 @@ public class UsersContainer {
   @Inject
   private UserFactory userFactory;
 
-//  private Map<IdentifiedUser, WebsocketConnector> users = new FastMap<IdentifiedUser, WebsocketConnector>().setShared(true);
-
-  //maybe use such map?
   private Map<String, ConnectedUser> connectedUsers = new FastMap<String, ConnectedUser>().setShared(true);
 
   public void newUser(WebsocketConnector connector) {
     IdentifiedUser newUser = userFactory.createNewUser();
-//    newUser.setId(connector.getConnectorId());
-//    users.put(newUser, connector);
-    //or (gives us possibility to get both by id
     connectedUsers.put(
       connector.getConnectorId(),
       new ConnectedUser(newUser, connector)
     );
   }
 
-  //old version, possibly to remove
-/*
-  public void addUser(IdentifiedUser user, WebsocketConnector connector) {
-    users.put(user, connector);
-  }
-*/
-
-  /**
-   * TODO P.M unused
-   *
-   * @param connector
-   * @return
-   */
   public IdentifiedUser getUserByConnector(WebsocketConnector connector) {
     return connectedUsers.get(connector.getConnectorId()).getUser();
   }

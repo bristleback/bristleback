@@ -4,7 +4,6 @@ import org.eclipse.jetty.websocket.WebSocket;
 import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.FrontController;
 import pl.bristleback.server.bristle.api.ServerEngine;
-import pl.bristleback.server.bristle.api.WebsocketMessage;
 import pl.bristleback.server.bristle.conf.EngineConfig;
 import pl.bristleback.server.bristle.engine.OperationCodes;
 import pl.bristleback.server.bristle.engine.base.AbstractConnector;
@@ -14,16 +13,10 @@ public class JettyConnector extends AbstractConnector implements WebSocket, WebS
   private Connection connection;
   private FrontController frontController;
 
-  @Override
-  public boolean isAuthorisedToHandleMessage(WebsocketMessage message) {
-    return true;
-  }
-
   public JettyConnector(ServerEngine engine, DataController controller, FrontController frontController) {
     super(engine, controller);
     this.frontController = frontController;
   }
-
 
   public void onOpen(Connection newConnection) {
     EngineConfig engineConfiguration = getEngine().getEngineConfiguration();

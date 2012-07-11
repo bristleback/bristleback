@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import pl.bristleback.server.bristle.api.WebsocketMessage;
-import pl.bristleback.server.bristle.authorisation.AuthorisationPolicy;
 import pl.bristleback.server.bristle.message.BaseMessage;
 import pl.bristleback.server.bristle.serialization.MessageType;
 import pl.bristleback.server.mock.MockFactory;

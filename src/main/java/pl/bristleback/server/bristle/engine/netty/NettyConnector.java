@@ -4,11 +4,7 @@ import org.apache.log4j.Logger;
 import org.jboss.netty.channel.Channel;
 import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.ServerEngine;
-import pl.bristleback.server.bristle.api.WebsocketMessage;
-import pl.bristleback.server.bristle.authorisation.ActionNameAuthorisationPolicy;
-import pl.bristleback.server.bristle.authorisation.AuthorisationPolicy;
 import pl.bristleback.server.bristle.engine.base.AbstractConnector;
-import pl.bristleback.server.bristle.message.BristleMessage;
 
 /**
  * //@todo class description
@@ -35,20 +31,5 @@ public class NettyConnector extends AbstractConnector {
 
   public Channel getChannel() {
     return channel;
-  }
-  //TODO machu
-
-  @Override
-  public boolean isAuthorisedToHandleMessage(WebsocketMessage message) {
-    if (message instanceof BristleMessage) {
-      return authorisationPolicy.isActionAuthorised(((BristleMessage) message).getName());
-    }
-    return true;
-  }
-
-  //TODO machu
-
-  public void setAuthorisationPolicy(AuthorisationPolicy authorisationPolicy) {
-    this.authorisationPolicy = authorisationPolicy;
   }
 }

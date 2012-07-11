@@ -47,6 +47,7 @@ public abstract class AbstractServerEngine implements ServerEngine {
   @Override
   public void onConnectionClose(WebsocketConnector connector) {
     List<ConnectionStateListener> listeners = configuration.getListenersContainer().getConnectionStateListeners();
+    //framework handlers will always run first
     ConnectionStateListenerChain chain = new ConnectionStateListenerChain(listeners);
     chain.connectorStopped(connector);
     log.info(connector.getClass().getSimpleName() + " connector stopped.");

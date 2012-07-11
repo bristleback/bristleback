@@ -29,10 +29,6 @@ public interface WebsocketConnector<T> {
 
   Map<String, Object> getVariables();
 
-  //TODO machu
-
-  boolean isAuthorisedToHandleMessage(WebsocketMessage message);
-
   Object getVariable(String variableName);
 
   void putVariable(String variableName, Object variableValue);
