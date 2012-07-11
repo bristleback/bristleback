@@ -7,7 +7,6 @@ import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.FrontController;
 import pl.bristleback.server.bristle.api.ServerEngine;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
-import pl.bristleback.server.bristle.api.WebsocketMessage;
 import pl.bristleback.server.bristle.engine.OperationCodes;
 
 import java.io.IOException;
@@ -32,10 +31,6 @@ public class TomcatConnector extends MessageInbound implements WebsocketConnecto
   private WsOutbound connection;
   private FrontController frontController;
 
-  @Override
-  public boolean isAuthorisedToHandleMessage(WebsocketMessage message) {
-    return true;
-  }
 
   public TomcatConnector(ServerEngine engine, DataController controller, FrontController frontController) {
     this.engine = engine;

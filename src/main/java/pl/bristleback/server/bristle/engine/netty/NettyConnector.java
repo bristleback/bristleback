@@ -17,7 +17,6 @@ public class NettyConnector extends AbstractConnector {
   private static Logger log = Logger.getLogger(NettyConnector.class.getName());
 
   private Channel channel;
-  private AuthorisationPolicy authorisationPolicy = new ActionNameAuthorisationPolicy();
 
   public NettyConnector(Channel channel, ServerEngine engine, DataController controller) {
     super(engine, controller);
