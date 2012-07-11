@@ -5,9 +5,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
+import pl.bristleback.server.bristle.api.action.SendCondition;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 import pl.bristleback.server.bristle.api.users.UserFactory;
-import pl.bristleback.server.bristle.authorisation.conditions.SendCondition;
 import pl.bristleback.server.bristle.engine.base.ConnectedUser;
 
 import javax.inject.Inject;

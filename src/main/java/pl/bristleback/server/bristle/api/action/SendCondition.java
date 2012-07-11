@@ -1,4 +1,4 @@
-package pl.bristleback.server.bristle.authorisation.conditions;
+package pl.bristleback.server.bristle.api.action;
 
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 

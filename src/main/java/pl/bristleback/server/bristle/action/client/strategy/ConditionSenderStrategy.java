@@ -2,7 +2,7 @@ package pl.bristleback.server.bristle.action.client.strategy;
 
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.action.ClientActionSender;
-import pl.bristleback.server.bristle.authorisation.conditions.SendCondition;
+import pl.bristleback.server.bristle.api.action.SendCondition;
 import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 

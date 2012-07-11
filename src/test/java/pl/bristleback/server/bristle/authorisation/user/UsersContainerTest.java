@@ -5,7 +5,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
-import pl.bristleback.server.bristle.authorisation.conditions.SendCondition;
+import pl.bristleback.server.bristle.api.action.SendCondition;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,10 +2,10 @@ package sample.outgoing;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
+import pl.bristleback.server.bristle.api.action.SendCondition;
 import pl.bristleback.server.bristle.api.annotations.ClientAction;
 import pl.bristleback.server.bristle.api.annotations.ClientActionClass;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
-import pl.bristleback.server.bristle.authorisation.conditions.SendCondition;
 
 /**
  * //@todo class description
