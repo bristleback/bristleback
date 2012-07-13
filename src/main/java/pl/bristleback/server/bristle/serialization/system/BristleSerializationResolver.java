@@ -9,6 +9,7 @@ import pl.bristleback.server.bristle.exceptions.SerializationResolvingException;
 import pl.bristleback.server.bristle.serialization.PropertyInformation;
 import pl.bristleback.server.bristle.serialization.PropertyType;
 import pl.bristleback.server.bristle.serialization.SerializationInput;
+import pl.bristleback.server.bristle.serialization.system.json.extractor.EnumSerializer;
 import pl.bristleback.server.bristle.serialization.system.json.extractor.ValueProcessorsResolver;
 import pl.bristleback.server.bristle.serialization.system.json.extractor.ValueSerializer;
 import pl.bristleback.server.bristle.utils.Getter;
@@ -24,6 +25,7 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -150,10 +152,34 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
       createArraySerialization(serialization, input);
     } else if (Map.class.isAssignableFrom(serialization.getPropertyClass())) {
       createMapSerialization(parentSerialization, serialization, input);
+    } else if (serialization.getPropertyClass().isEnum()) {
+      createEnumSerialization(serialization, input);
     } else {
       createBeanObjectSerialization(serialization, input);
     }
     return serialization;
+  }
+
+  @SuppressWarnings("unchecked")
+  private void createEnumSerialization(PropertySerialization serialization, SerializationInput input) {
+    Class<Enum> enumClass = (Class<Enum>) serialization.getPropertyClass();
+    ValueSerializer serializer;
+    if (extractorsContainer.containsEnumSerializer(enumClass)) {
+      serializer = extractorsContainer.getEnumSerializer(enumClass);
+    } else {
+      serializer = createNewEnumSerializer(enumClass);
+      extractorsContainer.addEnumSerialization(enumClass, serializer);
+    }
+    serialization.setValueSerializer(serializer);
+    serialization.setPropertyType(PropertyType.SIMPLE);
+  }
+
+  private ValueSerializer createNewEnumSerializer(Class<Enum> enumClass) {
+    Map<String, Enum> enumValues = new HashMap<String, Enum>();
+    for (Enum enumValue : enumClass.getEnumConstants()) {
+      enumValues.put(enumValue.name(), enumValue);
+    }
+    return new EnumSerializer(enumValues);
   }
 
   private PropertySerialization createBeanObjectSerialization(PropertySerialization propertySerialization, SerializationInput input) {

@@ -6,6 +6,7 @@ import pl.bristleback.server.bristle.api.action.SendCondition;
 import pl.bristleback.server.bristle.api.annotations.ClientAction;
 import pl.bristleback.server.bristle.api.annotations.ClientActionClass;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import sample.Card;
 
 /**
  * //@todo class description
@@ -29,8 +30,8 @@ public class SampleClientActionClass {
     };
   }
 
-  @ClientAction("sendGameToUser")
-  public IdentifiedUser sendGameToUser(String gameName, IdentifiedUser user, int actualConnectionsNumber) {
+  @ClientAction("sendCardsToUser")
+  public IdentifiedUser sendCardsToUser(Card[] cards, IdentifiedUser user, String description) {
     return user;
   }
 }

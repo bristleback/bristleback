@@ -14,6 +14,7 @@ import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 import pl.bristleback.server.bristle.engine.base.users.DefaultUser;
 import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
+import sample.Card;
 import sample.User;
 import sample.outgoing.SampleClientActionClass;
 import sample.service.HelloServiceBean;
@@ -84,7 +85,7 @@ public class SampleAction implements DefaultAction<DefaultUser, Map<String, BigD
   @Action
   public String executeDefault(DefaultUser user, Map<String, BigDecimal> message) {
     String helloWorld = helloServiceBean.sayHello(message.get("mapField"));
-    clientActionClass.sendGameToUser("gamee", user, 2);
+    clientActionClass.sendCardsToUser(Card.values(), user, "description");
     return helloWorld;
   }
 

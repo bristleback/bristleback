@@ -20,16 +20,22 @@ import java.util.Map;
 public class ExtractorsContainer {
   private static Logger log = Logger.getLogger(ExtractorsContainer.class.getName());
 
+  private Map<Class, ValueSerializer> enumProcessors;
   private Map<Class, ValueSerializer> valueProcessors;
   private Map<Type, PropertySerialization> defaultPropertySerializations;
 
 
   public ExtractorsContainer() {
     defaultPropertySerializations = new HashMap<Type, PropertySerialization>();
+    enumProcessors = new HashMap<Class, ValueSerializer>();
   }
 
   public boolean containsPropertySerialization(Type objectType) {
     return defaultPropertySerializations.containsKey(objectType);
+  }
+
+  public boolean containsEnumSerializer(Class<? extends Enum> enumType) {
+    return enumProcessors.containsKey(enumType);
   }
 
   public PropertySerialization getDefaultPropertySerialization(Type objectType) {
@@ -44,12 +50,20 @@ public class ExtractorsContainer {
     }
   }
 
+  public void addEnumSerialization(Class<? extends Enum> enumType, ValueSerializer enumSerializer) {
+    enumProcessors.put(enumType, enumSerializer);
+  }
+
   public boolean containsValueProcessor(Class valueClass) {
     return valueProcessors.containsKey(valueClass);
   }
 
   public ValueSerializer getValueProcessor(Class objectClass) {
     return valueProcessors.get(objectClass);
+  }
+
+  public ValueSerializer getEnumSerializer(Class<? extends Enum> enumClass) {
+    return enumProcessors.get(enumClass);
   }
 
   public <T> ValueSerializer getValueProcessorWithClass(Class<? extends ValueSerializer> processorClass) {
