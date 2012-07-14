@@ -37,6 +37,31 @@ public class ClientActionProxyInterceptor implements MethodInterceptor {
 
     Object methodOutput = invocation.proceed();
     Object[] parameters = invocation.getArguments();
+
+    Object payload = null;
+    if (parameters.length == 1) {
+      payload = parameters[0];
+    } else if (parameters.length > 1) {
+      int parametersToSerializeCount = 0;
+      parametersToSerializeCount = getNumberOfParametersToSerialize(actionInformation, parametersToSerializeCount);
+      if (parametersToSerializeCount == 1) {
+        payload = resolveSinglePayload(actionInformation, parameters, payload);
+      } else {
+        payload = resolveMapPayload(actionInformation, parameters);
+      }
+    }
+
+    BristleMessage<Object> message = new BristleMessage<Object>()
+      .withName(actionInformation.getFullName()).withPayload(payload);
+
+    ClientActionSender clientActionSender = actionInformation.getResponse();
+    clientActionSender.sendClientAction(methodOutput, message, objectSender);
+
+    return methodOutput;
+  }
+
+  private Object resolveMapPayload(ClientActionInformation actionInformation, Object[] parameters) {
+    Object payload;
     Map<String, Object> parametersAsMap = new HashMap<String, Object>();
     int index = 0;
     for (int i = 0; i < parameters.length; i++) {
@@ -47,14 +72,27 @@ public class ClientActionProxyInterceptor implements MethodInterceptor {
         index++;
       }
     }
+    payload = parametersAsMap;
+    return payload;
+  }
 
-    BristleMessage<Map<String, Object>> message = new BristleMessage<Map<String, Object>>()
-      .withName(actionInformation.getFullName()).withPayload(parametersAsMap);
+  private Object resolveSinglePayload(ClientActionInformation actionInformation, Object[] parameters, Object payload) {
+    for (int i = 0; i < parameters.length; i++) {
+      ActionParameterInformation parameterInformation = actionInformation.getParameters().get(i);
+      if (parameterInformation.getExtractor().isDeserializationRequired()) {
+        payload = parameters[i];
+      }
+    }
+    return payload;
+  }
 
-    ClientActionSender clientActionSender = actionInformation.getResponse();
-    clientActionSender.sendClientAction(methodOutput, message, objectSender);
-
-    return methodOutput;
+  private int getNumberOfParametersToSerialize(ClientActionInformation actionInformation, int parametersToSerializeCount) {
+    for (ActionParameterInformation parameterInformation : actionInformation.getParameters()) {
+      if (parameterInformation.getExtractor().isDeserializationRequired()) {
+        parametersToSerializeCount++;
+      }
+    }
+    return parametersToSerializeCount;
   }
 
   private ClientActionInformation resolveActionInformation(MethodInvocation invocation) {

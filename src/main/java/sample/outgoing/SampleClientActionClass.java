@@ -31,7 +31,7 @@ public class SampleClientActionClass {
   }
 
   @ClientAction("sendCardsToUser")
-  public IdentifiedUser sendCardsToUser(Card[] cards, IdentifiedUser user, String description) {
+  public IdentifiedUser sendCardsToUser(Card[] cards, IdentifiedUser user) {
     return user;
   }
 }
