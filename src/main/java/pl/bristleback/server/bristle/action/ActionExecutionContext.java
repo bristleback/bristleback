@@ -1,6 +1,7 @@
 package pl.bristleback.server.bristle.action;
 
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.bristle.exceptions.BrokenActionProtocolException;
 import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.utils.StringUtils;
 
@@ -26,6 +27,10 @@ public class ActionExecutionContext {
   }
 
   public void extractActionInformation() {
+    if (org.apache.commons.lang.StringUtils.isEmpty(message.getId())) {
+      throw new BrokenActionProtocolException(BrokenActionProtocolException.ReasonType.NO_MESSAGE_ID_FOUND,
+        "Request Id must not be null.");
+    }
     setStage(ActionExecutionStage.ACTION_EXTRACTION);
     if (message.getName().contains(StringUtils.DOT_AS_STRING)) {
       int dotIndex = message.getName().indexOf('.');

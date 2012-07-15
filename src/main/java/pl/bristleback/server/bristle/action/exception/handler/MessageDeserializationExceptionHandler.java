@@ -10,6 +10,7 @@ import pl.bristleback.server.bristle.api.action.ActionExceptionHandler;
 import pl.bristleback.server.bristle.authorisation.user.UsersContainer;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * //@todo class description
@@ -22,6 +23,8 @@ import javax.inject.Inject;
 public class MessageDeserializationExceptionHandler implements ActionExceptionHandler<Exception> {
   private static Logger log = Logger.getLogger(MessageDeserializationExceptionHandler.class.getName());
 
+  @Inject
+  @Named("serverEngine")
   private ServerEngine serverEngine;
 
   @Inject

@@ -25,6 +25,7 @@ public class BrokenActionProtocolException extends RuntimeException {
 
   public static enum ReasonType {
     INCORRECT_PATH,
+    NO_MESSAGE_ID_FOUND,
     NO_ACTION_CLASS_FOUND,
     NO_DEFAULT_ACTION_FOUND,
     NO_ACTION_FOUND

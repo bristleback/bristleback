@@ -24,7 +24,7 @@
     var sampleAction = dataController.getActionClass("sample");
 
     sampleAction.defineAction("hello")
-      .setIncomingMessageHandler(function(message) {
+      .setResponseHandler(function(message) {
       $('#status').text(message);
     });
 
@@ -33,7 +33,7 @@
       return false;
     });
     sampleAction.defineDefaultAction()
-      .setIncomingMessageHandler(function(message) {
+      .setResponseHandler(function(message) {
       $('#status').text("Default action response: " + message);
     });
 
@@ -49,10 +49,22 @@
       return true;
     });
 
-    sampleAction.defineAction("userDetails").setIncomingMessageHandler(function(user) {
+    sampleAction.defineAction("userDetails").setResponseHandler(function(user) {
       alert("Its normal serwer message sent before response, user details:" + user.firstName + ":" + user.age);
     });
 
+    var clientActionClass = {
+      sendCardsToUser: function(cards, user) {
+        for (var index in cards) {
+          alert("Card: " + cards[index] + " for user: " + user);
+        }
+      },
+      userDetails: function(user) {
+        alert("user data: \n" + Bristleback.utils.objectToString(user));
+      }
+    };
+
+    dataController.registerClientActionClass("SampleClientActionClass", clientActionClass);
 
     function connect() {
       client.connect();

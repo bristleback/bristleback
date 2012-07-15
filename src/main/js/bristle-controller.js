@@ -1,23 +1,25 @@
 Bristleback.controller.controllers = {};
 
-Bristleback.controller.Messages = {
-  ACTION_CLASS_NOT_FOUND : "[ERROR] Message is not complete, action class name parameter is required"
-};
-
 Bristleback.controller.ActionMessage = function(controller, message) {
   var messageElements = message.name.split(":");
   var actionElements = messageElements[0].split(".");
   var actionClassName = actionElements[0];
   var actionName = actionElements[1] ? actionElements[1] : "";
-  this.actionClass = controller.actionClasses[actionClassName];
+  if (message.id) {
+    this.actionClass = controller.actionClasses[actionClassName];
+  } else {
+    this.actionClass = controller.clientActionClasses[actionClassName];
+  }
+
   if (this.actionClass == undefined) {
-    Bristleback.Console.log(Bristleback.controller.Messages.ACTION_CLASS_NOT_FOUND);
-    throw new Error(Bristleback.controller.Messages.ACTION_CLASS_NOT_FOUND);
+    var errorMsg = "[ERROR] Cannot find a client action class \"" + actionClassName + "\"";
+    Bristleback.Console.log(errorMsg);
+    throw new Error(errorMsg);
   }
 
   this.action = this.actionClass.actions[actionName];
   if (this.action == undefined) {
-    var errorMsg = "[ERROR] Cannot find action " + (actionName ? actionName : "default action ") + " in action class " + this.name;
+    errorMsg = "[ERROR] Cannot find action " + (actionName ? "\"" + actionName + "\"" : "default action ") + " in action class \"" + this.name + "\"";
     Bristleback.Console.log(errorMsg);
     throw new Error(errorMsg);
   }
@@ -73,7 +75,7 @@ Bristleback.controller.ActionCallback.prototype.handleResponse = function(conten
   return this.responseHandler(content);
 };
 
-Bristleback.controller.ActionCallback.prototype.canHandleResponse = function(content) {
+Bristleback.controller.ActionCallback.prototype.canHandleResponse = function() {
   return this.responseHandler != undefined;
 };
 
@@ -132,6 +134,7 @@ Bristleback.controller.ActionController = function () {
   this.lastId = 1;
 
   this.actionClasses = {};
+  this.clientActionClasses = {};
   this.callbacks = {};
   this.exceptionHandler = new Bristleback.controller.ActionExceptionHandler();
 
@@ -182,6 +185,10 @@ Bristleback.controller.ActionController.prototype.defaultHandlerFunction = funct
     + " returned with exception of type \"" + exceptionMessage.exceptionType + "\" and detail message \"" + Bristleback.utils.objectToString(exceptionMessage.content) + "\"";
   Bristleback.Console.log("[ERROR] " + exceptionMessageString);
   throw new Error(exceptionMessageString);
+};
+
+Bristleback.controller.ActionController.prototype.registerClientActionClass = function(actionClassName, actionClass) {
+  this.clientActionClasses[actionClassName] = new Bristleback.controller.ClientActionClass(actionClassName, actionClass);
 };
 
 //------------- ACTION CLASS
@@ -254,13 +261,13 @@ Bristleback.controller.ActionClass.prototype.onMessage = function(actionMessage)
 };
 
 Bristleback.controller.ActionClass.prototype.findHandler = function(action) {
-  if (action.incomingMessageHandler == undefined) {
+  if (action.responseHandler == undefined) {
     var actionToString = "[" + (action.name ? "Action " + this.name + "." + action.name + "()" : "Default action of class " + this.name) + "]";
     var errorMsg = +actionToString + " Cannot find handler for incoming action";
     Bristleback.Console.log("[ERROR] " + errorMsg);
     throw new Error(errorMsg);
   }
-  return action.incomingMessageHandler;
+  return action.responseHandler;
 };
 
 Bristleback.controller.ActionClass.prototype.defaultProtocolExceptionHandlerFunction = function(exceptionMessage) {
@@ -282,15 +289,15 @@ Bristleback.controller.Action = function (name) {
   this.exceptionHandler.setExceptionHandler("BrokenActionProtocolException", this.defaultProtocolExceptionHandlerFunction);
 };
 
-Bristleback.controller.Action.prototype.setIncomingMessageHandler = function(handler) {
-  this.incomingMessageHandler = handler;
+Bristleback.controller.Action.prototype.setResponseHandler = function(handler) {
+  this.responseHandler = handler;
   return this;
 };
 
 Bristleback.controller.Action.prototype.renderOnResponse = function(templateName, containerDiv, rootObjectName) {
   var templateInformation = Bristleback.controller.TemplateController.constructTemplateInformation(templateName, containerDiv, rootObjectName);
 
-  this.incomingMessageHandler = function(actionMessage) {
+  this.responseHandler = function(actionMessage) {
     Bristleback.controller.TemplateController.render(templateInformation, actionMessage);
   };
   return this;
@@ -329,6 +336,34 @@ Bristleback.controller.Action.prototype.defaultProtocolExceptionHandlerFunction 
   }
   Bristleback.Console.log("[ERROR] " + exceptionMessageString);
   throw new Error(exceptionMessageString);
+};
+
+//------------- CLIENT ACTION CLASS
+
+Bristleback.controller.ClientActionClass = function(name, actionClass) {
+  this.name = name;
+  this.actions = actionClass;
+};
+
+Bristleback.controller.ClientActionClass.prototype.onMessage = function(actionMessage) {
+  var parameters = [];
+  var hasMoreParams = true;
+  var currentIndex = 0;
+  while (hasMoreParams) {
+    var paramName = "p" + currentIndex;
+    var parameter = actionMessage.content[paramName];
+    if (parameter != undefined) {
+      parameters[currentIndex] = parameter;
+      currentIndex++;
+    } else {
+      hasMoreParams = false;
+    }
+  }
+  if (parameters.length == 0) {
+    parameters[0] = actionMessage.content;
+  }
+
+  actionMessage.action.apply(actionMessage.actionClass, parameters);
 };
 
 //------------- DEFAULT CONTROLLERS

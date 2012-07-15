@@ -77,7 +77,7 @@ public class SampleAction implements DefaultAction<DefaultUser, Map<String, BigD
     User userData = new User();
     userData.setAge(age);
     userData.setFirstName(name);
-    message.withName("sample.userDetails").withPayload(userData);
+    message.withName("SampleClientActionClass.userDetails").withPayload(userData);
     sender.sendMessage(message, Collections.<IdentifiedUser>singletonList(user));
     return "Hello " + name + ", your age is about " + age + ", right?";
   }
