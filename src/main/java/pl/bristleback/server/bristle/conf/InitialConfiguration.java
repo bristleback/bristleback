@@ -47,7 +47,7 @@ public class InitialConfiguration {
    * Factory class that provides new user object
    * If not specified, {@link pl.bristleback.server.bristle.engine.base.users.DefaultUser} object will be created
    */
-  private UserFactory userFactory;
+  private String userFactory;
 
 
   public Set<String> getAcceptedControllerNames() {
@@ -106,11 +106,11 @@ public class InitialConfiguration {
     this.messageDispatcher = messageDispatcher;
   }
 
-  public void setUserFactory(UserFactory userFactory) {
+  public void setUserFactory(String userFactory) {
     this.userFactory = userFactory;
   }
 
-  public UserFactory getUserFactory() {
+  public String getUserFactory() {
     return userFactory;
   }
 }

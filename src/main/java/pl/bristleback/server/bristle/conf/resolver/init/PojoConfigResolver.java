@@ -84,7 +84,7 @@ public class PojoConfigResolver implements InitialConfigurationResolver {
     engineConfig.setMaxBufferSize(bufferSize);
   }
 
-  public void setUserFactory(UserFactory userFactory) {
+  public void setUserFactory(String userFactory) {
     initialConfiguration.setUserFactory(userFactory);
   }
 

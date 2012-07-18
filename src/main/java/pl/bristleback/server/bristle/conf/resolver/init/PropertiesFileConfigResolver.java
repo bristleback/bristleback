@@ -37,6 +37,7 @@ public class PropertiesFileConfigResolver implements InitialConfigurationResolve
   public static final String ENGINE_REJECTED_DOMAINS_PROPERTY = "bristle.engine.rejected.domains";
   public static final String LOGGING_LEVEL_PROPERTY = "bristle.logging.level";
   public static final String SERIALIZATION_ENGINE_PROPERTY = "bristle.serialization.engine";
+  public static final String USER_FACTORY_PROPERTY = "bristle.user.factory";
 
   private String configurationPath;
   private PropertiesConfiguration propertiesConfiguration;
@@ -51,8 +52,12 @@ public class PropertiesFileConfigResolver implements InitialConfigurationResolve
     resolveAcceptedProtocolNames(initialConfiguration);
     resolveSerializationEngine(initialConfiguration);
     resolveEngineConfiguration(initialConfiguration);
-
+    resolveUserFactory(initialConfiguration);
     return initialConfiguration;
+  }
+
+  private void resolveUserFactory(InitialConfiguration initialConfiguration) {
+    initialConfiguration.setUserFactory(propertiesConfiguration.getString(USER_FACTORY_PROPERTY));
   }
 
   private void getPropertiesFromFileName() {
