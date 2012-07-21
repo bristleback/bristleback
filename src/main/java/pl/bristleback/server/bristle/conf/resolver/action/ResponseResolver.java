@@ -50,7 +50,7 @@ public class ResponseResolver {
       }
     }
 
-    Object serialization = serializationResolver.resolveSerialization(action.getReturnType(), takenAnnotation);
+    Object serialization = serializationResolver.resolveSerialization(action.getGenericReturnType(), takenAnnotation);
 
     responseInformation.setSerialization(serialization);
   }

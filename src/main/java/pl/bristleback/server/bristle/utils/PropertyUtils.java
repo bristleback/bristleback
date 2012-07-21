@@ -76,7 +76,7 @@ public final class PropertyUtils {
 
     Class currentOwnerClass = ownerClass;
 
-    while (currentOwnerClass != null && !currentOwnerClass.equals(Object.class)) {
+    while (currentOwnerClass != null && !currentOwnerClass.equals(Object.class) && !currentOwnerClass.isInterface()) {
       for (Field field : currentOwnerClass.getDeclaredFields()) {
         if (isPrivateField(field) && !isPropertySkipped(field.getName(), skippedProperties)) {
           fields.add(field);
@@ -86,7 +86,7 @@ public final class PropertyUtils {
       if (!includeSuperFields) {
         return fields;
       }
-      currentOwnerClass = ownerClass.getSuperclass();
+      currentOwnerClass = currentOwnerClass.getSuperclass();
     }
 
     return fields;
