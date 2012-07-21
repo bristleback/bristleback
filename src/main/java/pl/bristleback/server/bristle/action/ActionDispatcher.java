@@ -38,6 +38,7 @@ public class ActionDispatcher {
     actionsContainer = actionClassesResolver.resolve();
   }
 
+  @SuppressWarnings("unchecked")
   public void dispatch(ActionExecutionContext context) throws Exception {
     context.extractActionInformation();
     ActionClassInformation actionClass = actionsContainer.getActionClass(context.getActionClassName());
@@ -51,9 +52,11 @@ public class ActionDispatcher {
     Object response = action.execute(actionClassInstance, parameters);
 
     setActionExecutionStage(context, ActionExecutionStage.RESPONSE_CONSTRUCTION);
-    Object serialization = action.getResponseInformation().getSerialization();
 
-    responseHelper.sendResponse(response, serialization, context);
+    if (!action.getResponseInformation().isVoidResponse()) {
+      Object serialization = action.getResponseInformation().getSerialization();
+      responseHelper.sendResponse(response, serialization, context);
+    }
   }
 
   private void setActionExecutionStage(ActionExecutionContext context, ActionExecutionStage newState) {

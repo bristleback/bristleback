@@ -72,14 +72,14 @@ public class SampleAction implements DefaultAction<DefaultUser, Map<String, BigD
   }
 
   @Action(name = "hello")
-  public String sayHello(@Bind(required = true) String name, int age, DefaultUser user) throws Exception {
+  public void sayHello(@Bind(required = true) String name, int age, DefaultUser user) throws Exception {
     BristleMessage<User> message = new BristleMessage<User>();
     User userData = new User();
     userData.setAge(age);
     userData.setFirstName(name);
     message.withName("SampleClientActionClass.userDetails").withPayload(userData);
     sender.sendMessage(message, Collections.<IdentifiedUser>singletonList(user));
-    return "Hello " + name + ", your age is about " + age + ", right?";
+ //   return "Hello " + name + ", your age is about " + age + ", right?";
   }
 
   @Action

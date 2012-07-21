@@ -12,7 +12,16 @@ import org.apache.log4j.Logger;
 public class ActionResponseInformation {
   private static Logger log = Logger.getLogger(ActionResponseInformation.class.getName());
 
+  private boolean voidResponse;
   private Object serialization;
+
+  public boolean isVoidResponse() {
+    return voidResponse;
+  }
+
+  public void setVoidResponse(boolean voidResponse) {
+    this.voidResponse = voidResponse;
+  }
 
   public Object getSerialization() {
     return serialization;

@@ -28,6 +28,18 @@ public class ResponseResolver {
   ActionResponseInformation resolveResponse(Method action) {
     Action actionAnnotation = action.getAnnotation(Action.class);
     ActionResponseInformation responseInformation = new ActionResponseInformation();
+
+    if (action.getReturnType().equals(Void.TYPE)) {
+      responseInformation.setVoidResponse(true);
+    }
+
+    resolveResponseSerialization(action, actionAnnotation, responseInformation);
+
+    return responseInformation;
+  }
+
+  private void resolveResponseSerialization(Method action, Action actionAnnotation,
+                                            ActionResponseInformation responseInformation) {
     Serialize[] serializeAnnotations = actionAnnotation.response();
 
     Serialize takenAnnotation = null;
@@ -41,6 +53,5 @@ public class ResponseResolver {
     Object serialization = serializationResolver.resolveSerialization(action.getReturnType(), takenAnnotation);
 
     responseInformation.setSerialization(serialization);
-    return responseInformation;
   }
 }
