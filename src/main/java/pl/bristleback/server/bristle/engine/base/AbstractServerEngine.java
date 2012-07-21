@@ -5,9 +5,12 @@ import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.ConnectionStateListener;
 import pl.bristleback.server.bristle.api.ServerEngine;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
+import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.bristle.authorisation.user.UsersContainer;
 import pl.bristleback.server.bristle.conf.EngineConfig;
 import pl.bristleback.server.bristle.listener.ConnectionStateListenerChain;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -22,6 +25,9 @@ public abstract class AbstractServerEngine implements ServerEngine {
 
   private EngineConfig engineConfig;
   private BristlebackConfig configuration;
+
+  @Inject
+  private UsersContainer usersContainer;
 
   public void setConfiguration(BristlebackConfig configuration) {
     this.configuration = configuration;
@@ -38,10 +44,12 @@ public abstract class AbstractServerEngine implements ServerEngine {
 
   @Override
   public void onConnectionOpened(WebsocketConnector connector) {
+    IdentifiedUser user = usersContainer.newUser(connector);
+
     List<ConnectionStateListener> listeners = configuration.getListenersContainer().getConnectionStateListeners();
     ConnectionStateListenerChain chain = new ConnectionStateListenerChain(listeners);
-    chain.connectorStarted(connector);
-    log.info("New " + connector.getClass().getSimpleName() + " connector started.");
+    chain.connectorStarted(user);
+    log.info("New " + connector.getClass().getSimpleName() + " connector started, connector id=" + connector.getConnectorId());
   }
 
   @Override
@@ -49,8 +57,13 @@ public abstract class AbstractServerEngine implements ServerEngine {
     List<ConnectionStateListener> listeners = configuration.getListenersContainer().getConnectionStateListeners();
     //framework handlers will always run first
     ConnectionStateListenerChain chain = new ConnectionStateListenerChain(listeners);
-    chain.connectorStopped(connector);
+    chain.connectorStopped(usersContainer.getUserByConnector(connector));
     log.info(connector.getClass().getSimpleName() + " connector stopped.");
+
+    connector.stop();
+    usersContainer.removeUser(connector);
+    log.info("Connector has stopped - id: " + connector.getConnectorId());
+
   }
 
 }

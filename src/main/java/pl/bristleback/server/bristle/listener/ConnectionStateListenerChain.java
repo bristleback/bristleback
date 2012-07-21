@@ -2,7 +2,7 @@ package pl.bristleback.server.bristle.listener;
 
 import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.ConnectionStateListener;
-import pl.bristleback.server.bristle.api.WebsocketConnector;
+import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 
 import java.util.Iterator;
 import java.util.List;
@@ -26,19 +26,19 @@ public class ConnectionStateListenerChain {
     this.listeners = listeners;
   }
 
-  public void connectorStarted(WebsocketConnector connector) {
+  public void connectorStarted(IdentifiedUser user) {
     processListeners = true;
     Iterator<ConnectionStateListener> it = listeners.iterator();
     while (processListeners && it.hasNext()) {
-      it.next().connectorStarted(connector);
+      it.next().connectorStarted(user);
     }
   }
 
-  public void connectorStopped(WebsocketConnector connector) {
+  public void connectorStopped(IdentifiedUser user) {
     processListeners = true;
     Iterator<ConnectionStateListener> it = listeners.iterator();
     while (processListeners && it.hasNext()) {
-      it.next().connectorStopped(connector);
+      it.next().connectorStopped(user);
     }
   }
 

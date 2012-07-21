@@ -28,12 +28,13 @@ public class UsersContainer {
 
   private Map<String, ConnectedUser> connectedUsers = new FastMap<String, ConnectedUser>().setShared(true);
 
-  public void newUser(WebsocketConnector connector) {
+  public IdentifiedUser newUser(WebsocketConnector connector) {
     IdentifiedUser newUser = userFactory.createNewUser();
     connectedUsers.put(
       connector.getConnectorId(),
       new ConnectedUser(newUser, connector)
     );
+    return newUser;
   }
 
   public IdentifiedUser getUserByConnector(WebsocketConnector connector) {

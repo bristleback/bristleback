@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.ConnectionStateListener;
-import pl.bristleback.server.bristle.api.WebsocketConnector;
+import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 import pl.bristleback.server.bristle.app.BristlebackServerInstance;
 
 /**
@@ -24,12 +24,12 @@ public class StandardConnectionStateListener implements ConnectionStateListener 
   }
 
   @Override
-  public void connectorStarted(WebsocketConnector connector) {
-    log.info("listener says that new connector has started - id: " + connector.getConnectorId());
+  public void connectorStarted(IdentifiedUser user) {
+    log.info("listener says that new user was added - id: " + user.getId());
   }
 
   @Override
-  public void connectorStopped(WebsocketConnector connector) {
-    log.info("listener says that the connector has stopped - id: " + connector.getConnectorId());
+  public void connectorStopped(IdentifiedUser user) {
+    log.info("listener says that the user has disconnected - id: " + user.getId());
   }
 }

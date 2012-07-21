@@ -1,5 +1,7 @@
 package pl.bristleback.server.bristle.api;
 
+import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+
 /**
  * //@todo class description
  * <p/>
@@ -11,7 +13,7 @@ public interface ConnectionStateListener {
 
   void init(BristlebackConfig configuration);
 
-  void connectorStarted(WebsocketConnector connector);
+  void connectorStarted(IdentifiedUser identifiedUser);
 
-  void connectorStopped(WebsocketConnector connector);
+  void connectorStopped(IdentifiedUser identifiedUser);
 }
