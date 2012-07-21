@@ -3,6 +3,7 @@ package pl.bristleback.server.bristle.utils;
 import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.exceptions.BristleInitializationException;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -128,6 +129,16 @@ public final class ReflectionUtils {
     for (Class interFace : interfaces) {
       if (strategies.containsKey(interFace)) {
         return strategies.get(interFace);
+      }
+    }
+    return null;
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T> T findAnnotation(Annotation[] annotations, Class<T> annotationType) {
+    for (Annotation annotation : annotations) {
+      if (annotation.annotationType().equals(annotationType)) {
+        return (T) annotation;
       }
     }
     return null;

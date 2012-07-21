@@ -3,7 +3,6 @@ package pl.bristleback.server.bristle.action.client;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.log4j.Logger;
-import pl.bristleback.server.bristle.action.ActionParameterInformation;
 import pl.bristleback.server.bristle.api.action.ClientActionSender;
 import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
@@ -66,8 +65,8 @@ public class ClientActionProxyInterceptor implements MethodInterceptor {
     int index = 0;
     for (int i = 0; i < parameters.length; i++) {
       Object parameter = parameters[i];
-      ActionParameterInformation parameterInformation = actionInformation.getParameters().get(i);
-      if (parameterInformation.getExtractor().isDeserializationRequired()) {
+      ClientActionParameterInformation parameterInformation = actionInformation.getParameters().get(i);
+      if (parameterInformation.isForSerialization()) {
         parametersAsMap.put("p" + index, parameter);
         index++;
       }
@@ -78,8 +77,8 @@ public class ClientActionProxyInterceptor implements MethodInterceptor {
 
   private Object resolveSinglePayload(ClientActionInformation actionInformation, Object[] parameters, Object payload) {
     for (int i = 0; i < parameters.length; i++) {
-      ActionParameterInformation parameterInformation = actionInformation.getParameters().get(i);
-      if (parameterInformation.getExtractor().isDeserializationRequired()) {
+      ClientActionParameterInformation parameterInformation = actionInformation.getParameters().get(i);
+      if (parameterInformation.isForSerialization()) {
         payload = parameters[i];
       }
     }
@@ -87,8 +86,8 @@ public class ClientActionProxyInterceptor implements MethodInterceptor {
   }
 
   private int getNumberOfParametersToSerialize(ClientActionInformation actionInformation, int parametersToSerializeCount) {
-    for (ActionParameterInformation parameterInformation : actionInformation.getParameters()) {
-      if (parameterInformation.getExtractor().isDeserializationRequired()) {
+    for (ClientActionParameterInformation parameterInformation : actionInformation.getParameters()) {
+      if (parameterInformation.isForSerialization()) {
         parametersToSerializeCount++;
       }
     }

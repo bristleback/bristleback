@@ -25,14 +25,14 @@
   <bean id="notAnnotatedAction" class="pl.bristleback.server.mock.action.NotAnnotatedActionClass"/>
 
   <bean id="initPojoConfigResolver" class="pl.bristleback.server.bristle.conf.resolver.init.PojoConfigResolver">
-    <property name="userFactory">
-      <bean class="pl.bristleback.server.mock.MockUserFactory"/>
-    </property>
+    <property name="userFactory" value="mockUserFactory"/>
     <!--<property name="serializationEngine" value="jackson-json"/>-->
   </bean>
 
   <bean id="testServerInstance" class="pl.bristleback.server.bristle.app.BristlebackServerInstance"
         factory-bean="mockBeansFactory"
         factory-method="mockServerInstance"/>
+
+  <bean id="mockUserFactory" class="pl.bristleback.server.mock.MockUserFactory"/>
 
 </beans>

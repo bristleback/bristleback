@@ -4,7 +4,6 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.util.Assert;
 import pl.bristleback.server.bristle.api.InitialConfigurationResolver;
-import pl.bristleback.server.bristle.api.users.UserFactory;
 import pl.bristleback.server.bristle.conf.EngineConfig;
 import pl.bristleback.server.bristle.conf.InitialConfiguration;
 

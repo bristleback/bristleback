@@ -43,10 +43,11 @@ public class ClientActionClassesResolver {
     return actionClasses;
   }
 
-  private ClientActionClassInformation prepareActionClass(Object actionClass) {
-    ClientActionClass actionClassAnnotation = AnnotationUtils.findAnnotation(actionClass.getClass(), ClientActionClass.class);
-    String actionClassName = getActionClassName(actionClass.getClass(), actionClassAnnotation);
-    Map<String, ClientActionInformation> actions = prepareActions(actionClass.getClass(), actionClassName);
+  private ClientActionClassInformation prepareActionClass(Object actionClassInstance) {
+    Class actionClass = actionClassInstance.getClass().getSuperclass(); // skip proxy class
+    ClientActionClass actionClassAnnotation = AnnotationUtils.findAnnotation(actionClass, ClientActionClass.class);
+    String actionClassName = getActionClassName(actionClass, actionClassAnnotation);
+    Map<String, ClientActionInformation> actions = prepareActions(actionClass, actionClassName);
 
     return new ClientActionClassInformation(actionClassName, actions);
   }
@@ -55,7 +56,7 @@ public class ClientActionClassesResolver {
     if (StringUtils.isNotBlank(actionClassAnnotation.name())) {
       return actionClassAnnotation.name();
     }
-    return actionClass.getSuperclass().getSimpleName(); // skip proxy class
+    return actionClass.getSimpleName();
   }
 
   private Map<String, ClientActionInformation> prepareActions(Class<?> actionClass, String actionClassName) {

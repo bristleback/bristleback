@@ -3,9 +3,12 @@ package sample.outgoing;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.action.SendCondition;
+import pl.bristleback.server.bristle.api.annotations.Bind;
 import pl.bristleback.server.bristle.api.annotations.ClientAction;
 import pl.bristleback.server.bristle.api.annotations.ClientActionClass;
+import pl.bristleback.server.bristle.api.annotations.Ignore;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.bristle.engine.base.users.DefaultUser;
 import sample.Card;
 
 /**
@@ -31,7 +34,7 @@ public class SampleClientActionClass {
   }
 
   @ClientAction("sendCardsToUser")
-  public IdentifiedUser sendCardsToUser(Card[] cards, IdentifiedUser user) {
+  public IdentifiedUser sendCardsToUser(@Bind Card[] cards, @Ignore DefaultUser user) {
     return user;
   }
 }

@@ -1,7 +1,5 @@
 package pl.bristleback.server.bristle.action.client;
 
-import org.apache.log4j.Logger;
-import pl.bristleback.server.bristle.action.ActionParameterInformation;
 import pl.bristleback.server.bristle.api.action.ClientActionSender;
 
 import java.util.List;
@@ -14,17 +12,16 @@ import java.util.List;
  * @author Wojciech Niemiec
  */
 public class ClientActionInformation {
-  private static Logger log = Logger.getLogger(ClientActionInformation.class.getName());
 
   private String fullName;
   private String name;
 
-  private List<ActionParameterInformation> parameters;
+  private List<ClientActionParameterInformation> parameters;
   private Object serialization;
   private ClientActionSender sender;
 
   public ClientActionInformation(String name, String fullName, Object serialization,
-                                 List<ActionParameterInformation> parameters, ClientActionSender sender) {
+                                 List<ClientActionParameterInformation> parameters, ClientActionSender sender) {
     this.name = name;
     this.fullName = fullName;
     this.parameters = parameters;
@@ -32,7 +29,7 @@ public class ClientActionInformation {
     this.sender = sender;
   }
 
-  public List<ActionParameterInformation> getParameters() {
+  public List<ClientActionParameterInformation> getParameters() {
     return parameters;
   }
 

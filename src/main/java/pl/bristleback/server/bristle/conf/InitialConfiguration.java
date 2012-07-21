@@ -2,7 +2,6 @@ package pl.bristleback.server.bristle.conf;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import pl.bristleback.server.bristle.api.users.UserFactory;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 
 import java.util.Set;
