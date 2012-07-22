@@ -15,7 +15,7 @@ import pl.bristleback.server.bristle.app.BristlebackServerInstance;
  * @author Wojciech Niemiec
  */
 @Component
-public class StandardConnectionStateListener implements ConnectionStateListener {
+public class StandardConnectionStateListener implements ConnectionStateListener<IdentifiedUser> {
 
   private static Logger log = Logger.getLogger(BristlebackServerInstance.class.getName());
 

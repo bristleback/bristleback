@@ -9,11 +9,11 @@ import pl.bristleback.server.bristle.api.users.IdentifiedUser;
  *
  * @author Wojciech Niemiec
  */
-public interface ConnectionStateListener {
+public interface ConnectionStateListener<T extends IdentifiedUser> {
 
   void init(BristlebackConfig configuration);
 
-  void connectorStarted(IdentifiedUser identifiedUser);
+  void connectorStarted(T identifiedUser);
 
-  void connectorStopped(IdentifiedUser identifiedUser);
+  void connectorStopped(T identifiedUser);
 }
