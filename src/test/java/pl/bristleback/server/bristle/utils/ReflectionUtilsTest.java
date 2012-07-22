@@ -6,10 +6,18 @@ import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.action.ActionExceptionHandler;
+import pl.bristleback.server.bristle.api.annotations.Bind;
+import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.mock.action.MockClientActionClass;
+import pl.bristleback.server.mock.beans.VerySimpleMockBean;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
 
 /**
  * //@todo class description
@@ -47,6 +55,38 @@ public class ReflectionUtilsTest {
 
     //then
     assertEquals(RuntimeException.class, parameterTypes[0]);
+  }
+
+  @Test
+  public void shouldFindIdenticalAnnotation() throws NoSuchMethodException {
+    //given
+    Method method = MockClientActionClass.class.getMethod(MockClientActionClass.SIMPLE_ACTION_NAME,
+      String.class, VerySimpleMockBean.class, IdentifiedUser.class);
+    Annotation[] annotations = method.getParameterAnnotations()[1];
+
+    Class<Bind> bindClass = Bind.class;
+
+    //when
+    Bind annotationToFind = ReflectionUtils.findAnnotation(annotations, bindClass);
+
+    //then
+    assertNotNull(annotationToFind);
+  }
+
+  @Test
+  public void shouldNotFindIdenticalAnnotation() throws NoSuchMethodException {
+    //given
+    Method method = MockClientActionClass.class.getMethod(MockClientActionClass.SIMPLE_ACTION_NAME,
+      String.class, VerySimpleMockBean.class, IdentifiedUser.class);
+    Annotation[] annotations = method.getParameterAnnotations()[2];
+
+    Class<Bind> bindClass = Bind.class;
+
+    //when
+    Bind annotationToFind = ReflectionUtils.findAnnotation(annotations, bindClass);
+
+    //then
+    assertNull(annotationToFind);
   }
 
   class BaseExceptionHandler implements ActionExceptionHandler<RuntimeException> {

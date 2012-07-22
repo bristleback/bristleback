@@ -35,4 +35,37 @@
 
   <bean id="mockUserFactory" class="pl.bristleback.server.mock.MockUserFactory"/>
 
+  <bean id="mockClientActionClass" class="pl.bristleback.server.mock.action.MockClientActionClass"/>
+
+  <bean id="nonStandardClientActionClass" class="pl.bristleback.server.mock.action.NonStandardClientActionClass"/>
+
+  <bean id="extendingClientActionClass" class="pl.bristleback.server.mock.action.ExtendingClientActionClass"/>
+
+  <bean id="outgoingPointcut" class="org.springframework.aop.support.ComposablePointcut">
+    <constructor-arg index="0" ref="outputAnnotationPointcut"/>
+    <constructor-arg index="1" ref="outputActionAnnotationPointcut"/>
+  </bean>
+
+  <bean id="outputAnnotationPointcut"
+        class="org.springframework.aop.support.annotation.AnnotationClassFilter">
+    <constructor-arg index="0" value="pl.bristleback.server.bristle.api.annotations.ClientActionClass"/>
+  </bean>
+
+  <bean id="outputActionAnnotationPointcut"
+        class="org.springframework.aop.support.annotation.AnnotationMethodMatcher">
+    <constructor-arg index="0" value="pl.bristleback.server.bristle.api.annotations.ClientAction"/>
+  </bean>
+
+  <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+  <bean id="clientActionsInterceptor"
+        class="pl.bristleback.server.bristle.action.client.ClientActionProxyInterceptor"/>
+
+  <bean id="outputMessageProxyAdvisor"
+        class="org.springframework.aop.support.DefaultPointcutAdvisor">
+    <property name="pointcut" ref="outgoingPointcut"/>
+    <property name="advice" ref="clientActionsInterceptor"/>
+  </bean>
+
+
 </beans>
