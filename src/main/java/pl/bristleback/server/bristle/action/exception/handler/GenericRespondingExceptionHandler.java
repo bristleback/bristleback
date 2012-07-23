@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.action.exception.handler;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
@@ -17,8 +16,6 @@ import pl.bristleback.server.bristle.api.action.ActionExceptionHandler;
  */
 @Component
 public class GenericRespondingExceptionHandler implements ActionExceptionHandler<Exception> {
-  private static Logger log = Logger.getLogger(GenericRespondingExceptionHandler.class.getName());
-
 
   @Override
   public void init(BristlebackConfig configuration) {
@@ -34,8 +31,6 @@ public class GenericRespondingExceptionHandler implements ActionExceptionHandler
   public ActionExecutionStage[] getHandledStages() {
     return new ActionExecutionStage[]{
       ActionExecutionStage.ACTION_EXTRACTION,
-      ActionExecutionStage.PARAMETERS_EXTRACTION,
-      ActionExecutionStage.ACTION_EXECUTION,
-      ActionExecutionStage.RESPONSE_CONSTRUCTION,};
+      ActionExecutionStage.RESPONSE_CONSTRUCTION};
   }
 }
