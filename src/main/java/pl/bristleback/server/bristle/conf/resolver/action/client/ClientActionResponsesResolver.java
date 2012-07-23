@@ -7,6 +7,8 @@ import pl.bristleback.server.bristle.utils.ReflectionUtils;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +31,14 @@ public class ClientActionResponsesResolver {
 
     Map<String, ClientActionSender> strategiesBeans = springIntegration.getBeansOfType(ClientActionSender.class);
     for (ClientActionSender strategy : strategiesBeans.values()) {
-      Class objectType = (Class) ReflectionUtils.getParameterTypes(strategy.getClass(), ClientActionSender.class)[0];
+      Type type = ReflectionUtils.getParameterTypes(strategy.getClass(), ClientActionSender.class)[0];
+      Class objectType;
+      if (type instanceof ParameterizedType) {
+        objectType = (Class) ((ParameterizedType) type).getRawType();
+      } else {
+        objectType = (Class) type;
+      }
+
       strategies.put(objectType, strategy);
     }
 

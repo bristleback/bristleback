@@ -1,16 +1,14 @@
 package pl.bristleback.server.bristle.conf.resolver.action.client;
 
-import org.apache.commons.lang.StringUtils;
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.client.ClientActionInformation;
 import pl.bristleback.server.bristle.action.client.ClientActionParameterInformation;
+import pl.bristleback.server.bristle.action.client.ClientActionUtils;
 import pl.bristleback.server.bristle.action.client.strategy.ClientActionResponseStrategies;
 import pl.bristleback.server.bristle.api.SerializationEngine;
 import pl.bristleback.server.bristle.api.SerializationResolver;
 import pl.bristleback.server.bristle.api.action.ClientActionSender;
 import pl.bristleback.server.bristle.api.annotations.Bind;
-import pl.bristleback.server.bristle.api.annotations.ClientAction;
 import pl.bristleback.server.bristle.conf.resolver.serialization.SerializationInputResolver;
 import pl.bristleback.server.bristle.exceptions.SerializationResolvingException;
 import pl.bristleback.server.bristle.message.BristleMessage;
@@ -52,8 +50,8 @@ public class ClientActionResolver {
   private ClientActionResponseStrategies responseStrategies;
 
   public ClientActionInformation prepareActionInformation(String actionClassName, Method actionMethod) {
-    String actionName = resolveActionName(actionMethod);
-    String fullName = resolveFullName(actionName, actionClassName);
+    String actionName = ClientActionUtils.resolveActionName(actionMethod);
+    String fullName = ClientActionUtils.resolveFullName(actionName, actionClassName);
 
     List<ClientActionParameterInformation> parameters = resolveActionParameters(actionMethod);
     Object actionSerialization = resolveActionSerializationInformation(actionMethod, parameters);
@@ -156,17 +154,5 @@ public class ClientActionResolver {
 
   private Bind findBindAnnotation(Annotation[] parameterAnnotations) {
     return ReflectionUtils.findAnnotation(parameterAnnotations, Bind.class);
-  }
-
-  private String resolveFullName(String actionName, String actionClassName) {
-    return actionClassName + pl.bristleback.server.bristle.utils.StringUtils.DOT_AS_STRING + actionName;
-  }
-
-  private String resolveActionName(Method actionMethod) {
-    ClientAction actionAnnotation = AnnotationUtils.findAnnotation(actionMethod, ClientAction.class);
-    if (StringUtils.isNotBlank(actionAnnotation.value())) {
-      return actionAnnotation.value();
-    }
-    return actionMethod.getName();
   }
 }

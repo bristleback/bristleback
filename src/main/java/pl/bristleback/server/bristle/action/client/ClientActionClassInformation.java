@@ -1,7 +1,6 @@
 package pl.bristleback.server.bristle.action.client;
 
 import org.apache.log4j.Logger;
-import pl.bristleback.server.bristle.api.annotations.ClientAction;
 import pl.bristleback.server.bristle.exceptions.ClientActionException;
 
 import java.lang.reflect.Method;
@@ -39,16 +38,8 @@ public class ClientActionClassInformation {
   }
 
   public ClientActionInformation getClientAction(Method action) {
-    String actionName = getActionName(action);
+    String actionName = ClientActionUtils.resolveActionName(action);
     return getClientAction(actionName);
-  }
-
-  private String getActionName(Method action) {
-    ClientAction actionAnnotation = action.getAnnotation(ClientAction.class);
-    if (actionAnnotation != null) {
-      return actionAnnotation.value();
-    }
-    return action.getName();
   }
 
   public Map<String, ClientActionInformation> getClientActions() {
