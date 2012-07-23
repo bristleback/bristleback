@@ -29,7 +29,8 @@ public class ResponseResolver {
     Action actionAnnotation = action.getAnnotation(Action.class);
     ActionResponseInformation responseInformation = new ActionResponseInformation();
 
-    if (action.getReturnType().equals(Void.TYPE)) {
+    Class<?> actionReturnType = action.getReturnType();
+    if (actionReturnType.equals(Void.class) || actionReturnType.equals(Void.TYPE)) {
       responseInformation.setVoidResponse(true);
     }
 
