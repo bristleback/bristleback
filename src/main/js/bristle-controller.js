@@ -26,7 +26,7 @@ Bristleback.controller.ActionMessage = function(controller, message) {
 
   this.callback = controller.callbacks[message.id];
   this.content = message.payload;
-  this.exceptionType = messageElements.length > 0 ? this.content.type : undefined;
+  this.exceptionType = messageElements.length > 1 ? this.content.type : undefined;
 };
 
 //------------- EXCEPTION HANDLER PROTOTYPE
