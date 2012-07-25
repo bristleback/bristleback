@@ -2,9 +2,6 @@ package pl.bristleback.server.bristle.utils;
 
 import org.apache.log4j.Logger;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-
 /**
  * //@todo class description
  * <p/>
@@ -28,20 +25,6 @@ public final class StringUtils {
 
   private StringUtils() {
     throw new UnsupportedOperationException();
-  }
-
-  /**
-   * URL-decodes {@code value} using the UTF-8 charset. Using this method eliminates the need for
-   * a try/catch since UTF-8 is guaranteed to exist.
-   *
-   * @see java.net.URLDecoder#decode(String, String)
-   */
-  public static String urlDecode(String value) {
-    try {
-      return URLDecoder.decode(value, "UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException("Unsupported encoding?  UTF-8?  That's unpossible.", e);
-    }
   }
 
   public static String[] getPropertyChain(String fullPropertyPath) {
