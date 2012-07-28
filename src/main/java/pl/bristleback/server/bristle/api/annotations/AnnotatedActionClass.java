@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
 public @interface AnnotatedActionClass {
 
-  String name();
+  String name() default "";
 
   String[] requiredRights() default {};
 }

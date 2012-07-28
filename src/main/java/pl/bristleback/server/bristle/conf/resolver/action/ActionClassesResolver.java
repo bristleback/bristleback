@@ -1,5 +1,6 @@
 package pl.bristleback.server.bristle.conf.resolver.action;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionClassInformation;
@@ -57,7 +58,7 @@ public class ActionClassesResolver {
   private ActionClassInformation prepareActionClass(Object actionClass, String actionClassBeanName) {
     ActionClassInformation actionClassInformation = new ActionClassInformation();
     AnnotatedActionClass actionClassAnnotation = actionClass.getClass().getAnnotation(AnnotatedActionClass.class);
-    String actionClassName = actionClassAnnotation.name();
+    String actionClassName = resolveActionClassName(actionClass, actionClassAnnotation);
     actionClassInformation.setName(actionClassName);
     actionClassInformation.setSpringBeanName(actionClassBeanName);
     actionClassInformation.setType(actionClass.getClass());
@@ -67,6 +68,14 @@ public class ActionClassesResolver {
       actionClassInformation.setSingletonActionClassInstance(actionClass);
     }
     return actionClassInformation;
+  }
+
+  private String resolveActionClassName(Object actionClass, AnnotatedActionClass actionClassAnnotation) {
+    String actionClassName = actionClassAnnotation.name();
+    if (StringUtils.isBlank(actionClassName)) {
+      actionClassName = actionClass.getClass().getSimpleName();
+    }
+    return actionClassName;
   }
 
   private void prepareActions(Object actionClass, ActionClassInformation actionClassInformation) {

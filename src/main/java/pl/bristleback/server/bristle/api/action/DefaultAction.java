@@ -11,5 +11,5 @@ import pl.bristleback.server.bristle.api.users.IdentifiedUser;
  */
 public interface DefaultAction<U extends IdentifiedUser, T> {
 
-  Object executeDefault(U user, T message);
+  Object executeDefault(U user, T payload);
 } 
