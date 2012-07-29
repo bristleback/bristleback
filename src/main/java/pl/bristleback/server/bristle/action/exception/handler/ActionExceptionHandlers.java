@@ -10,6 +10,7 @@ import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration
 import pl.bristleback.server.bristle.utils.ReflectionUtils;
 
 import javax.inject.Inject;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,6 +59,13 @@ public final class ActionExceptionHandlers {
     return handlerGroups.get(stage).getHandler(exception.getClass());
   }
 
+  private Exception getRealCause(Exception exception) {
+    if (exception instanceof InvocationTargetException) {
+      return (Exception) exception.getCause();
+    }
+    return exception;
+  }
+
   public <T extends Exception> void putHandler(Class<T> exceptionType, ActionExceptionHandler<T> handler) {
     for (ActionExecutionStage stage : handler.getHandledStages()) {
       handlerGroups.get(stage).putHandler(exceptionType, handler);
@@ -67,8 +75,9 @@ public final class ActionExceptionHandlers {
   @SuppressWarnings("unchecked")
   public void handleException(Exception exception, ActionExecutionContext context) {
     try {
-      ActionExceptionHandler handler = getHandler(exception, context.getStage());
-      Object exceptionalResponse = handler.handleException(exception, context);
+      Exception realCause = getRealCause(exception);
+      ActionExceptionHandler handler = getHandler(realCause, context.getStage());
+      Object exceptionalResponse = handler.handleException(realCause, context);
       responseHelper.sendException(exceptionalResponse, context);
     } catch (Exception e) {
       log.debug("Error while handling exception in action class, stage: " + context.getStage(), e);
