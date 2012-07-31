@@ -24,13 +24,6 @@
       </includes>
     </fileSet>
     <fileSet>
-      <directory>src/main/js/flash-bridge</directory>
-      <outputDirectory>/js/flash-bridge</outputDirectory>
-      <includes>
-        <include>*.swf</include>
-      </includes>
-    </fileSet>
-    <fileSet>
       <directory>${project.build.directory}</directory>
       <outputDirectory>/js</outputDirectory>
       <includes>

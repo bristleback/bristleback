@@ -1,11 +1,8 @@
 //3rd party libraries interface
 
-var WEB_SOCKET_SWF_LOCATION = {};
+var TrimPath = {};
 
-var jws = {
-  jWebSocketJSONClient : function() {
-  }
-};
+var JSON = {};
 
 var jQuery = {
   parseJSON : function(json) {

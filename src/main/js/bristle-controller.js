@@ -35,10 +35,12 @@ Bristleback.controller.ActionExceptionHandlerFunctions = function() {
 
   this.setDefaultExceptionHandler = function(handlerFunction) {
     this.defaultExceptionHandler = handlerFunction;
+    return this;
   };
 
   this.setExceptionHandler = function(exceptionType, handlerFunction) {
     this.exceptionHandlers[exceptionType] = handlerFunction;
+    return this;
   };
 
   this.handleException = function(exceptionMessage) {

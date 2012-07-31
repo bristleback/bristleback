@@ -55,7 +55,7 @@
             debug="false" output="target/bristle.js">
 
       <externs dir="${basedir}/src/main/js">
-        <!-- <file name="externs.js"/>-->
+        <file name="externs.js"/>
       </externs>
 
       <sources dir="${basedir}/src/main/js">

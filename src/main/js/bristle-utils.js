@@ -22,7 +22,7 @@ Bristleback.utils.deepCopy = function(p, c) {
   for (var i in p) {
     if (typeof p[i] === 'object') {
       c[i] = (p[i].constructor === Array) ? [] : {};
-      Bristleback.Utils.deepCopy(p[i], c[i]);
+      Bristleback.utils.deepCopy(p[i], c[i]);
     } else {
       if (typeof p[i] !== 'function') {
         c[i] = p[i];
