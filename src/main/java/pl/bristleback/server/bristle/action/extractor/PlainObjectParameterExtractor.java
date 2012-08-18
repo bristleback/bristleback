@@ -2,11 +2,11 @@ package pl.bristleback.server.bristle.action.extractor;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
+import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionParameterInformation;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.SerializationEngine;
 import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -28,7 +28,7 @@ public class PlainObjectParameterExtractor implements ActionParameterExtractor {
 
   @Override
   @SuppressWarnings("unchecked")
-  public Object fromTextContent(String text, ActionParameterInformation parameterInformation, IdentifiedUser user) throws Exception {
+  public Object fromTextContent(String text, ActionParameterInformation parameterInformation, ActionExecutionContext context) throws Exception {
     return serializationEngine.deserialize(text, parameterInformation.getPropertySerialization());
   }
 

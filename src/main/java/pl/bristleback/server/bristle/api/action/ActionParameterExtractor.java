@@ -1,8 +1,8 @@
 package pl.bristleback.server.bristle.api.action;
 
+import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionParameterInformation;
 import pl.bristleback.server.bristle.api.ConfigurationAware;
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 
 /**
  * //@todo class description
@@ -13,7 +13,7 @@ import pl.bristleback.server.bristle.api.users.IdentifiedUser;
  */
 public interface ActionParameterExtractor<T> extends ConfigurationAware {
 
-  T fromTextContent(String text, ActionParameterInformation parameterInformation, IdentifiedUser user) throws Exception;
+  T fromTextContent(String text, ActionParameterInformation parameterInformation, ActionExecutionContext context) throws Exception;
 
   boolean isDeserializationRequired();
 }

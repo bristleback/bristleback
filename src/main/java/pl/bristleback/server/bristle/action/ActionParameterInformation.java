@@ -2,7 +2,6 @@ package pl.bristleback.server.bristle.action;
 
 import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 
 /**
  * //@todo class description
@@ -17,8 +16,8 @@ public class ActionParameterInformation {
   private Object propertySerialization;
   private ActionParameterExtractor extractor;
 
-  public Object resolveParameter(String message, IdentifiedUser user) throws Exception {
-    return extractor.fromTextContent(message, this, user);
+  public Object resolveParameter(String message, ActionExecutionContext context) throws Exception {
+    return extractor.fromTextContent(message, this, context);
   }
 
   public ActionParameterExtractor getExtractor() {

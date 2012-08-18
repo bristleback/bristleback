@@ -2,6 +2,7 @@ package pl.bristleback.server.bristle.action.extractor;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
+import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionParameterInformation;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
@@ -20,8 +21,8 @@ public class IdentifiedUserExtractor implements ActionParameterExtractor<Identif
 
 
   @Override
-  public IdentifiedUser fromTextContent(String text, ActionParameterInformation parameterInformation, IdentifiedUser user) throws Exception {
-    return user;
+  public IdentifiedUser fromTextContent(String text, ActionParameterInformation parameterInformation, ActionExecutionContext context) throws Exception {
+    return context.getUser();
   }
 
   @Override

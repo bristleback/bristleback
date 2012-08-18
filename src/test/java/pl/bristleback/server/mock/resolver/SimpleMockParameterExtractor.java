@@ -2,10 +2,10 @@ package pl.bristleback.server.mock.resolver;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
+import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionParameterInformation;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 import pl.bristleback.server.mock.beans.NonDefaultSerializedMockBean;
 
 /**
@@ -20,7 +20,7 @@ public class SimpleMockParameterExtractor implements ActionParameterExtractor<No
   private static Logger log = Logger.getLogger(SimpleMockParameterExtractor.class.getName());
 
   @Override
-  public NonDefaultSerializedMockBean fromTextContent(String text, ActionParameterInformation parameterInformation, IdentifiedUser user) throws Exception {
+  public NonDefaultSerializedMockBean fromTextContent(String text, ActionParameterInformation parameterInformation, ActionExecutionContext context) throws Exception {
     NonDefaultSerializedMockBean bean = new NonDefaultSerializedMockBean();
     bean.setProperty1(3);
     bean.setProperty2(text);
