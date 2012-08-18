@@ -3,6 +3,9 @@ package pl.bristleback.server.bristle.action;
 import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+
 /**
  * //@todo class description
  * <p/>
@@ -13,8 +16,15 @@ import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
 public class ActionParameterInformation {
   private static Logger log = Logger.getLogger(ActionParameterInformation.class.getName());
 
+  private Type parameterType;
+  private Annotation[] parameterAnnotations;
   private Object propertySerialization;
   private ActionParameterExtractor extractor;
+
+  public ActionParameterInformation(Type parameterType, Annotation[] parameterAnnotations) {
+    this.parameterType = parameterType;
+    this.parameterAnnotations = parameterAnnotations;
+  }
 
   public Object resolveParameter(String message, ActionExecutionContext context) throws Exception {
     return extractor.fromTextContent(message, this, context);
@@ -34,6 +44,14 @@ public class ActionParameterInformation {
 
   public void setPropertySerialization(Object propertySerialization) {
     this.propertySerialization = propertySerialization;
+  }
+
+  public Type getParameterType() {
+    return parameterType;
+  }
+
+  public Annotation[] getParameterAnnotations() {
+    return parameterAnnotations;
   }
 
   @Override

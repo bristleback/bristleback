@@ -49,7 +49,7 @@ public class ParameterResolver {
   }
 
   public ActionParameterInformation prepareActionParameter(Type parameterType, Annotation[] parameterAnnotations) {
-    ActionParameterInformation parameterInformation = new ActionParameterInformation();
+    ActionParameterInformation parameterInformation = new ActionParameterInformation(parameterType, parameterAnnotations);
 
     resolveParamExtractor(parameterInformation, parameterType);
     resolveParameterDetails(parameterInformation, parameterType, parameterAnnotations);
