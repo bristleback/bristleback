@@ -20,8 +20,7 @@ public final class App {
   public static void main(String[] args) {
     ApplicationContext applicationContext = new ClassPathXmlApplicationContext(CONFIG_FILES);
 
-    StandaloneServerRunner runner = (StandaloneServerRunner) applicationContext.getBean("bristlebackApp");
-    runner.startServer();
+    StandaloneServerRunner runner = (StandaloneServerRunner) applicationContext.getBean("bristlebackStandaloneServer");
 
     Scanner in = new Scanner(System.in);
     String value = in.nextLine();

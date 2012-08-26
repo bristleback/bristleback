@@ -7,7 +7,17 @@ import pl.bristleback.server.bristle.api.users.IdentifiedUser;
  * Pawel Machowski
  * created at 01.05.12 14:12
  */
-public class AllUsersCondition implements SendCondition<IdentifiedUser> {
+public final class AllUsersCondition implements SendCondition<IdentifiedUser> {
+
+  private static final AllUsersCondition INSTANCE = new AllUsersCondition();
+
+  private AllUsersCondition() {
+  }
+
+  public static AllUsersCondition getInstance() {
+    return INSTANCE;
+  }
+
   @Override
   public boolean isApplicable(IdentifiedUser user) {
     return true;
