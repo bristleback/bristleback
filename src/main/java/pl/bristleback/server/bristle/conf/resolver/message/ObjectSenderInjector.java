@@ -12,7 +12,9 @@ import pl.bristleback.server.bristle.serialization.SerializationBundle;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * //@todo class description
@@ -26,7 +28,7 @@ public class ObjectSenderInjector implements BeanPostProcessor, ApplicationConte
 
   private ApplicationContext applicationContext;
 
-  private List<ConditionObjectSender> registeredSenders = new ArrayList<ConditionObjectSender>();
+  private Map<Field, ConditionObjectSender> registeredSenders = new HashMap<Field, ConditionObjectSender>();
 
   @Override
   public Object postProcessBeforeInitialization(Object bean, String beanName) {
@@ -54,18 +56,21 @@ public class ObjectSenderInjector implements BeanPostProcessor, ApplicationConte
   }
 
   private ConditionObjectSender resolveSender(Field field) {
+    if (registeredSenders.containsKey(field)) {
+      return registeredSenders.get(field);
+    }
     ConditionObjectSender conditionObjectSender = applicationContext.getBean(ConditionObjectSender.class);
     SerializationBundle serializationBundle = new SerializationBundle();
     serializationBundle.setField(field);
 
     conditionObjectSender.setSerializationBundle(serializationBundle);
-    registeredSenders.add(conditionObjectSender);
+    registeredSenders.put(field, conditionObjectSender);
 
     return conditionObjectSender;
   }
 
   public List<ConditionObjectSender> getRegisteredSenders() {
-    return registeredSenders;
+    return new ArrayList<ConditionObjectSender>(registeredSenders.values());
   }
 
   @Override
