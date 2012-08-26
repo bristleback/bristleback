@@ -32,7 +32,6 @@ public class BristlebackServerMessagesBeanDefinitionParser extends AbstractSingl
   }
 
   protected String resolveId(Element element, AbstractBeanDefinition definition, ParserContext parserContext) {
-
     return "bristle.system.server.messages.id";
   }
 

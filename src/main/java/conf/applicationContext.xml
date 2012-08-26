@@ -17,16 +17,13 @@
   <!--BRISTLEBACK BEANS-->
 
   <bb:serverMessages/>
-  <!--
-<bb:standaloneServer id="server" configurationResolver="initPojoConfigResolver"/>-->
 
   <bean id="initPojoConfigResolver" class="pl.bristleback.server.bristle.conf.resolver.init.PojoConfigResolver">
     <!--<property name="serializationEngine" value="system.jacksonSerializer"/>-->
+    <property name="engineName" value="system.engine.jetty.servlet"/>
   </bean>
 
-  <bean id="bristlebackApp" class="pl.bristleback.server.bristle.app.StandaloneServerRunner">
-    <property name="initialConfigurationResolver" ref="initPojoConfigResolver"/>
-  </bean>
+  <bb:standaloneServer configurationResolver="initPojoConfigResolver"/>
 
   <!-- APPLICATION BEANS -->
 

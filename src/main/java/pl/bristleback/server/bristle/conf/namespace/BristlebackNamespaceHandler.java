@@ -12,5 +12,7 @@ import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 public class BristlebackNamespaceHandler extends NamespaceHandlerSupport {
   public void init() {
     registerBeanDefinitionParser("serverMessages", new BristlebackServerMessagesBeanDefinitionParser());
+    registerBeanDefinitionParser("standaloneServer", new BristlebackStandaloneServerBeanDefinitionParser());
+    registerBeanDefinitionParser("servlet", new BristlebackServletBeanDefinitionParser());
   }
 }
