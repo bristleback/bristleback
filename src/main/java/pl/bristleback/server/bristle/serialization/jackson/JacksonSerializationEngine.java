@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.SerializationEngine;
 import pl.bristleback.server.bristle.api.SerializationResolver;
-import pl.bristleback.server.bristle.serialization.FormatType;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -51,11 +50,6 @@ public class JacksonSerializationEngine implements SerializationEngine<JacksonSe
   @Override
   public String serialize(Object object) throws Exception {
     return mapper.writeValueAsString(object);
-  }
-
-  @Override
-  public FormatType getFormatType() {
-    return FormatType.JSON;
   }
 
   public void setSerializationResolver(SerializationResolver<JacksonSerialization> serializationResolver) {

@@ -19,8 +19,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Pawel Machowski
- * created at 03.05.12 16:06
+ * @author Pawel Machowski
+ * @author Wojciech Niemiec
+ *         created at 03.05.12 16:06
  */
 public class ConditionObjectSender {
   private Logger log = Logger.getLogger(ConditionObjectSender.class.getName());

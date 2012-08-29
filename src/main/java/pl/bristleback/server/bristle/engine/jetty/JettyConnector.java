@@ -27,7 +27,6 @@ public class JettyConnector extends AbstractConnector implements WebSocket, WebS
     this.connection = newConnection;
   }
 
-  //connector calls on close method, then in server engine we call stop()
   public void onClose(int i, String s) {
     getEngine().onConnectionClose(this);
   }

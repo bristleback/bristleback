@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Pawel Machowski
- * created at 01.05.12 14:04
+ * @author Pawel Machowski
+ *         created at 01.05.12 14:04
  */
 @Component
 public class UsersContainer {

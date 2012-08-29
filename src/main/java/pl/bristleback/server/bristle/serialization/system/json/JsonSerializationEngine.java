@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.SerializationEngine;
 import pl.bristleback.server.bristle.api.SerializationResolver;
-import pl.bristleback.server.bristle.serialization.FormatType;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
 
 import javax.inject.Inject;
@@ -54,10 +53,5 @@ public class JsonSerializationEngine implements SerializationEngine<PropertySeri
   @Override
   public SerializationResolver<PropertySerialization> getSerializationResolver() {
     return serializationResolver;
-  }
-
-  @Override
-  public FormatType getFormatType() {
-    return FormatType.JSON;
   }
 }

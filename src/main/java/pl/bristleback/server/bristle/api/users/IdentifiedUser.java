@@ -1,15 +1,17 @@
 package pl.bristleback.server.bristle.api.users;
 
 /**
- * Pawel Machowski
- * created at 01.05.12 14:00
+ * //TODO - class description
+ *
+ * @author Pawel Machowski
+ *         created at 01.05.12 14:00
  */
 public interface IdentifiedUser {
 
   /**
-   * must return unique id number for each connected user
+   * Must return unique id number for each connected user
    *
-   * @return
+   * @return id number of connected user.
    */
   String getId();
 }

@@ -21,8 +21,6 @@ public interface BristlebackConfig {
 
   ServerEngine getServerEngine();
 
-  DataController getDefaultDataController();
-
   DataController getDataController(String controllerName);
 
   DataControllers getDataControllers();

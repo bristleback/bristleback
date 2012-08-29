@@ -26,19 +26,21 @@ public class ConnectionStateListenerChain {
     this.listeners = listeners;
   }
 
+  @SuppressWarnings("unchecked")
   public void connectorStarted(IdentifiedUser user) {
     processListeners = true;
     Iterator<ConnectionStateListener> it = listeners.iterator();
     while (processListeners && it.hasNext()) {
-      it.next().connectorStarted(user);
+      it.next().userConnected(user);
     }
   }
 
+  @SuppressWarnings("unchecked")
   public void connectorStopped(IdentifiedUser user) {
     processListeners = true;
     Iterator<ConnectionStateListener> it = listeners.iterator();
     while (processListeners && it.hasNext()) {
-      it.next().connectorStopped(user);
+      it.next().userDisconnected(user);
     }
   }
 

@@ -11,9 +11,7 @@ import pl.bristleback.server.bristle.api.users.IdentifiedUser;
  */
 public interface ConnectionStateListener<T extends IdentifiedUser> {
 
-  void init(BristlebackConfig configuration);
+  void userConnected(T identifiedUser);
 
-  void connectorStarted(T identifiedUser);
-
-  void connectorStopped(T identifiedUser);
+  void userDisconnected(T identifiedUser);
 }

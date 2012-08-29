@@ -42,10 +42,6 @@ public class BristleConfig implements BristlebackConfig {
     this.serverEngine = serverEngine;
   }
 
-  public DataController getDefaultDataController() {
-    return dataControllers.getDefaultController();
-  }
-
   public DataController getDataController(String controllerName) {
     return dataControllers.getDataController(controllerName);
   }

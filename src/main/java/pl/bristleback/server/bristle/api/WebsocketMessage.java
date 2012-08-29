@@ -13,8 +13,6 @@ import java.util.List;
  */
 public interface WebsocketMessage<T> {
 
-  String ROOT_CONTENT_KEY = "";
-
   MessageType getMessageType();
 
   List<WebsocketConnector> getRecipients();

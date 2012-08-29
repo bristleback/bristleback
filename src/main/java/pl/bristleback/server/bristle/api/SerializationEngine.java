@@ -1,7 +1,5 @@
 package pl.bristleback.server.bristle.api;
 
-import pl.bristleback.server.bristle.serialization.FormatType;
-
 public interface SerializationEngine<T> {
 
   SerializationResolver<T> getSerializationResolver();
@@ -13,6 +11,4 @@ public interface SerializationEngine<T> {
   String serialize(Object object, T serialization) throws Exception;
 
   String serialize(Object object) throws Exception;
-
-  FormatType getFormatType();
 }
