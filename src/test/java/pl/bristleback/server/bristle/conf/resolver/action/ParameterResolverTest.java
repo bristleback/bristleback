@@ -6,10 +6,9 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pl.bristleback.server.bristle.action.ActionParameterInformation;
-import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.engine.base.users.DefaultUser;
-import pl.bristleback.server.mock.beans.SpringMockBeansFactory;
 import pl.bristleback.server.mock.action.SimpleActionClass;
+import pl.bristleback.server.mock.beans.SpringMockBeansFactory;
 
 import javax.inject.Inject;
 import java.lang.annotation.Annotation;

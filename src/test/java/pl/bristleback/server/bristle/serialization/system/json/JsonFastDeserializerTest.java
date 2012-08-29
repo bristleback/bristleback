@@ -92,7 +92,7 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
   public void deserializeRawFormatException() throws Exception {
     //given
     String serializedForm = "33s2";
-    Type type =PropertyUtils.getDeclaredField(JsonFastDeserializerTest.class, "rawPropertyLong");
+    Type type = PropertyUtils.getDeclaredField(JsonFastDeserializerTest.class, "rawPropertyLong");
     PropertySerialization serialization = serializationResolver.resolveDefaultSerialization(type);
 
     //when

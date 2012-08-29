@@ -9,8 +9,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pl.bristleback.server.bristle.action.ActionClassInformation;
 import pl.bristleback.server.bristle.action.ActionsContainer;
 import pl.bristleback.server.bristle.exceptions.BrokenActionProtocolException;
-import pl.bristleback.server.mock.beans.SpringMockBeansFactory;
 import pl.bristleback.server.mock.action.SimpleActionClass;
+import pl.bristleback.server.mock.beans.SpringMockBeansFactory;
 
 import javax.inject.Inject;
 

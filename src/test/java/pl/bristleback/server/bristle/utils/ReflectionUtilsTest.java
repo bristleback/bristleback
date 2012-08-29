@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
-import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.action.ActionExceptionHandler;
 import pl.bristleback.server.bristle.api.annotations.Bind;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
@@ -90,10 +89,6 @@ public class ReflectionUtilsTest {
   }
 
   class BaseExceptionHandler implements ActionExceptionHandler<RuntimeException> {
-    @Override
-    public void init(BristlebackConfig configuration) {
-
-    }
 
     @Override
     public Object handleException(RuntimeException e, ActionExecutionContext context) {
@@ -115,10 +110,6 @@ public class ReflectionUtilsTest {
   }
 
   class SubExceptionHandler2 extends AbstractExceptionHandler<IllegalAccessException> {
-    @Override
-    public void init(BristlebackConfig configuration) {
-
-    }
 
     @Override
     public Object handleException(IllegalAccessException e, ActionExecutionContext context) {

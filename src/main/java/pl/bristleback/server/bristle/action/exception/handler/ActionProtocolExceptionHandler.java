@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
 import pl.bristleback.server.bristle.action.response.ExceptionResponse;
-import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.action.ActionExceptionHandler;
 import pl.bristleback.server.bristle.exceptions.BrokenActionProtocolException;
 
@@ -19,12 +18,6 @@ import pl.bristleback.server.bristle.exceptions.BrokenActionProtocolException;
 @Component
 public class ActionProtocolExceptionHandler implements ActionExceptionHandler<BrokenActionProtocolException> {
   private static Logger log = Logger.getLogger(ActionProtocolExceptionHandler.class.getName());
-
-
-  @Override
-  public void init(BristlebackConfig configuration) {
-
-  }
 
   @Override
   public Object handleException(BrokenActionProtocolException e, ActionExecutionContext context) {

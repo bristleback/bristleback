@@ -8,15 +8,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pl.bristleback.server.bristle.api.annotations.Bind;
 import pl.bristleback.server.bristle.serialization.SerializationInput;
+import pl.bristleback.server.mock.action.SimpleActionClass;
 import pl.bristleback.server.mock.beans.SimpleMockBean;
 import pl.bristleback.server.mock.beans.SpringMockBeansFactory;
-import pl.bristleback.server.mock.action.SimpleActionClass;
 
 import javax.inject.Inject;
 import java.lang.reflect.Method;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 /**
@@ -46,8 +44,8 @@ public class SerializationInputResolverTest {
   public void correctlyResolvedUsingBindAnnotationRawType() throws Exception {
     //given
     Method defaultAction = SimpleActionClass.class.getMethod("nonDefaultAction", String.class);
-    Bind bindAnnotation = (Bind)defaultAction.getParameterAnnotations()[0][0];
-   SerializationInput serializationInput =serializationInputResolver.resolveInputInformation(bindAnnotation);
+    Bind bindAnnotation = (Bind) defaultAction.getParameterAnnotations()[0][0];
+    SerializationInput serializationInput = serializationInputResolver.resolveInputInformation(bindAnnotation);
 
     assertTrue(serializationInput.containsNonDefaultProperties());
     assertTrue(serializationInput.getPropertyInformation().isRequired());
@@ -57,8 +55,8 @@ public class SerializationInputResolverTest {
   public void correctlyResolvedUsingBindAnnotationWithNonDefaultProperties() throws Exception {
     //given
     Method defaultAction = SimpleActionClass.class.getMethod("nonDefaultActionWithBind", SimpleMockBean.class);
-    Bind bindAnnotation = (Bind)defaultAction.getParameterAnnotations()[0][0];
-   SerializationInput serializationInput =serializationInputResolver.resolveInputInformation(bindAnnotation);
+    Bind bindAnnotation = (Bind) defaultAction.getParameterAnnotations()[0][0];
+    SerializationInput serializationInput = serializationInputResolver.resolveInputInformation(bindAnnotation);
 
     assertTrue(serializationInput.containsNonDefaultProperties());
     assertTrue(serializationInput.getPropertyInformation().isRequired());

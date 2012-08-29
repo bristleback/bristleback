@@ -9,8 +9,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pl.bristleback.server.bristle.action.response.ActionResponseInformation;
 import pl.bristleback.server.bristle.api.action.ActionInformation;
 import pl.bristleback.server.bristle.engine.base.users.DefaultUser;
-import pl.bristleback.server.mock.beans.SpringMockBeansFactory;
 import pl.bristleback.server.mock.action.SimpleActionClass;
+import pl.bristleback.server.mock.beans.SpringMockBeansFactory;
 
 import javax.inject.Inject;
 import java.lang.reflect.Method;

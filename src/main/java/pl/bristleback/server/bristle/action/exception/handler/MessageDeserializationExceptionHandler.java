@@ -4,13 +4,10 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
-import pl.bristleback.server.bristle.api.BristlebackConfig;
-import pl.bristleback.server.bristle.api.ServerEngine;
 import pl.bristleback.server.bristle.api.action.ActionExceptionHandler;
 import pl.bristleback.server.bristle.authorisation.user.UsersContainer;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
  * //@todo class description
@@ -24,16 +21,7 @@ public class MessageDeserializationExceptionHandler implements ActionExceptionHa
   private static Logger log = Logger.getLogger(MessageDeserializationExceptionHandler.class.getName());
 
   @Inject
-  @Named("serverEngine")
-  private ServerEngine serverEngine;
-
-  @Inject
   private UsersContainer connectedUsers;
-
-  @Override
-  public void init(BristlebackConfig configuration) {
-    serverEngine = configuration.getServerEngine();
-  }
 
   @Override
   public Object handleException(Exception e, ActionExecutionContext context) {

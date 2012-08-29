@@ -20,11 +20,6 @@ public class NumberFormatBindingExceptionHandler implements ActionExceptionHandl
   private static Logger log = Logger.getLogger(NumberFormatBindingExceptionHandler.class.getName());
 
   @Override
-  public void init(BristlebackConfig configuration) {
-
-  }
-
-  @Override
   public Object handleException(NumberFormatException e, ActionExecutionContext context) {
     return new ExceptionResponse("sample.NumberFormatException");
   }

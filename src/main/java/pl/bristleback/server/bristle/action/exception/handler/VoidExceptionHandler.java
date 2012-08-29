@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
-import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.action.ActionExceptionHandler;
 
 /**
@@ -21,11 +20,6 @@ public class VoidExceptionHandler implements ActionExceptionHandler<Exception> {
   public static final VoidExceptionHandler HANDLER = new VoidExceptionHandler();
 
   private static final ActionExecutionStage[] USAGE = new ActionExecutionStage[0];
-
-  @Override
-  public void init(BristlebackConfig configuration) {
-
-  }
 
   @Override
   public Void handleException(Exception e, ActionExecutionContext context) {

@@ -2,7 +2,6 @@ package pl.bristleback.server.bristle.api.action;
 
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
-import pl.bristleback.server.bristle.api.BristlebackConfig;
 
 /**
  * //@todo class description
@@ -12,8 +11,6 @@ import pl.bristleback.server.bristle.api.BristlebackConfig;
  * @author Wojciech Niemiec
  */
 public interface ActionExceptionHandler<T extends Exception> {
-
-  void init(BristlebackConfig configuration);
 
   Object handleException(T e, ActionExecutionContext context);
 

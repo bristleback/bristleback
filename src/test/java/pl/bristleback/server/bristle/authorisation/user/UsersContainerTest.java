@@ -4,8 +4,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 import pl.bristleback.server.bristle.api.action.SendCondition;
+import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 
 import java.util.ArrayList;
 import java.util.List;
