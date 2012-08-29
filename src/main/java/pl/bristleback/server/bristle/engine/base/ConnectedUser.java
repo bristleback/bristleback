@@ -21,15 +21,7 @@ public class ConnectedUser {
     return user;
   }
 
-  public void setUser(IdentifiedUser user) {
-    this.user = user;
-  }
-
   public WebsocketConnector getConnector() {
     return connector;
-  }
-
-  public void setConnector(WebsocketConnector connector) {
-    this.connector = connector;
   }
 }

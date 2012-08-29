@@ -98,7 +98,7 @@ public class HttpRequestHandler {
       decoder = new WebSocket08FrameDecoder(maskPayload, true, maxFrameSize);
       encoder = new WebSocket08FrameEncoder(maskPayload);
     } else if (wsVersion.equals(WebsocketVersions.HIXIE_76.getVersionCode())) {
-      decoder = new WebSocket00FrameDecoder(new Long(maxFrameSize));
+      decoder = new WebSocket00FrameDecoder((long) maxFrameSize);
       encoder = new WebSocket00FrameEncoder();
     }
 

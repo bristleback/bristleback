@@ -16,6 +16,7 @@
 package pl.bristleback.server.bristle.engine.netty;
 
 
+import org.apache.log4j.Logger;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.ChannelStateEvent;
 import org.jboss.netty.channel.ExceptionEvent;
@@ -26,6 +27,8 @@ import org.jboss.netty.handler.codec.http.websocketx.WebSocketFrame;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 
 public class WebSocketServerHandler extends SimpleChannelUpstreamHandler {
+
+  private static Logger log = Logger.getLogger(WebSocketServerHandler.class.getName());
 
   private NettyServerEngine engine;
   private HttpRequestHandler httpRequestHandler;
@@ -57,7 +60,7 @@ public class WebSocketServerHandler extends SimpleChannelUpstreamHandler {
 
   public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e)
     throws Exception {
-    e.getCause().printStackTrace();
+    log.debug(e);
     e.getChannel().close();
   }
 }

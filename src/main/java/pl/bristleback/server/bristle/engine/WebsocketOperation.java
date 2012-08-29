@@ -29,8 +29,7 @@ public enum WebsocketOperation {
 
   CLOSE_FRAME(OperationCodes.CLOSE_FRAME_CODE) {
     public void performOperation(WebsocketConnector connector, UsersContainer usersContainer, Object data) {
-      connector.stop(); //possibly duplicated call to stop method in case of time
-      usersContainer.removeUser(connector);
+      connector.stop();
     }
   };
 

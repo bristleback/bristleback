@@ -8,6 +8,7 @@ import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.action.SendCondition;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 import pl.bristleback.server.bristle.api.users.UserFactory;
+import pl.bristleback.server.bristle.authorisation.conditions.AllUsersCondition;
 import pl.bristleback.server.bristle.engine.base.ConnectedUser;
 
 import javax.inject.Inject;
@@ -67,12 +68,7 @@ public class UsersContainer {
   }
 
   public List<WebsocketConnector> getConnectorsByUsers(List<IdentifiedUser> usersSubset) {
-    return getConnectorsByCondition(usersSubset, new SendCondition() {
-      @Override
-      public boolean isApplicable(IdentifiedUser user) {
-        return true; //all applicable
-      }
-    });
+    return getConnectorsByCondition(usersSubset, AllUsersCondition.getInstance());
   }
 
   public WebsocketConnector getConnectorByUser(IdentifiedUser user) {

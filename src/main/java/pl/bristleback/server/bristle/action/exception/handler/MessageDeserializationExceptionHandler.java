@@ -38,7 +38,7 @@ public class MessageDeserializationExceptionHandler implements ActionExceptionHa
   @Override
   public Object handleException(Exception e, ActionExecutionContext context) {
     log.error("exception while creating ActionMessage object, connection will be closed", e);
-    serverEngine.onConnectionClose(connectedUsers.getConnectorByUser(context.getUser()));
+    connectedUsers.getConnectorByUser(context.getUser()).stop();
     return null;
   }
 

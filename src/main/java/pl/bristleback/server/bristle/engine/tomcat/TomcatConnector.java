@@ -41,8 +41,6 @@ public class TomcatConnector extends MessageInbound implements WebsocketConnecto
 
     setByteBufferMaxSize(engine.getEngineConfiguration().getMaxFrameSize());
     setCharBufferMaxSize(engine.getEngineConfiguration().getMaxFrameSize());
-    // setMaxIdleTime(engineConfiguration.getTimeout());
-
   }
 
   public void stop() {
@@ -51,8 +49,7 @@ public class TomcatConnector extends MessageInbound implements WebsocketConnecto
       connection.close(0, bb);
       getEngine().onConnectionClose(this);
     } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      log.debug("Exception while closing tomcat connector", e);
     }
   }
 

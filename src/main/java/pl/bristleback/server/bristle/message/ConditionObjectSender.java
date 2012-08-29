@@ -15,6 +15,7 @@ import pl.bristleback.server.bristle.exceptions.SerializationResolvingException;
 import pl.bristleback.server.bristle.serialization.MessageType;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -49,14 +50,9 @@ public class ConditionObjectSender {
     queueNewMessage(websocketMessage);
   }
 
-  public void sendMessage(BristleMessage message, SendCondition sendCondition) {
+  public void sendMessage(BristleMessage message, SendCondition sendCondition) throws Exception {
     List<WebsocketConnector> connectors = connectedUsers().getConnectorsByCondition(sendCondition);
-    //TODO checked exception can't be thrown by doSendUsingDefaultSerialization
-    try {
-      doSendUsingDefaultSerialization(message, connectors);
-    } catch (Exception e) {
-      log.error("Exception during message sending", e);
-    }
+    doSendUsingDefaultSerialization(message, connectors);
   }
 
   public void sendMessage(BristleMessage message, List<IdentifiedUser> users) throws Exception {
@@ -84,22 +80,26 @@ public class ConditionObjectSender {
     doSendUsingSerialization(message, serializationName, connectors);
   }
 
-  public void closeConnection(SendCondition sendCondition) {
+  public void closeConnection(IdentifiedUser user) {
+    List<WebsocketConnector> connectors = connectedUsers().getConnectorsByUsers(Collections.singletonList(user));
+    closeConnectionsInServerEngine(connectors);
+  }
+
+  public void closeConnections(SendCondition sendCondition) {
     List<WebsocketConnector> connectors = connectedUsers().getConnectorsByCondition(sendCondition);
-    closeConnectionInServerEngine(connectors);
+    closeConnectionsInServerEngine(connectors);
   }
 
-  public void closeConnection(List<IdentifiedUser> users) {
+  public void closeConnections(List<IdentifiedUser> users) {
     List<WebsocketConnector> connectors = connectedUsers().getConnectorsByUsers(users);
-    closeConnectionInServerEngine(connectors);
+    closeConnectionsInServerEngine(connectors);
   }
 
-  private void closeConnectionInServerEngine(List<WebsocketConnector> connectors) {
+  private void closeConnectionsInServerEngine(List<WebsocketConnector> connectors) {
     for (WebsocketConnector connector : connectors) {
-      serverEngine.onConnectionClose(connector);
+      connector.stop();
     }
   }
-
 
   private void doSendUsingDefaultSerialization(BristleMessage message, List<WebsocketConnector> connectors) throws Exception {
     Object serialization = getDefaultSerialization(message);
