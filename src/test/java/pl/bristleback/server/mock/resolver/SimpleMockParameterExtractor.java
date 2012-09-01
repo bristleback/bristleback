@@ -33,6 +33,6 @@ public class SimpleMockParameterExtractor implements ActionParameterExtractor<No
   }
 
   @Override
-  public void setConfiguration(BristlebackConfig configuration) {
+  public void init(BristlebackConfig configuration) {
   }
 }

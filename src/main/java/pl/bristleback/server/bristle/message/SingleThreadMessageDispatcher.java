@@ -47,9 +47,9 @@ public class SingleThreadMessageDispatcher extends AbstractMessageDispatcher {
   private void sendMessage(WebsocketMessage message) throws Exception {
     for (Object connector : message.getRecipients()) {
       if (message.getMessageType() == MessageType.TEXT) {
-        getServer().sendPacket((WebsocketConnector) connector, (String) message.getContent());
+        getServer().sendMessage((WebsocketConnector) connector, (String) message.getContent());
       } else if (message.getMessageType() == MessageType.BINARY) {
-        getServer().sendPacket((WebsocketConnector) connector, (byte[]) message.getContent());
+        getServer().sendMessage((WebsocketConnector) connector, (byte[]) message.getContent());
       } else {
         log.debug("Cannot send a message, unknown type of message " + message.getMessageType());
       }

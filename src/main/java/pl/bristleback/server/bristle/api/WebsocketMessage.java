@@ -5,7 +5,8 @@ import pl.bristleback.server.bristle.serialization.MessageType;
 import java.util.List;
 
 /**
- * //@todo class description
+ * Low level WebSockets message used by Server Engine. Should not be created by application user.
+ * Contains payload and list of recipients.
  * <p/>
  * Created on: 2011-07-19 13:17:51 <br/>
  *

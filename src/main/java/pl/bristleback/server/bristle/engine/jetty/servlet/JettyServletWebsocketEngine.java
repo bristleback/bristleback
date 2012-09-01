@@ -50,7 +50,7 @@ public class JettyServletWebsocketEngine extends AbstractServerEngine implements
 
   public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (!websocketFactory.acceptWebSocket(request, response)) {
-      throw new RuntimeException("cos nie tak");
+      throw new ServletException("Request is not a valid WebSockets handshake.");
     }
   }
 
@@ -66,12 +66,12 @@ public class JettyServletWebsocketEngine extends AbstractServerEngine implements
   }
 
   @Override
-  public void sendPacket(WebsocketConnector connector, String contentAsString) throws Exception {
+  public void sendMessage(WebsocketConnector connector, String contentAsString) throws Exception {
     ((JettyConnector) connector).getConnection().sendMessage(contentAsString);
   }
 
   @Override
-  public void sendPacket(WebsocketConnector connector, byte[] contentAsBytes) throws Exception {
+  public void sendMessage(WebsocketConnector connector, byte[] contentAsBytes) throws Exception {
     ((JettyConnector) connector).getConnection().sendMessage(contentAsBytes, 0, contentAsBytes.length);
   }
 

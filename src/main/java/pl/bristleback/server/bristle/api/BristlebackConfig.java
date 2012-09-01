@@ -7,7 +7,8 @@ import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration
 import pl.bristleback.server.bristle.listener.ListenersContainer;
 
 /**
- * //@todo class description
+ * Bristleback Server configuration, containing all basic server components.
+ * Bristleback configuration should be only used by server internals and components creators.
  * <p/>
  * Created on: 2012-01-23 19:55:22 <br/>
  *

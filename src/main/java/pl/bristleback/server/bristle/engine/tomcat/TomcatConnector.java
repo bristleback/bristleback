@@ -90,10 +90,6 @@ public class TomcatConnector extends MessageInbound implements WebsocketConnecto
     return connectorId;
   }
 
-  public void setConnectorId(String connectorId) {
-    this.connectorId = connectorId;
-  }
-
   @Override
   public ServerEngine getEngine() {
     return engine;
@@ -101,10 +97,6 @@ public class TomcatConnector extends MessageInbound implements WebsocketConnecto
 
   public DataController getDataController() {
     return dataController;
-  }
-
-  public void setDataController(DataController controller) {
-    this.dataController = controller;
   }
 
   public String getWebsocketVersion() {

@@ -11,9 +11,7 @@ import java.lang.reflect.Type;
  *
  * @author Wojciech Niemiec
  */
-public interface SerializationResolver<T> {
-
-  void init(BristlebackConfig configuration);
+public interface SerializationResolver<T> extends ConfigurationAware {
 
   T resolveDefaultSerialization(Type objectType);
 

@@ -31,7 +31,7 @@ public class IdentifiedUserExtractor implements ActionParameterExtractor<Identif
   }
 
   @Override
-  public void setConfiguration(BristlebackConfig configuration) {
+  public void init(BristlebackConfig configuration) {
 
   }
 }

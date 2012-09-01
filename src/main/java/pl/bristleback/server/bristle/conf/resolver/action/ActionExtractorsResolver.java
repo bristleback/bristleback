@@ -47,7 +47,7 @@ public class ActionExtractorsResolver {
 
   private void initParameterExtractors(ActionExtractorsContainer actionExtractorsContainer) {
     for (ActionParameterExtractor extractor : actionExtractorsContainer.getParameterExtractors().values()) {
-      extractor.setConfiguration(configuration);
+      extractor.init(configuration);
     }
   }
 

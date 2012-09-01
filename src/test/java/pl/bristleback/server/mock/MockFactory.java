@@ -11,7 +11,7 @@ public class MockFactory {
 
   public static ServerEngine getMockServerEngine() {
     NettyServerEngine nettyServerEngine = new NettyServerEngine();
-    nettyServerEngine.setConfiguration(ConfigurationMockFactory.getConfiguration(null));
+    nettyServerEngine.init(ConfigurationMockFactory.getConfiguration(null));
     return nettyServerEngine;
   }
 

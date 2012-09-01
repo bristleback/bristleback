@@ -1,7 +1,8 @@
 package pl.bristleback.server.bristle.api;
 
 /**
- * //@todo class description
+ * This marker interface indicates that given implementing component (or extending interface)
+ * requires Bristleback configuration.
  * <p/>
  * Created on: 2011-09-18 16:13:31 <br/>
  *
@@ -9,5 +10,5 @@ package pl.bristleback.server.bristle.api;
  */
 public interface ConfigurationAware {
 
-  void setConfiguration(BristlebackConfig configuration);
+  void init(BristlebackConfig configuration);
 } 

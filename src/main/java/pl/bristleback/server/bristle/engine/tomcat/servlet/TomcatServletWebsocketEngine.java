@@ -71,13 +71,13 @@ public class TomcatServletWebsocketEngine extends AbstractServerEngine implement
   }
 
   @Override
-  public void sendPacket(WebsocketConnector connector, String contentAsString) throws Exception {
+  public void sendMessage(WebsocketConnector connector, String contentAsString) throws Exception {
     CharBuffer buffer = CharBuffer.wrap(contentAsString);
     ((TomcatConnector) connector).getConnection().writeTextMessage(buffer);
   }
 
   @Override
-  public void sendPacket(WebsocketConnector connector, byte[] contentAsBytes) throws Exception {
+  public void sendMessage(WebsocketConnector connector, byte[] contentAsBytes) throws Exception {
     ByteBuffer buffer = ByteBuffer.wrap(contentAsBytes);
     ((TomcatConnector) connector).getConnection().writeBinaryMessage(buffer);
   }

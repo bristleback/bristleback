@@ -4,7 +4,7 @@ import pl.bristleback.server.bristle.api.action.SendCondition;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 
 /**
- * //@todo class description
+ * Pack of general purpose logical conditions.
  * <p/>
  * Created on: 2012-08-26 11:47:53 <br/>
  *

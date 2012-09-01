@@ -37,6 +37,6 @@ public class PlainObjectParameterExtractor implements ActionParameterExtractor {
     return true;
   }
 
-  public void setConfiguration(BristlebackConfig configuration) {
+  public void init(BristlebackConfig configuration) {
   }
 }

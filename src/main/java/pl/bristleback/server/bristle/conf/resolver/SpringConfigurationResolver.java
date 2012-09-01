@@ -82,7 +82,7 @@ public class SpringConfigurationResolver {
     String expectedEngineName = engineConfiguration.getName();
 
     ServerEngine serverEngine = springIntegration.getBean(expectedEngineName, ServerEngine.class);
-    serverEngine.setConfiguration(bristlebackConfiguration());
+    serverEngine.init(bristlebackConfiguration());
 
     return serverEngine;
   }

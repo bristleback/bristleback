@@ -51,11 +51,11 @@ public class JettyWebsocketEngine extends AbstractServerEngine {
     }
   }
 
-  public void sendPacket(WebsocketConnector connector, String contentAsString) throws Exception {
+  public void sendMessage(WebsocketConnector connector, String contentAsString) throws Exception {
     ((JettyConnector) connector).getConnection().sendMessage(contentAsString);
   }
 
-  public void sendPacket(WebsocketConnector connector, byte[] contentAsBytes) throws Exception {
+  public void sendMessage(WebsocketConnector connector, byte[] contentAsBytes) throws Exception {
     ((JettyConnector) connector).getConnection().sendMessage(contentAsBytes, 0, contentAsBytes.length);
   }
 }

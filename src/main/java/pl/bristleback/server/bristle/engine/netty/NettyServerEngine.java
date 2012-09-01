@@ -55,7 +55,7 @@ public class NettyServerEngine extends AbstractServerEngine {
   }
 
   @Override
-  public void sendPacket(WebsocketConnector connector, String contentAsString) {
+  public void sendMessage(WebsocketConnector connector, String contentAsString) {
     Channel channel = ((NettyConnector) connector).getChannel();
     if (connector.getWebsocketVersion().equals(WebsocketVersions.HYBI_13.getVersionCode())) {
       channel.write(new TextWebSocketFrame(ChannelBuffers.copiedBuffer(contentAsString, CharsetUtil.UTF_8)));
@@ -65,7 +65,7 @@ public class NettyServerEngine extends AbstractServerEngine {
   }
 
   @Override
-  public void sendPacket(WebsocketConnector connector, byte[] contentAsBytes) {
+  public void sendMessage(WebsocketConnector connector, byte[] contentAsBytes) {
     Channel channel = ((NettyConnector) connector).getChannel();
     channel.write(new BinaryWebSocketFrame(ChannelBuffers.copiedBuffer(contentAsBytes)));
 

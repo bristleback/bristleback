@@ -29,8 +29,8 @@ public abstract class AbstractServerEngine implements ServerEngine {
   @Inject
   private UsersContainer usersContainer;
 
-  public void setConfiguration(BristlebackConfig configuration) {
-    this.configuration = configuration;
+  public void init(BristlebackConfig bristlebackConfiguration) {
+    this.configuration = bristlebackConfiguration;
     this.engineConfig = configuration.getInitialConfiguration().getEngineConfiguration();
   }
 
@@ -54,11 +54,12 @@ public abstract class AbstractServerEngine implements ServerEngine {
 
   @Override
   public void onConnectionClose(WebsocketConnector connector) {
+    usersContainer.removeUser(connector);
+
     List<ConnectionStateListener> listeners = configuration.getListenersContainer().getConnectionStateListeners();
     ConnectionStateListenerChain chain = new ConnectionStateListenerChain(listeners);
     chain.connectorStopped(usersContainer.getUserByConnector(connector));
 
-    usersContainer.removeUser(connector);
     log.info("Connector has stopped - id: " + connector.getConnectorId());
 
   }
