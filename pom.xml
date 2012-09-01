@@ -10,12 +10,12 @@
 
   <groupId>pl.bristleback</groupId>
   <artifactId>bristleServer</artifactId>
-  <version>0.2.0</version>
+  <version>0.2.0-alpha-01</version>
   <packaging>jar</packaging>
 
   <name>bristleServer</name>
-  <url>http://bristleback.googlecode.com</url>
-  <description>High level, Spring integrated Jwebsocket plugin</description>
+  <url>http://bristleback.pl</url>
+  <description>High level, Spring integrated WebSockets Server</description>
   <licenses>
     <license>
       <name>GNU Lesser General Public License</name>
@@ -24,9 +24,9 @@
     </license>
   </licenses>
   <scm>
-    <connection>scm:svn:http://bristleback.googlecode.com/svn/trunk/</connection>
-    <developerConnection>scm:svn:https://bristleback.googlecode.com/svn/trunk/</developerConnection>
-    <url>http://bristleback.googlecode.com/svn/trunk/</url>
+    <connection>scm:git:git@github.com:bristleback/bristleback.git</connection>
+    <developerConnection>scm:git:git@github.com:bristleback/bristleback.git</developerConnection>
+    <url>git@github.com:bristleback/bristleback.git</url>
   </scm>
   <developers>
     <developer>
@@ -45,23 +45,6 @@
       <email>slawek.wojcicki@gmail.com</email>
     </developer>
   </developers>
-
-  <repositories>
-    <repository>
-      <id>googlecode</id>
-      <name>jWebSocket Repository</name>
-      <url>http://jwebsocket.googlecode.com/svn/repo</url>
-    </repository>
-    <repository>
-      <id>spy</id>
-      <name>Spy Repository</name>
-      <layout>default</layout>
-      <url>http://files.couchbase.com/maven2/</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -473,7 +456,7 @@
               </execution>
             </executions>
           </plugin>
-          <!--          <plugin>
+          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
             <executions>
@@ -485,7 +468,7 @@
                 </goals>
               </execution>
             </executions>
-          </plugin>-->
+          </plugin>
         </plugins>
       </build>
     </profile>
