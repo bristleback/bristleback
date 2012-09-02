@@ -50,7 +50,7 @@ public class ResponseHelper {
     conditionObjectSender.sendMessage(responseMessage, serialization, Collections.singletonList(context.getUser()));
   }
 
-  public void sendException(Object exceptionResponse, ActionExecutionContext context) throws Exception {
+  public void sendExceptionResponse(Object exceptionResponse, ActionExecutionContext context) throws Exception {
     if (exceptionResponse != null) {
       BristleMessage<Object> responseMessage = prepareMessage(exceptionResponse, context);
       conditionObjectSender.sendMessage(responseMessage, Collections.singletonList(context.getUser()));

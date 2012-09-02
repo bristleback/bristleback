@@ -78,7 +78,7 @@ public final class ActionExceptionHandlers {
       Exception realCause = getRealCause(exception);
       ActionExceptionHandler handler = getHandler(realCause, context.getStage());
       Object exceptionalResponse = handler.handleException(realCause, context);
-      responseHelper.sendException(exceptionalResponse, context);
+      responseHelper.sendExceptionResponse(exceptionalResponse, context);
     } catch (Exception e) {
       log.debug("Error while handling exception in action class, stage: " + context.getStage(), e);
     }
