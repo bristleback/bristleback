@@ -35,7 +35,7 @@ public class SimpleActionClass implements DefaultAction<DefaultUser, String> {
     @Serialize(properties = {
       @Property(name = "mockBean", required = true)
     }),
-    @Serialize(required = true, targetName = "someField")
+    @Serialize(required = true, serializationName = "someField")
   })
   public SimpleMockBean nonDefaultAction(@Bind(required = true) String param1) {
     return null;

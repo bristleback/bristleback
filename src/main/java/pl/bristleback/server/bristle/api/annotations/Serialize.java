@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
 public @interface Serialize {
 
-  String targetName() default "";
+  String serializationName() default "";
 
   Class target() default Object.class;
 

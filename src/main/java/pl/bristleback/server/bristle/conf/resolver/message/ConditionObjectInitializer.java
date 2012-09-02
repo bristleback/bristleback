@@ -43,10 +43,10 @@ public class ConditionObjectInitializer {
     AnnotatedObjectSender senderAnnotation = serializationBundle.getField().getAnnotation(AnnotatedObjectSender.class);
     for (Serialize serialize : senderAnnotation.serialize()) {
       Object serialization = resolveSerialization(serialize);
-      if (StringUtils.isEmpty(serialize.targetName())) {
+      if (StringUtils.isEmpty(serialize.serializationName())) {
         serializationBundle.addDefaultSerialization(serialization);
       } else {
-        serializationBundle.addSerialization(serialize.targetName(), serialization);
+        serializationBundle.addSerialization(serialize.serializationName(), serialization);
       }
     }
   }

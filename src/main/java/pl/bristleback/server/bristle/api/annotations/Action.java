@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * //@todo class description
+ * This annotation marks method as action method. Both default and non default actions must annotated to be processed by the controller.
  * <p/>
  * Created on: 2011-10-02 14:26:59 <br/>
  *
@@ -15,7 +15,20 @@ import java.lang.annotation.Target;
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
 public @interface Action {
 
+  /**
+   * Name of this action. Names should fallow normal methods naming conventions, e.g., should start with small letter,
+   * contain only alphanumeric characters, etc.
+   * If custom name is not specified, action method name is used.
+   * There cannot be multiple action classes with the same name.
+   *
+   * @return action name.
+   */
   String name() default "";
 
+  /**
+   * Gets information about non default response serialization.
+   *
+   * @return non default serialization information.
+   */
   Serialize[] response() default {};
 }

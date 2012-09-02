@@ -89,7 +89,7 @@ public class SampleAction implements DefaultAction<DefaultUser, Map<String, BigD
     return helloWorld;
   }
 
-  @Action(response = @Serialize(targetName = "factorials", containerElementClass = User.class, properties = {
+  @Action(response = @Serialize(serializationName = "factorials", containerElementClass = User.class, properties = {
     @Property(name = "friend", skipped = true)
   }))
   public List<User> getFactorials(@Bind(required = true) int size) {
