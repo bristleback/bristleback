@@ -54,11 +54,12 @@ public abstract class AbstractServerEngine implements ServerEngine {
 
   @Override
   public void onConnectionClose(WebsocketConnector connector) {
+    IdentifiedUser user = usersContainer.getUserByConnector(connector);
     usersContainer.removeUser(connector);
 
     List<ConnectionStateListener> listeners = configuration.getListenersContainer().getConnectionStateListeners();
     ConnectionStateListenerChain chain = new ConnectionStateListenerChain(listeners);
-    chain.connectorStopped(usersContainer.getUserByConnector(connector));
+    chain.connectorStopped(user);
 
     log.info("Connector has stopped - id: " + connector.getConnectorId());
 
