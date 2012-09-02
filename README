@@ -16,27 +16,27 @@ You can also test Bristleback by performing just few steps:
 
 1. Use Git to clone archetypes project:
 
-  ```git clone https://github.com/bristleback/bristleback-archetypes.git```
+    git clone https://github.com/bristleback/bristleback-archetypes.git
 
 or just download it from
 
-  ```https://github.com/bristleback/bristleback-archetypes/zipball/master```
+    https://github.com/bristleback/bristleback-archetypes/zipball/master
 
 and unpack.
 
 2. Open your console, go to bristleback-archetypes/webapp-archetype directory and type:
 
-  ```mvn clean install```
+    mvn clean install
 
 3. Go to directory where your new Bristleback Project will be created and type:
 
-  ```mvn archetype:generate -DarchetypeCatalog=local```
+    mvn archetype:generate -DarchetypeCatalog=local
 
 4. bristle-webapp-archetype should appear in the list, choose the correct number and then enter additional information about the project.
 
 5. Go to newly created project directory and type mvn jetty:run - your first Bristleback Server with Jetty as Server Engine is starting!
 
-6. Open your browser and type ```localhost:8080```
+6. Open your browser and type localhost:8080
 
 7. Have fun developing!
 
