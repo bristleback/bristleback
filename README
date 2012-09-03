@@ -2,12 +2,12 @@ Welcome,
 
 Bristleback Server version 0.2.0 is just around the corner!
 
-0.2.0-alpha02 is now available in central Maven repository:
+0.2.0-alpha03 is now available in central Maven repository:
 
     <dependency>
       <groupId>pl.bristleback</groupId>
       <artifactId>bristleServer</artifactId>
-      <version>0.2.0-alpha-02</version>
+      <version>0.2.0-alpha-03</version>
     </dependency>
 
 Few samples are available at https://github.com/bristleback/bristleback-samples
