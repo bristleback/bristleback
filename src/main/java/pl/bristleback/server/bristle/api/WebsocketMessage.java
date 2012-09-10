@@ -5,7 +5,7 @@ import pl.bristleback.server.bristle.serialization.MessageType;
 import java.util.List;
 
 /**
- * Low level WebSockets message used by Server Engine. Should not be created by application user.
+ * Low level WebSockets message used by a Server Engine. Should not be created by application user.
  * Contains payload and list of recipients.
  * <p/>
  * Created on: 2011-07-19 13:17:51 <br/>

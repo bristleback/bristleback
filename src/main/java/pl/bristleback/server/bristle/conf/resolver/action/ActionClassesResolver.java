@@ -7,7 +7,7 @@ import pl.bristleback.server.bristle.action.ActionClassInformation;
 import pl.bristleback.server.bristle.action.ActionsContainer;
 import pl.bristleback.server.bristle.api.action.ActionInformation;
 import pl.bristleback.server.bristle.api.annotations.Action;
-import pl.bristleback.server.bristle.api.annotations.AnnotatedActionClass;
+import pl.bristleback.server.bristle.api.annotations.ActionClass;
 import pl.bristleback.server.bristle.exceptions.ActionInitializationException;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.utils.PropertyUtils;
@@ -38,7 +38,7 @@ public class ActionClassesResolver {
   public ActionsContainer resolve() {
     ActionsContainer actionsContainer = new ActionsContainer();
     Map<String, ActionClassInformation> actionClasses = new HashMap<String, ActionClassInformation>();
-    Map<String, Object> foundActions = springIntegration.getActualContext().getBeansWithAnnotation(AnnotatedActionClass.class);
+    Map<String, Object> foundActions = springIntegration.getActualContext().getBeansWithAnnotation(ActionClass.class);
     for (Map.Entry<String, Object> actionClassEntry : foundActions.entrySet()) {
       String actionClassBeanName = actionClassEntry.getKey();
       Object actionClass = actionClassEntry.getValue();
@@ -57,7 +57,7 @@ public class ActionClassesResolver {
 
   private ActionClassInformation prepareActionClass(Object actionClass, String actionClassBeanName) {
     ActionClassInformation actionClassInformation = new ActionClassInformation();
-    AnnotatedActionClass actionClassAnnotation = actionClass.getClass().getAnnotation(AnnotatedActionClass.class);
+    ActionClass actionClassAnnotation = actionClass.getClass().getAnnotation(ActionClass.class);
     String actionClassName = resolveActionClassName(actionClass, actionClassAnnotation);
     actionClassInformation.setName(actionClassName);
     actionClassInformation.setSpringBeanName(actionClassBeanName);
@@ -70,7 +70,7 @@ public class ActionClassesResolver {
     return actionClassInformation;
   }
 
-  private String resolveActionClassName(Object actionClass, AnnotatedActionClass actionClassAnnotation) {
+  private String resolveActionClassName(Object actionClass, ActionClass actionClassAnnotation) {
     String actionClassName = actionClassAnnotation.name();
     if (StringUtils.isBlank(actionClassName)) {
       actionClassName = actionClass.getClass().getSimpleName();

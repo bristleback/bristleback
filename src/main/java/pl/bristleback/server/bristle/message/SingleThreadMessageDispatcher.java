@@ -1,5 +1,6 @@
 package pl.bristleback.server.bristle.message;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
@@ -40,6 +41,10 @@ public class SingleThreadMessageDispatcher extends AbstractMessageDispatcher {
     WebsocketMessage message = messages.poll(DELAY, TimeUnit.MILLISECONDS);
     if (message != null) {
       log.debug("Sending a server message: " + message.getContent());
+      if (CollectionUtils.isEmpty(message.getRecipients())) {
+        log.debug("Empty or null recipients collection: " + message.getRecipients());
+        return;
+      }
       sendMessage(message);
     }
   }

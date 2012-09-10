@@ -6,7 +6,7 @@ import org.springframework.beans.BeanInstantiationException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import pl.bristleback.server.bristle.api.annotations.AnnotatedObjectSender;
+import pl.bristleback.server.bristle.api.annotations.ObjectSender;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
 
@@ -39,7 +39,7 @@ public class ObjectSenderInjector implements BeanPostProcessor, ApplicationConte
   public Object postProcessAfterInitialization(Object bean, String beanName) {
     Field[] fields = bean.getClass().getDeclaredFields();
     for (Field field : fields) {
-      if (field.isAnnotationPresent(AnnotatedObjectSender.class)) {
+      if (field.isAnnotationPresent(ObjectSender.class)) {
         ConditionObjectSender objectSender = resolveSender(field);
         injectProperty(bean, field, objectSender);
       }

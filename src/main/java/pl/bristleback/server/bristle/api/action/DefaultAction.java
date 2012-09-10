@@ -4,7 +4,7 @@ import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 
 /**
  * Classes implementing this interface contain default actions ready to be executed by clients.
- * This interface should be implemented by action classes (classes marked with {@link pl.bristleback.server.bristle.api.annotations.AnnotatedActionClass} annotation).
+ * This interface should be implemented by action classes (classes marked with {@link pl.bristleback.server.bristle.api.annotations.ActionClass} annotation).
  * This is optional interface, default actions are not required in every action classes.
  * However, they might be faster because reflection is not used to invoke them.
  * Default actions are way less flexible than normal actions, they always take two parameters:

@@ -18,5 +18,13 @@ import java.lang.annotation.Target;
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
 public @interface ClientActionClass {
 
+  /**
+   * Custom client action class name.
+   * Names should fallow normal Java classes naming conventions, e.g., should start with Capital letter,
+   * contain only alphanumeric characters, etc. If custom name is not specified, client action class simple name
+   * ({@link Class#getSimpleName()}) is used.
+   *
+   * @return custom action class name.
+   */
   String name() default "";
 }

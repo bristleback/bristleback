@@ -3,7 +3,7 @@ package pl.bristleback.server.mock.action;
 import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.action.DefaultAction;
 import pl.bristleback.server.bristle.api.annotations.Action;
-import pl.bristleback.server.bristle.api.annotations.AnnotatedActionClass;
+import pl.bristleback.server.bristle.api.annotations.ActionClass;
 import pl.bristleback.server.bristle.api.annotations.Bind;
 import pl.bristleback.server.bristle.api.annotations.Property;
 import pl.bristleback.server.bristle.api.annotations.Serialize;
@@ -17,7 +17,7 @@ import pl.bristleback.server.mock.beans.SimpleMockBean;
  *
  * @author Wojciech Niemiec
  */
-@AnnotatedActionClass(name = SimpleActionClass.NAME)
+@ActionClass(name = SimpleActionClass.NAME)
 public class SimpleActionClass implements DefaultAction<DefaultUser, String> {
   private static Logger log = Logger.getLogger(SimpleActionClass.class.getName());
 

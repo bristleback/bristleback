@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.action.DefaultAction;
 import pl.bristleback.server.bristle.api.annotations.Action;
-import pl.bristleback.server.bristle.api.annotations.AnnotatedActionClass;
-import pl.bristleback.server.bristle.api.annotations.AnnotatedObjectSender;
+import pl.bristleback.server.bristle.api.annotations.ActionClass;
+import pl.bristleback.server.bristle.api.annotations.ObjectSender;
 import pl.bristleback.server.bristle.api.annotations.Bind;
 import pl.bristleback.server.bristle.api.annotations.Property;
 import pl.bristleback.server.bristle.api.annotations.Serialize;
@@ -34,12 +34,12 @@ import java.util.Map;
  * @author Wojciech Niemiec
  */
 
-@AnnotatedActionClass(name = "sample")
+@ActionClass(name = "sample")
 @Component
 public class SampleAction implements DefaultAction<DefaultUser, Map<String, BigDecimal>> {
   private static Logger log = Logger.getLogger(SampleAction.class.getName());
 
-  @AnnotatedObjectSender(serialize = {
+  @ObjectSender(serialize = {
     @Serialize(target = User.class, properties = {
       @Property(name = "friend", skipped = true)
     })

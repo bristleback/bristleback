@@ -3,7 +3,7 @@ package pl.bristleback.server.bristle.conf.resolver.message;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
-import pl.bristleback.server.bristle.api.annotations.AnnotatedObjectSender;
+import pl.bristleback.server.bristle.api.annotations.ObjectSender;
 import pl.bristleback.server.bristle.api.annotations.Serialize;
 import pl.bristleback.server.bristle.authorisation.user.UsersContainer;
 import pl.bristleback.server.bristle.conf.resolver.SpringConfigurationResolver;
@@ -40,7 +40,7 @@ public class ConditionObjectInitializer {
   }
 
   private void resolveSerializations(SerializationBundle serializationBundle) {
-    AnnotatedObjectSender senderAnnotation = serializationBundle.getField().getAnnotation(AnnotatedObjectSender.class);
+    ObjectSender senderAnnotation = serializationBundle.getField().getAnnotation(ObjectSender.class);
     for (Serialize serialize : senderAnnotation.serialize()) {
       Object serialization = resolveSerialization(serialize);
       if (StringUtils.isEmpty(serialize.serializationName())) {

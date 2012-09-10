@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
-import pl.bristleback.server.bristle.api.annotations.AnnotatedObjectSender;
+import pl.bristleback.server.bristle.api.annotations.ObjectSender;
 import pl.bristleback.server.bristle.authorisation.user.UsersContainer;
 import pl.bristleback.server.bristle.conf.resolver.SpringConfigurationResolver;
 import pl.bristleback.server.bristle.message.BristleMessage;
@@ -36,7 +36,7 @@ public class ResponseHelper {
   @Inject
   private UsersContainer connectedUsers;
 
-  @AnnotatedObjectSender
+  @ObjectSender
   private ConditionObjectSender conditionObjectSender;
 
   @PostConstruct

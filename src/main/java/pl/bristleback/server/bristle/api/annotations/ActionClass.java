@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.TYPE})
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
-public @interface AnnotatedActionClass {
+public @interface ActionClass {
 
   /**
    * Custom action class name.
