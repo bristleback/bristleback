@@ -5,13 +5,10 @@ import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.InitialConfigurationResolver;
 import pl.bristleback.server.bristle.conf.EngineConfig;
 import pl.bristleback.server.bristle.conf.InitialConfiguration;
-import pl.bristleback.server.bristle.utils.ListUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -24,17 +21,8 @@ import java.util.Set;
 public class DefaultConfigurationResolver implements InitialConfigurationResolver {
   private static Logger log = Logger.getLogger(DefaultConfigurationResolver.class.getName());
 
-  private List<String> basePackages;
-
   @Override
   public InitialConfiguration resolveConfiguration() {
-    if (ListUtils.isEmpty(basePackages)) {
-      throw new IllegalStateException("Base packages not set");
-    }
-    return resolveDefaultConfiguration();
-  }
-
-  public InitialConfiguration resolveDefaultConfiguration() {
     InitialConfiguration initialConfiguration = new InitialConfiguration();
     initialConfiguration.setAcceptedControllerNames(prepareSet(InitialConfiguration.DEFAULT_DATA_CONTROLLER));
     initialConfiguration.setDefaultControllerName(InitialConfiguration.DEFAULT_DATA_CONTROLLER);
@@ -63,9 +51,5 @@ public class DefaultConfigurationResolver implements InitialConfigurationResolve
     Set<String> set = new HashSet<String>();
     set.add(value);
     return set;
-  }
-
-  public void setBasePackages(String... basePackages) {
-    this.basePackages = Arrays.asList(basePackages);
   }
 }

@@ -25,8 +25,8 @@ public class PojoConfigResolver implements InitialConfigurationResolver {
   private InitialConfiguration initialConfiguration;
 
   public PojoConfigResolver() {
-    DefaultConfigurationResolver defaultConfigurationResolver = new DefaultConfigurationResolver();
-    initialConfiguration = defaultConfigurationResolver.resolveDefaultConfiguration();
+    InitialConfigurationResolver defaultConfigurationResolver = new DefaultConfigurationResolver();
+    initialConfiguration = defaultConfigurationResolver.resolveConfiguration();
   }
 
   @Override
