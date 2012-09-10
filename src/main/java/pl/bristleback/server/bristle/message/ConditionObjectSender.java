@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.MessageDispatcher;
 import pl.bristleback.server.bristle.api.SerializationEngine;
-import pl.bristleback.server.bristle.api.ServerEngine;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.WebsocketMessage;
 import pl.bristleback.server.bristle.api.action.SendCondition;
@@ -35,11 +34,8 @@ public class ConditionObjectSender {
 
   private UsersContainer connectedUsers;
 
-  private ServerEngine serverEngine;
-
   public void init(BristlebackConfig configuration, UsersContainer usersContainer) {
     this.connectedUsers = usersContainer;
-    this.serverEngine = configuration.getServerEngine();
     messageDispatcher = configuration.getMessageConfiguration().getMessageDispatcher();
     serializationEngine = configuration.getSerializationEngine();
     serializationResolver = configuration.getSpringIntegration().getFrameworkBean("serializationAnnotationResolver", SerializationAnnotationResolver.class);
