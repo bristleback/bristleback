@@ -201,21 +201,6 @@ public final class PropertyUtils {
     return false;
   }
 
-  public static List<Method> getMethodsWithReturnType(Class owner, Class returnType, boolean includeSuper) {
-    List<Method> selectedMethods = new ArrayList<Method>();
-    Method[] allMethods = owner.getMethods();
-    for (Method method : allMethods) {
-      if (!includeSuper && isMethodInherited(owner, method)) {
-        continue;
-      }
-      if (returnType.isAssignableFrom(method.getReturnType())) {
-        selectedMethods.add(method);
-      }
-    }
-
-    return selectedMethods;
-  }
-
   public static List<Method> getMethodsAnnotatedWith(Class owner, Class<? extends Annotation> annotationClass, boolean includeSuper) {
     List<Method> selectedMethods = new ArrayList<Method>();
     Method[] allMethods = owner.getMethods();

@@ -12,9 +12,6 @@ import org.apache.log4j.Logger;
 public class ActionInitializationException extends RuntimeException {
   private static Logger log = Logger.getLogger(ActionInitializationException.class.getName());
 
-  public ActionInitializationException() {
-  }
-
   public ActionInitializationException(String message) {
     super(message);
   }

@@ -48,7 +48,7 @@ public class BristlebackHttpHandler implements HttpRequestHandler, ApplicationCo
   protected void setServletEngine(BristlebackConfig configuration) {
     ServerEngine serverEngine = configuration.getServerEngine();
     if (!(serverEngine instanceof ServletServerEngine)) {
-      throw new BristleInitializationException("Cannot start Bristleback servlet Websockets engine. "
+      throw new BristleInitializationException("Cannot start Bristleback servlet WebSockets engine. "
         + "Given engine does not implement " + ServletServerEngine.class.getName() + " interface.");
     }
     servletServerEngine = (ServletServerEngine) serverEngine;

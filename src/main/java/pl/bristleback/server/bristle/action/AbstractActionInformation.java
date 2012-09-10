@@ -1,9 +1,9 @@
 package pl.bristleback.server.bristle.action;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.action.response.ActionResponseInformation;
 import pl.bristleback.server.bristle.api.action.ActionInformation;
-import pl.bristleback.server.bristle.utils.ListUtils;
 
 import java.util.Iterator;
 import java.util.List;
@@ -46,7 +46,7 @@ public abstract class AbstractActionInformation<T> implements ActionInformation<
   @Override
   public String toString() {
     StringBuilder paramsToString = new StringBuilder();
-    if (ListUtils.isNotEmpty(parameters)) {
+    if (CollectionUtils.isNotEmpty(parameters)) {
       Iterator<ActionParameterInformation> it = parameters.iterator();
       while (it.hasNext()) {
         paramsToString.append(it.next().toString());
