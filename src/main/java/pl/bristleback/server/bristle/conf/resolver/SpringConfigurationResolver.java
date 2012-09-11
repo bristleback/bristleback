@@ -162,14 +162,14 @@ public class SpringConfigurationResolver {
       }
       if (userFactoryBeans.size() > 1) { //more than one bean found in application configuration (initial configuration doesn't contain property which one to choose
         throw new BristleInitializationException("Found more than one implementation of class"
-          + "pl.bristleback.server.bristle.api.users.UserFactory. "
+          + UserFactory.class.getName() + ". "
           + "Please specify in in initial configuration which one should be used");
       }
     } else {
       return springIntegration.getApplicationBean(userFactorySpecifiedByInApplication, UserFactory.class);
     }
     throw new BristleInitializationException("Could not find implementation of "
-      + "pl.bristleback.server.bristle.api.users.UserFactory."
+      + UserFactory.class.getName() + "."
       + "Please specify one in initial configuration");
   }
 

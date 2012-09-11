@@ -47,7 +47,8 @@ public class PropertiesFileConfigResolver implements InitialConfigurationResolve
     if (propertiesConfiguration == null) {
       getPropertiesFromFileName();
     }
-    InitialConfiguration initialConfiguration = new InitialConfiguration();
+    InitialConfigurationResolver defaultConfigurationResolver = new DefaultConfigurationResolver();
+    InitialConfiguration initialConfiguration = defaultConfigurationResolver.resolveConfiguration();
     setLoggingLevel(initialConfiguration);
     resolveAcceptedProtocolNames(initialConfiguration);
     resolveSerializationEngine(initialConfiguration);

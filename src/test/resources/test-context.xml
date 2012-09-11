@@ -35,7 +35,7 @@
 
   <bean id="mockUserFactory" class="pl.bristleback.server.mock.MockUserFactory"/>
 
-  <bean id="mockClientActionClass" class="pl.bristleback.server.mock.action.MockClientActionClass"/>
+  <bean id="mockClientActionClass" class="pl.bristleback.server.mock.action.client.MockClientActionClass"/>
 
   <bean id="nonStandardClientActionClass" class="pl.bristleback.server.mock.action.NonStandardClientActionClass"/>
 

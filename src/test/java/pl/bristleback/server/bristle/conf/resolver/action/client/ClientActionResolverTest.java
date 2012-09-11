@@ -11,7 +11,7 @@ import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.serialization.PropertyType;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
 import pl.bristleback.server.bristle.utils.StringUtils;
-import pl.bristleback.server.mock.action.MockClientActionClass;
+import pl.bristleback.server.mock.action.client.MockClientActionClass;
 import pl.bristleback.server.mock.beans.SpringMockBeansFactory;
 import pl.bristleback.server.mock.beans.VerySimpleMockBean;
 

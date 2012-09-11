@@ -7,7 +7,7 @@ import pl.bristleback.server.bristle.action.ActionExecutionStage;
 import pl.bristleback.server.bristle.api.action.ActionExceptionHandler;
 import pl.bristleback.server.bristle.api.annotations.Bind;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
-import pl.bristleback.server.mock.action.MockClientActionClass;
+import pl.bristleback.server.mock.action.client.MockClientActionClass;
 import pl.bristleback.server.mock.beans.VerySimpleMockBean;
 
 import java.lang.annotation.Annotation;

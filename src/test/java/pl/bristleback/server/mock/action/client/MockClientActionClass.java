@@ -1,4 +1,4 @@
-package pl.bristleback.server.mock.action;
+package pl.bristleback.server.mock.action.client;
 
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.annotations.Bind;

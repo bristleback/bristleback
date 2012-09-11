@@ -7,7 +7,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pl.bristleback.server.bristle.action.client.ClientActionClassInformation;
 import pl.bristleback.server.mock.action.ExtendingClientActionClass;
-import pl.bristleback.server.mock.action.MockClientActionClass;
+import pl.bristleback.server.mock.action.client.MockClientActionClass;
 import pl.bristleback.server.mock.action.NonStandardClientActionClass;
 import pl.bristleback.server.mock.beans.SpringMockBeansFactory;
 
