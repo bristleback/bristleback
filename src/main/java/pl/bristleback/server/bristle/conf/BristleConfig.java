@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.conf;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.DataController;
@@ -18,7 +17,6 @@ import pl.bristleback.server.bristle.listener.ListenersContainer;
  */
 @Component
 public class BristleConfig implements BristlebackConfig {
-  private static Logger log = Logger.getLogger(BristleConfig.class.getName());
 
   private BristleSpringIntegration springIntegration;
 

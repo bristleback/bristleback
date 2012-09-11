@@ -1,7 +1,5 @@
 package pl.bristleback.server.bristle.serialization;
 
-import org.apache.log4j.Logger;
-
 import java.lang.reflect.Type;
 
 /**
@@ -12,7 +10,6 @@ import java.lang.reflect.Type;
  * @author Wojciech Niemiec
  */
 public class PropertyInformation {
-  private static Logger log = Logger.getLogger(PropertyInformation.class.getName());
 
   private boolean detailedErrors;
   private boolean required;

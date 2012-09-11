@@ -19,7 +19,6 @@ import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration
  * @author Wojciech Niemiec
  */
 public class ServerInstanceResolver {
-  private static Logger log = Logger.getLogger(ServerInstanceResolver.class.getName());
 
   private InitialConfigurationResolver initialConfigurationResolver;
   private ApplicationContext actualApplicationContext;

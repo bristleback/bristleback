@@ -2,7 +2,6 @@ package pl.bristleback.server.bristle.serialization.jackson;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.SerializationResolver;
@@ -24,7 +23,6 @@ import java.util.Map;
  */
 @Component("jacksonSerializer.serializationResolver")
 public class JacksonSerializationResolver implements SerializationResolver<JacksonSerialization> {
-  private static Logger log = Logger.getLogger(JacksonSerializationResolver.class.getName());
 
   private ObjectMapper objectMapper = new ObjectMapper();
 

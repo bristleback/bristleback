@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.action.exception.handler;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
@@ -17,7 +16,6 @@ import pl.bristleback.server.bristle.exceptions.BrokenActionProtocolException;
  */
 @Component
 public class ActionProtocolExceptionHandler implements ActionExceptionHandler<BrokenActionProtocolException> {
-  private static Logger log = Logger.getLogger(ActionProtocolExceptionHandler.class.getName());
 
   @Override
   public Object handleException(BrokenActionProtocolException e, ActionExecutionContext context) {

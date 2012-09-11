@@ -1,7 +1,6 @@
 package pl.bristleback.server.bristle.conf.resolver.init;
 
 import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.InitialConfigurationResolver;
 import pl.bristleback.server.bristle.conf.EngineConfig;
 import pl.bristleback.server.bristle.conf.InitialConfiguration;
@@ -19,7 +18,6 @@ import java.util.Set;
  * @author Wojciech Niemiec
  */
 public class DefaultConfigurationResolver implements InitialConfigurationResolver {
-  private static Logger log = Logger.getLogger(DefaultConfigurationResolver.class.getName());
 
   @Override
   public InitialConfiguration resolveConfiguration() {

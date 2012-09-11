@@ -2,7 +2,6 @@ package pl.bristleback.server.bristle.action;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
-import pl.bristleback.server.bristle.action.client.ClientActionsInitializer;
 import pl.bristleback.server.bristle.action.exception.handler.ActionExceptionHandlers;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.DataController;
@@ -26,9 +25,6 @@ public class ActionController implements DataController {
 
   @Inject
   private BristleMessageSerialization serializationHelper;
-
-  @Inject
-  private ClientActionsInitializer clientActionsInitializer;
 
   private Object messageSerialization;
 

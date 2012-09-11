@@ -1,7 +1,6 @@
 package pl.bristleback.server.bristle.serialization.jackson;
 
 import com.fasterxml.jackson.databind.JavaType;
-import org.apache.log4j.Logger;
 
 /**
  * //@todo class description
@@ -11,9 +10,7 @@ import org.apache.log4j.Logger;
  * @author Wojciech Niemiec
  */
 public class JacksonSerialization {
-  private static Logger log = Logger.getLogger(JacksonSerialization.class.getName());
 
-  //  private TypeReference typeReference;
   private JavaType type;
 
   public JavaType getType() {

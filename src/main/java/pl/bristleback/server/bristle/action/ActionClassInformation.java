@@ -1,7 +1,6 @@
 package pl.bristleback.server.bristle.action;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.action.ActionInformation;
 import pl.bristleback.server.bristle.exceptions.BrokenActionProtocolException;
 
@@ -16,7 +15,6 @@ import java.util.Map;
  * @author Wojciech Niemiec
  */
 public class ActionClassInformation {
-  private static Logger log = Logger.getLogger(ActionClassInformation.class.getName());
 
   private boolean singleton;
   private String name;

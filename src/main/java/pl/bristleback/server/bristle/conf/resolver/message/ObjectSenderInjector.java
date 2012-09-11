@@ -1,7 +1,6 @@
 package pl.bristleback.server.bristle.conf.resolver.message;
 
 import org.apache.commons.lang.reflect.FieldUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.BeanInstantiationException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.ApplicationContext;
@@ -24,7 +23,6 @@ import java.util.Map;
  * @author Wojciech Niemiec
  */
 public class ObjectSenderInjector implements BeanPostProcessor, ApplicationContextAware {
-  private static Logger log = Logger.getLogger(ObjectSenderInjector.class.getName());
 
   private ApplicationContext applicationContext;
 

@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.action.response;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
@@ -25,7 +24,6 @@ import java.util.Collections;
  */
 @Component
 public class ResponseHelper {
-  private static Logger log = Logger.getLogger(ResponseHelper.class.getName());
 
   private static final String EXCEPTION_RESPONSE_SIGN = "exc";
 

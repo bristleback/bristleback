@@ -39,10 +39,6 @@ public class JettyConnector extends AbstractConnector implements WebSocket, WebS
     return connection;
   }
 
-  public ServerEngine getEngine() {
-    return super.getEngine();
-  }
-
   public void onMessage(String data) {
     frontController.processCommand(this, OperationCodes.TEXT_FRAME_CODE.getCode(), data);
   }

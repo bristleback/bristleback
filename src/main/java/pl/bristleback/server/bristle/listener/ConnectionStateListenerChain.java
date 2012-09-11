@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.listener;
 
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.ConnectionStateListener;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 
@@ -15,8 +14,6 @@ import java.util.List;
  * @author Wojciech Niemiec
  */
 public class ConnectionStateListenerChain {
-
-  private static Logger log = Logger.getLogger(ConnectionStateListenerChain.class.getName());
 
   private List<ConnectionStateListener> listeners;
 

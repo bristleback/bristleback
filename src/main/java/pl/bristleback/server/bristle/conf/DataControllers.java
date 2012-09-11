@@ -1,7 +1,6 @@
 package pl.bristleback.server.bristle.conf;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.exceptions.BristleRuntimeException;
 
@@ -15,7 +14,6 @@ import java.util.Map;
  * @author Wojciech Niemiec
  */
 public class DataControllers {
-  private static Logger log = Logger.getLogger(DataControllers.class.getName());
 
   private Map<String, DataController> dataControllers;
   private DataController defaultController;

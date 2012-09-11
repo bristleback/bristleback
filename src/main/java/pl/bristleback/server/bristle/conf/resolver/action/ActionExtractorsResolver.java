@@ -1,11 +1,11 @@
 package pl.bristleback.server.bristle.conf.resolver.action;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.extractor.ActionExtractorsContainer;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
 import pl.bristleback.server.bristle.conf.resolver.SpringConfigurationResolver;
+import pl.bristleback.server.bristle.exceptions.BristleRuntimeException;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.utils.ReflectionUtils;
 
@@ -25,7 +25,6 @@ import java.util.Map;
  */
 @Component
 public class ActionExtractorsResolver {
-  private static Logger log = Logger.getLogger(ActionExtractorsResolver.class.getName());
 
   @Inject
   private BristleSpringIntegration springIntegration;
@@ -67,10 +66,8 @@ public class ActionExtractorsResolver {
       Class parameterClass = getParameterClass(extractorClass, parametrizedInterface);
       extractors.put(parameterClass, extractor);
       Class primitiveForParameterClass = ReflectionUtils.getPrimitiveForWrapper(parameterClass);
-      if (primitiveForParameterClass != null) {
-        if (!extractors.containsKey(primitiveForParameterClass)) {
-          extractors.put(primitiveForParameterClass, extractor);
-        }
+      if (primitiveForParameterClass != null && !extractors.containsKey(primitiveForParameterClass)) {
+        extractors.put(primitiveForParameterClass, extractor);
       }
     }
   }
@@ -86,6 +83,6 @@ public class ActionExtractorsResolver {
         return Object.class;
       }
     }
-    throw new RuntimeException("Cannot find " + parametrizedInterface.getSimpleName() + " interface, this exception should never happen.");
+    throw new BristleRuntimeException("Cannot find " + parametrizedInterface.getSimpleName() + " interface, this exception should never happen.");
   }
 }

@@ -126,7 +126,6 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
     for (int i = 0; i < typeVars.length; i++) {
       TypeVariable<?> typeVar = typeVars[i];
       Type parameterType = resolveType(parentSerialization, ((ParameterizedType) serialization.getGenericType()).getActualTypeArguments()[i]);
-      // parameterType = resolveType(parentSerialization, parameterType);
       typeParameters.add(new ClassTypeParameter(typeVar, parameterType));
     }
     serialization.setTypeParameters(typeParameters);
@@ -153,7 +152,7 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
     } else if (Map.class.isAssignableFrom(serialization.getPropertyClass())) {
       createMapSerialization(parentSerialization, serialization, input);
     } else if (serialization.getPropertyClass().isEnum()) {
-      createEnumSerialization(serialization, input);
+      createEnumSerialization(serialization);
     } else {
       createBeanObjectSerialization(serialization, input);
     }
@@ -161,7 +160,7 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
   }
 
   @SuppressWarnings("unchecked")
-  private void createEnumSerialization(PropertySerialization serialization, SerializationInput input) {
+  private void createEnumSerialization(PropertySerialization serialization) {
     Class<Enum> enumClass = (Class<Enum>) serialization.getPropertyClass();
     ValueSerializer serializer;
     if (extractorsContainer.containsEnumSerializer(enumClass)) {

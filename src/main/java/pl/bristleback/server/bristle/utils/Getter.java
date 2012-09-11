@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.utils;
 
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.exceptions.BristleRuntimeException;
 
 import java.lang.reflect.InvocationTargetException;
@@ -15,7 +14,6 @@ import java.lang.reflect.Type;
  * @author Wojciech Niemiec
  */
 public class Getter {
-  private static Logger log = Logger.getLogger(Getter.class.getName());
 
   private String fieldName;
   private Method getterMethod;

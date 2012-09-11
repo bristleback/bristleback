@@ -1,7 +1,5 @@
 package pl.bristleback.server.bristle.serialization.system;
 
-import org.apache.log4j.Logger;
-
 /**
  * //@todo class description
  * <p/>
@@ -10,7 +8,6 @@ import org.apache.log4j.Logger;
  * @author Wojciech Niemiec
  */
 public class SerializationException extends RuntimeException {
-  private static Logger log = Logger.getLogger(SerializationException.class.getName());
 
   private Reason reason;
   private PropertySerialization information;

@@ -78,8 +78,6 @@ public class TomcatConnector extends MessageInbound implements WebsocketConnecto
     frontController.processCommand(this, OperationCodes.TEXT_FRAME_CODE.getCode(), new String(data.array()));
   }
 
-  // Implemente WebsocketConnector
-
   private String connectorId;
   private ServerEngine engine;
   private DataController dataController;

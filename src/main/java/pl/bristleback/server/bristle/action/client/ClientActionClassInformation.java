@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.action.client;
 
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.exceptions.ClientActionException;
 
 import java.lang.reflect.Method;
@@ -14,7 +13,6 @@ import java.util.Map;
  * @author Wojciech Niemiec
  */
 public class ClientActionClassInformation {
-  private static Logger log = Logger.getLogger(ClientActionClassInformation.class.getName());
 
   private String name;
 

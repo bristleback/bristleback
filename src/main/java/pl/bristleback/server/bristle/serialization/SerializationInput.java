@@ -1,7 +1,5 @@
 package pl.bristleback.server.bristle.serialization;
 
-import org.apache.log4j.Logger;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +11,6 @@ import java.util.Map;
  * @author Wojciech Niemiec
  */
 public class SerializationInput {
-  private static Logger log = Logger.getLogger(SerializationInput.class.getName());
 
   private Map<String, SerializationInput> nonDefaultProperties = new HashMap<String, SerializationInput>();
 

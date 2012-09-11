@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.message;
 
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.WebsocketMessage;
 import pl.bristleback.server.bristle.serialization.MessageType;
@@ -15,7 +14,6 @@ import java.util.List;
  * @author Wojciech Niemiec
  */
 public class BaseMessage<T> implements WebsocketMessage<T> {
-  private static Logger log = Logger.getLogger(BaseMessage.class.getName());
 
   private List<WebsocketConnector> recipients;
   private MessageType messageType;

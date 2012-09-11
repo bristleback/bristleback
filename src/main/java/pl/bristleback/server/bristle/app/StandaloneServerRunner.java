@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.app;
 
-import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import pl.bristleback.server.bristle.api.InitialConfigurationResolver;
@@ -16,7 +15,6 @@ import pl.bristleback.server.bristle.exceptions.BristleRuntimeException;
  * @author Wojciech Niemiec
  */
 public final class StandaloneServerRunner implements ApplicationContextAware {
-  private static Logger log = Logger.getLogger(StandaloneServerRunner.class.getName());
 
   private InitialConfigurationResolver initialConfigurationResolver;
 

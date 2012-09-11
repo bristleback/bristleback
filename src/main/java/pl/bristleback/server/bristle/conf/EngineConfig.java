@@ -1,7 +1,5 @@
 package pl.bristleback.server.bristle.conf;
 
-import org.apache.log4j.Logger;
-
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
@@ -14,7 +12,6 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Wojciech Niemiec
  */
 public class EngineConfig {
-  private static Logger log = Logger.getLogger(EngineConfig.class.getName());
 
   private String name;
 

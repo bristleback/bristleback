@@ -1,7 +1,6 @@
 package pl.bristleback.server.bristle.conf.resolver.init;
 
 import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.springframework.util.Assert;
 import pl.bristleback.server.bristle.api.InitialConfigurationResolver;
 import pl.bristleback.server.bristle.conf.EngineConfig;
@@ -20,7 +19,6 @@ import java.util.Map;
  * @author Wojciech Niemiec
  */
 public class PojoConfigResolver implements InitialConfigurationResolver {
-  private static Logger log = Logger.getLogger(PojoConfigResolver.class.getName());
 
   private InitialConfiguration initialConfiguration;
 

@@ -15,7 +15,6 @@
 
 package pl.bristleback.server.bristle.integration.spring;
 
-import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 
 import java.util.HashMap;
@@ -30,7 +29,6 @@ import java.util.Map;
  * @author Wojciech Niemiec
  */
 public final class BristleSpringIntegration {
-  private static Logger log = Logger.getLogger(BristleSpringIntegration.class.getName());
 
   private ApplicationContext actualContext;
   private ApplicationContext bristlebackFrameworkContext;

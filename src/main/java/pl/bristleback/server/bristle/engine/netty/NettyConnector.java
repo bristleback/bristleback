@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.engine.netty;
 
-import org.apache.log4j.Logger;
 import org.jboss.netty.channel.Channel;
 import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.ServerEngine;
@@ -14,7 +13,6 @@ import pl.bristleback.server.bristle.engine.base.AbstractConnector;
  * @author Wojciech Niemiec
  */
 public class NettyConnector extends AbstractConnector {
-  private static Logger log = Logger.getLogger(NettyConnector.class.getName());
 
   private Channel channel;
 

@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.engine.netty;
 
-import org.apache.log4j.Logger;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import org.jboss.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
@@ -24,7 +23,6 @@ import javax.inject.Named;
  */
 @Component
 public class WebsocketFrameHandler {
-  private static Logger log = Logger.getLogger(WebsocketFrameHandler.class.getName());
 
   @Inject
   @Named("defaultFrontController")

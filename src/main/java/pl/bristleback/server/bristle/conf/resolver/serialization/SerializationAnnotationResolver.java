@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.conf.resolver.serialization;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.SerializationEngine;
 import pl.bristleback.server.bristle.api.SerializationResolver;
@@ -21,7 +20,6 @@ import java.lang.reflect.Type;
  */
 @Component
 public class SerializationAnnotationResolver {
-  private static Logger log = Logger.getLogger(SerializationAnnotationResolver.class.getName());
 
   @Inject
   @Named("serializationEngine")

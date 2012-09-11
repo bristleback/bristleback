@@ -1,7 +1,6 @@
 package pl.bristleback.server.bristle.conf;
 
 import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 
 import java.util.Set;
@@ -14,7 +13,6 @@ import java.util.Set;
  * @author Wojciech Niemiec
  */
 public class InitialConfiguration {
-  private static Logger log = Logger.getLogger(InitialConfiguration.class.getName());
 
   public static final String DEFAULT_LOGGING_LEVEL = "DEBUG";
   public static final String DEFAULT_ENGINE_NAME = "system.engine.jetty";

@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.utils;
 
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.exceptions.BristleInitializationException;
 
 import java.lang.annotation.Annotation;
@@ -20,7 +19,6 @@ import java.util.Map;
  * @author Wojciech Niemiec
  */
 public final class ReflectionUtils {
-  private static Logger log = Logger.getLogger(ReflectionUtils.class.getName());
 
   private static final Map<Class, Class> PRIMITIVE_TO_WRAPPERS_MAP = new HashMap<Class, Class>();
   private static final Map<Class, Class> WRAPPERS_TO_PRIMITIVE_MAP = new HashMap<Class, Class>();

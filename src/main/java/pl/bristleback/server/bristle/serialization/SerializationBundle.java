@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.serialization;
 
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.exceptions.SerializationResolvingException;
 
 import java.lang.reflect.Field;
@@ -15,7 +14,6 @@ import java.util.Map;
  * @author Wojciech Niemiec
  */
 public class SerializationBundle {
-  private static Logger log = Logger.getLogger(SerializationBundle.class.getName());
 
   private Field field;
 

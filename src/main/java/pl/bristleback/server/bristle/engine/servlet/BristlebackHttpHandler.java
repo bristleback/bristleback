@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.engine.servlet;
 
-import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.web.HttpRequestHandler;
@@ -27,7 +26,6 @@ import java.io.IOException;
  * @author Wojciech Niemiec
  */
 public class BristlebackHttpHandler implements HttpRequestHandler, ApplicationContextAware {
-  private static Logger log = Logger.getLogger(BristlebackHttpHandler.class.getName());
 
   private InitialConfigurationResolver initialConfigurationResolver;
   private ApplicationContext applicationContext;

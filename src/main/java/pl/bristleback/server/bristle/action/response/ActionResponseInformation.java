@@ -1,7 +1,5 @@
 package pl.bristleback.server.bristle.action.response;
 
-import org.apache.log4j.Logger;
-
 /**
  * //@todo class description
  * <p/>
@@ -10,7 +8,6 @@ import org.apache.log4j.Logger;
  * @author Wojciech Niemiec
  */
 public class ActionResponseInformation {
-  private static Logger log = Logger.getLogger(ActionResponseInformation.class.getName());
 
   private boolean voidResponse;
   private Object serialization;

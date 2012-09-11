@@ -1,7 +1,5 @@
 package pl.bristleback.server.bristle.serialization.system;
 
-import org.apache.log4j.Logger;
-
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 
@@ -13,7 +11,6 @@ import java.lang.reflect.TypeVariable;
  * @author Wojciech Niemiec
  */
 public class ClassTypeParameter {
-  private static Logger log = Logger.getLogger(ClassTypeParameter.class.getName());
 
   private TypeVariable parameterName;
 

@@ -1,10 +1,11 @@
 package pl.bristleback.server.bristle.action;
 
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * //@todo class description
@@ -14,16 +15,15 @@ import java.lang.reflect.Type;
  * @author Wojciech Niemiec
  */
 public class ActionParameterInformation {
-  private static Logger log = Logger.getLogger(ActionParameterInformation.class.getName());
 
   private Type parameterType;
-  private Annotation[] parameterAnnotations;
+  private List<Annotation> parameterAnnotations;
   private Object propertySerialization;
   private ActionParameterExtractor extractor;
 
   public ActionParameterInformation(Type parameterType, Annotation[] parameterAnnotations) {
     this.parameterType = parameterType;
-    this.parameterAnnotations = parameterAnnotations;
+    this.parameterAnnotations = Arrays.asList(parameterAnnotations);
   }
 
   public Object resolveParameter(String message, ActionExecutionContext context) throws Exception {
@@ -50,7 +50,7 @@ public class ActionParameterInformation {
     return parameterType;
   }
 
-  public Annotation[] getParameterAnnotations() {
+  public List<Annotation> getParameterAnnotations() {
     return parameterAnnotations;
   }
 

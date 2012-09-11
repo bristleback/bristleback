@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.message;
 
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.MessageDispatcher;
 import pl.bristleback.server.bristle.api.SerializationEngine;
@@ -23,7 +22,6 @@ import java.util.List;
  *         created at 03.05.12 16:06
  */
 public class ConditionObjectSender {
-  private Logger log = Logger.getLogger(ConditionObjectSender.class.getName());
 
   private MessageDispatcher messageDispatcher;
 

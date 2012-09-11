@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.app;
 
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.MessageDispatcher;
 import pl.bristleback.server.bristle.api.ServerEngine;
@@ -13,7 +12,6 @@ import pl.bristleback.server.bristle.api.ServerEngine;
  * @author Wojciech Niemiec
  */
 public class BristlebackServerInstance {
-  private static Logger log = Logger.getLogger(BristlebackServerInstance.class.getName());
 
   private boolean running;
 

@@ -2,7 +2,6 @@ package pl.bristleback.server.bristle.engine.netty;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.channel.Channel;
@@ -49,7 +48,6 @@ import static org.jboss.netty.handler.codec.http.HttpHeaders.setContentLength;
  */
 @Component
 public class HttpRequestHandler {
-  private static Logger log = Logger.getLogger(HttpRequestHandler.class.getName());
 
   private static final String WEBSOCKET_ACCEPT_HYBI_10_PARAMETER = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
   private static final int HIXIE_BUFFER_SIZE = 16;
@@ -70,14 +68,14 @@ public class HttpRequestHandler {
       return;
     }
     try {
-      HttpResponse response = processHandshake(context, request);
+      HttpResponse response = processHandshake(request);
       if (!response.getStatus().equals(HttpResponseStatus.SWITCHING_PROTOCOLS)) {
         // sending error http response
         sendHttpResponse(context, request, response);
         return;
       }
       initializeWebsocketConnector(context, request, response);
-      replaceListeners(context, request);
+      replaceListeners(context);
     } catch (NoSuchAlgorithmException e) {
       context.getChannel().close();
     }
@@ -85,7 +83,7 @@ public class HttpRequestHandler {
   }
 
   @SuppressWarnings("rawtypes")
-  private void replaceListeners(ChannelHandlerContext context, HttpRequest request) {
+  private void replaceListeners(ChannelHandlerContext context) {
     int maxFrameSize = engine.getEngineConfiguration().getMaxFrameSize();
     boolean maskClientMessagePayload = true;
     boolean maskServerMessagePayload = false;
@@ -133,7 +131,7 @@ public class HttpRequestHandler {
     });
   }
 
-  private HttpResponse processHandshake(ChannelHandlerContext context, HttpRequest request) throws NoSuchAlgorithmException {
+  private HttpResponse processHandshake(HttpRequest request) throws NoSuchAlgorithmException {
     HttpResponse response;
     // HttpHeaders.Names.WEBSOCKET_ORIGIN; HttpHeaders.Names.WEBSOCKET_LOCATION not checked because of lack of compatibility on client side
     if (!hasHeaderWithValue(request, HttpHeaders.Names.CONNECTION, HttpHeaders.Values.UPGRADE)

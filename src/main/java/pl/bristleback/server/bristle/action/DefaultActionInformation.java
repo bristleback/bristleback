@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.action;
 
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.action.DefaultAction;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 
@@ -12,7 +11,6 @@ import pl.bristleback.server.bristle.api.users.IdentifiedUser;
  * @author Wojciech Niemiec
  */
 public class DefaultActionInformation<T> extends AbstractActionInformation<DefaultAction<IdentifiedUser, T>> {
-  private static Logger log = Logger.getLogger(DefaultActionInformation.class.getName());
 
   private static final int CONNECTOR_ACTION_PARAMETER = 0;
   private static final int SECOND_ACTION_PARAMETER = 1;

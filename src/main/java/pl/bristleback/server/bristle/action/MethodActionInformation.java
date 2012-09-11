@@ -1,7 +1,5 @@
 package pl.bristleback.server.bristle.action;
 
-import org.apache.log4j.Logger;
-
 import java.lang.reflect.Method;
 
 /**
@@ -12,7 +10,6 @@ import java.lang.reflect.Method;
  * @author Wojciech Niemiec
  */
 public class MethodActionInformation extends AbstractActionInformation<Object> {
-  private static Logger log = Logger.getLogger(MethodActionInformation.class.getName());
 
   private Method method;
 

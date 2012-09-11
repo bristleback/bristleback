@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.action.exception.handler;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
@@ -15,7 +14,6 @@ import pl.bristleback.server.bristle.api.action.ActionExceptionHandler;
  */
 @Component
 public class VoidExceptionHandler implements ActionExceptionHandler<Exception> {
-  private static Logger log = Logger.getLogger(VoidExceptionHandler.class.getName());
 
   public static final VoidExceptionHandler HANDLER = new VoidExceptionHandler();
 

@@ -1,7 +1,6 @@
 package pl.bristleback.server.bristle.conf.resolver;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -39,7 +38,6 @@ import java.util.Map;
 @Configuration
 @Lazy
 public class SpringConfigurationResolver {
-  private static Logger log = Logger.getLogger(SpringConfigurationResolver.class.getName());
 
   public static final String CONFIG_BEAN_NAME = "bristlebackConfiguration";
 

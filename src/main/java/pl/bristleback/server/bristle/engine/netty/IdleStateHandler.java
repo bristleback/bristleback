@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.engine.netty;
 
-import org.apache.log4j.Logger;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.handler.timeout.IdleState;
 import org.jboss.netty.util.Timer;
@@ -15,7 +14,6 @@ import java.util.concurrent.TimeUnit;
  * @author Wojciech Niemiec
  */
 public class IdleStateHandler extends org.jboss.netty.handler.timeout.IdleStateHandler {
-  private static Logger log = Logger.getLogger(IdleStateHandler.class.getName());
 
   public IdleStateHandler(Timer timer, int readerIdleTimeSeconds) {
     super(timer, readerIdleTimeSeconds, 0, 0);

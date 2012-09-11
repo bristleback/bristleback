@@ -20,12 +20,6 @@ public class BristleMessageSerialization {
 
   private BristleMessage<String[]> serializedArrayMessage = new BristleMessage<String[]>();
 
-  private BristleMessage<String> serializedMessage = new BristleMessage<String>();
-
-  public Type getSerializedMessageType() {
-    return PropertyUtils.getDeclaredField(BristleMessageSerialization.class, "serializedMessage");
-  }
-
   public Type getSerializedArrayMessageType() {
     return PropertyUtils.getDeclaredField(BristleMessageSerialization.class, "serializedArrayMessage");
   }

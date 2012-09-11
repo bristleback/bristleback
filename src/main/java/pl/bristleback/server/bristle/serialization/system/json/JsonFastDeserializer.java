@@ -1,7 +1,6 @@
 package pl.bristleback.server.bristle.serialization.system.json;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -27,7 +26,6 @@ import java.util.Map;
  */
 @Component("jsonSerializer.fastDeserializer")
 public class JsonFastDeserializer {
-  private static Logger log = Logger.getLogger(JsonFastDeserializer.class.getName());
 
   private Map<PropertyType, TypeDeserializer> deserializationMap;
 

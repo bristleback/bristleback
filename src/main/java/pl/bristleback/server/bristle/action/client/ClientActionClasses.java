@@ -1,7 +1,6 @@
 package pl.bristleback.server.bristle.action.client;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.annotations.ClientActionClass;
 import pl.bristleback.server.bristle.conf.resolver.action.client.ClientActionClassesResolver;
@@ -20,7 +19,6 @@ import java.util.Map;
  */
 @Component
 public class ClientActionClasses {
-  private static Logger log = Logger.getLogger(ClientActionClasses.class.getName());
 
   private Map<String, ClientActionClassInformation> actionClasses;
 

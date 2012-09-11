@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.serialization.system;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.exceptions.SerializationResolvingException;
 import pl.bristleback.server.bristle.serialization.system.json.extractor.ValueSerializer;
@@ -18,7 +17,6 @@ import java.util.Map;
  */
 @Component
 public class ExtractorsContainer {
-  private static Logger log = Logger.getLogger(ExtractorsContainer.class.getName());
 
   private Map<Class, ValueSerializer> enumProcessors;
   private Map<Class, ValueSerializer> valueProcessors;

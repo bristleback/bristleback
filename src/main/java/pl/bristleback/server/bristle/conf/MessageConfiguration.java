@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.conf;
 
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.MessageDispatcher;
 
 /**
@@ -11,7 +10,6 @@ import pl.bristleback.server.bristle.api.MessageDispatcher;
  * @author Wojciech Niemiec
  */
 public class MessageConfiguration {
-  private static Logger log = Logger.getLogger(MessageConfiguration.class.getName());
 
   private MessageDispatcher messageDispatcher;
 

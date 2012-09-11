@@ -2,7 +2,6 @@ package pl.bristleback.server.bristle.action.client;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.action.ClientActionSender;
 import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
@@ -18,7 +17,6 @@ import java.util.Map;
  * @author Wojciech Niemiec
  */
 public class ClientActionProxyInterceptor implements MethodInterceptor {
-  private static Logger log = Logger.getLogger(ClientActionProxyInterceptor.class.getName());
 
   private ClientActionClasses actionClasses;
 
@@ -41,8 +39,7 @@ public class ClientActionProxyInterceptor implements MethodInterceptor {
     if (parameters.length == 1) {
       payload = parameters[0];
     } else if (parameters.length > 1) {
-      int parametersToSerializeCount = 0;
-      parametersToSerializeCount = getNumberOfParametersToSerialize(actionInformation, parametersToSerializeCount);
+      int parametersToSerializeCount = getNumberOfParametersToSerialize(actionInformation);
       if (parametersToSerializeCount == 1) {
         payload = resolveSinglePayload(actionInformation, parameters, payload);
       } else {
@@ -85,7 +82,8 @@ public class ClientActionProxyInterceptor implements MethodInterceptor {
     return payload;
   }
 
-  private int getNumberOfParametersToSerialize(ClientActionInformation actionInformation, int parametersToSerializeCount) {
+  private int getNumberOfParametersToSerialize(ClientActionInformation actionInformation) {
+    int parametersToSerializeCount = 0;
     for (ClientActionParameterInformation parameterInformation : actionInformation.getParameters()) {
       if (parameterInformation.isForSerialization()) {
         parametersToSerializeCount++;

@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.engine.base;
 
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.ServerEngine;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
@@ -16,7 +15,6 @@ import java.util.Map;
  * @author Wojciech Niemiec
  */
 public abstract class AbstractConnector implements WebsocketConnector {
-  private static Logger log = Logger.getLogger(AbstractConnector.class.getName());
 
   private String connectorId;
   private ServerEngine engine;

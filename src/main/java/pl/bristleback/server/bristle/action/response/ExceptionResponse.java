@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.action.response;
 
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
 
 /**
@@ -11,7 +10,6 @@ import pl.bristleback.server.bristle.action.ActionExecutionStage;
  * @author Wojciech Niemiec
  */
 public class ExceptionResponse {
-  private static Logger log = Logger.getLogger(ExceptionResponse.class.getName());
 
   private static final String UNKNOWN_EXCEPTION = "UnknownException";
 

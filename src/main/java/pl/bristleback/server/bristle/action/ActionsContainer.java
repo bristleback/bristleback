@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.action;
 
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.exceptions.BrokenActionProtocolException;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 
@@ -14,7 +13,6 @@ import java.util.Map;
  * @author Wojciech Niemiec
  */
 public class ActionsContainer {
-  private static Logger log = Logger.getLogger(ActionsContainer.class.getName());
 
   private Map<String, ActionClassInformation> actionClasses;
 

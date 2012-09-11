@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.serialization.system;
 
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.serialization.PropertyType;
 import pl.bristleback.server.bristle.serialization.system.json.extractor.ValueSerializer;
 import pl.bristleback.server.bristle.utils.PropertyAccess;
@@ -20,7 +19,6 @@ import java.util.Map;
  * @author Wojciech Niemiec
  */
 public class PropertySerialization {
-  private static Logger log = Logger.getLogger(PropertySerialization.class.getName());
 
   public static final String CONTAINER_ELEMENT_PROPERTY_NAME = "element";
 

@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.engine.netty;
 
-import org.apache.log4j.Logger;
 import org.jboss.netty.channel.ChannelPipeline;
 import org.jboss.netty.channel.ChannelPipelineFactory;
 import org.jboss.netty.channel.Channels;
@@ -25,7 +24,6 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class WebsocketChannelPipelineFactory implements ChannelPipelineFactory {
-  private static Logger log = Logger.getLogger(WebsocketChannelPipelineFactory.class.getName());
 
   @Inject
   private WebSocketServerHandler webSocketServerHandler;

@@ -1,7 +1,6 @@
 package pl.bristleback.server.bristle.action;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.action.response.ActionResponseInformation;
 import pl.bristleback.server.bristle.api.action.ActionInformation;
 
@@ -16,7 +15,6 @@ import java.util.List;
  * @author Wojciech Niemiec
  */
 public abstract class AbstractActionInformation<T> implements ActionInformation<T> {
-  private static Logger log = Logger.getLogger(AbstractActionInformation.class.getName());
 
   private String name;
 

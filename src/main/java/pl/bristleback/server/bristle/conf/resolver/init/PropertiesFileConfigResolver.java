@@ -4,7 +4,6 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.InitialConfigurationResolver;
 import pl.bristleback.server.bristle.conf.EngineConfig;
 import pl.bristleback.server.bristle.conf.InitialConfiguration;
@@ -24,7 +23,6 @@ import java.util.Set;
  * @author Wojciech Niemiec
  */
 public class PropertiesFileConfigResolver implements InitialConfigurationResolver {
-  private static Logger log = Logger.getLogger(PropertiesFileConfigResolver.class.getName());
 
   private static final String DEFAULT_CONFIG_FILE_LOCATION = "conf/bristleback.properties";
 

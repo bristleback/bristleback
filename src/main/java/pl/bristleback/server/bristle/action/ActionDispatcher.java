@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.action;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.response.ResponseHelper;
 import pl.bristleback.server.bristle.api.action.ActionInformation;
@@ -20,7 +19,6 @@ import javax.inject.Inject;
  */
 @Component
 public class ActionDispatcher {
-  private static Logger log = Logger.getLogger(ActionDispatcher.class.getName());
 
   private ActionsContainer actionsContainer;
 

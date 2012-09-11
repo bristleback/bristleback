@@ -1,7 +1,5 @@
 package pl.bristleback.server.bristle.exceptions;
 
-import org.apache.log4j.Logger;
-
 /**
  * //@todo class description
  * <p/>
@@ -10,8 +8,6 @@ import org.apache.log4j.Logger;
  * @author Wojciech Niemiec
  */
 public class BristleInitializationException extends RuntimeException {
-  private static Logger log = Logger.getLogger(BristleInitializationException.class.getName());
-
 
   public BristleInitializationException(String s) {
     super(s);

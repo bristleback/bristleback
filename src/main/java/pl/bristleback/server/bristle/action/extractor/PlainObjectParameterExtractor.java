@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.action.extractor;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionParameterInformation;
@@ -20,7 +19,6 @@ import javax.inject.Named;
  */
 @Component
 public class PlainObjectParameterExtractor implements ActionParameterExtractor {
-  private static Logger log = Logger.getLogger(PlainObjectParameterExtractor.class.getName());
 
   @Inject
   @Named("serializationEngine")

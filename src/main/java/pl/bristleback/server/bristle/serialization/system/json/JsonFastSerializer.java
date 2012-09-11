@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.serialization.system.json;
 
-import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.serialization.PropertyType;
@@ -24,7 +23,6 @@ import java.util.Map;
  */
 @Component("jsonSerializer.fastSerializer")
 public class JsonFastSerializer {
-  private static Logger log = Logger.getLogger(JsonFastSerializer.class.getName());
 
   private static final String EMPTY_JSON_ARRAY = StringUtils.LEFT_BRACKET + "" + StringUtils.RIGHT_BRACKET;
   private static final String EMPTY_JSON_OBJECT = StringUtils.LEFT_CURLY + "" + StringUtils.RIGHT_CURLY;

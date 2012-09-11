@@ -224,7 +224,7 @@ public final class PropertyUtils {
     try {
       return clazz.getDeclaredField(fieldName).getGenericType();
     } catch (NoSuchFieldException e) {
-      throw new BristleInitializationException("This should never happen.");
+      throw new BristleInitializationException("This should never happen.", e);
     }
   }
 }

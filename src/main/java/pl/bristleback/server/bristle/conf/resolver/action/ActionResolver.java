@@ -1,7 +1,6 @@
 package pl.bristleback.server.bristle.conf.resolver.action;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.AbstractActionInformation;
 import pl.bristleback.server.bristle.action.ActionParameterInformation;
@@ -28,7 +27,6 @@ import java.util.List;
  */
 @Component
 public class ActionResolver {
-  private static Logger log = Logger.getLogger(ActionResolver.class.getName());
 
   @Inject
   private ParameterResolver parametersResolver;

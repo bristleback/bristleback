@@ -1,7 +1,5 @@
 package pl.bristleback.server.bristle.utils;
 
-import org.apache.log4j.Logger;
-
 /**
  * //@todo class description
  * <p/>
@@ -10,7 +8,6 @@ import org.apache.log4j.Logger;
  * @author Wojciech Niemiec
  */
 public final class StringUtils {
-  private static Logger log = Logger.getLogger(StringUtils.class.getName());
 
   public static final String EMPTY = "";
   public static final char DOT = '.';

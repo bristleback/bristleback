@@ -12,8 +12,6 @@
 // ---------------------------------------------------------------------------
 package pl.bristleback.server.bristle.exceptions;
 
-import org.apache.log4j.Logger;
-
 /**
  * This is a main runtime exception thrown by Bristleback elements. It is thrown because of programmer mistakes
  * or because of lack of implementation. It is recommended to not catch bristleback runtime exceptions.
@@ -23,7 +21,6 @@ import org.apache.log4j.Logger;
  * @author Wojciech Niemiec
  */
 public class BristleRuntimeException extends RuntimeException {
-  private static Logger log = Logger.getLogger(BristleRuntimeException.class.getName());
 
   public BristleRuntimeException(String message) {
     super(message);

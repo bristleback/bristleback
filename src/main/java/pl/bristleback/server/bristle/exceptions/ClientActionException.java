@@ -1,7 +1,5 @@
 package pl.bristleback.server.bristle.exceptions;
 
-import org.apache.log4j.Logger;
-
 /**
  * //@todo class description
  * <p/>
@@ -10,7 +8,6 @@ import org.apache.log4j.Logger;
  * @author Wojciech Niemiec
  */
 public class ClientActionException extends BristleRuntimeException {
-  private static Logger log = Logger.getLogger(ClientActionException.class.getName());
 
   public ClientActionException(String message) {
     super(message);

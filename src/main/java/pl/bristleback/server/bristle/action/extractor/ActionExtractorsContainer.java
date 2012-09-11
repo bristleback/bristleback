@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.action.extractor;
 
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
 import pl.bristleback.server.bristle.utils.ReflectionUtils;
 
@@ -14,7 +13,6 @@ import java.util.Map;
  * @author Wojciech Niemiec
  */
 public class ActionExtractorsContainer {
-  private static Logger log = Logger.getLogger(ActionExtractorsContainer.class.getName());
 
   private Map<Class, ActionParameterExtractor> parameterExtractors;
 
