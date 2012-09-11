@@ -15,6 +15,7 @@ import pl.bristleback.server.bristle.conf.EngineConfig;
 import pl.bristleback.server.bristle.engine.WebsocketVersions;
 import pl.bristleback.server.bristle.engine.base.AbstractServerEngine;
 
+import javax.inject.Inject;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 
@@ -32,6 +33,9 @@ public class NettyServerEngine extends AbstractServerEngine {
 
   private Channel serverChannel;
 
+  @Inject
+  private WebsocketChannelPipelineFactory pipelineFactory;
+
   @Override
   public void startServer() {
     log.info("Starting Netty engine (" + getClass().getName() + ") on port " + getEngineConfiguration().getPort());
@@ -39,7 +43,8 @@ public class NettyServerEngine extends AbstractServerEngine {
     ChannelFactory nioChannelFactory =
       new NioServerSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool());
     ServerBootstrap bootstrap = new ServerBootstrap(nioChannelFactory);
-    bootstrap.setPipelineFactory(new WebsocketChannelPipelineFactory(engineConfig, this));
+    pipelineFactory.init(this);
+    bootstrap.setPipelineFactory(pipelineFactory);
     serverChannel = bootstrap.bind(new InetSocketAddress(engineConfig.getPort()));
     log.info("Netty engine (" + getClass().getName() + ") on port " + getEngineConfiguration().getPort() + " has started.");
   }

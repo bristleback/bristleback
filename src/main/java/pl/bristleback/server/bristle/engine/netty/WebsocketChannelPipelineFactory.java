@@ -9,8 +9,11 @@ import org.jboss.netty.handler.codec.http.HttpRequestDecoder;
 import org.jboss.netty.handler.codec.http.HttpResponseEncoder;
 import org.jboss.netty.util.HashedWheelTimer;
 import org.jboss.netty.util.Timer;
+import org.springframework.stereotype.Component;
+import pl.bristleback.server.bristle.api.ServerEngine;
 import pl.bristleback.server.bristle.conf.EngineConfig;
 
+import javax.inject.Inject;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -20,16 +23,20 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Wojciech Niemiec
  */
+@Component
 public class WebsocketChannelPipelineFactory implements ChannelPipelineFactory {
   private static Logger log = Logger.getLogger(WebsocketChannelPipelineFactory.class.getName());
 
-  private EngineConfig engineConfig;
+  @Inject
   private WebSocketServerHandler webSocketServerHandler;
+
+  private EngineConfig engineConfig;
+
   private IdleStateHandler idleStateHandler;
 
-  public WebsocketChannelPipelineFactory(EngineConfig engineConfig, NettyServerEngine engine) {
-    this.engineConfig = engineConfig;
-    this.webSocketServerHandler = new WebSocketServerHandler(engine);
+  public void init(ServerEngine engine) {
+    this.engineConfig = engine.getEngineConfiguration();
+    webSocketServerHandler.init(engine);
     Timer timer = new HashedWheelTimer();
     idleStateHandler = new IdleStateHandler(timer, engineConfig.getTimeout(), TimeUnit.MILLISECONDS);
   }

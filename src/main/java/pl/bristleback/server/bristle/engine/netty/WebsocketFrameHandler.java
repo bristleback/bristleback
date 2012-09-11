@@ -6,10 +6,10 @@ import org.jboss.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import org.jboss.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
 import org.jboss.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.jboss.netty.handler.codec.http.websocketx.WebSocketFrame;
+import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.FrontController;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.engine.OperationCodes;
-import pl.bristleback.server.bristle.engine.controller.DefaultFrontController;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -22,16 +22,13 @@ import javax.inject.Named;
  * @author Wojciech Niemiec
  * @author Andrea Nanni
  */
+@Component
 public class WebsocketFrameHandler {
   private static Logger log = Logger.getLogger(WebsocketFrameHandler.class.getName());
 
   @Inject
   @Named("defaultFrontController")
   private FrontController frontController;
-
-  public WebsocketFrameHandler() {
-    frontController = new DefaultFrontController();
-  }
 
   @SuppressWarnings("rawtypes")
   public void handleWebSocketFrame(ChannelHandlerContext ctx, WebSocketFrame frame) {

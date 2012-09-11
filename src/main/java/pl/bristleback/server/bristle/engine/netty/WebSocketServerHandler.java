@@ -24,20 +24,28 @@ import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
 import org.jboss.netty.handler.codec.http.HttpRequest;
 import org.jboss.netty.handler.codec.http.websocketx.WebSocketFrame;
+import org.springframework.stereotype.Component;
+import pl.bristleback.server.bristle.api.ServerEngine;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 
+import javax.inject.Inject;
+
+@Component
 public class WebSocketServerHandler extends SimpleChannelUpstreamHandler {
 
   private static Logger log = Logger.getLogger(WebSocketServerHandler.class.getName());
 
-  private NettyServerEngine engine;
+  private ServerEngine engine;
+
+  @Inject
   private HttpRequestHandler httpRequestHandler;
+
+  @Inject
   private WebsocketFrameHandler websocketFrameHandler;
 
-  public WebSocketServerHandler(NettyServerEngine engine) {
-    this.engine = engine;
-    httpRequestHandler = new HttpRequestHandler(engine);
-    websocketFrameHandler = new WebsocketFrameHandler();
+  public void init(ServerEngine serverEngine) {
+    this.engine = serverEngine;
+    httpRequestHandler.init(serverEngine);
   }
 
   public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {

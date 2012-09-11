@@ -26,7 +26,9 @@ import org.jboss.netty.handler.codec.http.websocketx.WebSocket13FrameEncoder;
 import org.jboss.netty.handler.codec.oneone.OneToOneEncoder;
 import org.jboss.netty.handler.codec.replay.ReplayingDecoder;
 import org.jboss.netty.util.CharsetUtil;
+import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.DataController;
+import pl.bristleback.server.bristle.api.ServerEngine;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.engine.WebsocketVersions;
 import pl.bristleback.server.bristle.utils.ExtendedHttpHeaders;
@@ -45,6 +47,7 @@ import static org.jboss.netty.handler.codec.http.HttpHeaders.setContentLength;
  * @author Wojciech Niemiec
  * @author Andrea Nanni
  */
+@Component
 public class HttpRequestHandler {
   private static Logger log = Logger.getLogger(HttpRequestHandler.class.getName());
 
@@ -54,10 +57,10 @@ public class HttpRequestHandler {
   private static final String WEBSOCKET_PATH = "/websocket";
   private static final String NULL_VALUE = "null";
 
-  private NettyServerEngine engine;
+  private ServerEngine engine;
 
-  public HttpRequestHandler(NettyServerEngine engine) {
-    this.engine = engine;
+  public void init(ServerEngine serverEngine) {
+    this.engine = serverEngine;
   }
 
   public void handleHttpRequest(ChannelHandlerContext context, HttpRequest request) {
@@ -84,7 +87,8 @@ public class HttpRequestHandler {
   @SuppressWarnings("rawtypes")
   private void replaceListeners(ChannelHandlerContext context, HttpRequest request) {
     int maxFrameSize = engine.getEngineConfiguration().getMaxFrameSize();
-    boolean maskPayload = true;
+    boolean maskClientMessagePayload = true;
+    boolean maskServerMessagePayload = false;
 
     WebsocketConnector connector = (WebsocketConnector) context.getAttachment();
     String wsVersion = connector.getWebsocketVersion();
@@ -92,11 +96,11 @@ public class HttpRequestHandler {
     ReplayingDecoder decoder = null;
     OneToOneEncoder encoder = null;
     if (wsVersion.equals(WebsocketVersions.HYBI_13.getVersionCode())) {
-      decoder = new WebSocket13FrameDecoder(maskPayload, true, maxFrameSize);
-      encoder = new WebSocket13FrameEncoder(maskPayload);
+      decoder = new WebSocket13FrameDecoder(maskClientMessagePayload, true, maxFrameSize);
+      encoder = new WebSocket13FrameEncoder(maskServerMessagePayload);
     } else if (wsVersion.equals(WebsocketVersions.HYBI_10.getVersionCode())) {
-      decoder = new WebSocket08FrameDecoder(maskPayload, true, maxFrameSize);
-      encoder = new WebSocket08FrameEncoder(maskPayload);
+      decoder = new WebSocket08FrameDecoder(maskClientMessagePayload, true, maxFrameSize);
+      encoder = new WebSocket08FrameEncoder(maskServerMessagePayload);
     } else if (wsVersion.equals(WebsocketVersions.HIXIE_76.getVersionCode())) {
       decoder = new WebSocket00FrameDecoder((long) maxFrameSize);
       encoder = new WebSocket00FrameEncoder();
@@ -109,6 +113,7 @@ public class HttpRequestHandler {
 
   }
 
+  @SuppressWarnings("unchecked")
   private void initializeWebsocketConnector(final ChannelHandlerContext context, final HttpRequest request, HttpResponse response) {
     String controllerName = request.getHeader(HttpHeaders.Names.SEC_WEBSOCKET_PROTOCOL);
     final DataController controllerUsed = engine.getConfiguration().getDataController(controllerName);
