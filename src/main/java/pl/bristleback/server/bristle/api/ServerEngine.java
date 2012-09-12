@@ -13,6 +13,58 @@ import pl.bristleback.server.bristle.conf.EngineConfig;
  * Every implementation should inherit from {@link pl.bristleback.server.bristle.engine.base.AbstractServerEngine} class,
  * which has more than a half methods implemented.
  * <p/>
+ * Bristleback Server has several built in server engine implementations:
+ * <table>
+ * <thead>
+ * <tr>
+ * <td>
+ * <strong>
+ * Server engine name
+ * </strong>
+ * </td>
+ * <td>
+ * <strong>
+ * Server engine class
+ * </strong>
+ * </td>
+ * </tr>
+ * </thead>
+ * <tbody>
+ * <tr>
+ * <td>
+ * system.engine.jetty
+ * </td>
+ * <td>
+ * {@link pl.bristleback.server.bristle.engine.jetty.JettyWebsocketEngine}
+ * </td>
+ * </tr>
+ * <tr>
+ * <td>
+ * system.engine.netty
+ * </td>
+ * <td>
+ * {@link pl.bristleback.server.bristle.engine.netty.NettyServerEngine}
+ * </td>
+ * </tr>
+ * <tr>
+ * <td>
+ * system.engine.jetty.servlet
+ * </td>
+ * <td>
+ * {@link pl.bristleback.server.bristle.engine.jetty.servlet.JettyServletWebsocketEngine}
+ * </td>
+ * </tr>
+ * <tr>
+ * <td>
+ * system.engine.tomcat.servlet
+ * </td>
+ * <td>
+ * {@link pl.bristleback.server.bristle.engine.tomcat.servlet.TomcatServletWebsocketEngine}
+ * </td>
+ * </tr>
+ * </tbody>
+ * </table>
+ * <p/>
  * Created on: 2011-07-05 14:51:41 <br/>
  *
  * @author Wojciech Niemiec

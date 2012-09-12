@@ -9,7 +9,6 @@ import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -36,7 +35,6 @@ public class ClientActionsInitializer {
   @Named(SpringConfigurationResolver.CONFIG_BEAN_NAME)
   private BristlebackConfig configuration;
 
-  @PostConstruct
   public void initActionClasses() {
     ClientActionProxyInterceptor proxyInterceptor = getClientActionInterceptor();
     if (proxyInterceptor == null) {

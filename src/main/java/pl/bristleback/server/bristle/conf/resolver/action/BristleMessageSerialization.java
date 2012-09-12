@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.conf.resolver.action;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.utils.PropertyUtils;
@@ -16,7 +15,6 @@ import java.lang.reflect.Type;
  */
 @Component
 public class BristleMessageSerialization {
-  private static Logger log = Logger.getLogger(BristleMessageSerialization.class.getName());
 
   private BristleMessage<String[]> serializedArrayMessage = new BristleMessage<String[]>();
 

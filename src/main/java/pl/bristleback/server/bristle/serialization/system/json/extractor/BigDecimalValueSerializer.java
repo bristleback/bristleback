@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.serialization.system.json.extractor;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
@@ -17,7 +16,6 @@ import java.math.BigDecimal;
  */
 @Component
 public class BigDecimalValueSerializer implements ValueSerializer<BigDecimal> {
-  private static Logger log = Logger.getLogger(BigDecimalValueSerializer.class.getName());
 
   @Override
   public void init(BristlebackConfig configuration) {

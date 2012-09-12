@@ -53,7 +53,7 @@ public class ActionResolver {
 
   private ActionInformation<?> prepareAction(Class<?> clazz, Method action) {
     AbstractActionInformation<?> actionInformation;
-    String actionName = getActionName(action);
+    String actionName = resolveActionName(action);
     if (isDefaultRemoteAction(clazz, action)) {
       actionInformation = new DefaultActionInformation(actionName);
     } else {
@@ -62,7 +62,7 @@ public class ActionResolver {
     return actionInformation;
   }
 
-  private String getActionName(Method action) {
+  private String resolveActionName(Method action) {
     Action actionAnnotation = action.getAnnotation(Action.class);
     if (actionAnnotation != null && StringUtils.isNotBlank(actionAnnotation.name())) {
       return actionAnnotation.name();
