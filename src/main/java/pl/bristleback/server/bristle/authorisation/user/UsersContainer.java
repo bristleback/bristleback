@@ -18,8 +18,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Pawel Machowski
- *         created at 01.05.12 14:04
+ * Class holding references to all currently connected users. Manages connection between frameworks based abstraction of
+ * user ({@link IdentifiedUser}) and WebSocket internal implementation ({@link WebsocketConnector}). Provides convenient
+ * methods for transforming {@link IdentifiedUser} to {@link WebsocketConnector} and vice-versa.
+ *
+ * @author Pawel Machowski created at 01.05.12 14:04
  */
 @Component
 public class UsersContainer {

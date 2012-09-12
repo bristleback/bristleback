@@ -5,7 +5,7 @@ import pl.bristleback.server.bristle.api.users.UserFactory;
 
 /**
  * Provides user object for framework
- * If implementation of {@link UserFactory} is not provided by framework user, that class is used and default user object is created
+ * If implementation of {@link UserFactory} is not provided by framework user, that class is used and {@link DefaultUser} object is created
  * <p/>
  * Pawel Machowski
  * created at 03.05.12 16:34
