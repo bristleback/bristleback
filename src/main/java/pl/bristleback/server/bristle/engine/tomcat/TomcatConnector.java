@@ -39,8 +39,8 @@ public class TomcatConnector extends MessageInbound implements WebsocketConnecto
     variables = new HashMap<String, Object>();
     this.frontController = frontController;
 
-    setByteBufferMaxSize(engine.getEngineConfiguration().getMaxFrameSize());
-    setCharBufferMaxSize(engine.getEngineConfiguration().getMaxFrameSize());
+    setByteBufferMaxSize(engine.getEngineConfiguration().getMaxBufferSize());
+    setCharBufferMaxSize(engine.getEngineConfiguration().getMaxBufferSize());
   }
 
   public void stop() {
