@@ -16,7 +16,15 @@ public final class LogicalConditions {
     throw new UnsupportedOperationException();
   }
 
-  public static <T extends IdentifiedUser> SendCondition and(final SendCondition<T> first, final SendCondition<T> second) {
+  /**
+   * Creates a new condition instance that works as the logical "AND" expression.
+   *
+   * @param first  first condition.
+   * @param second second condition.
+   * @param <T>    type of user implementation.
+   * @return "AND" condition object.
+   */
+  public static <T extends IdentifiedUser> SendCondition<T> and(final SendCondition<T> first, final SendCondition<T> second) {
     return new SendCondition<T>() {
       @Override
       public boolean isApplicable(T user) {
@@ -25,7 +33,14 @@ public final class LogicalConditions {
     };
   }
 
-  public static <T extends IdentifiedUser> SendCondition and(final SendCondition<T>... conditions) {
+  /**
+   * Creates a new condition instance that works as the logical "AND" expression.
+   *
+   * @param conditions conditions.
+   * @param <T>        type of user implementation.
+   * @return "AND" condition object.
+   */
+  public static <T extends IdentifiedUser> SendCondition<T> and(final SendCondition<T>... conditions) {
     return new SendCondition<T>() {
       @Override
       public boolean isApplicable(T user) {
@@ -39,7 +54,15 @@ public final class LogicalConditions {
     };
   }
 
-  public static <T extends IdentifiedUser> SendCondition or(final SendCondition<T> first, final SendCondition<T> second) {
+  /**
+   * Creates a new condition instance that works as the logical "OR" expression.
+   *
+   * @param first  first condition.
+   * @param second second condition.
+   * @param <T>    type of user implementation.
+   * @return "OR" condition object.
+   */
+  public static <T extends IdentifiedUser> SendCondition<T> or(final SendCondition<T> first, final SendCondition<T> second) {
     return new SendCondition<T>() {
       @Override
       public boolean isApplicable(T user) {
@@ -48,7 +71,14 @@ public final class LogicalConditions {
     };
   }
 
-  public static <T extends IdentifiedUser> SendCondition or(final SendCondition<T>... conditions) {
+  /**
+   * Creates a new condition instance that works as the logical "OR" expression.
+   *
+   * @param conditions conditions.
+   * @param <T>        type of user implementation.
+   * @return "OR" condition object.
+   */
+  public static <T extends IdentifiedUser> SendCondition<T> or(final SendCondition<T>... conditions) {
     return new SendCondition<T>() {
       @Override
       public boolean isApplicable(T user) {
@@ -58,6 +88,22 @@ public final class LogicalConditions {
           }
         }
         return false;
+      }
+    };
+  }
+
+  /**
+   * Creates a new condition instance that works as the logical "NOT" expression.
+   *
+   * @param condition condition to negate.
+   * @param <T>       type of user implementation.
+   * @return "NOT" condition object.
+   */
+  public static <T extends IdentifiedUser> SendCondition<T> not(final SendCondition<T> condition) {
+    return new SendCondition<T>() {
+      @Override
+      public boolean isApplicable(T user) {
+        return !condition.isApplicable(user);
       }
     };
   }
