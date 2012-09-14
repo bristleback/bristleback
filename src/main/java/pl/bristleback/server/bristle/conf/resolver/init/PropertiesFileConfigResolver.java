@@ -16,11 +16,160 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * //@todo class description
+ * This configuration resolver uses {@link java.util.Properties} file to retrieve configuration elements.
+ * Default values are taken from {@link pl.bristleback.server.bristle.conf.resolver.init.DefaultConfigurationResolver DefaultConfigurationResolver} instance.
+ * The table below shows all properties:
+ * <table border="1">
+ * <thead>
+ * <tr>
+ * <th>
+ * Property
+ * </th>
+ * <th>
+ * Property key
+ * </th>
+ * <th>
+ * Property value type
+ * </th>
+ * <th>
+ * Default value
+ * </th>
+ * </tr>
+ * </thead>
+ * <tbody>
+ * <tr>
+ * <td>
+ * Server engine
+ * </td>
+ * <td>
+ * bristle.engine.name
+ * </td>
+ * <td>
+ * {@link pl.bristleback.server.bristle.api.ServerEngine}
+ * </td>
+ * <td>
+ * system.engine.jetty
+ * </td>
+ * </tr>
+ * <tr>
+ * <td>
+ * Accepted data controllers
+ * </td>
+ * <td>
+ * bristle.websocket.controller
+ * </td>
+ * <td>
+ * {@link pl.bristleback.server.bristle.api.DataController}
+ * </td>
+ * <td>
+ * system.controller.action
+ * </td>
+ * </tr>
+ * <tr>
+ * <td>
+ * User factory
+ * </td>
+ * <td>
+ * bristle.user.factory
+ * </td>
+ * <td>
+ * {@link pl.bristleback.server.bristle.api.users.UserFactory}
+ * </td>
+ * <td>
+ * DefaultUserFactory
+ * </td>
+ * </tr>
+ * <tr>
+ * <td>
+ * Serialization engine
+ * </td>
+ * <td>
+ * bristle.serialization.engine
+ * </td>
+ * <td>
+ * {@link pl.bristleback.server.bristle.api.SerializationEngine}
+ * </td>
+ * <td>
+ * system.serializer.json
+ * </td>
+ * </tr>
+ * <tr>
+ * <td>
+ * Logging level
+ * </td>
+ * <td>
+ * bristle.logging.level
+ * </td>
+ * <td>
+ * {@link org.apache.log4j.Level}
+ * </td>
+ * <td>
+ * DEBUG
+ * </td>
+ * </tr>
+ * <tr>
+ * <td>
+ * Server Engine port
+ * </td>
+ * <td>
+ * bristle.engine.port
+ * </td>
+ * <td>
+ * {@link Integer}
+ * </td>
+ * <td>
+ * 8765
+ * </td>
+ * </tr>
+ * <tr>
+ * <td>
+ * Server Engine timeout
+ * </td>
+ * <td>
+ * bristle.engine.timeout
+ * </td>
+ * <td>
+ * {@link Integer}
+ * </td>
+ * <td>
+ * 1000 * 60 * 5 milliseconds (5 minutes)
+ * </td>
+ * </tr>
+ * <tr>
+ * <td>
+ * Server Engine maximum buffer size
+ * </td>
+ * <td>
+ * bristle.engine.max.buffer.size
+ * </td>
+ * <td>
+ * {@link Integer}
+ * </td>
+ * <td>
+ * 65536
+ * </td>
+ * </tr>
+ * <tr>
+ * <td>
+ * Server Engine maximum message size
+ * </td>
+ * <td>
+ * bristle.engine.max.message.size
+ * </td>
+ * <td>
+ * {@link Integer}
+ * </td>
+ * <td>
+ * 65536
+ * </td>
+ * </tr>
+ * </tbody>
+ * </table>
  * <p/>
  * Created on: 2011-07-03 23:42:06 <br/>
  *
  * @author Wojciech Niemiec
+ * @see java.util.Properties
  */
 public class PropertiesFileConfigResolver implements InitialConfigurationResolver {
 
@@ -30,7 +179,7 @@ public class PropertiesFileConfigResolver implements InitialConfigurationResolve
   public static final String ENGINE_NAME_PROPERTY = "bristle.engine.name";
   public static final String ENGINE_PORT_PROPERTY = "bristle.engine.port";
   public static final String ENGINE_MAX_BUFFER_SIZE_PROPERTY = "bristle.engine.max.buffer.size";
-  public static final String ENGINE_MAX_FRAME_SIZE_PROPERTY = "bristle.engine.max.frame.size";
+  public static final String ENGINE_MAX_MESSAGE_SIZE_PROPERTY = "bristle.engine.max.message.size";
   public static final String ENGINE_TIMEOUT_PROPERTY = "bristle.engine.timeout";
   public static final String ENGINE_REJECTED_DOMAINS_PROPERTY = "bristle.engine.rejected.domains";
   public static final String LOGGING_LEVEL_PROPERTY = "bristle.logging.level";
@@ -95,12 +244,17 @@ public class PropertiesFileConfigResolver implements InitialConfigurationResolve
     engineConfig.setPort(propertiesConfiguration.getInt(ENGINE_PORT_PROPERTY, InitialConfiguration.DEFAULT_ENGINE_PORT));
     engineConfig.setTimeout(propertiesConfiguration.getInt(ENGINE_TIMEOUT_PROPERTY, InitialConfiguration.DEFAULT_ENGINE_TIMEOUT));
     engineConfig.setMaxBufferSize(propertiesConfiguration.getInt(ENGINE_MAX_BUFFER_SIZE_PROPERTY, InitialConfiguration.DEFAULT_MAX_BUFFER_SIZE));
-    engineConfig.setMaxFrameSize(propertiesConfiguration.getInt(ENGINE_MAX_FRAME_SIZE_PROPERTY, InitialConfiguration.DEFAULT_MAX_FRAME_SIZE));
+    engineConfig.setMaxFrameSize(propertiesConfiguration.getInt(ENGINE_MAX_MESSAGE_SIZE_PROPERTY, InitialConfiguration.DEFAULT_MAX_FRAME_SIZE));
     engineConfig.setRejectedDomains(propertiesConfiguration.getList(ENGINE_REJECTED_DOMAINS_PROPERTY, new ArrayList()));
 
     initialConfiguration.setEngineConfiguration(engineConfig);
   }
 
+  /**
+   * Sets path to properties file, containing configuration elements.
+   *
+   * @param configurationPath path to properties file.
+   */
   public void setConfigurationPath(String configurationPath) {
     this.configurationPath = configurationPath;
   }

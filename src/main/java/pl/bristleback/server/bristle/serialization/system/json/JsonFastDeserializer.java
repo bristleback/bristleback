@@ -8,7 +8,6 @@ import pl.bristleback.server.bristle.serialization.PropertyType;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
 import pl.bristleback.server.bristle.serialization.system.SerializationException;
 import pl.bristleback.server.bristle.utils.PropertyAccess;
-import pl.bristleback.server.bristle.utils.ReflectionUtils;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -31,11 +30,11 @@ public class JsonFastDeserializer {
 
   public JsonFastDeserializer() {
     deserializationMap = new HashMap<PropertyType, TypeDeserializer>();
-    deserializationMap.put(PropertyType.COLLECTION, new CollectionSerializer());
+    deserializationMap.put(PropertyType.COLLECTION, new CollectionDeserializer());
     deserializationMap.put(PropertyType.BEAN, new BeanDeserializer());
-    deserializationMap.put(PropertyType.ARRAY, new ArraySerializer());
-    deserializationMap.put(PropertyType.MAP, new MapSerializer());
-    deserializationMap.put(PropertyType.SIMPLE, new SimpleSerializer());
+    deserializationMap.put(PropertyType.ARRAY, new ArrayDeserializer());
+    deserializationMap.put(PropertyType.MAP, new MapDeserializer());
+    deserializationMap.put(PropertyType.SIMPLE, new SimpleDeserializer());
   }
 
   public Object deserialize(String serializedObject, PropertySerialization information) throws Exception {
@@ -99,7 +98,7 @@ public class JsonFastDeserializer {
     }
   }
 
-  private class CollectionSerializer implements TypeDeserializer<JSONArray> {
+  private class CollectionDeserializer implements TypeDeserializer<JSONArray> {
 
     @Override
     public Object deserializeElement(JSONArray input, PropertySerialization information) throws Exception {
@@ -124,7 +123,7 @@ public class JsonFastDeserializer {
     }
   }
 
-  private class MapSerializer implements TypeDeserializer<JSONObject> {
+  private class MapDeserializer implements TypeDeserializer<JSONObject> {
 
     @Override
     public Object deserializeElement(JSONObject input, PropertySerialization information) throws Exception {
@@ -168,12 +167,12 @@ public class JsonFastDeserializer {
     }
   }
 
-  private class ArraySerializer implements TypeDeserializer<JSONArray> {
+  private class ArrayDeserializer implements TypeDeserializer<JSONArray> {
 
     @Override
     public Object deserializeElement(JSONArray input, PropertySerialization information) throws Exception {
       PropertySerialization elementInformation = information.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
-      boolean primitiveType = ReflectionUtils.isRawClass(elementInformation.getPropertyClass());
+      boolean primitiveType = elementInformation.getPropertyClass().isPrimitive();
       Object array = Array.newInstance(elementInformation.getPropertyClass(), input.length());
       if (primitiveType) {
         processPrimitiveArray(input, array, elementInformation);
@@ -209,7 +208,7 @@ public class JsonFastDeserializer {
     }
   }
 
-  private class SimpleSerializer implements TypeDeserializer<Object> {
+  private class SimpleDeserializer implements TypeDeserializer<Object> {
     @Override
     public Object deserializeElement(Object input, PropertySerialization information) throws Exception {
       return information.getValueSerializer().toValue(input.toString(), information);

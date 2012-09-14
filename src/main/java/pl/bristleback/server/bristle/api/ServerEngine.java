@@ -14,7 +14,7 @@ import pl.bristleback.server.bristle.conf.EngineConfig;
  * which has more than a half methods implemented.
  * <p/>
  * Bristleback Server has several built in server engine implementations:
- * <table>
+ * <table border="1">
  * <thead>
  * <tr>
  * <td>

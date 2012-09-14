@@ -56,7 +56,7 @@ public class ActionController implements DataController {
       context.setMessage(actionMessage);
       dispatcher.dispatch(context);
     } catch (Exception e) {
-      log.info("Cannot process text data, exception occurred, stage: " + context.getStage(), e);
+      log.error("Cannot process text data, exception occurred, stage: " + context.getStage(), e);
       exceptionHandlers.handleException(e, context);
     }
   }

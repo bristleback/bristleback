@@ -11,7 +11,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * //@todo class description
+ * This class provides default Bristleback Server configuration, that can be used in application without any modifications.
+ * Default values are taken from {@link pl.bristleback.server.bristle.conf.InitialConfiguration} static fields.
  * <p/>
  * Created on: 2012-02-01 21:47:09 <br/>
  *

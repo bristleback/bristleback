@@ -14,7 +14,7 @@ public interface UserFactory {
    * Creates new instance of user object. For every new WebSocket connection it should return unique instance of  {@link
    * IdentifiedUser}.
    *
-   * @return
+   * @return new instance of user object.
    */
   IdentifiedUser createNewUser();
 

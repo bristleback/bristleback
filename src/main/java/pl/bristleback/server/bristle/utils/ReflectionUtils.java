@@ -5,14 +5,11 @@ import pl.bristleback.server.bristle.exceptions.BristleInitializationException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * //@todo class description
+ * This class contains utility methods related with Java reflection mechanism.
  * <p/>
  * Created on: 2011-07-22 10:17:24 <br/>
  *
@@ -44,36 +41,12 @@ public final class ReflectionUtils {
     WRAPPERS_TO_PRIMITIVE_MAP.put(wrapperClass, primitiveClass);
   }
 
-  public static boolean isRawType(Object value) {
-    if (value == null) {
-      return true;
-    }
-    Class valueClass = value.getClass();
-    return isRawClass(valueClass);
-  }
-
-  public static boolean isRawClass(Class clazz) {
-    return clazz.isPrimitive()
-      || clazz == Boolean.class
-      || clazz == Integer.class
-      || clazz == Long.class
-      || clazz == Double.class
-      || clazz == Character.class
-      || clazz == String.class
-      || clazz == BigInteger.class
-      || clazz == BigDecimal.class;
-  }
-
   public static Class getWrapperClassForPrimitive(Class primitiveClass) {
     return PRIMITIVE_TO_WRAPPERS_MAP.get(primitiveClass);
   }
 
   public static Class getPrimitiveForWrapper(Class wrapperClass) {
     return WRAPPERS_TO_PRIMITIVE_MAP.get(wrapperClass);
-  }
-
-  public static boolean isContainerClass(Class clazz) {
-    return clazz.isArray() || Collection.class.isAssignableFrom(clazz) || Map.class.isAssignableFrom(clazz);
   }
 
   public static Type[] getParameterTypes(Class implementation, Class parametrizedInterface) {
