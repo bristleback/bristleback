@@ -1,15 +1,24 @@
 package pl.bristleback.server.bristle.message;
 
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
+import akka.actor.Props;
+import akka.actor.UntypedActor;
+import akka.actor.UntypedActorFactory;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
+import pl.bristleback.server.bristle.akka.ActorMessage;
+import pl.bristleback.server.bristle.akka.SendMessageActor;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.WebsocketMessage;
-import pl.bristleback.server.bristle.serialization.MessageType;
 
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+
 
 /**
  * //@todo class description
@@ -26,6 +35,7 @@ public class SingleThreadMessageDispatcher extends AbstractMessageDispatcher {
 
   private boolean dispatcherRunning;
   private final BlockingQueue<WebsocketMessage> messages;
+  private ActorRef sendMessageActor;
 
   public SingleThreadMessageDispatcher() {
     messages = new LinkedBlockingQueue<WebsocketMessage>();
@@ -40,7 +50,7 @@ public class SingleThreadMessageDispatcher extends AbstractMessageDispatcher {
   public void dispatchMessages() throws Exception {
     WebsocketMessage message = messages.poll(DELAY, TimeUnit.MILLISECONDS);
     if (message != null) {
-      log.debug("Sending a server message: " + message.getContent());
+//      log.debug("Sending a server message: " + message.getContent());
       if (CollectionUtils.isEmpty(message.getRecipients())) {
         log.debug("Empty or null recipients collection: " + message.getRecipients());
         return;
@@ -51,13 +61,7 @@ public class SingleThreadMessageDispatcher extends AbstractMessageDispatcher {
 
   private void sendMessage(WebsocketMessage message) throws Exception {
     for (Object connector : message.getRecipients()) {
-      if (message.getMessageType() == MessageType.TEXT) {
-        getServer().sendMessage((WebsocketConnector) connector, (String) message.getContent());
-      } else if (message.getMessageType() == MessageType.BINARY) {
-        getServer().sendMessage((WebsocketConnector) connector, (byte[]) message.getContent());
-      } else {
-        log.debug("Cannot send a message, unknown type of message " + message.getMessageType());
-      }
+      sendMessageActor.tell(new ActorMessage(message, (WebsocketConnector) connector));
     }
   }
 
@@ -66,9 +70,15 @@ public class SingleThreadMessageDispatcher extends AbstractMessageDispatcher {
     if (dispatcherRunning) {
       throw new IllegalStateException("Dispatcher already running.");
     }
-    Thread dispatcherThread = new Thread(new Dispatcher());
+    ActorSystem system = ActorSystem.create("BristlebackSystem");
+    sendMessageActor = system.actorOf(new Props(new UntypedActorFactory() {
+      public UntypedActor create() {
+        return new SendMessageActor(getServer());
+      }
+    }), "MessageDispatcherActor");
+    ExecutorService executorService = Executors.newSingleThreadExecutor();
     setDispatcherRunning(true);
-    dispatcherThread.start();
+    executorService.execute(new Dispatcher());
   }
 
   @Override

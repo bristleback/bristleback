@@ -51,12 +51,12 @@ public class ActionController implements DataController {
   public void processTextData(String textData, IdentifiedUser user) {
     ActionExecutionContext context = new ActionExecutionContext(user);
     try {
-      log.debug("Incoming message: " + textData);
+//      log.debug("Incoming message: " + textData);
       BristleMessage<String[]> actionMessage = (BristleMessage<String[]>) serializationEngine.deserialize(textData, messageSerialization);
       context.setMessage(actionMessage);
       dispatcher.dispatch(context);
     } catch (Exception e) {
-      log.info("Cannot process text data, exception occurred, stage: " + context.getStage(), e);
+      log.error("Cannot process text data, exception occurred, stage: " + context.getStage(), e);
       exceptionHandlers.handleException(e, context);
     }
   }
