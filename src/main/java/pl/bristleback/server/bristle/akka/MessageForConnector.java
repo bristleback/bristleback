@@ -4,16 +4,17 @@ import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.WebsocketMessage;
 
 /**
+ * Wrapper binding message that will be set to single connector
  * created at 22.09.12
  *
  * @author Pawel Machowski
  */
-public class ActorMessage {
+public class MessageForConnector {
 
   private WebsocketMessage websocketMessage;
   private WebsocketConnector connector;
 
-  public ActorMessage(WebsocketMessage websocketMessage, WebsocketConnector connector) {
+  public MessageForConnector(WebsocketMessage websocketMessage, WebsocketConnector connector) {
     this.websocketMessage = websocketMessage;
     this.connector = connector;
   }

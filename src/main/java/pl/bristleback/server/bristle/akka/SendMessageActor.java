@@ -7,6 +7,7 @@ import pl.bristleback.server.bristle.api.WebsocketMessage;
 import pl.bristleback.server.bristle.serialization.MessageType;
 
 /**
+ * Actor sending message to single connector.
  * created at 16.09.12
  *
  * @author Pawel Machowski
@@ -16,18 +17,18 @@ public class SendMessageActor extends UntypedActor {
 
   private ServerEngine server;
 
-  public SendMessageActor(ServerEngine seserverEnginever) {
-    this.server = seserverEnginever;
+  public SendMessageActor(ServerEngine serverEngine) {
+    this.server = serverEngine;
   }
 
   // message handler
   public void onReceive(Object message) throws Exception {
-    ActorMessage actorMessage = (ActorMessage) message;
-    WebsocketMessage websocketMessage = actorMessage.getWebsocketMessage();
+    MessageForConnector messageForConnector = (MessageForConnector) message;
+    WebsocketMessage websocketMessage = messageForConnector.getWebsocketMessage();
     if (websocketMessage.getMessageType() == MessageType.TEXT) {
-      server.sendMessage(actorMessage.getConnector(), (String) websocketMessage.getContent());
+      server.sendMessage(messageForConnector.getConnector(), (String) websocketMessage.getContent());
     } else if (websocketMessage.getMessageType() == MessageType.BINARY) {
-      server.sendMessage(actorMessage.getConnector(), (byte[]) websocketMessage.getContent());
+      server.sendMessage(messageForConnector.getConnector(), (byte[]) websocketMessage.getContent());
     } else {
       log.debug("Cannot send a websocketMessage, unknown type of websocketMessage " + websocketMessage.getMessageType());
     }

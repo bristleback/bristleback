@@ -8,7 +8,7 @@ import akka.actor.UntypedActorFactory;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
-import pl.bristleback.server.bristle.akka.ActorMessage;
+import pl.bristleback.server.bristle.akka.MessageForConnector;
 import pl.bristleback.server.bristle.akka.SendMessageActor;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.WebsocketMessage;
@@ -61,7 +61,7 @@ public class SingleThreadMessageDispatcher extends AbstractMessageDispatcher {
 
   private void sendMessage(WebsocketMessage message) throws Exception {
     for (Object connector : message.getRecipients()) {
-      sendMessageActor.tell(new ActorMessage(message, (WebsocketConnector) connector));
+      sendMessageActor.tell(new MessageForConnector(message, (WebsocketConnector) connector));
     }
   }
 
