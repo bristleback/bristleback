@@ -12,7 +12,6 @@ import pl.bristleback.server.bristle.authorisation.conditions.AllUsersCondition;
 import pl.bristleback.server.bristle.engine.base.ConnectedUser;
 
 import javax.inject.Inject;
-import javax.validation.constraints.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +55,7 @@ public class UsersContainer {
     return applicableConnectors;
   }
 
-  public List<WebsocketConnector> getConnectorsByCondition(List<IdentifiedUser> usersSubset, @NotNull final SendCondition condition) {
+  public List<WebsocketConnector> getConnectorsByCondition(List<IdentifiedUser> usersSubset, final SendCondition condition) {
     List<IdentifiedUser> userList = getUsersMeetingCondition(usersSubset, condition);
     List<WebsocketConnector> applicableConnectors = new LinkedList<WebsocketConnector>();
 

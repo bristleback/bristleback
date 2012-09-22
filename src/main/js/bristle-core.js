@@ -15,10 +15,12 @@ Bristleback.Client = function(config) {
   this.serializationEngine = new Bristleback.serialization.serializationEngines[config.serializationEngine]();
 
   config.OnOpen = config.OnOpen || function() {
+    Bristleback.Console.log("Connected to " + config.serverUrl);
     alert("connected");
   };
 
   config.OnClose = config.OnClose || function() {
+    Bristleback.Console.log("Disconnected from " + config.serverUrl);
     alert("disconnected");
   };
 

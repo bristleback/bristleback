@@ -33,7 +33,7 @@ public class ActionExecutionContext {
     }
     setStage(ActionExecutionStage.ACTION_EXTRACTION);
     if (message.getName().contains(StringUtils.DOT_AS_STRING)) {
-      int dotIndex = message.getName().indexOf('.');
+      int dotIndex = message.getName().indexOf(StringUtils.DOT);
       actionClassName = message.getName().substring(0, dotIndex);
       actionName = message.getName().substring(dotIndex + 1);
     } else {

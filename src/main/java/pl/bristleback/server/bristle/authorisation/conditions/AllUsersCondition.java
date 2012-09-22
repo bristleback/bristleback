@@ -10,14 +10,15 @@ import pl.bristleback.server.bristle.api.users.IdentifiedUser;
  *
  * @author Pawel Machowski
  */
-public final class AllUsersCondition implements SendCondition<IdentifiedUser> {
+public final class AllUsersCondition implements SendCondition {
 
   private static final AllUsersCondition INSTANCE = new AllUsersCondition();
 
   private AllUsersCondition() {
   }
 
-  public static AllUsersCondition getInstance() {
+  @SuppressWarnings("unchecked")
+  public static <T extends IdentifiedUser> SendCondition<T> getInstance() {
     return INSTANCE;
   }
 

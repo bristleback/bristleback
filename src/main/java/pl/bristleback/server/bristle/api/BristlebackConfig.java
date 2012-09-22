@@ -16,19 +16,60 @@ import pl.bristleback.server.bristle.listener.ListenersContainer;
  */
 public interface BristlebackConfig {
 
+  /**
+   * Gets initial configuration used to resolve this configuration.
+   *
+   * @return initial configuration.
+   */
   InitialConfiguration getInitialConfiguration();
 
+  /**
+   * Gets message configuration, containing message dispatcher.
+   *
+   * @return message configuration.
+   */
   MessageConfiguration getMessageConfiguration();
 
+  /**
+   * Gets server engine.
+   *
+   * @return server engine.
+   */
   ServerEngine getServerEngine();
 
+  /**
+   * Gets active data controller with name passed as parameter.
+   *
+   * @param controllerName data controller name.
+   * @return active data controller.
+   */
   DataController getDataController(String controllerName);
 
+  /**
+   * Gets all active data controllers.
+   *
+   * @return all active data controllers.
+   */
   DataControllers getDataControllers();
 
+  /**
+   * Gets application state listeners container.
+   *
+   * @return application state listeners container.
+   */
   ListenersContainer getListenersContainer();
 
+  /**
+   * Gets serialization engine.
+   *
+   * @return serialization engine.
+   */
   SerializationEngine getSerializationEngine();
 
+  /**
+   * Gets Spring integration, containing actual application context and Bristleback internal application context.
+   *
+   * @return Spring application contexts container.
+   */
   BristleSpringIntegration getSpringIntegration();
 }

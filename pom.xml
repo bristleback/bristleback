@@ -60,12 +60,14 @@
       <artifactId>commons-configuration</artifactId>
       <version>1.7</version>
     </dependency>
+
     <dependency>
       <groupId>io.netty</groupId>
       <artifactId>netty</artifactId>
       <version>${netty.version}</version>
       <scope>compile</scope>
     </dependency>
+
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-websocket</artifactId>
@@ -81,6 +83,7 @@
         </exclusion>
       </exclusions>
     </dependency>
+
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-server</artifactId>
@@ -96,29 +99,24 @@
         </exclusion>
       </exclusions>
     </dependency>
+
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
       <version>2.0.0-RC1</version>
     </dependency>
+
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
       <version>2.0.0-RC1</version>
     </dependency>
+
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
       <version>2.0.0-RC1</version>
     </dependency>
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.8.2</version>
-      <scope>test</scope>
-    </dependency>
-
 
     <dependency>
       <groupId>log4j</groupId>
@@ -172,12 +170,6 @@
 
     <dependency>
       <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId>
-      <version>${org.springframework.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
       <version>${org.springframework.version}</version>
     </dependency>
@@ -204,22 +196,6 @@
       <version>${org.springframework.version}</version>
     </dependency>
 
-    <!-- Various Application Context utilities, including EhCache, JavaMail,
-        Quartz, and Freemarker integration Define this if you need any of these integrations -->
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context-support</artifactId>
-      <version>${org.springframework.version}</version>
-    </dependency>
-
-    <!-- Transaction Management Abstraction (depends on spring-core, spring-beans,
-        spring-aop, spring-context) Define this if you use Spring Transactions or
-        DAO Exception Hierarchy (org.springframework.transaction.*/org.springframework.dao.*) -->
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-tx</artifactId>
-      <version>${org.springframework.version}</version>
-    </dependency>
 
     <!-- Spring MVC for Servlet Environments (depends on spring-core, spring-beans,
         spring-context, spring-web) Define this if you use Spring MVC with a Servlet
@@ -236,42 +212,10 @@
       <version>${org.springframework.version}</version>
     </dependency>
 
-    <!-- Spring Security -->
-    <!-- 		<dependency> -->
-    <!-- 			<groupId>org.springframework.security</groupId> -->
-    <!-- 			<artifactId>spring-security-core</artifactId> -->
-    <!-- 			<version>${org.springframework.version}</version> -->
-    <!-- 		</dependency> -->
-
     <dependency>
       <groupId>cglib</groupId>
       <artifactId>cglib</artifactId>
       <version>2.2.2</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-all</artifactId>
-      <version>1.7</version>
-      <scope>test</scope>
-    </dependency>
-    <!-- <dependency> <groupId>org.testng</groupId> <artifactId>testng</artifactId>
-        <version>6.1.1</version> <scope>test</scope> </dependency> -->
-    <dependency>
-      <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-all</artifactId>
-      <version>1.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.inject</groupId>
-      <artifactId>javax.inject</artifactId>
-      <version>1</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.validation</groupId>
-      <artifactId>validation-api</artifactId>
-      <version>1.0.0.GA</version>
     </dependency>
 
 
@@ -294,12 +238,6 @@
       <artifactId>icu4j</artifactId>
       <version>3.4.4</version>
     </dependency>
-
-<dependency>
-	<groupId>com.typesafe.akka</groupId>
-	<artifactId>akka-actor_2.10.0-M7</artifactId>
-	<version>2.1-M2</version>
-</dependency>
 
   </dependencies>
 

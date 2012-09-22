@@ -53,6 +53,7 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
   private Long rawPropertyLong;
 
   private double[] rawArray;
+  private Double[] rawObjectArray;
   private VerySimpleMockBean[] beanArray;
 
   private List<Character> rawCollectionChar;
@@ -143,6 +144,22 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
     //then
     assertTrue(deserialized instanceof double[]);
     double[] deserializedArray = (double[]) deserialized;
+    assertEquals(1.0, deserializedArray[0]);
+  }
+
+  @Test
+  public void deserializeRawObjectArray() throws Exception {
+    //given
+    String serializedForm = "[1.0, 2, 3.1]";
+    Type type = PropertyUtils.getDeclaredField(JsonFastDeserializerTest.class, "rawObjectArray");
+    PropertySerialization serialization = serializationResolver.resolveDefaultSerialization(type);
+
+    //when
+    Object deserialized = deserializer.deserialize(serializedForm, serialization);
+
+    //then
+    assertTrue(deserialized instanceof Double[]);
+    Double[] deserializedArray = (Double[]) deserialized;
     assertEquals(1.0, deserializedArray[0]);
   }
 

@@ -39,52 +39,135 @@ public class ConditionObjectSender {
     serializationResolver = configuration.getSpringIntegration().getFrameworkBean("serializationAnnotationResolver", SerializationAnnotationResolver.class);
   }
 
-  public void sendMessage(BristleMessage message, Object serialization, List<IdentifiedUser> users) throws Exception {
-    List<WebsocketConnector> connectors = connectedUsers().getConnectorsByUsers(users);
+  /**
+   * Sends a message with serialization information and list of recipients provided.
+   *
+   * @param message       message to be sent.
+   * @param serialization serialization information.
+   * @param recipients    list of recipients.
+   * @throws Exception serialization exceptions.
+   */
+  public void sendMessage(BristleMessage message, Object serialization, List<IdentifiedUser> recipients) throws Exception {
+    List<WebsocketConnector> connectors = connectedUsers().getConnectorsByUsers(recipients);
     WebsocketMessage websocketMessage = serializeToWebSocketMessage(message, serialization, connectors);
     queueNewMessage(websocketMessage);
   }
 
+  /**
+   * Sends a message using default serialization information.
+   * Recipients are determined by evaluating
+   * {@link pl.bristleback.server.bristle.api.action.SendCondition SendCondition} object.
+   *
+   * @param message       message to be sent.
+   * @param sendCondition condition object used to determine recipients.
+   * @throws Exception serialization exceptions.
+   */
   public void sendMessage(BristleMessage message, SendCondition sendCondition) throws Exception {
     List<WebsocketConnector> connectors = connectedUsers().getConnectorsByCondition(sendCondition);
     doSendUsingDefaultSerialization(message, connectors);
   }
 
-  public void sendMessage(BristleMessage message, List<IdentifiedUser> users) throws Exception {
-    List<WebsocketConnector> connectors = connectedUsers().getConnectorsByUsers(users);
+  /**
+   * Sends a message using default serialization information to specified recipients.
+   *
+   * @param message    message to be sent.
+   * @param recipients list of recipients.
+   * @throws Exception serialization exceptions.
+   */
+  public void sendMessage(BristleMessage message, List<IdentifiedUser> recipients) throws Exception {
+    List<WebsocketConnector> connectors = connectedUsers().getConnectorsByUsers(recipients);
     doSendUsingDefaultSerialization(message, connectors);
   }
 
-  public void sendMessage(BristleMessage message, SendCondition sendCondition, List<IdentifiedUser> users) throws Exception {
-    List<WebsocketConnector> connectors = connectedUsers().getConnectorsByCondition(users, sendCondition);
+  /**
+   * Sends a message using default serialization information.
+   * Recipients are determined by evaluating
+   * {@link pl.bristleback.server.bristle.api.action.SendCondition SendCondition} object,
+   * where the initial pool is passed as the parameter.
+   *
+   * @param message       message to be sent.
+   * @param sendCondition condition object used to determine recipients.
+   * @param recipients    initial pool of recipients, for further processing by condition object.
+   * @throws Exception serialization exceptions.
+   */
+  public void sendMessage(BristleMessage message, SendCondition sendCondition, List<IdentifiedUser> recipients) throws Exception {
+    List<WebsocketConnector> connectors = connectedUsers().getConnectorsByCondition(recipients, sendCondition);
     doSendUsingDefaultSerialization(message, connectors);
   }
 
+  /**
+   * Sends a message using serialization information with provided name.
+   * Recipients are determined by evaluating
+   * {@link pl.bristleback.server.bristle.api.action.SendCondition SendCondition} object.
+   *
+   * @param message           message to be sent.
+   * @param serializationName non default serialization information name.
+   * @param sendCondition     condition object used to determine recipients.
+   * @throws Exception serialization exceptions.
+   * @see pl.bristleback.server.bristle.api.annotations.Serialize
+   */
   public void sendNamedMessage(BristleMessage message, String serializationName, SendCondition sendCondition) throws Exception {
     List<WebsocketConnector> connectors = connectedUsers().getConnectorsByCondition(sendCondition);
     doSendUsingSerialization(message, serializationName, connectors);
   }
 
-  public void sendNamedMessage(BristleMessage message, String serializationName, List<IdentifiedUser> users) throws Exception {
-    List<WebsocketConnector> connectors = connectedUsers().getConnectorsByUsers(users);
+  /**
+   * Sends a message to the list of recipients using serialization information with provided name.
+   *
+   * @param message           message to be sent.
+   * @param serializationName non default serialization information name.
+   * @param recipients        list of recipients.
+   * @throws Exception serialization exceptions.
+   * @see pl.bristleback.server.bristle.api.annotations.Serialize
+   */
+  public void sendNamedMessage(BristleMessage message, String serializationName, List<IdentifiedUser> recipients) throws Exception {
+    List<WebsocketConnector> connectors = connectedUsers().getConnectorsByUsers(recipients);
     doSendUsingSerialization(message, serializationName, connectors);
   }
 
-  public void sendNamedMessage(BristleMessage message, String serializationName, SendCondition sendCondition, List<IdentifiedUser> users) throws Exception {
-    List<WebsocketConnector> connectors = connectedUsers().getConnectorsByCondition(users, sendCondition);
+  /**
+   * Sends a message using serialization information with provided name.
+   * Recipients are determined by evaluating
+   * {@link pl.bristleback.server.bristle.api.action.SendCondition SendCondition} object,
+   * where the initial pool is passed as the parameter.
+   *
+   * @param message           message to be sent.
+   * @param serializationName non default serialization information name.
+   * @param sendCondition     condition object used to determine recipients.
+   * @param recipients        initial pool of recipients, for further processing by condition object.
+   * @throws Exception serialization exceptions.
+   * @see pl.bristleback.server.bristle.api.annotations.Serialize
+   */
+  public void sendNamedMessage(BristleMessage message, String serializationName, SendCondition sendCondition, List<IdentifiedUser> recipients) throws Exception {
+    List<WebsocketConnector> connectors = connectedUsers().getConnectorsByCondition(recipients, sendCondition);
     doSendUsingSerialization(message, serializationName, connectors);
   }
 
+  /**
+   * Sends a connection closing message to given user.
+   *
+   * @param user user to which the connection should be closed.
+   */
   public void closeConnection(IdentifiedUser user) {
     List<WebsocketConnector> connectors = connectedUsers().getConnectorsByUsers(Collections.singletonList(user));
     closeConnectionsInServerEngine(connectors);
   }
 
+  /**
+   * Sends a connection closing message to all users determined by evaluating passed condition object.
+   *
+   * @param sendCondition condition object used to determine list of users to which the connection should be closed.
+   */
   public void closeConnections(SendCondition sendCondition) {
     List<WebsocketConnector> connectors = connectedUsers().getConnectorsByCondition(sendCondition);
     closeConnectionsInServerEngine(connectors);
   }
 
+  /**
+   * Sends a connection closing message to the list of users.
+   *
+   * @param users users to which the connection should be closed.
+   */
   public void closeConnections(List<IdentifiedUser> users) {
     List<WebsocketConnector> connectors = connectedUsers().getConnectorsByUsers(users);
     closeConnectionsInServerEngine(connectors);
