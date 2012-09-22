@@ -41,7 +41,7 @@
   </target>
 
   <target name="info">
-    <echo message="Possible tasks clean, deploy.db, compile.js assembly"/>
+    <echo message="Possible tasks clean, rebuild.all, compile.js assembly"/>
   </target>
 
 
@@ -50,7 +50,7 @@
 
   <target name="compile.js">
     <jscomp compilationLevel="SIMPLE" warning="verbose"
-            debug="false" output="target/bristle.js">
+            debug="false" output="target/${bristleback.js.filename}">
 
       <externs dir="${basedir}/src/main/js">
         <file name="externs.js"/>
