@@ -12,8 +12,6 @@
 
   <context:component-scan base-package="sample"/>
 
-  <context:annotation-config/>
-
   <!--BRISTLEBACK BEANS-->
 
   <bb:serverMessages/>

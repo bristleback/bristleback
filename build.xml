@@ -9,10 +9,8 @@
   <filter filtersfile="${basedir}/config/build.properties"/>
   <filter filtersfile="${basedir}/config/${user.name}/build.properties"/>
 
-  <property name="maven.bin.dir" value="${maven.home.dir}/bin"/>
-
-  <filter filtersfile="${basedir}/config/build.properties"/>
-  <filter filtersfile="${basedir}/config/${user.name}/build.properties"/>
+  <property name="bristleback.version" value="0.2.0"/>
+  <property name="bristleback.js.filename" value="bristleback-${bristleback.version}.js"/>
 
   <macrodef name="maven">
     <attribute name="goal"/>
