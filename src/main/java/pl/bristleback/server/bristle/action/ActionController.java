@@ -51,7 +51,7 @@ public class ActionController implements DataController {
   public void processTextData(String textData, IdentifiedUser user) {
     ActionExecutionContext context = new ActionExecutionContext(user);
     try {
-//      log.debug("Incoming message: " + textData);
+      log.debug("Incoming message: " + textData);
       BristleMessage<String[]> actionMessage = (BristleMessage<String[]>) serializationEngine.deserialize(textData, messageSerialization);
       context.setMessage(actionMessage);
       dispatcher.dispatch(context);

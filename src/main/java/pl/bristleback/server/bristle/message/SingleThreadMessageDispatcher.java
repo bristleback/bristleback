@@ -50,7 +50,7 @@ public class SingleThreadMessageDispatcher extends AbstractMessageDispatcher {
   public void dispatchMessages() throws Exception {
     WebsocketMessage message = messages.poll(DELAY, TimeUnit.MILLISECONDS);
     if (message != null) {
-//      log.debug("Sending a server message: " + message.getContent());
+      log.debug("Sending a server message: " + message.getContent());
       if (CollectionUtils.isEmpty(message.getRecipients())) {
         log.debug("Empty or null recipients collection: " + message.getRecipients());
         return;
