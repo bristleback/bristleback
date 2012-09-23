@@ -70,6 +70,7 @@ public class SingleThreadMessageDispatcher extends AbstractMessageDispatcher {
     if (dispatcherRunning) {
       throw new IllegalStateException("Dispatcher already running.");
     }
+    log.info("Starting single threaded message dispatcher");
     ActorSystem system = ActorSystem.create("BristlebackSystem");
     sendMessageActor = system.actorOf(new Props(new UntypedActorFactory() {
       public UntypedActor create() {

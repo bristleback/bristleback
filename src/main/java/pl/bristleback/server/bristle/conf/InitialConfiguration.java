@@ -22,7 +22,7 @@ public class InitialConfiguration {
   public static final int DEFAULT_MAX_FRAME_SIZE = 65536;
   public static final String DEFAULT_DATA_CONTROLLER = "system.controller.action";
   public static final String DEFAULT_SERIALIZATION_ENGINE = "system.serializer.json";
-  public static final String DEFAULT_MESSAGE_DISPATCHER = "system.dispatcher.single.threaded";
+  public static final String DEFAULT_MESSAGE_DISPATCHER = "system.dispatcher.multi.threaded";
 
 
   private static final String BRISTLEBACK_ROOT_PACKAGE = "pl.bristleback.server";
