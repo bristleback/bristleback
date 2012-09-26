@@ -1,4 +1,4 @@
-package pl.bristleback.server.bristle.akka;
+package pl.bristleback.server.bristle.message.akka;
 
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.WebsocketMessage;

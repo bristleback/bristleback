@@ -81,6 +81,20 @@ import java.util.Set;
  * </tr>
  * <tr>
  * <td>
+ * Message dispatcher
+ * </td>
+ * <td>
+ * bristle.message.dispatcher
+ * </td>
+ * <td>
+ * {@link pl.bristleback.server.bristle.api.MessageDispatcher}
+ * </td>
+ * <td>
+ * system.dispatcher.multi.threaded
+ * </td>
+ * </tr>
+ * <tr>
+ * <td>
  * Serialization engine
  * </td>
  * <td>
@@ -184,6 +198,7 @@ public class PropertiesFileConfigResolver implements InitialConfigurationResolve
   public static final String ENGINE_REJECTED_DOMAINS_PROPERTY = "bristle.engine.rejected.domains";
   public static final String LOGGING_LEVEL_PROPERTY = "bristle.logging.level";
   public static final String SERIALIZATION_ENGINE_PROPERTY = "bristle.serialization.engine";
+  public static final String MESSAGE_DISPATCHER_PROPERTY = "bristle.message.dispatcher";
   public static final String USER_FACTORY_PROPERTY = "bristle.user.factory";
 
   private String configurationPath;
@@ -198,6 +213,7 @@ public class PropertiesFileConfigResolver implements InitialConfigurationResolve
     InitialConfiguration initialConfiguration = defaultConfigurationResolver.resolveConfiguration();
     setLoggingLevel(initialConfiguration);
     resolveAcceptedProtocolNames(initialConfiguration);
+    resolveMessageDispatcher(initialConfiguration);
     resolveSerializationEngine(initialConfiguration);
     resolveEngineConfiguration(initialConfiguration);
     resolveUserFactory(initialConfiguration);
@@ -235,6 +251,12 @@ public class PropertiesFileConfigResolver implements InitialConfigurationResolve
     configuration.setDefaultControllerName(controllersList.get(0));
     Set<String> acceptedControllerNames = new HashSet<String>(controllersList);
     configuration.setAcceptedControllerNames(acceptedControllerNames);
+  }
+
+
+  private void resolveMessageDispatcher(InitialConfiguration initialConfiguration) {
+    String messageDispatcher = propertiesConfiguration.getString(MESSAGE_DISPATCHER_PROPERTY, InitialConfiguration.DEFAULT_MESSAGE_DISPATCHER);
+    initialConfiguration.setMessageDispatcher(messageDispatcher);
   }
 
   @SuppressWarnings("unchecked")

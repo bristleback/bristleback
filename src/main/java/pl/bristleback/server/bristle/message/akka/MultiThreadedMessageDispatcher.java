@@ -1,4 +1,4 @@
-package pl.bristleback.server.bristle.message;
+package pl.bristleback.server.bristle.message.akka;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
@@ -7,8 +7,7 @@ import akka.actor.UntypedActor;
 import akka.actor.UntypedActorFactory;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
-import pl.bristleback.server.bristle.akka.MessageForConnector;
-import pl.bristleback.server.bristle.akka.SendMessageActor;
+import pl.bristleback.server.bristle.message.AbstractMessageDispatcher;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.WebsocketMessage;
 

@@ -4,8 +4,8 @@ Bristleback.Client = function(config) {
   config = config || {};
 
   config.serverUrl = config.serverUrl || Bristleback.LOCAL_HOSTNAME;
-  config.serializationEngine = config.protocol || "json";
-  config.dataController = config.protocol || "system.controller.action";
+  config.serializationEngine = config.serializationEngine || "json";
+  config.dataController = config.dataController || "system.controller.action";
   config.timeout = config.timeout || 360000;
   config.developmentConsole = config.developmentConsole || false;
 

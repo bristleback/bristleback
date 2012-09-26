@@ -1,4 +1,4 @@
-package pl.bristleback.server.bristle.akka;
+package pl.bristleback.server.bristle.message.akka;
 
 import akka.actor.UntypedActor;
 import org.apache.log4j.Logger;
