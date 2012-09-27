@@ -10,7 +10,11 @@
   <filter filtersfile="${basedir}/config/${user.name}/build.properties"/>
 
   <property name="bristleback.version" value="0.2.0"/>
+
+  <property name="bristleback.zip.filename" value="bristleback-client-${bristleback.version}.zip"/>
   <property name="bristleback.js.filename" value="bristleback-${bristleback.version}.js"/>
+  <property name="jquery.js.filename" value="jquery-1.5.1.min.js"/>
+  <property name="trimpath.js.filename" value="trimpath-template-1.0.38.js"/>
 
   <macrodef name="maven">
     <attribute name="goal"/>
@@ -66,6 +70,12 @@
     </jscomp>
   </target>
 
+  <target name="package.client" depends="compile.js">
+    <zip destfile="target/${bristleback.zip.filename}">
+      <fileset dir="target" includes="${bristleback.js.filename}"/>
+      <fileset dir="src/main/js" includes="${jquery.js.filename}, ${trimpath.js.filename}"/>
+    </zip>
+  </target>
 
   <target name="clean" depends="maven.setup">
     <maven goal="clean"/>
