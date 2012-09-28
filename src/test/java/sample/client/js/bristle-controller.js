@@ -228,6 +228,10 @@ Bristleback.controller.ActionClass.prototype.getAction = function(actionName) {
   return this.actions[actionName];
 };
 
+Bristleback.controller.ActionClass.prototype.getDefaultAction = function() {
+  return this.actions[""];
+};
+
 Bristleback.controller.ActionClass.prototype.doSendMessage = function(action, parameters) {
   var correctParameters = [];
   for (var i in parameters) {
@@ -264,8 +268,8 @@ Bristleback.controller.ActionClass.prototype.onMessage = function(actionMessage)
 
 Bristleback.controller.ActionClass.prototype.findHandler = function(action) {
   if (action.responseHandler == undefined) {
-    var actionToString = "[" + (action.name ? "Action " + this.name + "." + action.name + "()" : "Default action of class " + this.name) + "]";
-    var errorMsg = +actionToString + " Cannot find handler for incoming action";
+    var actionToString = "[" + (action.name ? "Action " + this.name + "." + action.name + "()" : "Default action of " + this.name) + "]";
+    var errorMsg = actionToString + " Cannot find response handler for incoming action";
     Bristleback.Console.log("[ERROR] " + errorMsg);
     throw new Error(errorMsg);
   }

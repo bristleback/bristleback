@@ -32,15 +32,10 @@
       Bristleback.Console.log("[ERROR in SampleAction] Exception in hello action, this handler will return false and thus let default handlers run.");
       return false;
     });
-    sampleAction.defineDefaultAction()
-      .setResponseHandler(function(message) {
-      $('#status').text("Default action response: " + message);
-    });
+    sampleAction.defineDefaultAction();
+    var defAction = sampleAction.getDefaultAction();
 
-    sampleAction.defineAction("getFactorials")
-      .renderOnResponse("factorials-template", "#status", "factorials")
-      .renderOnDefaultException("factorials-error-template", "#status", false)
-      .renderOnException("factorialInputException", "factorials-wrong-input-template", "#status");
+    sampleAction.defineAction("getFactorials");
 
     dataController.exceptionHandler.setExceptionHandler("sample.NumberFormatException", function() {
       $('#age').css("border-color", "red");
