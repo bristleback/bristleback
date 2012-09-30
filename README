@@ -1,13 +1,15 @@
 Welcome,
 
-Bristleback Server version 0.2.0 is just around the corner!
+Bristleback Server version 0.2.0 has been finally released!
 
-0.2.0-alpha03 is now available in central Maven repository:
+Check our wiki pages for tutorials.
+
+0.2.0 is now available in central Maven repository:
 
     <dependency>
       <groupId>pl.bristleback</groupId>
       <artifactId>bristleServer</artifactId>
-      <version>0.2.0-alpha-03</version>
+      <version>0.2.0</version>
     </dependency>
 
 Few samples are available at https://github.com/bristleback/bristleback-samples
@@ -39,7 +41,3 @@ and unpack.
 6. Open your browser and type localhost:8080
 
 7. Have fun developing!
-
- -----
-
-Wiki tutorials (among with separate PDF document) will be available soon! 
