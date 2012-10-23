@@ -1,3 +1,4 @@
+== Bristleback Server version 0.2.0
 Welcome,
 
 Bristleback Server version 0.2.0 has been finally released!
@@ -16,7 +17,7 @@ Few samples are available at https://github.com/bristleback/bristleback-samples
 
 You can also test Bristleback by performing just few steps:
 
-1. Use Git to clone archetypes project:
+==  1. Use Git to clone archetypes project:
 
     git clone https://github.com/bristleback/bristleback-archetypes.git
 
