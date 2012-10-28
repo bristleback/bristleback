@@ -1,0 +1,432 @@
+---
+layout: default
+---
+
+<div class="bristlebackContentHeaderDiv">
+  Creating Bristleback Web application in 5 minutes using Maven Archetype
+</div>
+
+<div class="bristlebackContentDiv">
+  To run your first Bristleback application, you must perform only few steps:
+  <ol>
+    <li>
+      Use Git to clone archetypes project: <br>
+      <code>git clone https://github.com/bristleback/bristleback-archetypes.git</code> <br>
+      or just download it from <br>
+      <code>https://github.com/bristleback/bristleback-archetypes/zipball/master </code>
+      and unpack.
+    </li>
+    <li>
+      Open your console, go to bristleback-archetypes/webapp-archetype directory and type: <br>
+      <code>mvn clean install</code>
+    </li>
+    <li>
+      Go to directory where your new Bristleback Project will be placed and type: <br>
+      <code>mvn archetype:generate -DarchetypeCatalog=local </code>
+    </li>
+    <li>
+      bristle-webapp-archetype should appear in the list, choose the correct number and then enter additional
+      information about the project.
+    </li>
+    <li>
+      Go to the newly created project directory and type: <br>
+      <code>mvn jetty:run</code> <br>
+      Your first Bristleback Server with Jetty as the Server Engine is starting!
+    </li>
+    <li>
+      Open your browser and type localhost:8080
+    </li>
+  </ol>
+</div>
+
+<br>
+
+<div class="bristlebackContentHeaderDiv">
+  Manual project setup - Standalone Server
+</div>
+
+<div class="bristlebackContentDiv">
+  <p>
+    Fallowing two subsections describe how to run Bristleback application project from scratch.
+  </p>
+
+  <p>
+    Now, we'll develop a standalone application.
+  </p>
+
+  <p>
+    Firstly, we need to create new Maven project. It can be done using any modern Java IDE or using Maven archetype:
+  </p>
+
+  <code class="standardCodeSnippet">
+  {% highlight xml %}
+  mvn archetype:generate \
+  -DgroupId=com.yourpackage.sample \
+  -DartifactId=chatapp \
+  -Dversion=1.0-SNAPSHOT \
+  -DpackageName=com.yourpackage.sample.chatapp \
+  -DarchetypeGroupId=org.apache.maven.archetypes \
+  -DarchetypeArtifactId=maven-archetype-quickstart \
+  -DarchetypeVersion=1.1 \
+  -DinteractiveMode=false
+  {% endhighlight %}
+  </code>
+  Created in this way, the project can be then imported into your IDE, for example by using fallowing command:
+  <code class="standardCodeSnippet">mvn
+    idea:idea</code> (for IntelliJ Idea).
+
+  The next step is to modify generated pom.xml file to include Bristleback Server dependency. In
+
+  <code class="standardCodeSnippet">
+  {% highlight xml %}
+  <dependencies></dependencies>
+  {% endhighlight %}
+  </code>
+
+  section add:
+
+  <code class="standardCodeSnippet">
+  {% highlight xml %}
+  <dependency>
+    <groupId>pl.bristleback</groupid>
+    <artifactId>bristleServer</artifactid>
+    <version>0.2.0</version>
+  </dependency>
+  {% endhighlight %}
+  </code>
+
+  Then we create applicationContext.xml file, in which whole Bristleback configuration will be placed. Go to the
+  src/main directory, create a new directory resources, this is the place where applicationContext.xml file should be
+  placed. The content of this file is presented below:
+
+  <code class="standardCodeSnippet">
+  {% highlight xml+evoque linenos %}
+  <?xml version="1.0" encoding="UTF-8"?>
+  <beans xmlns="http://www.springframework.org/schema/beans"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:context="http://www.springframework.org/schema/context"
+         xmlns:bb="http://www.bristleback.pl/schema/bristleback"
+         xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+          http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context-2.5.xsd
+          http://www.bristleback.pl/schema/bristleback
+          http://www.bristleback.pl/schema/bristleback/bristleback.xsd">
+
+    <context:component-scan base-package="com.yourpackage.sample.chatapp"/>
+
+    <bb:serverMessages/>
+
+    <bean id="pojoConfigResolver" class="pl.bristleback.server.bristle.conf.resolver.init.PojoConfigResolver">
+    </bean>
+
+    <bb:standaloneServer configurationResolver="pojoConfigResolver"/>
+  </beans>
+  {% endhighlight %}
+  </code>
+
+  <p>
+    Bristleback has its own namespace so we had to import it. In the next line after import section, we enabled
+    automatic Spring beans scanning. <code class="standardCodeSnippet">&lt;bb:serverMessages/></code> tag is required to enable server messages and
+    client action messages. Finally, we defined configuration resolver bean and Bristleback Server bean. By default,
+    server starts immediately in bean init phase.
+  </p>
+
+  <p>
+    Now we just need to initialize Spring in our main() method. To do so, we modify generated App class:
+  </p>
+  <code class="standardCodeSnippet">
+  {% highlight java %}
+  public final class App {
+
+    private static final String[] CONFIG_FILES =
+      {"applicationContext.xml"};
+
+    private App() {
+    }
+
+    public static void main(String[] args) {
+      ApplicationContext applicationContext = new ClassPathXmlApplicationContext(CONFIG_FILES);
+
+      StandaloneServerRunner runner = (StandaloneServerRunner) applicationContext.getBean("bristlebackStandaloneServer");
+
+      Scanner in = new Scanner(System.in);
+      String value = in.nextLine();
+      while (!value.equalsIgnoreCase("x")) {
+        value = in.nextLine();
+      }
+      runner.stopServer();
+    }
+  }
+  {% endhighlight %}
+  </code>
+
+  Now you may run App class, server should start. The only thing remaining is to build some webpage to test the connection.
+  This page will contain two buttons for connecting/disconnecting and a status container.
+  Required client library can be found <a href="https://github.com/bristleback/bristleback/downloads" class="classicLinkBold">here</a>
+  (download package contains also required jquery library, you may also choose different jquery version).
+
+  <code class="standardCodeSnippet">
+  {% highlight xml %}
+  <html>
+  <head>
+    <script type="text/javascript" src="./jquery-1.5.1.min.js"></script>
+    <script type="text/javascript" src="./bristle.js"></script>
+
+    <script type="text/javascript">
+      var config = {
+        serverUrl: "ws://localhost:8765/websocket",
+        OnOpen: function(event) {
+          $('#status').text("The WebSocket Connection Is Open.");
+        },
+        OnClose: function(event) {
+          $('#status').text("The WebSocket Connection Is Closed.");
+        }
+      };
+      var client = Bristleback.newClient(config);
+      var dataController = client.dataController;
+
+      function connect() {
+        client.connect();
+        Bristleback.Console.enableConsole();
+      }
+
+      function closeConnection() {
+        client.disconnect("exit on demand");
+      }
+
+    </script>
+  </head>
+
+  <body>
+  <div id="status">Click connect button to start playing.</div>
+  <div>
+    <input type="button" onclick="connect()" value="Connect">
+    <input type="button" onclick="closeConnection()" value="Close connection">
+  </div>
+
+  </body>
+  </html>
+  {% endhighlight %}
+  </code>
+
+  
+</div>
+
+  <br>
+
+<div class="bristlebackContentHeaderDiv">
+  Manual project setup - Web Application
+</div>
+
+<div class="bristlebackContentDiv">
+
+  <p>
+    Few parts of this subsection are copied from the previous subsection.
+  </p>
+
+  <p>
+    Creating web application with Bristleback Server enabled is almost as easy as creating standalone application.
+    Again we start by creating the new Maven project, IDE or Maven archetype can be used.
+  </p>
+
+  <code class="standardCodeSnippet">
+  {% highlight xml %}
+  mvn archetype:generate \
+    -DgroupId=com.yourpackage.sample \
+    -DartifactId=chatapp \
+    -Dversion=1.0-SNAPSHOT \
+    -DpackageName=com.yourpackage.sample.chatapp \
+    -DarchetypeGroupId=org.apache.maven.archetypes \
+    -DarchetypeArtifactId=maven-archetype-webapp \
+    -DarchetypeVersion=1.1 \
+    -DinteractiveMode=false
+  {% endhighlight %}
+  </code>
+
+  <p>
+    Created in this way, the project can be then imported into your IDE, for example by using fallowing command: mvn
+    idea:idea (for IntelliJ Idea).
+  </p>
+
+  <p>
+    The next step is to modify generated pom.xml file to include Bristleback Server dependency.
+    In <code class="standardCodeSnippet">&lt;dependencies>&lt;/dependencies></code> section add:
+  </p>
+
+  <code class="standardCodeSnippet">
+  {% highlight xml %}
+  <dependency>
+    <groupId>pl.bristleback</groupid>
+    <artifactId>bristleServer</artifactid>
+    <version>0.2.0</version>
+  </dependency>
+  {% endhighlight %}
+  </code>
+
+  In this sample we use Jetty as our Server Engine. Jetty provides nice Maven plugin for fast web application running.
+  Fallowing step isn't necessary in most environments, but in some cases prevents Maven from using wrong version of the
+  Jetty plugin. Put this code in &lt;build>&lt;/build> section:
+
+  <code class="standardCodeSnippet">
+  {% highlight xml %}
+  <pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.mortbay.jetty</groupid>
+        <artifactId>jetty-maven-plugin</artifactid>
+        <version>8.1.5.v20120716</version>
+      </plugin>
+    </plugins>
+  </pluginmanagement>
+  {% endhighlight %}
+  </code>
+
+  Then we create applicationContext.xml file, in which whole Bristleback configuration will be placed. Go to the
+  <code  class="standardCodeSnippet">src/main/webapp/WEB-INF</code> directory, this is the place where applicationContext.xml file should be placed.
+  The content of this file is presented below:
+
+  <code class="standardCodeSnippet">
+  {% highlight xml %}
+  <?xml version="1.0" encoding="UTF-8"?>
+  <beans xmlns="http://www.springframework.org/schema/beans"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:context="http://www.springframework.org/schema/context"
+         xmlns:bb="http://www.bristleback.pl/schema/bristleback"
+         xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.bristleback.pl/schema/bristleback
+        http://www.bristleback.pl/schema/bristleback/bristleback.xsd">
+
+    <context:component-scan base-package="com.yourpackage.sample.chatapp"/>
+
+    <bb:serverMessages/>
+
+    <bean id="pojoConfigResolver" class="pl.bristleback.server.bristle.conf.resolver.init.PojoConfigResolver">
+      <property name="engineName" value="system.engine.jetty.servlet"/>
+    </bean>
+
+    <bb:servlet configurationResolver="pojoConfigResolver"/>
+  </beans>
+  {% endhighlight %}
+  </code>
+
+  <p>
+    By default, Maven web application archetype doesn't create <code
+    class="standardCodeSnippet">main/java/${package/</code> directory, so to avoid errors in
+    Spring component scanning, create such package or remove component-scan line from application context.
+  </p>
+
+  <p>
+    Another thing to do is to modify <code class="standardCodeSnippet">src/main/webapp/WEB-INF/web.xml</code> descriptor
+    file. We'll add a Spring Dispatcher Servlet:
+  </p>
+  
+  <code class="standardCodeSnippet">
+  {% highlight xml %}
+  <?xml version="1.0" encoding="UTF-8"?>
+  <web-app
+    version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+    <display-name>Bristleback Web Application</display-name>
+
+    <servlet>
+          <servlet-name>springServlet</servlet-name>
+          <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+          <init-param>
+              <param-name>contextConfigLocation</param-name>
+              <param-value>WEB-INF/applicationContext.xml</param-value>
+          </init-param>
+      </servlet>
+      <servlet-mapping>
+          <servlet-name>springServlet</servlet-name>
+          <url-pattern>/websocket/*</url-pattern>
+      </servlet-mapping>
+
+  </web-app>
+  {% endhighlight %}
+  </code>
+
+  <p>
+    Bristleback &lt;bb:servlet> tag creates default handler mappings for Dispatcher Servlet (with mapping key: **/* -
+    all requests within Spring Dispatcher Servlet will be handled by Bristleback Http handler), but you are free to
+    define custom mappings by providing reference to your mappings bean, for example:
+  </p>
+
+  <code class="standardCodeSnippet">
+  {% highlight xml %}
+  <bean id="customMappings" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    <property name="mappings">
+     <map>
+       <entry key="/mypath" value-ref="bristlebackHttpHandler"/>
+     </map>
+    </property>
+  </bean>
+
+  <bb:servlet configurationResolver="pojoConfigResolver" handlerMappings="customMappings"/>
+  {% endhighlight %}
+  </code>
+
+  <p>
+    Although server is ready to be run, we need to edit generated <code class="standardCodeSnippet">src/main/webapp/WEB-INF/index.jsp</code>
+    page to test the
+    connection. The page will contain two buttons for connecting/disconnecting and a status container. Required client
+    library can be found <a href="https://github.com/bristleback/bristleback/downloads" class="classicLinkBold">here</a>
+    (download package contains also required jquery library, you may also choose different jquery version).
+  </p>
+
+  <code class="standardCodeSnippet">
+  {% highlight xml %}
+  <html>
+  <head>
+    <script type="text/javascript" src="./jquery-1.5.1.min.js"></script>
+    <script type="text/javascript" src="./bristle.js"></script>
+
+    <script type="text/javascript">
+      var config = {
+        serverUrl: "ws://localhost:8080/websocket",
+        OnOpen: function(event) {
+          $('#status').text("The WebSocket Connection Is Open.");
+        },
+        OnClose: function(event) {
+          $('#status').text("The WebSocket Connection Is Closed.");
+        }
+      };
+      var client = Bristleback.newClient(config);
+      var dataController = client.dataController;
+
+      function connect() {
+        client.connect();
+        Bristleback.Console.enableConsole();
+      }
+
+      function closeConnection() {
+        client.disconnect("exit on demand");
+      }
+
+    </script>
+
+  </head>
+
+  <body>
+  <div id="status">Click connect button to start playing.</div>
+  <div>
+    <input type="button" onclick="connect()" value="Connect">
+    <input type="button" onclick="closeConnection()" value="Close connection">
+  </div>
+
+  </body>
+  </html>
+  {% endhighlight %}
+  </code>
+
+  <p>
+    Note that in web application, port on which WebSockets engine is listening is taken from web application container
+    (engine port configuration element is ignored), both in Apache Tomcat and Jetty it is 8080 by default.
+  </p>
+
+</div>

@@ -1,0 +1,198 @@
+body {
+  background-color: #eeeeee;
+  padding: 0;
+  margin: 0;
+}
+
+.classicLink {
+  color: #333333;
+}
+
+.classicLinkBold {
+  color: #333333;
+  font-weight: bold;
+}
+
+.classicLink:hover {
+  color: #6aa84f;
+}
+
+.standardCodeSnippet {
+  font-size:12px;  
+}
+
+.sampleImage {
+  max-width:500px;
+}
+
+.bordered {
+  border: 1px black solid;
+}
+
+.standardList {
+  list-style-image: url("../img/arrow.png");
+}
+
+#header {
+  background-color: #333333;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+#headerDiv {
+  width: 1050px;
+  height: 120px;
+  margin: auto;
+}
+
+#logoDiv {
+  width: 400px;
+  display: inline-block;
+}
+
+#rightHeaderDiv {
+  display: inline-block;
+  float: right;
+  width: 600px;
+  height: 120px;
+}
+
+#menuDiv {
+  width: 580px;
+  height: 40px;
+  border: 1px black solid;
+  border-bottom-left-radius: 5px 5px;
+  border-bottom-right-radius: 5px 5px;
+  background-color: #eeeeee;
+  padding: 0;
+  margin: 0;
+  float: right;
+}
+
+#main {
+  width: 100%;
+  float: left;
+}
+
+#content {
+  padding-top: 20px;
+  width: 1050px;
+  min-height: 500px;
+  margin: auto;
+  font-family: arial, Serif;
+  font-size: 17px;
+}
+
+.menuButton {
+  font-variant: small-caps;
+  color: #402730;
+  display: inline-block;
+  float: right;
+  padding-left: 8px;
+  padding-right: 8px;
+  height: 30px;
+  padding-top: 8px;
+  font-family: verdana, sans-serif;
+  font-weight: bold;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.menuButton:hover {
+  background-color: #b6d7a8;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#subheader {
+  color: #cccccc;
+  width: 600px;
+  height: 20px;
+  padding: 60px 25px 10px;
+  font-size: 17px;
+  font-weight: bold;
+  font-family: arial, Serif;
+}
+
+#gitHubProfile {
+  padding-top: 3px;
+  padding-right: 5px;
+  display: inline-block;
+  float: right;
+}
+
+.leftSideIndexContent {
+  display:inline-block;
+  vertical-align:top;
+  width: 550px;
+}
+
+.bristlebackContentHeaderDiv {
+  font-variant: small-caps;
+  font-weight: bold;
+  padding-left: 20px;
+  padding-bottom: 15px;
+  color: #333333;
+}
+
+.classicHorizontalLine {
+  width: 80%;
+  color: #333333;
+  margin-bottom: 20px;
+  margin-top: 15px;
+}
+
+.rightSideIndexContent {
+  width: 495px;
+  display:inline-block;
+  font-family: arial, Serif;
+  font-size: 17px;
+  margin-top: 0;
+  vertical-align:top;
+}
+
+#videoAboutBristlebackDiv {
+  margin-bottom: 15px;
+}
+
+.bristlebackleftSideContentDiv {
+  width: 450px;
+  margin: auto;
+  text-align: justify;
+  padding-right: 20px;
+  line-height: 25px;
+  font-size: 15px;
+  color: #333333;
+}
+
+footer {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 1050px;
+  margin: auto;
+  text-align: center;
+  padding-right: 15px;
+  font-family: arial, lucida, sans-serif;
+  font-size: 12px;
+}
+
+.bristlebackContentDiv {
+  width: 950px;
+  margin: auto;
+  text-align: justify;
+  padding-right: 20px;
+  line-height: 25px;
+  font-size: 15px;
+  color: #333333;
+}
+
+.sampleDiv {
+}
+
+
+
+
+
+
+
