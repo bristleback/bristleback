@@ -46,6 +46,20 @@ body {
   margin: auto;
 }
 
+#logoLink {
+  border:none;
+}
+#logoLink:visited {
+  border:none;
+}
+
+#logoLink img {
+  border:none;
+}
+#logoLink:visited img {
+  border:none;
+}
+
 #logoDiv {
   width: 400px;
   display: inline-block;
