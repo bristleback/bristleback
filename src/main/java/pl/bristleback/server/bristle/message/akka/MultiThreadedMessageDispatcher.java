@@ -22,6 +22,7 @@ public class MultiThreadedMessageDispatcher extends AbstractMessageDispatcher {
 
   private boolean dispatcherRunning;
   private ActorRef sendMessageActor;
+  private ActorSystem akkaSystem;
 
   @Override
   public void addMessage(WebsocketMessage message) {
@@ -43,8 +44,8 @@ public class MultiThreadedMessageDispatcher extends AbstractMessageDispatcher {
       throw new IllegalStateException("Dispatcher already running.");
     }
     log.info("Starting multi threaded message dispatcher");
-    ActorSystem system = ActorSystem.create("BristlebackSystem");
-    sendMessageActor = system.actorOf(new Props(new UntypedActorFactory() {
+    akkaSystem = ActorSystem.create("BristlebackSystem");
+    sendMessageActor = akkaSystem.actorOf(new Props(new UntypedActorFactory() {
       public UntypedActor create() {
         return new SendMessageActor(getServer());
       }
@@ -57,6 +58,7 @@ public class MultiThreadedMessageDispatcher extends AbstractMessageDispatcher {
     if (!dispatcherRunning) {
       throw new IllegalStateException("Dispatcher is not running yet");
     }
+    akkaSystem.shutdown();
     setDispatcherRunning(false);
   }
 
