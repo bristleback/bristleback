@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.conf.resolver.action;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.AbstractActionInformation;
 import pl.bristleback.server.bristle.action.ActionParameterInformation;
@@ -9,7 +8,6 @@ import pl.bristleback.server.bristle.action.MethodActionInformation;
 import pl.bristleback.server.bristle.action.response.ActionResponseInformation;
 import pl.bristleback.server.bristle.api.action.ActionInformation;
 import pl.bristleback.server.bristle.api.action.DefaultAction;
-import pl.bristleback.server.bristle.api.annotations.Action;
 
 import javax.inject.Inject;
 import java.lang.reflect.Method;
@@ -53,22 +51,13 @@ public class ActionResolver {
 
   private ActionInformation<?> prepareAction(Class<?> clazz, Method action) {
     AbstractActionInformation<?> actionInformation;
-    String actionName = resolveActionName(action);
+    String actionName = ActionResolvingUtils.resolveActionName(action);
     if (isDefaultRemoteAction(clazz, action)) {
       actionInformation = new DefaultActionInformation(actionName);
     } else {
       actionInformation = new MethodActionInformation(actionName, action);
     }
     return actionInformation;
-  }
-
-  private String resolveActionName(Method action) {
-    Action actionAnnotation = action.getAnnotation(Action.class);
-    if (actionAnnotation != null && StringUtils.isNotBlank(actionAnnotation.name())) {
-      return actionAnnotation.name();
-    } else {
-      return action.getName();
-    }
   }
 
   private boolean isDefaultRemoteAction(Class clazz, Method action) {

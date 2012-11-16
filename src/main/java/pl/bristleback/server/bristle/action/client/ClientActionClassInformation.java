@@ -1,5 +1,6 @@
 package pl.bristleback.server.bristle.action.client;
 
+import pl.bristleback.server.bristle.conf.resolver.action.ActionResolvingUtils;
 import pl.bristleback.server.bristle.exceptions.ClientActionException;
 
 import java.lang.reflect.Method;
@@ -13,6 +14,8 @@ import java.util.Map;
  * @author Wojciech Niemiec
  */
 public class ClientActionClassInformation {
+
+  private static final boolean DO_NOT_VALIDATE_ACTION_NAME = false;
 
   private String name;
 
@@ -36,7 +39,7 @@ public class ClientActionClassInformation {
   }
 
   public ClientActionInformation getClientAction(Method action) {
-    String actionName = ClientActionUtils.resolveActionName(action);
+    String actionName = ActionResolvingUtils.resolveClientActionName(action, DO_NOT_VALIDATE_ACTION_NAME);
     return getClientAction(actionName);
   }
 
