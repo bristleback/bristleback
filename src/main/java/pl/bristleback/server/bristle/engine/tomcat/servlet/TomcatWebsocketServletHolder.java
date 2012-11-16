@@ -5,6 +5,8 @@ import org.apache.catalina.websocket.WebSocketServlet;
 import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.engine.tomcat.TomcatConnector;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class TomcatWebsocketServletHolder extends WebSocketServlet {
 
   private TomcatServletWebsocketEngine engine;
@@ -14,7 +16,7 @@ public class TomcatWebsocketServletHolder extends WebSocketServlet {
   }
 
   @Override
-  protected StreamInbound createWebSocketInbound(String protocol) {
+  protected StreamInbound createWebSocketInbound(String protocol, HttpServletRequest servletRequest) {
     DataController controller = engine.getConfiguration().getDataController(protocol);
     return new TomcatConnector(engine, controller, engine.getFrontController());
   }

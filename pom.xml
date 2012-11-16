@@ -10,7 +10,7 @@
 
   <groupId>pl.bristleback</groupId>
   <artifactId>bristleServer</artifactId>
-  <version>0.3.0</version>
+  <version>0.2.1</version>
   <packaging>jar</packaging>
 
   <name>bristleServer</name>
@@ -49,7 +49,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <org.springframework.version>3.1.1.RELEASE</org.springframework.version>
-    <tomcat.version>7.0.27</tomcat.version>
+    <tomcat.version>7.0.32</tomcat.version>
     <netty.version>3.5.1.Final</netty.version>
     <jetty.version>8.1.5.v20120716</jetty.version>
   </properties>
