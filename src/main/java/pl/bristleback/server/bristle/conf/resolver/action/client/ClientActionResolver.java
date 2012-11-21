@@ -78,26 +78,21 @@ public class ClientActionResolver {
   }
 
   private Object resolveActionSerializationInformation(Method actionMethod, List<ClientActionParameterInformation> parametersInformation) {
-    Object[] parameters = actionMethod.getParameterTypes();
     SerializationInput contentSerializationInput;
     Type contentType;
-    if (parameters.length == 1) {
-      Bind bindAnnotation = findBindAnnotation(actionMethod.getParameterAnnotations()[0]);
-      contentType = actionMethod.getGenericParameterTypes()[0];
-      contentSerializationInput = resolveSingleParameterInput(bindAnnotation, contentType);
-    } else {
-      int parametersToSerializeCount = getNumberOfParametersToSerialize(parametersInformation);
-      if (parametersToSerializeCount == 0) {
-        return null;
-      } else if (parametersToSerializeCount == 1) {
-        contentSerializationInput = resolveSingleInputFromMultipleParameters(actionMethod, parametersInformation);
-        contentType = contentSerializationInput.getPropertyInformation().getType();
-      } else {
-        contentSerializationInput = resolveMapInput(actionMethod, parametersInformation);
-        contentType = HashMap.class;
-      }
 
+    int parametersToSerializeCount = getNumberOfParametersToSerialize(parametersInformation);
+    if (parametersToSerializeCount == 0) {
+      contentType = String.class;
+      contentSerializationInput = resolveSingleParameterInput(contentType);
+    } else if (parametersToSerializeCount == 1) {
+      contentSerializationInput = resolveSingleInputFromMultipleParameters(actionMethod, parametersInformation);
+      contentType = contentSerializationInput.getPropertyInformation().getType();
+    } else {
+      contentSerializationInput = resolveMapInput(actionMethod, parametersInformation);
+      contentType = HashMap.class;
     }
+
     SerializationInput messageInput = inputResolver.resolveMessageInputInformation(contentType, contentSerializationInput);
     SerializationResolver serializationResolver = serializationEngine.getSerializationResolver();
     return serializationResolver.resolveSerialization(BristleMessage.class, messageInput);
@@ -152,6 +147,11 @@ public class ClientActionResolver {
     SerializationInput input = inputResolver.resolveInputInformation(bindAnnotation);
     input.getPropertyInformation().setType(parameterType);
     return input;
+  }
+
+  private SerializationInput resolveSingleParameterInput(Type parameterType) {
+    Bind bindAnnotationNotExist = null;
+    return resolveSingleParameterInput(bindAnnotationNotExist, parameterType);
   }
 
   private Bind findBindAnnotation(Annotation[] parameterAnnotations) {

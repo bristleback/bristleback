@@ -36,15 +36,13 @@ public class ClientActionProxyInterceptor implements MethodInterceptor {
     Object[] parameters = invocation.getArguments();
 
     Object payload = null;
-    if (parameters.length == 1) {
-      payload = parameters[0];
-    } else if (parameters.length > 1) {
-      int parametersToSerializeCount = getNumberOfParametersToSerialize(actionInformation);
-      if (parametersToSerializeCount == 1) {
-        payload = resolveSinglePayload(actionInformation, parameters, payload);
-      } else {
-        payload = resolveMapPayload(actionInformation, parameters);
-      }
+    int parametersToSerializeCount = getNumberOfParametersToSerialize(actionInformation);
+    if (parametersToSerializeCount == 0) {
+      payload = null;
+    } else if (parametersToSerializeCount == 1) {
+      payload = resolveSinglePayload(actionInformation, parameters, payload);
+    } else {
+      payload = resolveMapPayload(actionInformation, parameters);
     }
 
     BristleMessage<Object> message = new BristleMessage<Object>()
@@ -56,8 +54,7 @@ public class ClientActionProxyInterceptor implements MethodInterceptor {
     return methodOutput;
   }
 
-  private Object resolveMapPayload(ClientActionInformation actionInformation, Object[] parameters) {
-    Object payload;
+  private Map<String, Object> resolveMapPayload(ClientActionInformation actionInformation, Object[] parameters) {
     Map<String, Object> parametersAsMap = new HashMap<String, Object>();
     int index = 0;
     for (int i = 0; i < parameters.length; i++) {
@@ -68,8 +65,7 @@ public class ClientActionProxyInterceptor implements MethodInterceptor {
         index++;
       }
     }
-    payload = parametersAsMap;
-    return payload;
+    return parametersAsMap;
   }
 
   private Object resolveSinglePayload(ClientActionInformation actionInformation, Object[] parameters, Object payload) {

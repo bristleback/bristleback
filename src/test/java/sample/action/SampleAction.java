@@ -86,6 +86,7 @@ public class SampleAction implements DefaultAction<DefaultUser, Map<String, BigD
   public String executeDefault(DefaultUser user, Map<String, BigDecimal> message) {
     String helloWorld = helloServiceBean.sayHello(message.get("mapField"));
     clientActionClass.sendCardsToUser(Card.values(), user);
+    clientActionClass.notification(true, 1);
     return helloWorld;
   }
 

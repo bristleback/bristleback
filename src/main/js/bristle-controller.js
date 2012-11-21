@@ -19,7 +19,7 @@ Bristleback.controller.ActionMessage = function(controller, message) {
 
   this.action = this.actionClass.actions[actionName];
   if (this.action == undefined) {
-    errorMsg = "[ERROR] Cannot find action " + (actionName ? "\"" + actionName + "\"" : "default action ") + " in action class \"" + this.name + "\"";
+    errorMsg = "[ERROR] Cannot find action " + (actionName ? "\"" + actionName + "\"" : "default action ") + " in action class \"" + actionClassName + "\"";
     Bristleback.Console.log(errorMsg);
     throw new Error(errorMsg);
   }
