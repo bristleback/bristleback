@@ -38,4 +38,8 @@ public class SpringMockBeansFactory {
   public <T> T getFrameworkBean(String beanName, Class<T> clazz) {
     return frameworkContext.getBean(beanName, clazz);
   }
+
+  public <T> T getFrameworkBean(Class<T> clazz) {
+    return frameworkContext.getBean(clazz);
+  }
 }

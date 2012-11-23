@@ -5,9 +5,12 @@ import pl.bristleback.server.bristle.api.action.DefaultAction;
 import pl.bristleback.server.bristle.api.annotations.Action;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
 import pl.bristleback.server.bristle.api.annotations.Bind;
+import pl.bristleback.server.bristle.api.annotations.ObjectSender;
 import pl.bristleback.server.bristle.api.annotations.Property;
 import pl.bristleback.server.bristle.api.annotations.Serialize;
 import pl.bristleback.server.bristle.engine.base.users.DefaultUser;
+import pl.bristleback.server.bristle.message.ConditionObjectSender;
+import pl.bristleback.server.mock.beans.MockBean;
 import pl.bristleback.server.mock.beans.SimpleMockBean;
 
 /**
@@ -24,6 +27,12 @@ public class SimpleActionClass implements DefaultAction<DefaultUser, String> {
   public static final String RESPONSE_TEXT = "response";
 
   public static final String NAME = "sampleAction";
+
+  @ObjectSender(serialize = {
+    @Serialize(target = MockBean.class),
+    @Serialize(target = SimpleMockBean.class, serializationName = "nonDefaultSerialization")
+  })
+  private ConditionObjectSender conditionObjectSender;
 
   @Override
   @Action
