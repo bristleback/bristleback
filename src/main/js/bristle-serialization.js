@@ -1,3 +1,11 @@
+/**
+ Serialization module
+
+ @module Bristleback
+ @submodule serialization
+ @main Bristleback
+ **/
+
 Bristleback.serialization.serializationEngines = {
 };
 
