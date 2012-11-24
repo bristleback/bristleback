@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>bristle-controller.js - Bristleback Client API</title>
+    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.7.0&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="..&#x2F;assets/favicon.png">
+    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.7.0&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="http:&#x2F;&#x2F;bristleback.pl&#x2F;img&#x2F;logo.png" title="Bristleback Client API"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.2.1</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="..&#x2F;classes/Bristleback.Client.html">Bristleback.Client</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.CONNECTOR.html">Bristleback.CONNECTOR</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.Console.html">Bristleback.Console</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.controller.Action.html">Bristleback.controller.Action</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.controller.ActionCallback.html">Bristleback.controller.ActionCallback</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.controller.ActionClass.html">Bristleback.controller.ActionClass</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.controller.ActionController.html">Bristleback.controller.ActionController</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.controller.ActionExceptionHandler.html">Bristleback.controller.ActionExceptionHandler</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.controller.ClientActionClass.html">Bristleback.controller.ClientActionClass</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.LOCAL_HOSTNAME.html">Bristleback.LOCAL_HOSTNAME</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.utils.html">Bristleback.utils</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="..&#x2F;modules/Bristleback.html">Bristleback</a></li>
+            
+                <li><a href="..&#x2F;modules/controller.html">controller</a></li>
+            
+                <li><a href="..&#x2F;modules/core.html">core</a></li>
+            
+                <li><a href="..&#x2F;modules/serialization.html">serialization</a></li>
+            
+                <li><a href="..&#x2F;modules/utils.html">utils</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: bristle-controller.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+&#x2F;**
+ Action controller module
+
+ @module Bristleback
+ @submodule controller
+ @main Bristleback
+ **&#x2F;
+
+&#x2F;**
+ * Controllers container
+ *&#x2F;
+Bristleback.controller.controllers = {};
+
+&#x2F;**
+ * Creates a new action message
+ * @param {Object} controller data controller
+ * @param {Object} message message to sent
+ * @private
+ *&#x2F;
+Bristleback.controller.ActionMessage = function(controller, message) {
+  var messageElements = message.name.split(&quot;:&quot;);
+  var actionElements = messageElements[0].split(&quot;.&quot;);
+  var actionClassName = actionElements[0];
+  var actionName = actionElements[1] ? actionElements[1] : &quot;&quot;;
+  if (message.id) {
+    this.actionClass = controller.actionClasses[actionClassName];
+  } else {
+    this.actionClass = controller.clientActionClasses[actionClassName];
+  }
+
+  if (this.actionClass == undefined) {
+    var errorMsg = &quot;[ERROR] Cannot find a client action class \&quot;&quot; + actionClassName + &quot;\&quot;&quot;;
+    Bristleback.Console.log(errorMsg);
+    throw new Error(errorMsg);
+  }
+
+  this.action = this.actionClass.actions[actionName];
+  if (this.action == undefined) {
+    errorMsg = &quot;[ERROR] Cannot find action &quot; + (actionName ? &quot;\&quot;&quot; + actionName + &quot;\&quot;&quot; : &quot;default action &quot;) + &quot; in action class \&quot;&quot; + actionClassName + &quot;\&quot;&quot;;
+    Bristleback.Console.log(errorMsg);
+    throw new Error(errorMsg);
+  }
+
+  this.callback = controller.callbacks[message.id];
+  this.content = message.payload;
+  this.exceptionType = messageElements.length &gt; 1 ? this.content.type : undefined;
+};
+
+&#x2F;**
+ * Action exception handler class allows to fully control exception handling process.
+ * Instance of this class is created for every action, action class, action callback object and
+ * also there is one exception handler in action controller object.
+ * @class ActionExceptionHandler
+ * @namespace Bristleback.controller
+ * @constructor
+ *&#x2F;
+Bristleback.controller.ActionExceptionHandler = function ActionExceptionHandler() {
+  this.defaultExceptionHandler = undefined;
+  this.exceptionHandlers = {};
+};
+
+&#x2F;**
+ * Sets a default exception handler function that will be invoked when exception handler for given exception type
+ * cannot be found or it has been found and returned &quot;false&quot;.
+ * @method setDefaultExceptionHandler
+ * @param {Function} handlerFunction exception handler function reference, containing one parameter, which is actual exception message.
+ *&#x2F;
+Bristleback.controller.ActionExceptionHandler.prototype.setDefaultExceptionHandler = function(handlerFunction) {
+  this.defaultExceptionHandler = handlerFunction;
+  return this;
+};
+
+&#x2F;**
+ * Sets exception handler function applicable for exception type given as first parameter.
+ * @method setExceptionHandler
+ * @param {String} exceptionType exception type
+ * @param {Function} handlerFunction exception handler function reference, containing one parameter, which is actual exception message.
+ *&#x2F;
+Bristleback.controller.ActionExceptionHandler.prototype.setExceptionHandler = function(exceptionType, handlerFunction) {
+  this.exceptionHandlers[exceptionType] = handlerFunction;
+  return this;
+};
+
+Bristleback.controller.ActionExceptionHandler.prototype.handleException = function(exceptionMessage) {
+  var chosenHandler = this.exceptionHandlers[exceptionMessage.exceptionType];
+  if (!chosenHandler) {
+    return this.handleDefault(exceptionMessage);
+  }
+  var breakChain = chosenHandler(exceptionMessage);
+  return breakChain || this.handleDefault(exceptionMessage);
+};
+
+Bristleback.controller.ActionExceptionHandler.prototype.handleDefault = function(exceptionMessage) {
+  if (!this.defaultExceptionHandler) {
+    return false;
+  }
+  return this.defaultExceptionHandler(exceptionMessage);
+};
+
+
+&#x2F;&#x2F;------------- ACTION CALLBACK
+
+&#x2F;**
+ * This class is the highest level response handler used in server actions.
+ * Action callbacks can be placed as last parameter in server action invocations.
+ * Action callback contains fields for both normal and exception responses.
+ * @class ActionCallback
+ * @namespace Bristleback.controller
+ * @constructor
+ * @param {Function} responseHandler handler function taking one parameter (actual response object from server).
+ *&#x2F;
+Bristleback.controller.ActionCallback = function(responseHandler) {
+
+  &#x2F;**
+   * Handler function taking one parameter (actual response object from server).
+   *  This handler is invoked in case when non exceptional response is returned by the server.
+   * @property responseHandler
+   * @type Function
+   *&#x2F;
+  this.responseHandler = responseHandler;
+
+  &#x2F;**
+   * Exception handler object for specifying reaction for exception responses.
+   *
+   * @property exceptionHandler
+   * @type Bristleback.controller.ActionExceptionHandler
+   **&#x2F;
+  this.exceptionHandler = new Bristleback.controller.ActionExceptionHandler();
+};
+
+Bristleback.controller.ActionCallback.prototype.handleResponse = function(content) {
+  return this.responseHandler(content);
+};
+
+Bristleback.controller.ActionCallback.prototype.canHandleResponse = function() {
+  return this.responseHandler != undefined;
+};
+
+&#x2F;&#x2F;------------- TEMPLATE ENGINE
+
+Bristleback.controller.TemplateController = {
+  parsedTemplates : {},
+
+  constructTemplateInformation: function(templateName, containerDiv, rootObjectName) {
+    containerDiv = containerDiv ? containerDiv : &quot;#&quot; + templateName + &quot;-div&quot;;
+
+    var templateInformation = {};
+    templateInformation.rootObjectName = rootObjectName;
+    templateInformation.containerDiv = containerDiv;
+    templateInformation.templateName = templateName;
+    return templateInformation;
+  },
+
+  containsTemplate: function(templateName) {
+    return this.parsedTemplates[templateName] != undefined;
+  },
+
+  getTemplate: function(templateName) {
+    if (!this.containsTemplate(templateName)) {
+      if (!document.getElementById(templateName)) {
+        var logMsg = &quot;Cannot find template with id: &quot; + templateName;
+        Bristleback.Console.log(logMsg);
+        throw new Error(logMsg);
+      }
+      this.parsedTemplates[templateName] = TrimPath.parseDOMTemplate(templateName);
+    }
+    return this.parsedTemplates[templateName];
+  },
+
+  render: function(templateInformation, object) {
+    if (templateInformation.rootObjectName) {
+      var data = {};
+      data[templateInformation.rootObjectName] = object;
+    } else {
+      data = object;
+    }
+
+    var parsedTemplate = this.getTemplate(templateInformation.templateName);
+    var result = parsedTemplate.process(data);
+    var idWithoutHash = templateInformation.containerDiv.substring(1);
+    var container = document.getElementById(idWithoutHash);
+    container.innerHTML = result;
+  }
+};
+
+
+&#x2F;&#x2F;------------- ACTION CONTROLLER
+
+&#x2F;**
+ * Action controller is a default, built in data controller used in Bristleback Server.
+ * Action controller uses server and client action classes to communicate with server.
+ * Name of this controller: &#x27;system.controller.action&#x27;. To use action controller,
+ * server must have it enabled in configuration.
+ * @class ActionController
+ * @namespace Bristleback.controller
+ * @constructor
+ *&#x2F;
+Bristleback.controller.ActionController = function () {
+  this.client = undefined;
+  this.lastId = 1;
+
+  this.actionClasses = {};
+  this.clientActionClasses = {};
+  this.callbacks = {};
+
+  &#x2F;**
+   * Exception handler object for specifying reaction for exception responses.
+   *
+   * @property exceptionHandler
+   * @type Bristleback.controller.ActionExceptionHandler
+   **&#x2F;
+  this.exceptionHandler = new Bristleback.controller.ActionExceptionHandler();
+
+  this.exceptionHandler.setDefaultExceptionHandler(this.defaultHandlerFunction);
+};
+
+Bristleback.controller.ActionController.prototype.onMessage = function(message) {
+  var actionMessage = new Bristleback.controller.ActionMessage(this, message);
+  if (actionMessage.exceptionType) {
+    this.onExceptionMessage(actionMessage);
+  } else {
+    actionMessage.actionClass.onMessage(actionMessage);
+  }
+};
+
+Bristleback.controller.ActionController.prototype.sendMessage = function (actionClass, action, parameters) {
+  var currentId = this.lastId++;
+  var messageName = action ? actionClass + &quot;.&quot; + action : actionClass;
+  var message = {
+    name: messageName,
+    payload: parameters,
+    id: currentId
+  };
+  this.client.sendMessage(message);
+  return currentId;
+};
+
+&#x2F;**
+ * Gets a server action class with name given as parameter.
+ * If action class doesn&#x27;t exist, this method transparently creates one
+ * and immediately returns it.
+ * @method getActionClass
+ * @param {String} actionClassName name of requested server action class.
+ *&#x2F;
+Bristleback.controller.ActionController.prototype.getActionClass = function (actionClassName) {
+  var actionClass = this.actionClasses[actionClassName];
+  if (actionClass === undefined) {
+    actionClass = new Bristleback.controller.ActionClass(actionClassName, this);
+    this.actionClasses[actionClassName] = actionClass;
+  }
+  return actionClass;
+};
+
+Bristleback.controller.ActionController.prototype.onExceptionMessage = function(exceptionMessage) {
+  return (exceptionMessage.callback &amp;&amp; exceptionMessage.callback.exceptionHandler.handleException(exceptionMessage)) ||
+    exceptionMessage.action.exceptionHandler.handleException(exceptionMessage) ||
+    exceptionMessage.actionClass.exceptionHandler.handleException(exceptionMessage) ||
+    this.exceptionHandler.handleException(exceptionMessage);
+};
+
+Bristleback.controller.ActionController.prototype.defaultHandlerFunction = function(exceptionMessage) {
+  var actionToString = &quot;[&quot; + (exceptionMessage.action.name ? &quot;Action &quot; + exceptionMessage.actionClass.name + &quot;.&quot;
+    + exceptionMessage.action.name + &quot;()&quot; : &quot;Default action of class &quot; + exceptionMessage.actionClass.name) + &quot;]&quot;;
+  var exceptionMessageString = actionToString
+    + &quot; returned with exception of type \&quot;&quot; + exceptionMessage.exceptionType + &quot;\&quot; and detail message \&quot;&quot; + Bristleback.utils.objectToString(exceptionMessage.content) + &quot;\&quot;&quot;;
+  Bristleback.Console.log(&quot;[ERROR] &quot; + exceptionMessageString);
+  throw new Error(exceptionMessageString);
+};
+
+&#x2F;**
+ * Registers given object as client action class.
+ * After registration, server is able to invoke methods of given client action class.
+ * Client action classes are normal Object instances created in any way.
+ * @method registerClientActionClass
+ * @param  {String} actionClassName name of client action class
+ * @param {Object} actionClass client action class object.
+ *&#x2F;
+Bristleback.controller.ActionController.prototype.registerClientActionClass = function(actionClassName, actionClass) {
+  this.clientActionClasses[actionClassName] = new Bristleback.controller.ClientActionClass(actionClassName, actionClass);
+};
+
+&#x2F;&#x2F;------------- ACTION CLASS
+
+&#x2F;**
+ * ActionClass is a client representation of server action class defined on Java side.
+ * Using this class, user can invoke server actions and specify how to handle normal&#x2F;exception responses.
+ * Action class instances should not be created using directly this constructors,
+ * but using {{#crossLink &quot;Bristleback.controller.ActionController&#x2F;getActionClass&quot;}}{{&#x2F;crossLink}} method
+ *
+ * @class ActionClass
+ * @namespace Bristleback.controller
+ * @constructor
+ * @param {String} name name of this action class.
+ * @param {Object} actionController
+ *&#x2F;
+Bristleback.controller.ActionClass = function (name, actionController) {
+  this.actionController = actionController;
+  this.name = name;
+  this.actions = {};
+  this.incomingActionHandlers = {};
+
+  &#x2F;**
+   * Exception handler object for specifying reaction for exception responses.
+   *
+   * @property exceptionHandler
+   * @type Bristleback.controller.ActionExceptionHandler
+   **&#x2F;
+  this.exceptionHandler = new Bristleback.controller.ActionExceptionHandler();
+  this.exceptionHandler.setExceptionHandler(&quot;BrokenActionProtocolException&quot;, this.defaultProtocolExceptionHandlerFunction);
+};
+
+&#x2F;**
+ * Creates a default action definition for this action class.
+ * Default actions don&#x27;t have names (message name consists of action class name only).
+ * To invoke default action on server, use {{#crossLink &quot;Bristleback.controller.ActionClass&#x2F;executeDefault&quot;}}{{&#x2F;crossLink}}
+ * @method defineDefaultAction
+ *&#x2F;
+Bristleback.controller.ActionClass.prototype.defineDefaultAction = function() {
+  return this.defineAction(&quot;&quot;);
+};
+
+&#x2F;**
+ * Creates a non default action definition with name given as parameter.
+ * In addition, the action controller creates method and attaches it to this action class.
+ * User can then invoke created action like any other methods.
+ * @method defineAction
+ * @param {String} actionName name of action
+ *&#x2F;
+Bristleback.controller.ActionClass.prototype.defineAction = function(actionName) {
+  if (this[actionName] != undefined) {
+    throw new Error(&quot;Action &quot; + actionName + &quot; already defined for action class &quot; + this.name);
+  }
+  this.actions[actionName] = new Bristleback.controller.Action(actionName);
+  this[actionName] = function() {
+    this.doSendMessage(this.actions[actionName], arguments);
+  };
+  return this.actions[actionName];
+};
+
+&#x2F;**
+ * Invokes default action of this action class on the server side.
+ * Action execution is always asynchronous.
+ * Response handler can be specified by setting handler method in
+ * {{#crossLink &quot;Bristleback.controller.Action&quot;}}{{&#x2F;crossLink}} object
+ * or by adding additional parameter at the end of parameters list.
+ * Such additional parameter can be function (which will be used when normal, non exceptional response arrives)
+ * or {{#crossLink &quot;Bristleback.CONNECTOR&quot;}}{{&#x2F;crossLink}} object.
+ * @method executeDefault
+ * @param {String} connector user connection placeholder,
+ * {{#crossLink &quot;Bristleback.CONNECTOR&quot;}}{{&#x2F;crossLink}} constant should be used.
+ * @param {Object} payload payload object
+ *&#x2F;
+Bristleback.controller.ActionClass.prototype.executeDefault = function(connector, payload) {
+  var defaultAction = this.actions[&quot;&quot;];
+  this.doSendMessage(defaultAction, arguments);
+};
+
+&#x2F;**
+ * Gets an action definition with name given as parameter.
+ * @method getAction
+ * @param {String} actionName action name.
+ *&#x2F;
+Bristleback.controller.ActionClass.prototype.getAction = function(actionName) {
+  return this.actions[actionName];
+};
+
+&#x2F;**
+ * Gets a default action definition.
+ * @method getDefaultAction
+ *&#x2F;
+Bristleback.controller.ActionClass.prototype.getDefaultAction = function() {
+  return this.actions[&quot;&quot;];
+};
+
+Bristleback.controller.ActionClass.prototype.doSendMessage = function(action, parameters) {
+  var correctParameters = [];
+  for (var i in parameters) {
+    correctParameters[i] = parameters[i];
+  }
+  var lastArgument = correctParameters.length == 0 ? undefined : correctParameters[correctParameters.length - 1];
+  if (lastArgument != undefined) {
+    if (lastArgument instanceof Function) {
+      correctParameters.pop();
+      var callback = new Bristleback.controller.ActionCallback(lastArgument);
+    } else if (lastArgument instanceof Bristleback.controller.ActionCallback) {
+      callback = correctParameters.pop();
+    }
+  }
+  var messageId = this.actionController.sendMessage(this.name, action.name, correctParameters);
+  if (callback != undefined) {
+    this.actionController.callbacks[messageId] = callback;
+  }
+};
+
+Bristleback.controller.ActionClass.prototype.onMessage = function(actionMessage) {
+  if (actionMessage.callback != undefined) {
+    this.actionController.callbacks[actionMessage.id] = undefined;
+    if (actionMessage.callback.canHandleResponse()) {
+      actionMessage.callback.handleResponse(actionMessage.content);
+      return;
+    }
+  }
+  var handler = this.findHandler(actionMessage.action);
+  if (handler) {
+    handler(actionMessage.content);
+  }
+};
+
+Bristleback.controller.ActionClass.prototype.findHandler = function(action) {
+  if (action.responseHandler == undefined) {
+    var actionToString = &quot;[&quot; + (action.name ? &quot;Action &quot; + this.name + &quot;.&quot; + action.name + &quot;()&quot; : &quot;Default action of &quot; + this.name) + &quot;]&quot;;
+    var errorMsg = actionToString + &quot; Cannot find response handler for incoming action&quot;;
+    Bristleback.Console.log(&quot;[ERROR] &quot; + errorMsg);
+    throw new Error(errorMsg);
+  }
+  return action.responseHandler;
+};
+
+Bristleback.controller.ActionClass.prototype.defaultProtocolExceptionHandlerFunction = function(exceptionMessage) {
+  var protocolViolationType = exceptionMessage.content;
+  if (protocolViolationType == &#x27;NO_ACTION_CLASS_FOUND&#x27;) {
+    var exceptionMessageString = &quot;Cannot find action class with name \&quot;&quot; + exceptionMessage.actionClass.name + &quot;\&quot;&quot;;
+    Bristleback.Console.log(&quot;[ERROR] &quot; + exceptionMessageString);
+    throw new Error(exceptionMessageString);
+  } else {
+    return false;
+  }
+};
+
+&#x2F;&#x2F;------------- ACTION
+
+&#x2F;**
+ * This is a single server action definition, created within a server action class.
+ * This class provides fluent API for building action behaviour.
+ * Constructor of this class should not be used directly by application user.
+ * User should rather create action using {{#crossLink &quot;Bristleback.controller.ActionClass&#x2F;defineDefaultAction&quot;}}{{&#x2F;crossLink}}
+ * and {{#crossLink &quot;Bristleback.controller.ActionClass&#x2F;defineAction&quot;}}{{&#x2F;crossLink}} .
+ * @class Action
+ * @namespace Bristleback.controller
+ * @param name name of this action
+ *&#x2F;
+Bristleback.controller.Action = function (name) {
+  this.name = name;
+
+  &#x2F;**
+   * Exception handler object for specifying reaction for exception responses.
+   *
+   * @property exceptionHandler
+   * @type Bristleback.controller.ActionExceptionHandler
+   **&#x2F;
+  this.exceptionHandler = new Bristleback.controller.ActionExceptionHandler();
+  this.exceptionHandler.setExceptionHandler(&quot;BrokenActionProtocolException&quot;, this.defaultProtocolExceptionHandlerFunction);
+};
+
+&#x2F;**
+ * Sets a response handler function for this action.
+ * @method setResponseHandler
+ * @param {Function} handler handler function taking one parameter (actual response object from server).
+ *&#x2F;
+Bristleback.controller.Action.prototype.setResponseHandler = function(handler) {
+  this.responseHandler = handler;
+  return this;
+};
+
+Bristleback.controller.Action.prototype.renderOnResponse = function(templateName, containerDiv, rootObjectName) {
+  var templateInformation = Bristleback.controller.TemplateController.constructTemplateInformation(templateName, containerDiv, rootObjectName);
+
+  this.responseHandler = function(actionMessage) {
+    Bristleback.controller.TemplateController.render(templateInformation, actionMessage);
+  };
+  return this;
+};
+
+Bristleback.controller.Action.prototype.renderOnException = function(exceptionType, templateName, containerDiv, abortExceptionProcessing) {
+  abortExceptionProcessing = abortExceptionProcessing !== false;
+  var templateInformation = Bristleback.controller.TemplateController.constructTemplateInformation(templateName, containerDiv, &quot;exception&quot;);
+
+  this.exceptionHandler.setExceptionHandler(exceptionType, function(exceptionMessage) {
+    Bristleback.controller.TemplateController.render(templateInformation, exceptionMessage);
+    return abortExceptionProcessing;
+  });
+  return this;
+};
+
+Bristleback.controller.Action.prototype.renderOnDefaultException = function(templateName, containerDiv, abortExceptionProcessing) {
+  abortExceptionProcessing = abortExceptionProcessing !== false;
+  var templateInformation = Bristleback.controller.TemplateController.constructTemplateInformation(templateName, containerDiv, &quot;exception&quot;);
+
+  this.exceptionHandler.setDefaultExceptionHandler(function(exceptionMessage) {
+    Bristleback.controller.TemplateController.render(templateInformation, exceptionMessage);
+    return abortExceptionProcessing;
+  });
+  return this;
+};
+
+Bristleback.controller.Action.prototype.defaultProtocolExceptionHandlerFunction = function(exceptionMessage) {
+  var protocolViolationType = exceptionMessage.content;
+  if (protocolViolationType == &#x27;NO_DEFAULT_ACTION_FOUND&#x27;) {
+    var exceptionMessageString = &quot;Cannot find default action in action class with name \&quot;&quot; + exceptionMessage.actionClass.name + &quot;\&quot;&quot;;
+  } else if (protocolViolationType == &#x27;NO_ACTION_FOUND&#x27;) {
+    exceptionMessageString = &quot;Cannot find action \&quot;&quot; + exceptionMessage.action.name + &quot;\&quot; in action class with name \&quot;&quot; + exceptionMessage.actionClass.name + &quot;\&quot;&quot;;
+  } else {
+    return false;
+  }
+  Bristleback.Console.log(&quot;[ERROR] &quot; + exceptionMessageString);
+  throw new Error(exceptionMessageString);
+};
+
+&#x2F;&#x2F;------------- CLIENT ACTION CLASS
+
+&#x2F;**
+ * This is a client action class definition.
+ * Instances of this class should be created directly by application user.
+ * Instead, they can use {{#crossLink &quot;Bristleback.controller.ActionController&#x2F;registerClientActionClass&quot;}}{{&#x2F;crossLink}}
+ * @class ClientActionClass
+ * @namespace Bristleback.controller
+ * @constructor
+ * @param {String} name name of this client action class
+ * @param {Object} actionClass real client action class instance.
+ *&#x2F;
+Bristleback.controller.ClientActionClass = function(name, actionClass) {
+  this.name = name;
+  this.actions = actionClass;
+};
+
+Bristleback.controller.ClientActionClass.prototype.onMessage = function(actionMessage) {
+  var parameters = [];
+  var hasMoreParams = true;
+  var currentIndex = 0;
+  while (hasMoreParams) {
+    var paramName = &quot;p&quot; + currentIndex;
+    var parameter = actionMessage.content[paramName];
+    if (parameter != undefined) {
+      parameters[currentIndex] = parameter;
+      currentIndex++;
+    } else {
+      hasMoreParams = false;
+    }
+  }
+  if (parameters.length == 0) {
+    parameters[0] = actionMessage.content;
+  }
+
+  actionMessage.action.apply(actionMessage.actionClass, parameters);
+};
+
+&#x2F;&#x2F;------------- DEFAULT CONTROLLERS
+
+Bristleback.controller.controllers[&quot;system.controller.action&quot;] = Bristleback.controller.ActionController;
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="..&#x2F;assets/js/yui-prettify.js"></script>
+<script src="..&#x2F;assets/../api.js"></script>
+<script src="..&#x2F;assets/js/api-filter.js"></script>
+<script src="..&#x2F;assets/js/api-list.js"></script>
+<script src="..&#x2F;assets/js/api-search.js"></script>
+<script src="..&#x2F;assets/js/apidocs.js"></script>
+</body>
+</html>
