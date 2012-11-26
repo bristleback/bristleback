@@ -527,14 +527,16 @@ Bristleback.controller.ClientActionClass.prototype.onMessage = function(actionMe
   var parameters = [];
   var hasMoreParams = true;
   var currentIndex = 0;
-  while (hasMoreParams) {
-    var paramName = "p" + currentIndex;
-    var parameter = actionMessage.content[paramName];
-    if (parameter != undefined) {
-      parameters[currentIndex] = parameter;
-      currentIndex++;
-    } else {
-      hasMoreParams = false;
+  if (actionMessage.content != undefined && actionMessage.content != null) {
+    while (hasMoreParams) {
+      var paramName = "p" + currentIndex;
+      var parameter = actionMessage.content[paramName];
+      if (parameter != undefined) {
+        parameters[currentIndex] = parameter;
+        currentIndex++;
+      } else {
+        hasMoreParams = false;
+      }
     }
   }
   if (parameters.length == 0) {
