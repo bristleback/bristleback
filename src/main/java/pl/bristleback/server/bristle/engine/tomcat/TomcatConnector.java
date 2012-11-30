@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Tomcat 7.0.27+ WebSocketConnector
+ * Tomcat 7.0.32+ WebSocketConnector
  * <p/>
  * ... Since it must extend MessageInbound, AbstractConnector code it's cloned
  * here ...
@@ -76,6 +76,11 @@ public class TomcatConnector extends MessageInbound implements WebsocketConnecto
   @Override
   protected void onTextMessage(CharBuffer data) throws IOException {
     frontController.processCommand(this, OperationCodes.TEXT_FRAME_CODE.getCode(), new String(data.array()));
+  }
+
+  @Override
+  public int getReadTimeout() {
+    return engine.getEngineConfiguration().getTimeout();
   }
 
   private String connectorId;

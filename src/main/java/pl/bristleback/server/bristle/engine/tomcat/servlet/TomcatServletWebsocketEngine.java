@@ -22,10 +22,9 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 
 /**
- * Tomcat 7.0.27+ WebSocket ServerEngine
+ * Tomcat 7.0.32+ WebSocket ServerEngine
  * <p/>
- * ... Since it must extend WebSocketServlet, AbstractServerEngine code it's
- * cloned here ...
+ *
  * <p/>
  * Created on: 2012-06-17 10:14:44 <br/>
  *
