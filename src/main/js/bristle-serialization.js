@@ -22,7 +22,7 @@ Bristleback.serialization.JsonJQueryEngine.prototype.serialize = function (objec
 };
 
 Bristleback.serialization.JsonJQueryEngine.prototype.deserialize = function (serializedObject) {
-  return jQuery.parseJSON(serializedObject);
+  return JSON.parse(serializedObject);
 };
 
 //------------- DEFAULT SERIALIZATION ENGINES
