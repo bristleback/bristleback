@@ -163,24 +163,22 @@ layout: default
 
   Now you may run App class, server should start. The only thing remaining is to build some webpage to test the connection.
   This page will contain two buttons for connecting/disconnecting and a status container.
-  Required client library can be found <a href="https://github.com/bristleback/bristleback/downloads" class="classicLinkBold">here</a>
-  (download package contains also required jquery library, you may also choose different jquery version).
+  Required client library can be found <a href="https://github.com/bristleback/bristleback/downloads" class="classicLinkBold">here</a>.
 
   <code class="standardCodeSnippet">
   {% highlight xml %}
   <html>
   <head>
-    <script type="text/javascript" src="./jquery-1.5.1.min.js"></script>
     <script type="text/javascript" src="./bristleback-0.2.1.js"></script>
 
     <script type="text/javascript">
       var config = {
         serverUrl: "ws://localhost:8765/websocket",
         OnOpen: function(event) {
-          $('#status').text("The WebSocket Connection Is Open.");
+          document.getElementById('status').innerHTML = "The WebSocket Connection Is Open.";
         },
         OnClose: function(event) {
-          $('#status').text("The WebSocket Connection Is Closed.");
+          document.getElementById('status').innerHTML = "The WebSocket Connection Is Closed.";
         }
       };
       var client = Bristleback.newClient(config);
@@ -375,25 +373,23 @@ layout: default
     Although server is ready to be run, we need to edit generated <code class="standardCodeSnippet">src/main/webapp/WEB-INF/index.jsp</code>
     page to test the
     connection. The page will contain two buttons for connecting/disconnecting and a status container. Required client
-    library can be found <a href="https://github.com/bristleback/bristleback/downloads" class="classicLinkBold">here</a>
-    (download package contains also required jquery library, you may also choose different jquery version).
+    library can be found <a href="https://github.com/bristleback/bristleback/downloads" class="classicLinkBold">here</a>.
   </p>
 
   <code class="standardCodeSnippet">
   {% highlight xml %}
   <html>
   <head>
-    <script type="text/javascript" src="./jquery-1.5.1.min.js"></script>
     <script type="text/javascript" src="./bristleback-0.2.1.js"></script>
 
     <script type="text/javascript">
       var config = {
         serverUrl: "ws://localhost:8080/websocket",
         OnOpen: function(event) {
-          $('#status').text("The WebSocket Connection Is Open.");
+          document.getElementById('status').innerHTML = "The WebSocket Connection Is Open.";
         },
         OnClose: function(event) {
-          $('#status').text("The WebSocket Connection Is Closed.");
+          document.getElementById('status').innerHTML = "The WebSocket Connection Is Open.";
         }
       };
       var client = Bristleback.newClient(config);
