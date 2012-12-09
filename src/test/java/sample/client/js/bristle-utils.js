@@ -79,7 +79,7 @@ Bristleback.Console.consoleDiv = "<textarea id='bristleConsole' style='font-size
 Bristleback.Console.log = function(msg) {
   if (Bristleback.Console.enabled) {
     var console = document.getElementById('bristleConsole');
-    console.innerHTML = console.innerHTML + (msg + "\n");
+    console.innerHTML += (msg + "\n");
     console.scrollTop = console.scrollHeight - console.clientHeight;
   }
 };
@@ -89,7 +89,7 @@ Bristleback.Console.enableConsole = function() {
   Bristleback.Console.enabled = true;
   if (!consoleDiv) {
     var body = document.getElementsByTagName('body')[0];
-    body.innerHTML = body.innerHTML + Bristleback.Console.consoleDiv;
+    body.innerHTML += Bristleback.Console.consoleDiv;
   } else if (consoleDiv.style.display == "none") {
     consoleDiv.style.display = "block";
   }
