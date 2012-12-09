@@ -13,10 +13,12 @@
     var config = {
       //  serverUrl: "ws://localhost:8765/websocket",
       OnOpen: function(event) {
-        $('#status').text("The WebSocket Connection Is Open.");
+        document.getElementById('status').innerHTML = "The WebSocket Connection Is Open.";
+       // $('#status').text("The WebSocket Connection Is Open.");
       },
       OnClose: function(event) {
-        $('#status').text("The WebSocket Connection Is Closed.");
+        Bristleback.Console.disableConsole();
+        document.getElementById('status').innerHTML = "The WebSocket Connection Is Closed.";
       }
     };
     var client = Bristleback.newClient(config);

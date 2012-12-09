@@ -74,27 +74,29 @@ Bristleback.utils.escapeHTML = function(txt) {
 
 Bristleback.Console.enabled = false;
 
-Bristleback.Console.consoleDiv = $("<textarea id='bristleConsole' style='font-size: 10pt; position: absolute; bottom: 0; left: 0; width:98%; height: 100px; border: solid 1px #dcdcdc; overflow-y: scroll; padding: 2px;'>Bristleback console v0.1\n</textarea>");
+Bristleback.Console.consoleDiv = "<textarea id='bristleConsole' style='font-size: 10pt; position: absolute; bottom: 0; left: 0; width:98%; height: 100px; border: solid 1px #dcdcdc; overflow-y: scroll; padding: 2px;'>Bristleback console v0.1\n</textarea>";
 
 Bristleback.Console.log = function(msg) {
   if (Bristleback.Console.enabled) {
-    var console = $("#bristleConsole");
-    console.append(msg + "\n");
-    console.scrollTop(console[0].scrollHeight - console.height());
+    var console = document.getElementById('bristleConsole');
+    console.innerHTML = console.innerHTML + (msg + "\n");
+    console.scrollTop = console.scrollHeight - console.clientHeight;
   }
 };
 
 Bristleback.Console.enableConsole = function() {
-  var consoleDiv = $("#bristleConsole");
+  var consoleDiv = document.getElementById('bristleConsole');
   Bristleback.Console.enabled = true;
-  if (consoleDiv.length == 0) {
-    $('body').append(Bristleback.Console.consoleDiv);
-  } else if (!consoleDiv.is(":visible")) {
-    consoleDiv.show();
+  if (!consoleDiv) {
+    var body = document.getElementsByTagName('body')[0];
+    body.innerHTML = body.innerHTML + Bristleback.Console.consoleDiv;
+  } else if (consoleDiv.style.display == "none") {
+    consoleDiv.style.display = "block";
   }
 };
 
 Bristleback.Console.disableConsole = function() {
+  var consoleDiv = document.getElementById('bristleConsole');
   Bristleback.Console.enabled = false;
-  $("#bristleConsole").hide();
+  consoleDiv.style.display = "none";
 };
