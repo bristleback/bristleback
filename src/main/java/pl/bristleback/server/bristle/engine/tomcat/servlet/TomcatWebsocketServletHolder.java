@@ -6,6 +6,7 @@ import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.engine.tomcat.TomcatConnector;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 public class TomcatWebsocketServletHolder extends WebSocketServlet {
 
@@ -13,6 +14,11 @@ public class TomcatWebsocketServletHolder extends WebSocketServlet {
 
   public TomcatWebsocketServletHolder(TomcatServletWebsocketEngine engine) {
     this.engine = engine;
+  }
+
+  @Override
+  protected String selectSubProtocol(List<String> subProtocols) {
+    return subProtocols.get(0);
   }
 
   @Override
