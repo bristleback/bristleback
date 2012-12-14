@@ -7,6 +7,7 @@ import pl.bristleback.server.bristle.app.StandaloneServerRunner;
 import java.util.Scanner;
 
 /**
+ * Sample application used for development of new features
  * Hello world!
  */
 public final class App {
