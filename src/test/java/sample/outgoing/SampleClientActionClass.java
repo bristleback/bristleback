@@ -8,6 +8,7 @@ import pl.bristleback.server.bristle.api.annotations.ClientAction;
 import pl.bristleback.server.bristle.api.annotations.ClientActionClass;
 import pl.bristleback.server.bristle.api.annotations.Ignore;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.bristle.authorisation.conditions.AllUsersCondition;
 import pl.bristleback.server.bristle.engine.base.users.DefaultUser;
 import sample.Card;
 
@@ -36,5 +37,10 @@ public class SampleClientActionClass {
   @ClientAction("sendCardsToUser")
   public IdentifiedUser sendCardsToUser(@Bind Card[] cards, @Ignore DefaultUser user) {
     return user;
+  }
+
+  @ClientAction
+  public SendCondition notification(@Ignore boolean isTrue, int ss) {
+    return AllUsersCondition.getInstance();
   }
 }

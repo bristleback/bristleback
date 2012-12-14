@@ -55,7 +55,7 @@ public class ValueProcessorsResolver {
       Class parameterClass = (Class) ReflectionUtils.getParameterTypes(extractorClass, parametrizedInterface)[0];
       extractors.put(parameterClass, extractor);
       Class primitiveForParameterClass = ReflectionUtils.getPrimitiveForWrapper(parameterClass);
-      if (primitiveForParameterClass != null && !extractors.containsKey(primitiveForParameterClass)) {
+      if (primitiveForParameterClass != null) {
         extractors.put(primitiveForParameterClass, extractor);
       }
     }

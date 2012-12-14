@@ -3,12 +3,12 @@ package pl.bristleback.server.bristle.conf.resolver.action.client;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.client.ClientActionInformation;
 import pl.bristleback.server.bristle.action.client.ClientActionParameterInformation;
-import pl.bristleback.server.bristle.action.client.ClientActionUtils;
 import pl.bristleback.server.bristle.action.client.strategy.ClientActionResponseStrategies;
 import pl.bristleback.server.bristle.api.SerializationEngine;
 import pl.bristleback.server.bristle.api.SerializationResolver;
 import pl.bristleback.server.bristle.api.action.ClientActionSender;
 import pl.bristleback.server.bristle.api.annotations.Bind;
+import pl.bristleback.server.bristle.conf.resolver.action.ActionResolvingUtils;
 import pl.bristleback.server.bristle.conf.resolver.serialization.SerializationInputResolver;
 import pl.bristleback.server.bristle.exceptions.SerializationResolvingException;
 import pl.bristleback.server.bristle.message.BristleMessage;
@@ -36,6 +36,8 @@ import java.util.Map;
 @Component
 public class ClientActionResolver {
 
+  private static final boolean ACTION_NAME_SHOULD_BE_VALIDATED = true;
+
   @Inject
   @Named("serializationEngine")
   private SerializationEngine serializationEngine;
@@ -50,8 +52,8 @@ public class ClientActionResolver {
   private ClientActionResponseStrategies responseStrategies;
 
   public ClientActionInformation prepareActionInformation(String actionClassName, Method actionMethod) {
-    String actionName = ClientActionUtils.resolveActionName(actionMethod);
-    String fullName = ClientActionUtils.resolveFullName(actionName, actionClassName);
+    String actionName = ActionResolvingUtils.resolveClientActionName(actionMethod, ACTION_NAME_SHOULD_BE_VALIDATED);
+    String fullName = ActionResolvingUtils.resolveFullName(actionName, actionClassName);
 
     List<ClientActionParameterInformation> parameters = resolveActionParameters(actionMethod);
     Object actionSerialization = resolveActionSerializationInformation(actionMethod, parameters);
@@ -76,26 +78,21 @@ public class ClientActionResolver {
   }
 
   private Object resolveActionSerializationInformation(Method actionMethod, List<ClientActionParameterInformation> parametersInformation) {
-    Object[] parameters = actionMethod.getParameterTypes();
     SerializationInput contentSerializationInput;
     Type contentType;
-    if (parameters.length == 1) {
-      Bind bindAnnotation = findBindAnnotation(actionMethod.getParameterAnnotations()[0]);
-      contentType = actionMethod.getGenericParameterTypes()[0];
-      contentSerializationInput = resolveSingleParameterInput(bindAnnotation, contentType);
-    } else {
-      int parametersToSerializeCount = getNumberOfParametersToSerialize(parametersInformation);
-      if (parametersToSerializeCount == 0) {
-        return null;
-      } else if (parametersToSerializeCount == 1) {
-        contentSerializationInput = resolveSingleInputFromMultipleParameters(actionMethod, parametersInformation);
-        contentType = contentSerializationInput.getPropertyInformation().getType();
-      } else {
-        contentSerializationInput = resolveMapInput(actionMethod, parametersInformation);
-        contentType = HashMap.class;
-      }
 
+    int parametersToSerializeCount = getNumberOfParametersToSerialize(parametersInformation);
+    if (parametersToSerializeCount == 0) {
+      contentType = String.class;
+      contentSerializationInput = resolveSingleParameterInput(contentType);
+    } else if (parametersToSerializeCount == 1) {
+      contentSerializationInput = resolveSingleInputFromMultipleParameters(actionMethod, parametersInformation);
+      contentType = contentSerializationInput.getPropertyInformation().getType();
+    } else {
+      contentSerializationInput = resolveMapInput(actionMethod, parametersInformation);
+      contentType = HashMap.class;
     }
+
     SerializationInput messageInput = inputResolver.resolveMessageInputInformation(contentType, contentSerializationInput);
     SerializationResolver serializationResolver = serializationEngine.getSerializationResolver();
     return serializationResolver.resolveSerialization(BristleMessage.class, messageInput);
@@ -150,6 +147,11 @@ public class ClientActionResolver {
     SerializationInput input = inputResolver.resolveInputInformation(bindAnnotation);
     input.getPropertyInformation().setType(parameterType);
     return input;
+  }
+
+  private SerializationInput resolveSingleParameterInput(Type parameterType) {
+    Bind bindAnnotationNotExist = null;
+    return resolveSingleParameterInput(bindAnnotationNotExist, parameterType);
   }
 
   private Bind findBindAnnotation(Annotation[] parameterAnnotations) {

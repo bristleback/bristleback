@@ -1,3 +1,11 @@
+/**
+ Serialization module
+
+ @module Bristleback
+ @submodule serialization
+ @main Bristleback
+ **/
+
 Bristleback.serialization.serializationEngines = {
 };
 
@@ -6,17 +14,17 @@ Bristleback.serialization.setSerializationEngine = function(protocolName, serial
   Bristleback.serialization.serializationEngines[protocolName] = serializationEngine;
 };
 
-Bristleback.serialization.JsonJQueryEngine = function () {
+Bristleback.serialization.JsonEngine = function () {
 };
 
-Bristleback.serialization.JsonJQueryEngine.prototype.serialize = function (objectToSerialize) {
+Bristleback.serialization.JsonEngine.prototype.serialize = function (objectToSerialize) {
   return JSON.stringify(objectToSerialize);
 };
 
-Bristleback.serialization.JsonJQueryEngine.prototype.deserialize = function (serializedObject) {
-  return jQuery.parseJSON(serializedObject);
+Bristleback.serialization.JsonEngine.prototype.deserialize = function (serializedObject) {
+  return JSON.parse(serializedObject);
 };
 
 //------------- DEFAULT SERIALIZATION ENGINES
 
-Bristleback.serialization.serializationEngines["json"] = Bristleback.serialization.JsonJQueryEngine;
+Bristleback.serialization.serializationEngines["json"] = Bristleback.serialization.JsonEngine;

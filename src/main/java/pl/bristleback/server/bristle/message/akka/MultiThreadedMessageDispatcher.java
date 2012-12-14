@@ -27,6 +27,7 @@ public class MultiThreadedMessageDispatcher extends AbstractMessageDispatcher {
   @Override
   public void addMessage(WebsocketMessage message) {
     if (dispatcherRunning) {
+      log.debug("Sending a server message: " + message.getContent());
       for (Object connector : message.getRecipients()) {
         sendMessageActor.tell(new MessageForConnector(message, (WebsocketConnector) connector));
       }

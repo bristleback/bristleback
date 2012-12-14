@@ -1,22 +1,28 @@
+== Bristleback Server version 0.2.1
 Welcome,
 
-Bristleback Server version 0.2.0 has been finally released!
+Bristleback server has got a new homepage http://bristleback.pl.
+Several samples and tutorials can be found there.
+
+If you like our project, please star or follow us!
+
+Latest Bristleback version: 0.2.1
 
 Check our wiki pages for tutorials.
 
-0.2.0 is now available in central Maven repository:
+0.2.1 is now available in central Maven repository:
 
     <dependency>
       <groupId>pl.bristleback</groupId>
       <artifactId>bristleServer</artifactId>
-      <version>0.2.0</version>
+      <version>0.2.1</version>
     </dependency>
 
 Few samples are available at https://github.com/bristleback/bristleback-samples
 
 You can also test Bristleback by performing just few steps:
 
-1. Use Git to clone archetypes project:
+==  1. Use Git to clone archetypes project:
 
     git clone https://github.com/bristleback/bristleback-archetypes.git
 
