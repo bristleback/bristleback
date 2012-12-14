@@ -323,9 +323,9 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <argLine>-Xms128m</argLine>
-          <argLine>-Xmx256m</argLine>
-          <argLine>-XX:MaxPermSize=128m</argLine>
+          <argLine>-Xms64m</argLine>
+          <argLine>-Xmx128m</argLine>
+          <argLine>-XX:MaxPermSize=64m</argLine>
         </configuration>
         <version>2.4.3</version>
       </plugin>
