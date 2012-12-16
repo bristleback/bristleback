@@ -13,6 +13,7 @@ import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
 import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;
 import pl.bristleback.server.bristle.serialization.system.annotation.SerializeBundle;
 import pl.bristleback.server.bristle.serialization.system.json.extractor.EnumSerializer;
+import pl.bristleback.server.bristle.serialization.system.json.extractor.FormattingValueSerializer;
 import pl.bristleback.server.bristle.serialization.system.json.extractor.ValueProcessorsResolver;
 import pl.bristleback.server.bristle.serialization.system.json.extractor.ValueSerializer;
 import pl.bristleback.server.bristle.utils.Getter;
@@ -141,7 +142,6 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
       setTypeVariableParameters(parentSerialization, serialization);
     }
 
-    addConstraints(serialization, input.getPropertyInformation());
     if (!input.containsNonDefaultProperties()) {
       extractorsContainer.addDefaultPropertySerialization(serialization);
     }
@@ -150,6 +150,7 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
     } else {
       createComplexObjectSerialization(parentSerialization, serialization, input);
     }
+    addConstraints(serialization, input.getPropertyInformation());
 
     return serialization;
   }
@@ -200,8 +201,17 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
 
   private void addConstraints(PropertySerialization serialization, PropertyInformation propertyInput) {
     if (propertyInput != null) {
-      serialization.getConstraints().setRequired(propertyInput.isRequired());
+      PropertySerializationConstraints constraints = serialization.getConstraints();
+      constraints.setRequired(propertyInput.isRequired());
+      if (isValueSerializerAbleToFormatData(serialization)) {
+        FormattingValueSerializer formattingValueSerializer = (FormattingValueSerializer) serialization.getValueSerializer();
+        constraints.setFormat(formattingValueSerializer.prepareFormat(propertyInput.getFormat()));
+      }
     }
+  }
+
+  private boolean isValueSerializerAbleToFormatData(PropertySerialization serialization) {
+    return serialization.getPropertyType() == PropertyType.SIMPLE && serialization.getValueSerializer() instanceof FormattingValueSerializer;
   }
 
   private PropertySerialization createSimpleTypeSerialization(PropertySerialization serialization) {

@@ -1,6 +1,7 @@
 package pl.bristleback.server.bristle.serialization.system;
 
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -70,6 +71,12 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
 
   @Bind(required = true)
   private double rawRequired;
+
+  @Bind(format = "MM-dd")
+  private Date rawDateFormatted;
+
+  @Bind
+  private Date rawDate;
 
   private ParametrizedBean<VerySimpleMockBean> parametrizedBean;
 
@@ -252,6 +259,34 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
     assertEquals(VerySimpleMockBean.class, listElementSerialization.getPropertyClass());
     assertEquals(int.class, beanElementSerialization.getPropertyClass());
     assertTrue(beanElementSerialization.getConstraints().isRequired());
+  }
+
+  @Test
+  public void resolveSerializationRawDateFormatted() throws Exception {
+    //given
+    Field beanField = getField("rawDateFormatted");
+    Type beanType = beanField.getGenericType();
+    //when
+    PropertySerialization rawSerialization = serializationResolver.resolveSerialization(beanType, beanField.getAnnotations());
+    //then
+    assertNotNull(rawSerialization);
+    assertEquals(DateValueSerializer.class, rawSerialization.getValueSerializer().getClass());
+    assertEquals(Date.class, rawSerialization.getPropertyClass());
+    Assert.assertNotNull(rawSerialization.getConstraints().getFormat());
+  }
+
+  @Test
+  public void resolveSerializationRawDateDefaultFormat() throws Exception {
+    //given
+    Field beanField = getField("rawDate");
+    Type beanType = beanField.getGenericType();
+    //when
+    PropertySerialization rawSerialization = serializationResolver.resolveSerialization(beanType, beanField.getAnnotations());
+    //then
+    assertNotNull(rawSerialization);
+    assertEquals(DateValueSerializer.class, rawSerialization.getValueSerializer().getClass());
+    assertEquals(Date.class, rawSerialization.getPropertyClass());
+    Assert.assertNotNull(rawSerialization.getConstraints().getFormat());
   }
 
   @Test

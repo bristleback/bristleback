@@ -32,13 +32,6 @@ public class PropertySerialization {
   private Map<String, PropertySerialization> propertiesInformation = new HashMap<String, PropertySerialization>();
   private List<PropertyAccess> childrenProperties = new ArrayList<PropertyAccess>();
 
-  public static PropertySerialization createSerialization(PropertyType serializationPropertyType, Class propertyClass) {
-    PropertySerialization propertySerialization = new PropertySerialization();
-    propertySerialization.setPropertyType(serializationPropertyType);
-    propertySerialization.setPropertyClass(propertyClass);
-    return propertySerialization;
-  }
-
   public boolean isParametrized() {
     return genericType != null && genericType instanceof ParameterizedType;
   }

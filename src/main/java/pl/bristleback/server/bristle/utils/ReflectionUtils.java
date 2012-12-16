@@ -66,10 +66,10 @@ public final class ReflectionUtils {
     throw new IllegalArgumentException("Interface " + parametrizedInterface.getSimpleName() + " is not parametrized");
   }
 
-  private static Type findGenericInterface(Class implementation, Class parametrizedInterface) {
+  private static Type findGenericInterface(Class<?> implementation, Class<?> parametrizedInterface) {
     for (int i = 0; i < implementation.getInterfaces().length; i++) {
-      Class interfaceOfClass = implementation.getInterfaces()[i];
-      if (parametrizedInterface.equals(interfaceOfClass)) {
+      Class<?> interfaceOfClass = implementation.getInterfaces()[i];
+      if (parametrizedInterface.isAssignableFrom(interfaceOfClass)) {
         return implementation.getGenericInterfaces()[i];
       }
     }

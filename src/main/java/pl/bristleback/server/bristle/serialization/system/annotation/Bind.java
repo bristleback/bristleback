@@ -32,4 +32,6 @@ public @interface Bind {
    * @return true if detailed error messages should be sent for bound object.
    */
   boolean detailedErrors() default false;
+
+  String format() default "";
 }

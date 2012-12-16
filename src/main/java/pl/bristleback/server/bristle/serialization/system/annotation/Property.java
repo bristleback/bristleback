@@ -37,4 +37,6 @@ public @interface Property {
    * @return true if this property should not be serialized/deserialized
    */
   boolean skipped() default false;
+
+  String format() default "";
 }

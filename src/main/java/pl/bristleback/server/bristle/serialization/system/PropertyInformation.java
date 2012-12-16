@@ -18,6 +18,7 @@ public class PropertyInformation {
 
   private Type type;
   private Class elementClass;
+  private String format;
 
   public boolean isRequired() {
     return required;
@@ -65,5 +66,13 @@ public class PropertyInformation {
 
   public void setType(Type type) {
     this.type = type;
+  }
+
+  public String getFormat() {
+    return format;
+  }
+
+  public void setFormat(String format) {
+    this.format = format;
   }
 }

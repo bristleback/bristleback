@@ -57,4 +57,6 @@ public @interface Serialize {
    * @return true if this simple action parameter is required, false otherwise.
    */
   boolean required() default false;
+
+  String format() default "";
 }

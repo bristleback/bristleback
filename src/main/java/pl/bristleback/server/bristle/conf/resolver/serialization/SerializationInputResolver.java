@@ -24,6 +24,7 @@ public class SerializationInputResolver {
     PropertyInformation propertyInformation = resolvePropertyInformation(input, StringUtils.EMPTY);
     propertyInformation.setDetailedErrors(bindAnnotation.detailedErrors());
     propertyInformation.setRequired(bindAnnotation.required());
+    propertyInformation.setFormat(bindAnnotation.format());
     for (Property nonDefaultProperty : nonDefaultProperties) {
       processPropertyAnnotation(input, nonDefaultProperty);
     }
@@ -54,6 +55,7 @@ public class SerializationInputResolver {
   }
 
   private void setInformationFromAnnotation(Property nonDefaultProperty, PropertyInformation propertyInformation) {
+    propertyInformation.setFormat(nonDefaultProperty.format());
     propertyInformation.setRequired(nonDefaultProperty.required());
     propertyInformation.setSkipped(nonDefaultProperty.skipped());
   }
@@ -61,6 +63,7 @@ public class SerializationInputResolver {
   private void initRootSerializeInformation(Serialize serializeAnnotation, SerializationInput input) {
     PropertyInformation propertyInformation = resolvePropertyInformation(input, StringUtils.EMPTY);
     propertyInformation.setRequired(serializeAnnotation.required());
+    propertyInformation.setFormat(serializeAnnotation.format());
     propertyInformation.setElementClass(serializeAnnotation.containerElementClass());
   }
 
