@@ -30,10 +30,6 @@ public class SerializationInput {
     return nonDefaultProperties;
   }
 
-  public void setNonDefaultProperties(Map<String, SerializationInput> nonDefaultProperties) {
-    this.nonDefaultProperties = nonDefaultProperties;
-  }
-
   public PropertyInformation getPropertyInformation() {
     return propertyInformation;
   }
