@@ -79,7 +79,9 @@ public class ClientActionResolverTest {
     PropertySerialization payloadSerialization = serialization.getPropertySerialization(BristleMessage.PAYLOAD_PROPERTY_NAME);
     assertNotNull(payloadSerialization);
     assertEquals(PropertyType.MAP, payloadSerialization.getPropertyType());
-    assertEquals(2, payloadSerialization.getPropertiesInformation().size());
+    int expectedNumberOfParameterSerializations = 2;
+    int expectedNumberOfSerializations = expectedNumberOfParameterSerializations + 1; // one for default element serialization
+    assertEquals(expectedNumberOfSerializations, payloadSerialization.getPropertiesInformation().size());
   }
 
   @Test

@@ -7,24 +7,16 @@ import pl.bristleback.server.bristle.action.client.strategy.ClientActionResponse
 import pl.bristleback.server.bristle.api.SerializationEngine;
 import pl.bristleback.server.bristle.api.SerializationResolver;
 import pl.bristleback.server.bristle.api.action.ClientActionSender;
-import pl.bristleback.server.bristle.api.annotations.Bind;
 import pl.bristleback.server.bristle.conf.resolver.action.ActionResolvingUtils;
-import pl.bristleback.server.bristle.conf.resolver.serialization.SerializationInputResolver;
+import pl.bristleback.server.bristle.conf.resolver.action.BristleMessageSerializationUtils;
 import pl.bristleback.server.bristle.exceptions.SerializationResolvingException;
-import pl.bristleback.server.bristle.message.BristleMessage;
-import pl.bristleback.server.bristle.serialization.PropertyInformation;
-import pl.bristleback.server.bristle.serialization.SerializationInput;
-import pl.bristleback.server.bristle.utils.ReflectionUtils;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * //@todo class description
@@ -43,10 +35,10 @@ public class ClientActionResolver {
   private SerializationEngine serializationEngine;
 
   @Inject
-  private ClientActionParameterResolver parameterResolver;
+  private BristleMessageSerializationUtils messageSerializationUtils;
 
   @Inject
-  private SerializationInputResolver inputResolver;
+  private ClientActionParameterResolver parameterResolver;
 
   @Inject
   private ClientActionResponseStrategies responseStrategies;
@@ -77,53 +69,54 @@ public class ClientActionResolver {
     return parameters;
   }
 
+  @SuppressWarnings("unchecked")
   private Object resolveActionSerializationInformation(Method actionMethod, List<ClientActionParameterInformation> parametersInformation) {
-    SerializationInput contentSerializationInput;
-    Type contentType;
+    SerializationResolver serializationResolver = serializationEngine.getSerializationResolver();
 
+    Object payloadSerialization;
     int parametersToSerializeCount = getNumberOfParametersToSerialize(parametersInformation);
     if (parametersToSerializeCount == 0) {
-      contentType = String.class;
-      contentSerializationInput = resolveSingleParameterInput(contentType);
+      payloadSerialization = serializationResolver.resolveSerialization(String.class);
     } else if (parametersToSerializeCount == 1) {
-      contentSerializationInput = resolveSingleInputFromMultipleParameters(actionMethod, parametersInformation);
-      contentType = contentSerializationInput.getPropertyInformation().getType();
+      payloadSerialization = resolveSingleSerializationFromMultipleParameters(actionMethod, parametersInformation);
     } else {
-      contentSerializationInput = resolveMapInput(actionMethod, parametersInformation);
-      contentType = HashMap.class;
+      payloadSerialization = resolveParametersMapSerialization(actionMethod, parametersInformation);
     }
 
-    SerializationInput messageInput = inputResolver.resolveMessageInputInformation(contentType, contentSerializationInput);
-    SerializationResolver serializationResolver = serializationEngine.getSerializationResolver();
-    return serializationResolver.resolveSerialization(BristleMessage.class, messageInput);
+    Object messageSerialization = serializationResolver.resolveSerialization(messageSerializationUtils.getSimpleMessageType());
+    serializationResolver.setSerializationForField(messageSerialization, "payload", payloadSerialization);
+
+    return messageSerialization;
   }
 
-  private SerializationInput resolveSingleInputFromMultipleParameters(Method actionMethod, List<ClientActionParameterInformation> parametersInformation) {
+  private Object resolveSingleSerializationFromMultipleParameters(Method actionMethod, List<ClientActionParameterInformation> parametersInformation) {
     for (int i = 0; i < actionMethod.getGenericParameterTypes().length; i++) {
       if (parametersInformation.get(i).isForSerialization()) {
-        Bind bindAnnotation = findBindAnnotation(actionMethod.getParameterAnnotations()[i]);
-        return resolveSingleParameterInput(bindAnnotation, actionMethod.getGenericParameterTypes()[i]);
+        return serializationEngine.getSerializationResolver().resolveSerialization(actionMethod.getGenericParameterTypes()[i], actionMethod.getParameterAnnotations()[i]);
       }
     }
     throw new SerializationResolvingException("Should never happen");
   }
 
-  private SerializationInput resolveMapInput(Method actionMethod, List<ClientActionParameterInformation> parametersInformation) {
-    SerializationInput mapInput = new SerializationInput();
-    Map<String, SerializationInput> parametersInput = new HashMap<String, SerializationInput>();
+  @SuppressWarnings("unchecked")
+  private Object resolveParametersMapSerialization(Method actionMethod, List<ClientActionParameterInformation> parametersInformation) {
+    SerializationResolver serializationResolver = serializationEngine.getSerializationResolver();
     int index = 0;
+    Object payloadSerialization = serializationResolver
+      .resolveSerialization(messageSerializationUtils.getSimpleMapType(), messageSerializationUtils.getSimpleMapAnnotations());
     for (int i = 0; i < actionMethod.getGenericParameterTypes().length; i++) {
       if (parametersInformation.get(i).isForSerialization()) {
         String parameterName = "p" + index;
-        Bind bindAnnotation = findBindAnnotation(actionMethod.getParameterAnnotations()[i]);
-        SerializationInput parameterInput = resolveSingleParameterInput(bindAnnotation, actionMethod.getGenericParameterTypes()[i]);
-        parametersInput.put(parameterName, parameterInput);
+
+        Object parameterSerialization = serializationResolver
+          .resolveSerialization(actionMethod.getGenericParameterTypes()[i], actionMethod.getParameterAnnotations()[i]);
+
+        serializationResolver.setSerializationForField(payloadSerialization, parameterName, parameterSerialization);
         index++;
       }
     }
 
-    mapInput.setNonDefaultProperties(parametersInput);
-    return mapInput;
+    return payloadSerialization;
   }
 
   private int getNumberOfParametersToSerialize(List<ClientActionParameterInformation> parametersInformation) {
@@ -134,27 +127,5 @@ public class ClientActionResolver {
       }
     }
     return parametersToSerializeCount;
-  }
-
-  private SerializationInput resolveSingleParameterInput(Bind bindAnnotation, Type parameterType) {
-    if (bindAnnotation == null) {
-      SerializationInput input = new SerializationInput();
-      PropertyInformation propertyInformation = new PropertyInformation();
-      propertyInformation.setType(parameterType);
-      input.setPropertyInformation(propertyInformation);
-      return input;
-    }
-    SerializationInput input = inputResolver.resolveInputInformation(bindAnnotation);
-    input.getPropertyInformation().setType(parameterType);
-    return input;
-  }
-
-  private SerializationInput resolveSingleParameterInput(Type parameterType) {
-    Bind bindAnnotationNotExist = null;
-    return resolveSingleParameterInput(bindAnnotationNotExist, parameterType);
-  }
-
-  private Bind findBindAnnotation(Annotation[] parameterAnnotations) {
-    return ReflectionUtils.findAnnotation(parameterAnnotations, Bind.class);
   }
 }

@@ -58,7 +58,7 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
   @Test
   public void serializeRawValue() throws Exception {
     Integer four = 4;
-    PropertySerialization serialization = serializationResolver.resolveDefaultSerialization(four.getClass());
+    PropertySerialization serialization = serializationResolver.resolveSerialization(four.getClass());
     String result = fastSerializer.serializeObject(four, serialization);
     assertEquals(four + "", result);
   }
@@ -70,8 +70,8 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
     for (int i = 1; i <= size; i++) {
       rawArray[i - 1] = (double) i;
     }
-    Type listType = PropertyUtils.getDeclaredField(JsonFastSerializerTest.class, "rawArray");
-    PropertySerialization serialization = serializationResolver.resolveDefaultSerialization(listType);
+    Type listType = PropertyUtils.getDeclaredFieldType(JsonFastSerializerTest.class, "rawArray");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(listType);
     String result = fastSerializer.serializeObject(rawArray, serialization);
     String expectedResult = "[1.0,2.0,3.0,4.0]";
     assertEquals(expectedResult, result);
@@ -86,8 +86,8 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
       beanToAdd.setSimpleField(i);
       beanArray[i - 1] = beanToAdd;
     }
-    Type listType = PropertyUtils.getDeclaredField(JsonFastSerializerTest.class, "beanArray");
-    PropertySerialization serialization = serializationResolver.resolveDefaultSerialization(listType);
+    Type listType = PropertyUtils.getDeclaredFieldType(JsonFastSerializerTest.class, "beanArray");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(listType);
     String result = fastSerializer.serializeObject(beanArray, serialization);
     String expectedResult = "[{\"simpleField\":1},{\"simpleField\":2}]";
     assertEquals(expectedResult, result);
@@ -100,8 +100,8 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
     for (int i = 1; i <= size; i++) {
       sampleList.add(i);
     }
-    Type listType = PropertyUtils.getDeclaredField(JsonFastSerializerTest.class, "sampleList");
-    PropertySerialization serialization = serializationResolver.resolveDefaultSerialization(listType);
+    Type listType = PropertyUtils.getDeclaredFieldType(JsonFastSerializerTest.class, "sampleList");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(listType);
     String result = fastSerializer.serializeObject(sampleList, serialization);
     String expectedResult = "[1,2,3,4]";
     assertEquals(expectedResult, result);
@@ -116,8 +116,8 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
       beanToAdd.setSimpleField(i);
       beanList.add(beanToAdd);
     }
-    Type listType = PropertyUtils.getDeclaredField(JsonFastSerializerTest.class, "beanList");
-    PropertySerialization serialization = serializationResolver.resolveDefaultSerialization(listType);
+    Type listType = PropertyUtils.getDeclaredFieldType(JsonFastSerializerTest.class, "beanList");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(listType);
     String result = fastSerializer.serializeObject(beanList, serialization);
     String expectedResult = "[{\"simpleField\":1},{\"simpleField\":2}]";
     assertEquals(expectedResult, result);
@@ -130,8 +130,8 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
     for (int i = 1; i <= size; i++) {
       rawMap.put(i + "s", new BigDecimal(i));
     }
-    Type listType = PropertyUtils.getDeclaredField(JsonFastSerializerTest.class, "rawMap");
-    PropertySerialization serialization = serializationResolver.resolveDefaultSerialization(listType);
+    Type listType = PropertyUtils.getDeclaredFieldType(JsonFastSerializerTest.class, "rawMap");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(listType);
     String result = fastSerializer.serializeObject(rawMap, serialization);
     String expectedResult = "{\"1s\":1,\"2s\":2}";
     assertEquals(expectedResult, result);

@@ -24,8 +24,6 @@ import java.nio.CharBuffer;
 /**
  * Tomcat 7.0.32+ WebSocket ServerEngine
  * <p/>
- *
- * <p/>
  * Created on: 2012-06-17 10:14:44 <br/>
  *
  * @author Andrea Nanni

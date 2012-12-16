@@ -1,5 +1,6 @@
 package pl.bristleback.server.bristle.api.action;
 
+import pl.bristleback.server.bristle.action.client.ClientActionInformation;
 import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 
@@ -12,5 +13,5 @@ import pl.bristleback.server.bristle.message.ConditionObjectSender;
  */
 public interface ClientActionSender<T> {
 
-  void sendClientAction(T actionCondition, BristleMessage message, ConditionObjectSender objectSender) throws Exception;
+  void sendClientAction(T actionCondition, BristleMessage message, ConditionObjectSender objectSender, ClientActionInformation actionInformation) throws Exception;
 }

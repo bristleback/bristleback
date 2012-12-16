@@ -8,7 +8,7 @@ import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.SerializationEngine;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
-import pl.bristleback.server.bristle.conf.resolver.action.BristleMessageSerialization;
+import pl.bristleback.server.bristle.conf.resolver.action.BristleMessageSerializationUtils;
 import pl.bristleback.server.bristle.message.BristleMessage;
 
 import javax.inject.Inject;
@@ -25,7 +25,7 @@ public class ActionController implements DataController {
   private ActionExceptionHandlers exceptionHandlers;
 
   @Inject
-  private BristleMessageSerialization serializationHelper;
+  private BristleMessageSerializationUtils serializationHelper;
 
   @Inject
   private ClientActionsInitializer clientActionsInitializer;
@@ -39,7 +39,7 @@ public class ActionController implements DataController {
     this.serializationEngine = configuration.getSerializationEngine();
 
     messageSerialization = serializationEngine.getSerializationResolver()
-      .resolveDefaultSerialization(serializationHelper.getSerializedArrayMessageType());
+      .resolveSerialization(serializationHelper.getSerializedArrayMessageType());
 
     exceptionHandlers.initHandlers();
 

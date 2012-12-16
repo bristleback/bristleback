@@ -5,10 +5,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import pl.bristleback.server.bristle.conf.resolver.action.ActionClassesResolver;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
-import pl.bristleback.server.bristle.serialization.SerializationBundle;
 import pl.bristleback.server.mock.action.SimpleActionClass;
+import pl.bristleback.server.mock.beans.MockBean;
+import pl.bristleback.server.mock.beans.SimpleMockBean;
 import pl.bristleback.server.mock.beans.SpringMockBeansFactory;
 
 import javax.inject.Inject;
@@ -26,12 +26,12 @@ import static junit.framework.Assert.assertNotNull;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/test-context.xml"})
-public class ConditionObjectInitializerTest {
+public class ObjectSenderInitializerTest {
 
   @Inject
   private SpringMockBeansFactory mockBeansFactory;
 
-  private ConditionObjectInitializer conditionObjectInitializer;
+  private ObjectSenderInitializer objectSenderInitializer;
 
   @Inject
   @Named("system.sender.condition")
@@ -39,23 +39,19 @@ public class ConditionObjectInitializerTest {
 
   @Before
   public void setUp() {
-    conditionObjectInitializer = mockBeansFactory.getFrameworkBean("conditionObjectInitializer", ConditionObjectInitializer.class);
+    objectSenderInitializer = mockBeansFactory.getFrameworkBean("objectSenderInitializer", ObjectSenderInitializer.class);
   }
 
   @Test
   public void shouldInitObjectSenderWithBothDefaultAndNonDefaultSerialization() throws NoSuchFieldException {
     //given
     Field field = SimpleActionClass.class.getDeclaredField("conditionObjectSender");
-    SerializationBundle serializationBundle = new SerializationBundle();
-    serializationBundle.setField(field);
-
-    objectSender.setSerializationBundle(serializationBundle);
-    
+    objectSender.setField(field);
     //when
-    conditionObjectInitializer.initObjectSender(objectSender);
+    objectSenderInitializer.initObjectSender(objectSender);
 
     //then
-    assertNotNull(serializationBundle.getDefaultSerialization());
-    assertNotNull(serializationBundle.getSerialization("nonDefaultSerialization"));
+    assertNotNull(objectSender.getLocalSerializations().getSerialization(MockBean.class));
+    assertNotNull(objectSender.getLocalSerializations().getSerialization(SimpleMockBean.class));
   }
 }

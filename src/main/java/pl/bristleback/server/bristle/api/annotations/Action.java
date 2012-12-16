@@ -24,11 +24,4 @@ public @interface Action {
    * @return action name.
    */
   String name() default "";
-
-  /**
-   * Gets information about non default response serialization.
-   *
-   * @return non default serialization information.
-   */
-  Serialize[] response() default {};
 }

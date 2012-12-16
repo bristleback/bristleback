@@ -3,16 +3,17 @@ package pl.bristleback.server.bristle.message;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.MessageDispatcher;
 import pl.bristleback.server.bristle.api.SerializationEngine;
+import pl.bristleback.server.bristle.api.SerializationResolver;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.WebsocketMessage;
 import pl.bristleback.server.bristle.api.action.SendCondition;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 import pl.bristleback.server.bristle.authorisation.user.UsersContainer;
-import pl.bristleback.server.bristle.conf.resolver.serialization.SerializationAnnotationResolver;
-import pl.bristleback.server.bristle.exceptions.SerializationResolvingException;
+import pl.bristleback.server.bristle.conf.resolver.action.BristleMessageSerializationUtils;
 import pl.bristleback.server.bristle.serialization.MessageType;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
 
+import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,18 +26,27 @@ public class ConditionObjectSender {
 
   private MessageDispatcher messageDispatcher;
 
-  private SerializationAnnotationResolver serializationResolver;
+  private SerializationResolver serializationResolver;
+
   private SerializationEngine serializationEngine;
 
-  private SerializationBundle serializationBundle;
+  private SerializationBundle localSerializations;
+
+  private SerializationBundle globalDefaultSerializations;
 
   private UsersContainer connectedUsers;
+
+  private BristleMessageSerializationUtils messageSerializationUtils;
+
+  private Field field;
 
   public void init(BristlebackConfig configuration, UsersContainer usersContainer) {
     this.connectedUsers = usersContainer;
     messageDispatcher = configuration.getMessageConfiguration().getMessageDispatcher();
     serializationEngine = configuration.getSerializationEngine();
-    serializationResolver = configuration.getSpringIntegration().getFrameworkBean("serializationAnnotationResolver", SerializationAnnotationResolver.class);
+    serializationResolver = serializationEngine.getSerializationResolver();
+    globalDefaultSerializations = new SerializationBundle();
+    messageSerializationUtils = configuration.getSpringIntegration().getFrameworkBean("bristleMessageSerializationUtils", BristleMessageSerializationUtils.class);
   }
 
   /**
@@ -44,11 +54,10 @@ public class ConditionObjectSender {
    *
    * @param message       message to be sent.
    * @param serialization serialization information.
-   * @param recipients    list of recipients.
+   * @param connectors    list of recipients.
    * @throws Exception serialization exceptions.
    */
-  public void sendMessage(BristleMessage message, Object serialization, List<IdentifiedUser> recipients) throws Exception {
-    List<WebsocketConnector> connectors = connectedUsers().getConnectorsByUsers(recipients);
+  public void sendMessage(BristleMessage message, Object serialization, List<WebsocketConnector> connectors) throws Exception {
     WebsocketMessage websocketMessage = serializeToWebSocketMessage(message, serialization, connectors);
     queueNewMessage(websocketMessage);
   }
@@ -64,7 +73,7 @@ public class ConditionObjectSender {
    */
   public void sendMessage(BristleMessage message, SendCondition sendCondition) throws Exception {
     List<WebsocketConnector> connectors = connectedUsers().getConnectorsByCondition(sendCondition);
-    doSendUsingDefaultSerialization(message, connectors);
+    doSendUsingSerialization(message, connectors);
   }
 
   /**
@@ -76,7 +85,7 @@ public class ConditionObjectSender {
    */
   public void sendMessage(BristleMessage message, List<IdentifiedUser> recipients) throws Exception {
     List<WebsocketConnector> connectors = connectedUsers().getConnectorsByUsers(recipients);
-    doSendUsingDefaultSerialization(message, connectors);
+    doSendUsingSerialization(message, connectors);
   }
 
   /**
@@ -92,55 +101,7 @@ public class ConditionObjectSender {
    */
   public void sendMessage(BristleMessage message, SendCondition sendCondition, List<IdentifiedUser> recipients) throws Exception {
     List<WebsocketConnector> connectors = connectedUsers().getConnectorsByCondition(recipients, sendCondition);
-    doSendUsingDefaultSerialization(message, connectors);
-  }
-
-  /**
-   * Sends a message using serialization information with provided name.
-   * Recipients are determined by evaluating
-   * {@link pl.bristleback.server.bristle.api.action.SendCondition SendCondition} object.
-   *
-   * @param message           message to be sent.
-   * @param serializationName non default serialization information name.
-   * @param sendCondition     condition object used to determine recipients.
-   * @throws Exception serialization exceptions.
-   * @see pl.bristleback.server.bristle.api.annotations.Serialize
-   */
-  public void sendNamedMessage(BristleMessage message, String serializationName, SendCondition sendCondition) throws Exception {
-    List<WebsocketConnector> connectors = connectedUsers().getConnectorsByCondition(sendCondition);
-    doSendUsingSerialization(message, serializationName, connectors);
-  }
-
-  /**
-   * Sends a message to the list of recipients using serialization information with provided name.
-   *
-   * @param message           message to be sent.
-   * @param serializationName non default serialization information name.
-   * @param recipients        list of recipients.
-   * @throws Exception serialization exceptions.
-   * @see pl.bristleback.server.bristle.api.annotations.Serialize
-   */
-  public void sendNamedMessage(BristleMessage message, String serializationName, List<IdentifiedUser> recipients) throws Exception {
-    List<WebsocketConnector> connectors = connectedUsers().getConnectorsByUsers(recipients);
-    doSendUsingSerialization(message, serializationName, connectors);
-  }
-
-  /**
-   * Sends a message using serialization information with provided name.
-   * Recipients are determined by evaluating
-   * {@link pl.bristleback.server.bristle.api.action.SendCondition SendCondition} object,
-   * where the initial pool is passed as the parameter.
-   *
-   * @param message           message to be sent.
-   * @param serializationName non default serialization information name.
-   * @param sendCondition     condition object used to determine recipients.
-   * @param recipients        initial pool of recipients, for further processing by condition object.
-   * @throws Exception serialization exceptions.
-   * @see pl.bristleback.server.bristle.api.annotations.Serialize
-   */
-  public void sendNamedMessage(BristleMessage message, String serializationName, SendCondition sendCondition, List<IdentifiedUser> recipients) throws Exception {
-    List<WebsocketConnector> connectors = connectedUsers().getConnectorsByCondition(recipients, sendCondition);
-    doSendUsingSerialization(message, serializationName, connectors);
+    doSendUsingSerialization(message, connectors);
   }
 
   /**
@@ -179,31 +140,23 @@ public class ConditionObjectSender {
     }
   }
 
-  private void doSendUsingDefaultSerialization(BristleMessage message, List<WebsocketConnector> connectors) throws Exception {
-    Object serialization = getDefaultSerialization(message);
+  @SuppressWarnings("unchecked")
+  private void doSendUsingSerialization(BristleMessage message, List<WebsocketConnector> connectors) throws Exception {
+    Class payloadType = message.getPayload().getClass();
+    Object serialization;
+    if (localSerializations.isSerializationForPayloadTypeExist(payloadType)) {
+      serialization = localSerializations.getSerialization(payloadType);
+    } else if (globalDefaultSerializations.isSerializationForPayloadTypeExist(payloadType)) {
+      serialization = globalDefaultSerializations.getSerialization(payloadType);
+    } else {
+      Object payloadSerialization = serializationResolver.resolveSerialization(payloadType);
+      serialization = serializationResolver.resolveSerialization(messageSerializationUtils.getSimpleMessageType());
+      serializationResolver.setSerializationForField(serialization, "payload", payloadSerialization);
+      globalDefaultSerializations.addSerialization(payloadType, serialization);
+    }
+
     WebsocketMessage websocketMessage = serializeToWebSocketMessage(message, serialization, connectors);
     queueNewMessage(websocketMessage);
-  }
-
-  private void doSendUsingSerialization(BristleMessage message, String serializationName, List<WebsocketConnector> connectors) throws Exception {
-    Object serialization = getSerialization(serializationName);
-    WebsocketMessage websocketMessage = serializeToWebSocketMessage(message, serialization, connectors);
-    queueNewMessage(websocketMessage);
-  }
-
-  private Object getSerialization(String serializationName) {
-    Object serialization = serializationBundle.getSerialization(serializationName);
-    if (serialization == null) {
-      throw new SerializationResolvingException("Cannot find serialization " + serializationName);
-    }
-    return serialization;
-  }
-
-  private Object getDefaultSerialization(BristleMessage message) {
-    if (serializationBundle != null && serializationBundle.containsDefaultSerialization()) {
-      return serializationBundle.getDefaultSerialization();
-    }
-    return serializationResolver.resolveDefaultSerialization(message.getPayload().getClass());
   }
 
   private void queueNewMessage(WebsocketMessage websocketMessage) {
@@ -223,11 +176,20 @@ public class ConditionObjectSender {
     return connectedUsers;
   }
 
-  public SerializationBundle getSerializationBundle() {
-    return serializationBundle;
+  public SerializationBundle getLocalSerializations() {
+    return localSerializations;
   }
 
-  public void setSerializationBundle(SerializationBundle serializationBundle) {
-    this.serializationBundle = serializationBundle;
+  public void setLocalSerializations(SerializationBundle localSerializations) {
+    this.localSerializations = localSerializations;
   }
+
+  public Field getField() {
+    return field;
+  }
+
+  public void setField(Field field) {
+    this.field = field;
+  }
+
 }

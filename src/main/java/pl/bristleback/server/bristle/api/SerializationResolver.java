@@ -1,7 +1,9 @@
 package pl.bristleback.server.bristle.api;
 
-import pl.bristleback.server.bristle.serialization.SerializationInput;
+import pl.bristleback.server.bristle.serialization.SerializationBundle;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 
 /**
@@ -13,7 +15,9 @@ import java.lang.reflect.Type;
  */
 public interface SerializationResolver<T> extends ConfigurationAware {
 
-  T resolveDefaultSerialization(Type objectType);
+  SerializationBundle initSerializationBundle(Field objectSenderField);
 
-  T resolveSerialization(Type objectType, SerializationInput input);
+  T resolveSerialization(Type objectType, Annotation... annotations);
+
+  void setSerializationForField(T parentSerialization, String fieldName, T fieldSerialization);
 }

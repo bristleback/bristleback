@@ -44,11 +44,6 @@ public class ClientActionsInitializer {
     SerializationBundle serializationBundle = new SerializationBundle();
     ConditionObjectSender objectSender = initObjectSender(serializationBundle);
 
-    for (ClientActionClassInformation actionClassInformation : clientActionClasses.getActionClasses().values()) {
-      for (ClientActionInformation actionInformation : actionClassInformation.getClientActions().values()) {
-        serializationBundle.addSerialization(actionInformation.getFullName(), actionInformation.getSerialization());
-      }
-    }
     proxyInterceptor.init(clientActionClasses, objectSender);
 
   }
@@ -64,7 +59,7 @@ public class ClientActionsInitializer {
   private ConditionObjectSender initObjectSender(SerializationBundle serializationBundle) {
     ConditionObjectSender objectSender = new ConditionObjectSender();
     objectSender.init(configuration, usersContainer);
-    objectSender.setSerializationBundle(serializationBundle);
+    objectSender.setLocalSerializations(serializationBundle);
     return objectSender;
   }
 }

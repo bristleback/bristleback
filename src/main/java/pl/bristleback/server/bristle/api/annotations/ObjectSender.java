@@ -17,10 +17,4 @@ import java.lang.annotation.Target;
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
 public @interface ObjectSender {
 
-  /**
-   * Defines custom serialization operations. Single sender is able to contain multiple non default serializations.
-   *
-   * @return non default serialization operations.
-   */
-  Serialize[] serialize() default {};
 }

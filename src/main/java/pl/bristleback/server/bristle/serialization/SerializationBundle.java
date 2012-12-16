@@ -2,7 +2,6 @@ package pl.bristleback.server.bristle.serialization;
 
 import pl.bristleback.server.bristle.exceptions.SerializationResolvingException;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,46 +14,20 @@ import java.util.Map;
  */
 public class SerializationBundle {
 
-  private Field field;
+  private Map<Class, Object> serializations = new HashMap<Class, Object>();
 
-  private Object defaultSerialization;
-  private Map<String, Object> serializationMap = new HashMap<String, Object>();
+  public Object getSerialization(Class payloadType) {
+    return serializations.get(payloadType);
+  }
 
-  public void addDefaultSerialization(Object serialization) {
-    if (defaultSerialization != null) {
-      throw new SerializationResolvingException("Multiple default serialization operation on field" + field);
+  public void addSerialization(Class payloadType, Object serialization) {
+    if (isSerializationForPayloadTypeExist(payloadType)) {
+      throw new SerializationResolvingException("Default serialization for type " + payloadType + " already exists");
     }
-    this.defaultSerialization = serialization;
+    serializations.put(payloadType, serialization);
   }
 
-  public void addSerialization(String path, Object serialization) {
-    if (serializationMap.containsKey(path)) {
-      throw new SerializationResolvingException("Multiple serialization operation within the same path on field" + field);
-    }
-    serializationMap.put(path, serialization);
-  }
-
-  public Object getDefaultSerialization() {
-    return defaultSerialization;
-  }
-
-  public Object getSerialization(String propertyPath) {
-    return serializationMap.get(propertyPath);
-  }
-
-  public Map<String, Object> getSerializationMap() {
-    return serializationMap;
-  }
-
-  public Field getField() {
-    return field;
-  }
-
-  public boolean containsDefaultSerialization() {
-    return defaultSerialization != null;
-  }
-
-  public void setField(Field field) {
-    this.field = field;
+  public boolean isSerializationForPayloadTypeExist(Class payloadType) {
+    return serializations.containsKey(payloadType);
   }
 }

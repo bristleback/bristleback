@@ -1,13 +1,12 @@
 package pl.bristleback.server.bristle.conf.resolver.action;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.response.ActionResponseInformation;
-import pl.bristleback.server.bristle.api.annotations.Action;
-import pl.bristleback.server.bristle.api.annotations.Serialize;
-import pl.bristleback.server.bristle.conf.resolver.serialization.SerializationAnnotationResolver;
+import pl.bristleback.server.bristle.api.SerializationEngine;
+import pl.bristleback.server.bristle.api.SerializationResolver;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.lang.reflect.Method;
 
 /**
@@ -20,13 +19,14 @@ import java.lang.reflect.Method;
 @Component
 public class ResponseResolver {
 
-  private static Logger log = Logger.getLogger(ResponseResolver.class.getName());
+  @Inject
+  @Named("serializationEngine")
+  private SerializationEngine serializationEngine;
 
   @Inject
-  private SerializationAnnotationResolver serializationResolver;
+  private BristleMessageSerializationUtils messageSerializationUtils;
 
   ActionResponseInformation resolveResponse(Method action) {
-    Action actionAnnotation = action.getAnnotation(Action.class);
     ActionResponseInformation responseInformation = new ActionResponseInformation();
 
     Class<?> actionReturnType = action.getReturnType();
@@ -34,24 +34,19 @@ public class ResponseResolver {
       responseInformation.setVoidResponse(true);
     }
 
-    resolveResponseSerialization(action, actionAnnotation, responseInformation);
+    resolveResponseSerialization(action, responseInformation);
 
     return responseInformation;
   }
 
-  private void resolveResponseSerialization(Method action, Action actionAnnotation,
-                                            ActionResponseInformation responseInformation) {
-    Serialize[] serializeAnnotations = actionAnnotation.response();
+  @SuppressWarnings("unchecked")
+  private void resolveResponseSerialization(Method action, ActionResponseInformation responseInformation) {
 
-    Serialize takenAnnotation = null;
-    if (serializeAnnotations.length > 0) {
-      takenAnnotation = serializeAnnotations[0];
-      if (serializeAnnotations.length > 1) {
-        log.debug("Only first serialize annotation will be used as the response serialization information");
-      }
-    }
+    SerializationResolver serializationResolver = serializationEngine.getSerializationResolver();
+    Object serialization = serializationResolver.resolveSerialization(messageSerializationUtils.getSimpleMessageType());
 
-    Object serialization = serializationResolver.resolveSerialization(action.getGenericReturnType(), takenAnnotation);
+    Object payloadSerialization = serializationResolver.resolveSerialization(action.getGenericReturnType(), action.getAnnotations());
+    serializationResolver.setSerializationForField(serialization, "payload", payloadSerialization);
 
     responseInformation.setSerialization(serialization);
   }

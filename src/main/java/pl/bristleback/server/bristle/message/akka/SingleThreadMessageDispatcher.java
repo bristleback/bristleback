@@ -8,9 +8,9 @@ import akka.actor.UntypedActorFactory;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
-import pl.bristleback.server.bristle.message.AbstractMessageDispatcher;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.WebsocketMessage;
+import pl.bristleback.server.bristle.message.AbstractMessageDispatcher;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;

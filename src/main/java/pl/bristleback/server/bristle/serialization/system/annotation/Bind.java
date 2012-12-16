@@ -1,4 +1,4 @@
-package pl.bristleback.server.bristle.api.annotations;
+package pl.bristleback.server.bristle.serialization.system.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

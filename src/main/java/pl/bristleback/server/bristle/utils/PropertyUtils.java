@@ -220,11 +220,15 @@ public final class PropertyUtils {
     return method.getDeclaringClass() != clazz;
   }
 
-  public static Type getDeclaredField(Class clazz, String fieldName) {
+  public static Field getDeclaredField(Class clazz, String fieldName) {
     try {
-      return clazz.getDeclaredField(fieldName).getGenericType();
+      return clazz.getDeclaredField(fieldName);
     } catch (NoSuchFieldException e) {
       throw new BristleInitializationException("This should never happen.", e);
     }
+  }
+
+  public static Type getDeclaredFieldType(Class clazz, String fieldName) {
+    return getDeclaredField(clazz, fieldName).getGenericType();
   }
 }

@@ -49,7 +49,7 @@ public class ClientActionProxyInterceptor implements MethodInterceptor {
       .withName(actionInformation.getFullName()).withPayload(payload);
 
     ClientActionSender clientActionSender = actionInformation.getResponse();
-    clientActionSender.sendClientAction(methodOutput, message, objectSender);
+    clientActionSender.sendClientAction(methodOutput, message, objectSender, actionInformation);
 
     return methodOutput;
   }

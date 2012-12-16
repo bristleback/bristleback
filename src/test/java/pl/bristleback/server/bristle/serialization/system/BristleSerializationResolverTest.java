@@ -7,11 +7,9 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import pl.bristleback.server.bristle.api.annotations.Bind;
-import pl.bristleback.server.bristle.api.annotations.Property;
-import pl.bristleback.server.bristle.conf.resolver.serialization.SerializationInputResolver;
 import pl.bristleback.server.bristle.serialization.PropertyType;
-import pl.bristleback.server.bristle.serialization.SerializationInput;
+import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
+import pl.bristleback.server.bristle.serialization.system.annotation.Property;
 import pl.bristleback.server.bristle.serialization.system.json.extractor.BigIntegerValueSerializer;
 import pl.bristleback.server.bristle.serialization.system.json.extractor.DateValueSerializer;
 import pl.bristleback.server.bristle.serialization.system.json.extractor.DoubleValueSerializer;
@@ -93,7 +91,7 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
   @Test
   public void resolveDefaultSerializationRawTypeFirstTime() {
     //when
-    PropertySerialization defaultRawTypeSerialization = serializationResolver.resolveDefaultSerialization(String.class);
+    PropertySerialization defaultRawTypeSerialization = serializationResolver.resolveSerialization(String.class);
 
     //then
     assertEquals(String.class, defaultRawTypeSerialization.getPropertyClass());
@@ -103,10 +101,10 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
   @Test
   public void resolveDefaultSerializationRawTypeSecondTime() {
     //given
-    PropertySerialization defaultRawTypeSerialization1 = serializationResolver.resolveDefaultSerialization(String.class);
+    PropertySerialization defaultRawTypeSerialization1 = serializationResolver.resolveSerialization(String.class);
 
     //when
-    PropertySerialization defaultRawTypeSerialization2 = serializationResolver.resolveDefaultSerialization(String.class);
+    PropertySerialization defaultRawTypeSerialization2 = serializationResolver.resolveSerialization(String.class);
 
     //then
     assertSame(defaultRawTypeSerialization1, defaultRawTypeSerialization2);
@@ -115,7 +113,7 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
   @Test
   public void resolveDefaultSerializationBeanType() {
     //when
-    PropertySerialization beanSerialization = serializationResolver.resolveDefaultSerialization(MockBean.class);
+    PropertySerialization beanSerialization = serializationResolver.resolveSerialization(MockBean.class);
 
     //then
     assertEquals(MockBean.class, beanSerialization.getPropertyClass());
@@ -130,7 +128,7 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
     rawList = new ArrayList<BigInteger>();
     Type listType = getFieldType("rawList");
     //when
-    PropertySerialization listSerialization = serializationResolver.resolveDefaultSerialization(listType);
+    PropertySerialization listSerialization = serializationResolver.resolveSerialization(listType);
     PropertySerialization listElementSerialization = listSerialization.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
     //then
     assertNotNull(listElementSerialization);
@@ -143,7 +141,7 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
     beanList = new ArrayList<MockBean>();
     Type listType = getFieldType("beanList");
     //when
-    PropertySerialization listSerialization = serializationResolver.resolveDefaultSerialization(listType);
+    PropertySerialization listSerialization = serializationResolver.resolveSerialization(listType);
     PropertySerialization listElementSerialization = listSerialization.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
     //then
     assertNotNull(listElementSerialization);
@@ -158,7 +156,7 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
     rawMap = new HashMap<String, Date>();
     Type mapType = getFieldType("rawMap");
     //when
-    PropertySerialization listSerialization = serializationResolver.resolveDefaultSerialization(mapType);
+    PropertySerialization listSerialization = serializationResolver.resolveSerialization(mapType);
     PropertySerialization listElementSerialization = listSerialization.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
     //then
     assertNotNull(listElementSerialization);
@@ -171,7 +169,7 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
     beanMap = new HashMap<String, MockBean>();
     Type mapType = getFieldType("beanMap");
     //when
-    PropertySerialization listSerialization = serializationResolver.resolveDefaultSerialization(mapType);
+    PropertySerialization listSerialization = serializationResolver.resolveSerialization(mapType);
     PropertySerialization listElementSerialization = listSerialization.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
     //then
     assertNotNull(listElementSerialization);
@@ -186,7 +184,7 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
     rawArray = new Long[3];
     Type arrayType = getFieldType("rawArray");
     //when
-    PropertySerialization listSerialization = serializationResolver.resolveDefaultSerialization(arrayType);
+    PropertySerialization listSerialization = serializationResolver.resolveSerialization(arrayType);
     PropertySerialization listElementSerialization = listSerialization.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
     //then
     assertNotNull(listElementSerialization);
@@ -199,7 +197,7 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
     beanArray = new MockBean[3];
     Type arrayType = getFieldType("beanArray");
     //when
-    PropertySerialization listSerialization = serializationResolver.resolveDefaultSerialization(arrayType);
+    PropertySerialization listSerialization = serializationResolver.resolveSerialization(arrayType);
     PropertySerialization listElementSerialization = listSerialization.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
     //then
     assertNotNull(listElementSerialization);
@@ -214,9 +212,7 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
     Field beanField = getField("rawRequired");
     Type beanType = beanField.getGenericType();
     //when
-    SerializationInput input = new SerializationInputResolver()
-      .resolveInputInformation(beanField.getAnnotation(Bind.class));
-    PropertySerialization rawSerialization = serializationResolver.resolveSerialization(beanType, input);
+    PropertySerialization rawSerialization = serializationResolver.resolveSerialization(beanType, beanField.getAnnotations());
     //then
     assertNotNull(rawSerialization);
     assertEquals(DoubleValueSerializer.class, rawSerialization.getValueSerializer().getClass());
@@ -230,9 +226,7 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
     Field beanField = getField("beanFieldRequired");
     Type beanType = beanField.getGenericType();
     //when
-    SerializationInput input = new SerializationInputResolver()
-      .resolveInputInformation(beanField.getAnnotation(Bind.class));
-    PropertySerialization beanSerialization = serializationResolver.resolveSerialization(beanType, input);
+    PropertySerialization beanSerialization = serializationResolver.resolveSerialization(beanType, beanField.getAnnotations());
     PropertySerialization beanElementSerialization = beanSerialization.getPropertySerialization("simpleField");
     //then
     assertNotNull(beanElementSerialization);
@@ -248,9 +242,7 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
     Field listField = getField("beanCollectionFieldRequired");
     Type listType = listField.getGenericType();
     //when
-    SerializationInput input = new SerializationInputResolver()
-      .resolveInputInformation(listField.getAnnotation(Bind.class));
-    PropertySerialization listSerialization = serializationResolver.resolveSerialization(listType, input);
+    PropertySerialization listSerialization = serializationResolver.resolveSerialization(listType, listField.getAnnotations());
     PropertySerialization listElementSerialization = listSerialization.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
     PropertySerialization beanElementSerialization = listElementSerialization.getPropertySerialization("simpleField");
     //then
@@ -269,7 +261,7 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
     Type type = getFieldType("parametrizedBean");
 
     //when
-    PropertySerialization beanSerialization = serializationResolver.resolveDefaultSerialization(type);
+    PropertySerialization beanSerialization = serializationResolver.resolveSerialization(type);
     PropertySerialization propertySerialization = beanSerialization.getPropertySerialization("parametrizedField1");
 
     //then
@@ -284,7 +276,7 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
     Type type = getFieldType("parametrizedBean");
 
     //when
-    PropertySerialization beanSerialization = serializationResolver.resolveDefaultSerialization(type);
+    PropertySerialization beanSerialization = serializationResolver.resolveSerialization(type);
     PropertySerialization propertySerialization = beanSerialization.getPropertySerialization("parametrizedList");
     PropertySerialization listElementSerialization = propertySerialization.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
 
@@ -301,7 +293,7 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
     Type type = getFieldType("parametrizedBean");
 
     //when
-    PropertySerialization beanSerialization = serializationResolver.resolveDefaultSerialization(type);
+    PropertySerialization beanSerialization = serializationResolver.resolveSerialization(type);
     PropertySerialization propertySerialization = beanSerialization.getPropertySerialization("parametrizedMap");
     PropertySerialization listElementSerialization = propertySerialization.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
 
@@ -318,7 +310,7 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
     Type type = getFieldType("parametrizedBean");
 
     //when
-    PropertySerialization beanSerialization = serializationResolver.resolveDefaultSerialization(type);
+    PropertySerialization beanSerialization = serializationResolver.resolveSerialization(type);
     PropertySerialization propertySerialization = beanSerialization.getPropertySerialization("parametrizedArray");
     PropertySerialization listElementSerialization = propertySerialization.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
 

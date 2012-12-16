@@ -1,12 +1,12 @@
 package pl.bristleback.server.bristle.conf.resolver.serialization;
 
 import org.springframework.stereotype.Component;
-import pl.bristleback.server.bristle.api.annotations.Bind;
-import pl.bristleback.server.bristle.api.annotations.Property;
-import pl.bristleback.server.bristle.api.annotations.Serialize;
 import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.serialization.PropertyInformation;
 import pl.bristleback.server.bristle.serialization.SerializationInput;
+import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
+import pl.bristleback.server.bristle.serialization.system.annotation.Property;
+import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;
 import pl.bristleback.server.bristle.utils.StringUtils;
 
 import java.lang.reflect.Type;

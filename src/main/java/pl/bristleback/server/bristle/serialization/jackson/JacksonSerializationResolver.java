@@ -5,10 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.SerializationResolver;
-import pl.bristleback.server.bristle.api.annotations.Serialize;
 import pl.bristleback.server.bristle.exceptions.SerializationResolvingException;
+import pl.bristleback.server.bristle.serialization.SerializationBundle;
 import pl.bristleback.server.bristle.serialization.SerializationInput;
+import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
@@ -32,11 +35,21 @@ public class JacksonSerializationResolver implements SerializationResolver<Jacks
   }
 
   @Override
+  public SerializationBundle initSerializationBundle(Field objectSenderField) {
+    return new SerializationBundle();
+  }
+
+  @Override
+  public JacksonSerialization resolveSerialization(Type objectType, Annotation... annotations) {
+    return null;
+  }
+
+  //  @Override
   public JacksonSerialization resolveDefaultSerialization(Type objectType) {
     return resolveSerialization(objectType, new SerializationInput());
   }
 
-  @Override
+  //  @Override
   public JacksonSerialization resolveSerialization(Type objectType, SerializationInput input) {
     JacksonSerialization serialization = new JacksonSerialization();
     if (objectType instanceof ParameterizedType) {
@@ -77,5 +90,10 @@ public class JacksonSerializationResolver implements SerializationResolver<Jacks
       throw new SerializationResolvingException("Error while resolving container element type, such information is not available. \n "
         + "Provide parametrised type of container or specify container element type via " + Serialize.class.getSimpleName() + " annotation");
     }
+  }
+
+  @Override
+  public void setSerializationForField(JacksonSerialization parentSerialization, String fieldName, JacksonSerialization fieldSerialization) {
+
   }
 }
