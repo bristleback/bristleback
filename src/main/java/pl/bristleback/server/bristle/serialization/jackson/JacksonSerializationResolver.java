@@ -7,7 +7,7 @@ import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.SerializationResolver;
 import pl.bristleback.server.bristle.exceptions.SerializationResolvingException;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
-import pl.bristleback.server.bristle.serialization.SerializationInput;
+import pl.bristleback.server.bristle.serialization.system.SerializationInput;
 import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;
 
 import java.lang.annotation.Annotation;

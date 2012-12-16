@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.serialization.system;
 
-import pl.bristleback.server.bristle.serialization.PropertyType;
 import pl.bristleback.server.bristle.serialization.system.json.extractor.ValueSerializer;
 import pl.bristleback.server.bristle.utils.PropertyAccess;
 

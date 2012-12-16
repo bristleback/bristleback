@@ -2,7 +2,6 @@ package pl.bristleback.server.bristle.message;
 
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.WebsocketMessage;
-import pl.bristleback.server.bristle.serialization.MessageType;
 
 import java.util.List;
 

@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import pl.bristleback.server.bristle.serialization.PropertyType;
 import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
 import pl.bristleback.server.bristle.serialization.system.annotation.Property;
 import pl.bristleback.server.bristle.serialization.system.json.extractor.BigIntegerValueSerializer;

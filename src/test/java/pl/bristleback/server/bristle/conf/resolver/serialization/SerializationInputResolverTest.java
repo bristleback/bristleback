@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
-import pl.bristleback.server.bristle.serialization.SerializationInput;
+import pl.bristleback.server.bristle.serialization.system.SerializationInput;
 import pl.bristleback.server.mock.action.SimpleActionClass;
 import pl.bristleback.server.mock.beans.SimpleMockBean;
 import pl.bristleback.server.mock.beans.SpringMockBeansFactory;

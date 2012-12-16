@@ -1,15 +1,12 @@
 package pl.bristleback.server.bristle.conf.resolver.serialization;
 
 import org.springframework.stereotype.Component;
-import pl.bristleback.server.bristle.message.BristleMessage;
-import pl.bristleback.server.bristle.serialization.PropertyInformation;
-import pl.bristleback.server.bristle.serialization.SerializationInput;
+import pl.bristleback.server.bristle.serialization.system.PropertyInformation;
+import pl.bristleback.server.bristle.serialization.system.SerializationInput;
 import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
 import pl.bristleback.server.bristle.serialization.system.annotation.Property;
 import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;
 import pl.bristleback.server.bristle.utils.StringUtils;
-
-import java.lang.reflect.Type;
 
 /**
  * //@todo class description
@@ -84,15 +81,5 @@ public class SerializationInputResolver {
       propertyInformation.setName(propertyPath);
     }
     return propertyInformation;
-  }
-
-  public SerializationInput resolveMessageInputInformation(Type contentType, SerializationInput contentInput) {
-    SerializationInput serializationInput = new SerializationInput();
-    PropertyInformation contentPropertyInformation = resolvePropertyInformation(contentInput, BristleMessage.PAYLOAD_PROPERTY_NAME);
-    contentPropertyInformation.setType(contentType);
-
-    serializationInput.getNonDefaultProperties().put(BristleMessage.PAYLOAD_PROPERTY_NAME, contentInput);
-
-    return serializationInput;
   }
 }

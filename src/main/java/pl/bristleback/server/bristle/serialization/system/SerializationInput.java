@@ -1,4 +1,6 @@
-package pl.bristleback.server.bristle.serialization;
+package pl.bristleback.server.bristle.serialization.system;
+
+import pl.bristleback.server.bristle.serialization.system.PropertyInformation;
 
 import java.util.HashMap;
 import java.util.Map;

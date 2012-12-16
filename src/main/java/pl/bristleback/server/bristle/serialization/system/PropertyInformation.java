@@ -1,4 +1,4 @@
-package pl.bristleback.server.bristle.serialization;
+package pl.bristleback.server.bristle.serialization.system;
 
 import java.lang.reflect.Type;
 

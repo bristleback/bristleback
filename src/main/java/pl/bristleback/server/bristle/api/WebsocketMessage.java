@@ -1,6 +1,6 @@
 package pl.bristleback.server.bristle.api;
 
-import pl.bristleback.server.bristle.serialization.MessageType;
+import pl.bristleback.server.bristle.message.MessageType;
 
 import java.util.List;
 

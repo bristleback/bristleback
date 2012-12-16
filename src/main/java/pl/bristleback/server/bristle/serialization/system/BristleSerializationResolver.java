@@ -8,10 +8,7 @@ import pl.bristleback.server.bristle.conf.resolver.action.BristleMessageSerializ
 import pl.bristleback.server.bristle.conf.resolver.serialization.SerializationInputResolver;
 import pl.bristleback.server.bristle.exceptions.SerializationResolvingException;
 import pl.bristleback.server.bristle.message.BristleMessage;
-import pl.bristleback.server.bristle.serialization.PropertyInformation;
-import pl.bristleback.server.bristle.serialization.PropertyType;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
-import pl.bristleback.server.bristle.serialization.SerializationInput;
 import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
 import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;
 import pl.bristleback.server.bristle.serialization.system.annotation.SerializeBundle;
