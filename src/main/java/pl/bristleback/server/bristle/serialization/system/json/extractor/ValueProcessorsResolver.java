@@ -41,18 +41,18 @@ public class ValueProcessorsResolver {
 
   private void resolveDefaultValueExtractors(Map<Class, ValueSerializer> extractors) {
     Map<String, ValueSerializer> extractorInstances = springIntegration.getFrameworkBeansOfType(ValueSerializer.class);
-    addExtractors(extractors, extractorInstances, ValueSerializer.class);
+    addExtractors(extractors, extractorInstances);
   }
 
   private void resolveCustomValueExtractors(Map<Class, ValueSerializer> extractors) {
     Map<String, ValueSerializer> extractorInstances = springIntegration.getApplicationBeansOfType(ValueSerializer.class);
-    addExtractors(extractors, extractorInstances, ValueSerializer.class);
+    addExtractors(extractors, extractorInstances);
   }
 
-  private <T> void addExtractors(Map<Class, T> extractors, Map<String, T> extractorsContainer, Class<T> parametrizedInterface) {
+  private <T> void addExtractors(Map<Class, T> extractors, Map<String, T> extractorsContainer) {
     for (T extractor : extractorsContainer.values()) {
       Class extractorClass = extractor.getClass();
-      Class parameterClass = (Class) ReflectionUtils.getParameterTypes(extractorClass, parametrizedInterface)[0];
+      Class parameterClass = (Class) ReflectionUtils.getParameterTypes(extractorClass, ValueSerializer.class)[0];
       extractors.put(parameterClass, extractor);
       Class primitiveForParameterClass = ReflectionUtils.getPrimitiveForWrapper(parameterClass);
       if (primitiveForParameterClass != null) {

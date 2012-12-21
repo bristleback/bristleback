@@ -6,10 +6,7 @@ import pl.bristleback.server.bristle.action.extractor.ActionExtractorsContainer;
 import pl.bristleback.server.bristle.api.SerializationEngine;
 import pl.bristleback.server.bristle.api.SerializationResolver;
 import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
-import pl.bristleback.server.bristle.api.annotations.Bind;
-import pl.bristleback.server.bristle.conf.resolver.serialization.SerializationInputResolver;
 import pl.bristleback.server.bristle.exceptions.SerializationResolvingException;
-import pl.bristleback.server.bristle.serialization.SerializationInput;
 import pl.bristleback.server.bristle.utils.ReflectionUtils;
 
 import javax.annotation.PostConstruct;
@@ -28,9 +25,6 @@ import java.lang.reflect.Type;
  */
 @Component
 public class ParameterResolver {
-
-  @Inject
-  private SerializationInputResolver serializationInputResolver;
 
   @Inject
   private ActionExtractorsResolver actionExtractorsResolver;
@@ -57,25 +51,11 @@ public class ParameterResolver {
   private void resolveParameterDetails(ActionParameterInformation parameterInformation, Type parameterType, Annotation[] parameterAnnotations) {
     SerializationResolver serializationResolver = serializationEngine.getSerializationResolver();
     Object propertySerialization = null;
-    Bind bindAnnotation = findBindAnnotation(parameterAnnotations);
+
     if (parameterInformation.getExtractor().isDeserializationRequired()) {
-      if (bindAnnotation != null) {
-        SerializationInput input = serializationInputResolver.resolveInputInformation(bindAnnotation);
-        propertySerialization = serializationResolver.resolveSerialization(parameterType, input);
-      } else {
-        propertySerialization = serializationResolver.resolveDefaultSerialization(parameterType);
-      }
+      propertySerialization = serializationResolver.resolveSerialization(parameterType, parameterAnnotations);
     }
     parameterInformation.setPropertySerialization(propertySerialization);
-  }
-
-  private Bind findBindAnnotation(Annotation[] parameterAnnotations) {
-    for (Annotation annotation : parameterAnnotations) {
-      if (annotation.annotationType().equals(Bind.class)) {
-        return (Bind) annotation;
-      }
-    }
-    return null;
   }
 
   private void resolveParamExtractor(ActionParameterInformation parameterInformation, Type parameterType) {

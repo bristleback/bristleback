@@ -1,15 +1,12 @@
 package pl.bristleback.server.bristle.conf.resolver.serialization;
 
 import org.springframework.stereotype.Component;
-import pl.bristleback.server.bristle.api.annotations.Bind;
-import pl.bristleback.server.bristle.api.annotations.Property;
-import pl.bristleback.server.bristle.api.annotations.Serialize;
-import pl.bristleback.server.bristle.message.BristleMessage;
-import pl.bristleback.server.bristle.serialization.PropertyInformation;
-import pl.bristleback.server.bristle.serialization.SerializationInput;
+import pl.bristleback.server.bristle.serialization.system.PropertyInformation;
+import pl.bristleback.server.bristle.serialization.system.SerializationInput;
+import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
+import pl.bristleback.server.bristle.serialization.system.annotation.Property;
+import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;
 import pl.bristleback.server.bristle.utils.StringUtils;
-
-import java.lang.reflect.Type;
 
 /**
  * //@todo class description
@@ -27,6 +24,7 @@ public class SerializationInputResolver {
     PropertyInformation propertyInformation = resolvePropertyInformation(input, StringUtils.EMPTY);
     propertyInformation.setDetailedErrors(bindAnnotation.detailedErrors());
     propertyInformation.setRequired(bindAnnotation.required());
+    propertyInformation.setFormat(bindAnnotation.format());
     for (Property nonDefaultProperty : nonDefaultProperties) {
       processPropertyAnnotation(input, nonDefaultProperty);
     }
@@ -57,6 +55,7 @@ public class SerializationInputResolver {
   }
 
   private void setInformationFromAnnotation(Property nonDefaultProperty, PropertyInformation propertyInformation) {
+    propertyInformation.setFormat(nonDefaultProperty.format());
     propertyInformation.setRequired(nonDefaultProperty.required());
     propertyInformation.setSkipped(nonDefaultProperty.skipped());
   }
@@ -64,6 +63,7 @@ public class SerializationInputResolver {
   private void initRootSerializeInformation(Serialize serializeAnnotation, SerializationInput input) {
     PropertyInformation propertyInformation = resolvePropertyInformation(input, StringUtils.EMPTY);
     propertyInformation.setRequired(serializeAnnotation.required());
+    propertyInformation.setFormat(serializeAnnotation.format());
     propertyInformation.setElementClass(serializeAnnotation.containerElementClass());
   }
 
@@ -84,15 +84,5 @@ public class SerializationInputResolver {
       propertyInformation.setName(propertyPath);
     }
     return propertyInformation;
-  }
-
-  public SerializationInput resolveMessageInputInformation(Type contentType, SerializationInput contentInput) {
-    SerializationInput serializationInput = new SerializationInput();
-    PropertyInformation contentPropertyInformation = resolvePropertyInformation(contentInput, BristleMessage.PAYLOAD_PROPERTY_NAME);
-    contentPropertyInformation.setType(contentType);
-
-    serializationInput.getNonDefaultProperties().put(BristleMessage.PAYLOAD_PROPERTY_NAME, contentInput);
-
-    return serializationInput;
   }
 }

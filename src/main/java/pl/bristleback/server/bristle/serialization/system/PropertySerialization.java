@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.serialization.system;
 
-import pl.bristleback.server.bristle.serialization.PropertyType;
 import pl.bristleback.server.bristle.serialization.system.json.extractor.ValueSerializer;
 import pl.bristleback.server.bristle.utils.PropertyAccess;
 
@@ -32,13 +31,6 @@ public class PropertySerialization {
 
   private Map<String, PropertySerialization> propertiesInformation = new HashMap<String, PropertySerialization>();
   private List<PropertyAccess> childrenProperties = new ArrayList<PropertyAccess>();
-
-  public static PropertySerialization createSerialization(PropertyType serializationPropertyType, Class propertyClass) {
-    PropertySerialization propertySerialization = new PropertySerialization();
-    propertySerialization.setPropertyType(serializationPropertyType);
-    propertySerialization.setPropertyClass(propertyClass);
-    return propertySerialization;
-  }
 
   public boolean isParametrized() {
     return genericType != null && genericType instanceof ParameterizedType;

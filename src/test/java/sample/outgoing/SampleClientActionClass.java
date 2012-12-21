@@ -3,7 +3,7 @@ package sample.outgoing;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.action.SendCondition;
-import pl.bristleback.server.bristle.api.annotations.Bind;
+import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
 import pl.bristleback.server.bristle.api.annotations.ClientAction;
 import pl.bristleback.server.bristle.api.annotations.ClientActionClass;
 import pl.bristleback.server.bristle.api.annotations.Ignore;
@@ -40,7 +40,7 @@ public class SampleClientActionClass {
   }
 
   @ClientAction
-  public SendCondition notification(@Ignore boolean isTrue, int ss) {
+  public SendCondition notification(@Ignore boolean isTrue, int ss, String sss) {
     return AllUsersCondition.getInstance();
   }
 }

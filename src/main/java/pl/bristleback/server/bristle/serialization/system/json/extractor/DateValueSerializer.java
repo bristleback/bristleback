@@ -1,11 +1,13 @@
 package pl.bristleback.server.bristle.serialization.system.json.extractor;
 
+import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
 
 import java.text.DateFormat;
+import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -17,7 +19,7 @@ import java.util.Date;
  * @author Wojciech Niemiec
  */
 @Component
-public class DateValueSerializer implements ValueSerializer<Date> {
+public class DateValueSerializer implements FormattingValueSerializer<Date> {
 
   public static final String DEFAULT_DATE_FORMAT = "dd-MM-yyyy";
 
@@ -25,19 +27,24 @@ public class DateValueSerializer implements ValueSerializer<Date> {
 
   @Override
   public void init(BristlebackConfig configuration) {
-    //todo - init default format using configuration
     defaultDateFormat = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
   }
 
   @Override
+  public Format prepareFormat(String formatAsString) {
+    if (StringUtils.isBlank(formatAsString)) {
+      return defaultDateFormat;
+    }
+    return new SimpleDateFormat(formatAsString);
+  }
+
+  @Override
   public Date toValue(String valueAsString, PropertySerialization information) throws Exception {
-    //todo - use non default formatting possible
-    return defaultDateFormat.parse(valueAsString);
+    return ((DateFormat) information.getConstraints().getFormat()).parse(valueAsString);
   }
 
   @Override
   public String toText(Date value, PropertySerialization information) {
-    //todo - use non default formatting possible
-    return JSONObject.quote(defaultDateFormat.format(value));
+    return JSONObject.quote(information.getConstraints().getFormat().format(value));
   }
 }

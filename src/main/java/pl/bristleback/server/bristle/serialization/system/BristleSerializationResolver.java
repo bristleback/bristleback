@@ -4,12 +4,16 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.SerializationResolver;
-import pl.bristleback.server.bristle.api.annotations.Serialize;
+import pl.bristleback.server.bristle.conf.resolver.action.BristleMessageSerializationUtils;
+import pl.bristleback.server.bristle.conf.resolver.serialization.SerializationInputResolver;
 import pl.bristleback.server.bristle.exceptions.SerializationResolvingException;
-import pl.bristleback.server.bristle.serialization.PropertyInformation;
-import pl.bristleback.server.bristle.serialization.PropertyType;
-import pl.bristleback.server.bristle.serialization.SerializationInput;
+import pl.bristleback.server.bristle.message.BristleMessage;
+import pl.bristleback.server.bristle.serialization.SerializationBundle;
+import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
+import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;
+import pl.bristleback.server.bristle.serialization.system.annotation.SerializeBundle;
 import pl.bristleback.server.bristle.serialization.system.json.extractor.EnumSerializer;
+import pl.bristleback.server.bristle.serialization.system.json.extractor.FormattingValueSerializer;
 import pl.bristleback.server.bristle.serialization.system.json.extractor.ValueProcessorsResolver;
 import pl.bristleback.server.bristle.serialization.system.json.extractor.ValueSerializer;
 import pl.bristleback.server.bristle.utils.Getter;
@@ -18,7 +22,9 @@ import pl.bristleback.server.bristle.utils.PropertyUtils;
 import pl.bristleback.server.bristle.utils.ReflectionUtils;
 
 import javax.inject.Inject;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -47,17 +53,79 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
   @Inject
   private ValueProcessorsResolver valueProcessorsResolver;
 
+  @Inject
+  private SerializationInputResolver serializationInputResolver;
+
+  @Inject
+  private BristleMessageSerializationUtils messageSerializationUtils;
+
   public void init(BristlebackConfig configuration) {
     valueProcessorsResolver.resolvePropertyValueExtractors(extractorsContainer);
   }
 
   @Override
-  public PropertySerialization resolveDefaultSerialization(Type objectType) {
-    return resolveSerialization(objectType, new SerializationInput());
+  public SerializationBundle initSerializationBundle(Field objectSenderField) {
+    SerializationBundle serializationBundle = new SerializationBundle();
+    Annotation[] annotations = objectSenderField.getAnnotations();
+    Serialize serializeAnnotation = findAnnotation(Serialize.class, annotations);
+    if (serializeAnnotation != null) {
+      PropertySerialization messageSerialization = createSerializationUsingSerializeAnnotation(serializeAnnotation);
+      serializationBundle.addSerialization(serializeAnnotation.target(), messageSerialization);
+      return serializationBundle;
+    }
+    SerializeBundle serializeBundleAnnotation = findAnnotation(SerializeBundle.class, annotations);
+    if (serializeBundleAnnotation != null) {
+      for (Serialize serializeAnnotationElement : serializeBundleAnnotation.value()) {
+        PropertySerialization messageSerialization = createSerializationUsingSerializeAnnotation(serializeAnnotationElement);
+        serializationBundle.addSerialization(serializeAnnotationElement.target(), messageSerialization);
+      }
+      return serializationBundle;
+    }
+    return serializationBundle;
+  }
+
+  private PropertySerialization createSerializationUsingSerializeAnnotation(Serialize serializeAnnotation) {
+    PropertySerialization messageSerialization = resolveSerialization(messageSerializationUtils.getSimpleMessageType());
+
+    SerializationInput input = serializationInputResolver.resolveInputInformation(serializeAnnotation);
+    PropertySerialization payloadSerialization = resolveSerialization(serializeAnnotation.target(), input);
+
+    setSerializationForField(messageSerialization, BristleMessage.PAYLOAD_PROPERTY_NAME, payloadSerialization);
+    return messageSerialization;
   }
 
   @Override
-  public PropertySerialization resolveSerialization(Type objectType, SerializationInput input) {
+  public void setSerializationForField(PropertySerialization parentSerialization, String fieldName, PropertySerialization fieldSerialization) {
+    parentSerialization.getPropertiesInformation().put(fieldName, fieldSerialization);
+  }
+
+  @Override
+  public PropertySerialization resolveSerialization(Type objectType, Annotation... annotations) {
+    Bind bindAnnotation = findAnnotation(Bind.class, annotations);
+    if (bindAnnotation != null) {
+      SerializationInput input = serializationInputResolver.resolveInputInformation(bindAnnotation);
+      return resolveSerialization(objectType, input);
+    }
+    Serialize serializeAnnotation = findAnnotation(Serialize.class, annotations);
+    if (serializeAnnotation != null) {
+      SerializationInput input = serializationInputResolver.resolveInputInformation(serializeAnnotation);
+      return resolveSerialization(objectType, input);
+    }
+
+    return resolveSerialization(objectType, new SerializationInput());
+  }
+
+  @SuppressWarnings("unchecked")
+  private <T> T findAnnotation(Class<T> annotationType, Annotation[] parameterAnnotations) {
+    for (Annotation annotation : parameterAnnotations) {
+      if (annotation.annotationType().equals(annotationType)) {
+        return (T) annotation;
+      }
+    }
+    return null;
+  }
+
+  private PropertySerialization resolveSerialization(Type objectType, SerializationInput input) {
     return doResolveSerialization(null, objectType, input);
   }
 
@@ -74,7 +142,6 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
       setTypeVariableParameters(parentSerialization, serialization);
     }
 
-    addConstraints(serialization, input.getPropertyInformation());
     if (!input.containsNonDefaultProperties()) {
       extractorsContainer.addDefaultPropertySerialization(serialization);
     }
@@ -83,6 +150,7 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
     } else {
       createComplexObjectSerialization(parentSerialization, serialization, input);
     }
+    addConstraints(serialization, input.getPropertyInformation());
 
     return serialization;
   }
@@ -133,8 +201,17 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
 
   private void addConstraints(PropertySerialization serialization, PropertyInformation propertyInput) {
     if (propertyInput != null) {
-      serialization.getConstraints().setRequired(propertyInput.isRequired());
+      PropertySerializationConstraints constraints = serialization.getConstraints();
+      constraints.setRequired(propertyInput.isRequired());
+      if (isValueSerializerAbleToFormatData(serialization)) {
+        FormattingValueSerializer formattingValueSerializer = (FormattingValueSerializer) serialization.getValueSerializer();
+        constraints.setFormat(formattingValueSerializer.prepareFormat(propertyInput.getFormat()));
+      }
     }
+  }
+
+  private boolean isValueSerializerAbleToFormatData(PropertySerialization serialization) {
+    return serialization.getPropertyType() == PropertyType.SIMPLE && serialization.getValueSerializer() instanceof FormattingValueSerializer;
   }
 
   private PropertySerialization createSimpleTypeSerialization(PropertySerialization serialization) {

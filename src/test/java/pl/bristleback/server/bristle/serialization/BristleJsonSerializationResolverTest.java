@@ -37,20 +37,20 @@ public class BristleJsonSerializationResolverTest {
 
   @Test
   public void testRawTypeSerializationFirstTime() {
-    PropertySerialization defaultRawTypeSerialization = serializationResolver.resolveDefaultSerialization(String.class);
+    PropertySerialization defaultRawTypeSerialization = serializationResolver.resolveSerialization(String.class);
     assertEquals(String.class, defaultRawTypeSerialization.getPropertyClass());
     assertEquals(StringValueSerializer.class, defaultRawTypeSerialization.getValueSerializer().getClass());
   }
 
   @Test
   public void testBeanDefaultSerialization() {
-    PropertySerialization beanSerialization = serializationResolver.resolveDefaultSerialization(MockBean.class);
+    PropertySerialization beanSerialization = serializationResolver.resolveSerialization(MockBean.class);
     assertEquals(MockBean.class, beanSerialization.getPropertyClass());
   }
 
   @Test
   public void testBeanDefaultSerializationCollection() {
-    PropertySerialization beanSerialization = serializationResolver.resolveDefaultSerialization(MockBean.class);
+    PropertySerialization beanSerialization = serializationResolver.resolveSerialization(MockBean.class);
     PropertySerialization listSerialization = beanSerialization.getPropertySerialization(MockBean.LIST_OF_STRINGS_PROPERTY);
     assertNotNull(listSerialization);
     assertNotNull(listSerialization.getGenericType());
@@ -61,7 +61,7 @@ public class BristleJsonSerializationResolverTest {
 
   @Test
   public void testBeanDefaultSerializationMap() {
-    PropertySerialization beanSerialization = serializationResolver.resolveDefaultSerialization(MockBean.class);
+    PropertySerialization beanSerialization = serializationResolver.resolveSerialization(MockBean.class);
     PropertySerialization mapSerialization = beanSerialization.getPropertySerialization(MockBean.MAP_OF_DOUBLES_PROPERTY);
     assertNotNull(mapSerialization);
     assertNotNull(mapSerialization.getGenericType());
@@ -72,7 +72,7 @@ public class BristleJsonSerializationResolverTest {
 
   @Test
   public void testBeanDefaultSerializationArrayOfBeans() {
-    PropertySerialization beanSerialization = serializationResolver.resolveDefaultSerialization(MockBean.class);
+    PropertySerialization beanSerialization = serializationResolver.resolveSerialization(MockBean.class);
     PropertySerialization arraySerialization = beanSerialization.getPropertySerialization(MockBean.ARRAY_OF_BEANS_PROPERTY);
     assertNotNull(arraySerialization);
     PropertySerialization arrayElementSerialization = arraySerialization.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
@@ -86,7 +86,7 @@ public class BristleJsonSerializationResolverTest {
 
   @Test
   public void testBeanDefaultSerializationNestedBean() {
-    PropertySerialization beanSerialization = serializationResolver.resolveDefaultSerialization(MockBean.class);
+    PropertySerialization beanSerialization = serializationResolver.resolveSerialization(MockBean.class);
     PropertySerialization nestedBeanSerialization = beanSerialization.getPropertySerialization(MockBean.SIMPLE_MOCK_BEAN_PROPERTY);
     assertNotNull(nestedBeanSerialization);
     assertEquals(SimpleMockBean.class, nestedBeanSerialization.getPropertyClass());

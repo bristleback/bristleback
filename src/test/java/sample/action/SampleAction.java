@@ -7,13 +7,13 @@ import pl.bristleback.server.bristle.api.action.DefaultAction;
 import pl.bristleback.server.bristle.api.annotations.Action;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
 import pl.bristleback.server.bristle.api.annotations.ObjectSender;
-import pl.bristleback.server.bristle.api.annotations.Bind;
-import pl.bristleback.server.bristle.api.annotations.Property;
-import pl.bristleback.server.bristle.api.annotations.Serialize;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 import pl.bristleback.server.bristle.engine.base.users.DefaultUser;
 import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
+import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
+import pl.bristleback.server.bristle.serialization.system.annotation.Property;
+import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;
 import sample.Card;
 import sample.User;
 import sample.outgoing.SampleClientActionClass;
@@ -39,10 +39,9 @@ import java.util.Map;
 public class SampleAction implements DefaultAction<DefaultUser, Map<String, BigDecimal>> {
   private static Logger log = Logger.getLogger(SampleAction.class.getName());
 
-  @ObjectSender(serialize = {
-    @Serialize(target = User.class, properties = {
-      @Property(name = "friend", skipped = true)
-    })
+  @ObjectSender
+  @Serialize(target = User.class, properties = {
+    @Property(name = "friend", skipped = true)
   })
   private ConditionObjectSender sender;
 
@@ -52,12 +51,11 @@ public class SampleAction implements DefaultAction<DefaultUser, Map<String, BigD
   @Inject
   private SampleClientActionClass clientActionClass;
 
-  @Action(name = "customName", response = {
-    @Serialize(properties = {
-      @Property(name = "friend", skipped = true)
-    })
+  @Action(name = "customName")
+  @Serialize(properties = {
+    @Property(name = "friend", skipped = true)
   })
-  public User changeAge(WebsocketConnector connector, int newAge,
+  public User changeAge(int newAge,
                         @Bind(properties = {
                           @Property(name = "age", skipped = true)
                         }) User user) {
@@ -79,20 +77,20 @@ public class SampleAction implements DefaultAction<DefaultUser, Map<String, BigD
     userData.setFirstName(name);
     message.withName("SampleClientActionClass.userDetails").withPayload(userData);
     sender.sendMessage(message, Collections.<IdentifiedUser>singletonList(user));
- //   return "Hello " + name + ", your age is about " + age + ", right?";
   }
 
   @Action
   public String executeDefault(DefaultUser user, Map<String, BigDecimal> message) {
     String helloWorld = helloServiceBean.sayHello(message.get("mapField"));
     clientActionClass.sendCardsToUser(Card.values(), user);
-    clientActionClass.notification(true, 1);
+    clientActionClass.notification(true, 1, "df");
     return helloWorld;
   }
 
-  @Action(response = @Serialize(serializationName = "factorials", containerElementClass = User.class, properties = {
+  @Action
+  @Serialize(serializationName = "factorials", containerElementClass = User.class, properties = {
     @Property(name = "friend", skipped = true)
-  }))
+  })
   public List<User> getFactorials(@Bind(required = true) int size) {
     if (size < 0 || size > 10) {
       throw new RuntimeException();

@@ -15,7 +15,7 @@ import pl.bristleback.server.bristle.conf.DataControllers;
 import pl.bristleback.server.bristle.conf.EngineConfig;
 import pl.bristleback.server.bristle.conf.InitialConfiguration;
 import pl.bristleback.server.bristle.conf.MessageConfiguration;
-import pl.bristleback.server.bristle.conf.resolver.message.ConditionObjectInitializer;
+import pl.bristleback.server.bristle.conf.resolver.message.ObjectSenderInitializer;
 import pl.bristleback.server.bristle.conf.resolver.message.ObjectSenderInjector;
 import pl.bristleback.server.bristle.engine.base.users.DefaultUserFactory;
 import pl.bristleback.server.bristle.exceptions.BristleInitializationException;
@@ -136,15 +136,15 @@ public class SpringConfigurationResolver {
   }
 
   public void initObjectSenders() {
-    ConditionObjectInitializer conditionObjectInitializer = conditionObjectInitializer();
+    ObjectSenderInitializer objectSenderInitializer = objectSenderInitializer();
     List<ConditionObjectSender> senders = springIntegration.getApplicationBean(ObjectSenderInjector.class).getRegisteredSenders();
     for (ConditionObjectSender sender : senders) {
-      conditionObjectInitializer.initObjectSender(sender);
+      objectSenderInitializer.initObjectSender(sender);
     }
   }
 
-  private ConditionObjectInitializer conditionObjectInitializer() {
-    return springIntegration.getFrameworkBean("conditionObjectInitializer", ConditionObjectInitializer.class);
+  private ObjectSenderInitializer objectSenderInitializer() {
+    return springIntegration.getFrameworkBean("objectSenderInitializer", ObjectSenderInitializer.class);
   }
 
   @Bean

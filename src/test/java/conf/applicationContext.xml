@@ -25,7 +25,7 @@
     <property name="configurationPath" value="conf/bristleback.properties"/>
   </bean>
 
-  <bb:standaloneServer configurationResolver="propertiesFileConfigResolver"/>
+  <bb:standaloneServer configurationResolver="initPojoConfigResolver"/>
 
   <!-- APPLICATION BEANS -->
 

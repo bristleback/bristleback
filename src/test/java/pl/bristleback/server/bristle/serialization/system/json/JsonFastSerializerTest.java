@@ -9,14 +9,18 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pl.bristleback.server.bristle.serialization.system.BristleSerializationResolver;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
+import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;
 import pl.bristleback.server.bristle.utils.PropertyUtils;
 import pl.bristleback.server.mock.beans.SpringMockBeansFactory;
 import pl.bristleback.server.mock.beans.VerySimpleMockBean;
 
 import javax.inject.Inject;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +45,9 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
   private JsonFastSerializer fastSerializer;
   private BristleSerializationResolver serializationResolver;
 
+  @Serialize(format = "yyyy-MM-dd HH:mm")
+  private Date rawCustomFormatDate;
+
   private double[] rawArray;
   private VerySimpleMockBean[] beanArray;
 
@@ -58,9 +65,28 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
   @Test
   public void serializeRawValue() throws Exception {
     Integer four = 4;
-    PropertySerialization serialization = serializationResolver.resolveDefaultSerialization(four.getClass());
+    PropertySerialization serialization = serializationResolver.resolveSerialization(four.getClass());
     String result = fastSerializer.serializeObject(four, serialization);
     assertEquals(four + "", result);
+  }
+
+  @Test
+  public void serializeRawFormattedDate() throws Exception {
+    //given
+    Calendar calendar = Calendar.getInstance();
+    calendar.set(Calendar.HOUR_OF_DAY, 22);
+    calendar.set(Calendar.MINUTE, 45);
+    calendar.set(Calendar.DAY_OF_MONTH, 2);
+    calendar.set(Calendar.MONTH, 3);
+    calendar.set(Calendar.YEAR, 2003);
+    PropertySerialization serialization = serializationResolver.resolveSerialization(Date.class, getFieldsAnnotations("rawCustomFormatDate"));
+
+    //when
+    String result = fastSerializer.serializeObject(calendar.getTime(), serialization);
+
+    //then
+    String expectedResult = "\"2003-04-02 22:45\"";
+    assertEquals(expectedResult, result);
   }
 
   @Test
@@ -70,8 +96,8 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
     for (int i = 1; i <= size; i++) {
       rawArray[i - 1] = (double) i;
     }
-    Type listType = PropertyUtils.getDeclaredField(JsonFastSerializerTest.class, "rawArray");
-    PropertySerialization serialization = serializationResolver.resolveDefaultSerialization(listType);
+    Type listType = PropertyUtils.getDeclaredFieldType(JsonFastSerializerTest.class, "rawArray");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(listType);
     String result = fastSerializer.serializeObject(rawArray, serialization);
     String expectedResult = "[1.0,2.0,3.0,4.0]";
     assertEquals(expectedResult, result);
@@ -86,8 +112,8 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
       beanToAdd.setSimpleField(i);
       beanArray[i - 1] = beanToAdd;
     }
-    Type listType = PropertyUtils.getDeclaredField(JsonFastSerializerTest.class, "beanArray");
-    PropertySerialization serialization = serializationResolver.resolveDefaultSerialization(listType);
+    Type listType = PropertyUtils.getDeclaredFieldType(JsonFastSerializerTest.class, "beanArray");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(listType);
     String result = fastSerializer.serializeObject(beanArray, serialization);
     String expectedResult = "[{\"simpleField\":1},{\"simpleField\":2}]";
     assertEquals(expectedResult, result);
@@ -100,8 +126,8 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
     for (int i = 1; i <= size; i++) {
       sampleList.add(i);
     }
-    Type listType = PropertyUtils.getDeclaredField(JsonFastSerializerTest.class, "sampleList");
-    PropertySerialization serialization = serializationResolver.resolveDefaultSerialization(listType);
+    Type listType = PropertyUtils.getDeclaredFieldType(JsonFastSerializerTest.class, "sampleList");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(listType);
     String result = fastSerializer.serializeObject(sampleList, serialization);
     String expectedResult = "[1,2,3,4]";
     assertEquals(expectedResult, result);
@@ -116,8 +142,8 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
       beanToAdd.setSimpleField(i);
       beanList.add(beanToAdd);
     }
-    Type listType = PropertyUtils.getDeclaredField(JsonFastSerializerTest.class, "beanList");
-    PropertySerialization serialization = serializationResolver.resolveDefaultSerialization(listType);
+    Type listType = PropertyUtils.getDeclaredFieldType(JsonFastSerializerTest.class, "beanList");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(listType);
     String result = fastSerializer.serializeObject(beanList, serialization);
     String expectedResult = "[{\"simpleField\":1},{\"simpleField\":2}]";
     assertEquals(expectedResult, result);
@@ -130,11 +156,14 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
     for (int i = 1; i <= size; i++) {
       rawMap.put(i + "s", new BigDecimal(i));
     }
-    Type listType = PropertyUtils.getDeclaredField(JsonFastSerializerTest.class, "rawMap");
-    PropertySerialization serialization = serializationResolver.resolveDefaultSerialization(listType);
+    Type listType = PropertyUtils.getDeclaredFieldType(JsonFastSerializerTest.class, "rawMap");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(listType);
     String result = fastSerializer.serializeObject(rawMap, serialization);
     String expectedResult = "{\"1s\":1,\"2s\":2}";
     assertEquals(expectedResult, result);
   }
 
+  private Annotation[] getFieldsAnnotations(String fieldName) throws NoSuchFieldException {
+    return getClass().getDeclaredField(fieldName).getAnnotations();
+  }
 } 

@@ -4,12 +4,13 @@ import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.action.DefaultAction;
 import pl.bristleback.server.bristle.api.annotations.Action;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
-import pl.bristleback.server.bristle.api.annotations.Bind;
 import pl.bristleback.server.bristle.api.annotations.ObjectSender;
-import pl.bristleback.server.bristle.api.annotations.Property;
-import pl.bristleback.server.bristle.api.annotations.Serialize;
 import pl.bristleback.server.bristle.engine.base.users.DefaultUser;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
+import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
+import pl.bristleback.server.bristle.serialization.system.annotation.Property;
+import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;
+import pl.bristleback.server.bristle.serialization.system.annotation.SerializeBundle;
 import pl.bristleback.server.mock.beans.MockBean;
 import pl.bristleback.server.mock.beans.SimpleMockBean;
 
@@ -28,7 +29,8 @@ public class SimpleActionClass implements DefaultAction<DefaultUser, String> {
 
   public static final String NAME = "sampleAction";
 
-  @ObjectSender(serialize = {
+  @ObjectSender
+  @SerializeBundle({
     @Serialize(target = MockBean.class),
     @Serialize(target = SimpleMockBean.class, serializationName = "nonDefaultSerialization")
   })
@@ -40,11 +42,9 @@ public class SimpleActionClass implements DefaultAction<DefaultUser, String> {
     return RESPONSE_TEXT;
   }
 
-  @Action(name = "unusualActionName", response = {
-    @Serialize(properties = {
-      @Property(name = "mockBean", required = true)
-    }),
-    @Serialize(required = true, serializationName = "someField")
+  @Action(name = "unusualActionName")
+  @Serialize(properties = {
+    @Property(name = "mockBean", required = true)
   })
   public SimpleMockBean nonDefaultAction(@Bind(required = true) String param1) {
     return null;

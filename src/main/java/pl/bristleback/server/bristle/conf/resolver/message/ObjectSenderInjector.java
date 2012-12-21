@@ -58,10 +58,10 @@ public class ObjectSenderInjector implements BeanPostProcessor, ApplicationConte
       return registeredSenders.get(field);
     }
     ConditionObjectSender conditionObjectSender = applicationContext.getBean(ConditionObjectSender.class);
+    conditionObjectSender.setField(field);
     SerializationBundle serializationBundle = new SerializationBundle();
-    serializationBundle.setField(field);
 
-    conditionObjectSender.setSerializationBundle(serializationBundle);
+    conditionObjectSender.setLocalSerializations(serializationBundle);
     registeredSenders.put(field, conditionObjectSender);
 
     return conditionObjectSender;

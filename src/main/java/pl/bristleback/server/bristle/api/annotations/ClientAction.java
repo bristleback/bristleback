@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * Using client action methods,
  * server can send messages to client. Method parameters are serialized to array as the message payload.
  * Under the hood, {@link pl.bristleback.server.bristle.message.ConditionObjectSender ConditionObjectSender} is used.
- * Each parameter can be validated using {@link pl.bristleback.server.bristle.api.annotations.Bind Bind} annotation.
+ * Each parameter can be validated using {@link pl.bristleback.server.bristle.serialization.system.annotation.Bind Bind} annotation.
  * If any parameter is not meant to be serialized, simply use {@link pl.bristleback.server.bristle.api.annotations.Ignore} on that parameter.
  * Action methods must have one of the fallowing return types:
  * <ul>

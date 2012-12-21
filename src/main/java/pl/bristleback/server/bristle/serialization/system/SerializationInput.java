@@ -1,4 +1,4 @@
-package pl.bristleback.server.bristle.serialization;
+package pl.bristleback.server.bristle.serialization.system;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,10 +28,6 @@ public class SerializationInput {
 
   public Map<String, SerializationInput> getNonDefaultProperties() {
     return nonDefaultProperties;
-  }
-
-  public void setNonDefaultProperties(Map<String, SerializationInput> nonDefaultProperties) {
-    this.nonDefaultProperties = nonDefaultProperties;
   }
 
   public PropertyInformation getPropertyInformation() {

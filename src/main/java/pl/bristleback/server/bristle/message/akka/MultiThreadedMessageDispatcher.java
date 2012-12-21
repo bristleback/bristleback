@@ -7,9 +7,9 @@ import akka.actor.UntypedActor;
 import akka.actor.UntypedActorFactory;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
-import pl.bristleback.server.bristle.message.AbstractMessageDispatcher;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.WebsocketMessage;
+import pl.bristleback.server.bristle.message.AbstractMessageDispatcher;
 
 /**
  * created at 23.09.12

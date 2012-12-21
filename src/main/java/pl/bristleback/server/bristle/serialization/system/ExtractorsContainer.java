@@ -2,6 +2,7 @@ package pl.bristleback.server.bristle.serialization.system;
 
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.exceptions.SerializationResolvingException;
+import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.serialization.system.json.extractor.ValueSerializer;
 
 import java.lang.reflect.Type;
@@ -41,6 +42,9 @@ public class ExtractorsContainer {
   }
 
   public void addDefaultPropertySerialization(PropertySerialization propertySerialization) {
+    if (propertySerialization.getPropertyClass().equals(BristleMessage.class)) {
+      return;
+    }
     if (propertySerialization.getGenericType() != null) {
       defaultPropertySerializations.put(propertySerialization.getGenericType(), propertySerialization);
     } else {

@@ -1,7 +1,6 @@
 package pl.bristleback.server.mock.action.client;
 
-import org.springframework.stereotype.Component;
-import pl.bristleback.server.bristle.api.annotations.Bind;
+import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
 import pl.bristleback.server.bristle.api.annotations.ClientAction;
 import pl.bristleback.server.bristle.api.annotations.ClientActionClass;
 import pl.bristleback.server.bristle.api.annotations.Ignore;

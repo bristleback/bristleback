@@ -46,7 +46,7 @@ public class JsonSerializationEngine implements SerializationEngine<PropertySeri
 
   @Override
   public String serialize(Object object) throws Exception {
-    PropertySerialization serialization = serializationResolver.resolveDefaultSerialization(object.getClass());
+    PropertySerialization serialization = serializationResolver.resolveSerialization(object.getClass());
     return serialize(object, serialization);
   }
 

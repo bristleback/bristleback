@@ -8,6 +8,7 @@ import pl.bristleback.server.bristle.authorisation.user.UsersContainer;
 import pl.bristleback.server.bristle.conf.resolver.SpringConfigurationResolver;
 import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
+import pl.bristleback.server.bristle.serialization.SerializationBundle;
 import pl.bristleback.server.bristle.utils.StringUtils;
 
 import javax.annotation.PostConstruct;
@@ -41,11 +42,12 @@ public class ResponseHelper {
   private void init() {
     conditionObjectSender = new ConditionObjectSender();
     conditionObjectSender.init(configuration, connectedUsers);
+    conditionObjectSender.setLocalSerializations(new SerializationBundle());
   }
 
   public void sendResponse(Object response, Object serialization, ActionExecutionContext context) throws Exception {
     BristleMessage<Object> responseMessage = prepareMessage(response, context);
-    conditionObjectSender.sendMessage(responseMessage, serialization, Collections.singletonList(context.getUser()));
+    conditionObjectSender.sendMessage(responseMessage, serialization, connectedUsers.getConnectorsByUsers(Collections.singletonList(context.getUser())));
   }
 
   public void sendExceptionResponse(Object exceptionResponse, ActionExecutionContext context) throws Exception {

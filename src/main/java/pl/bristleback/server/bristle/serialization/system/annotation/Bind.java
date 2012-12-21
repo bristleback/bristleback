@@ -1,4 +1,4 @@
-package pl.bristleback.server.bristle.api.annotations;
+package pl.bristleback.server.bristle.serialization.system.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -32,4 +32,6 @@ public @interface Bind {
    * @return true if detailed error messages should be sent for bound object.
    */
   boolean detailedErrors() default false;
+
+  String format() default "";
 }

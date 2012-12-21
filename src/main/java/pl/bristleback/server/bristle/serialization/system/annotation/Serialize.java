@@ -1,4 +1,4 @@
-package pl.bristleback.server.bristle.api.annotations;
+package pl.bristleback.server.bristle.serialization.system.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
  *
  * @author Wojciech Niemiec
  */
-@Target({ElementType.METHOD})
+@Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
 public @interface Serialize {
 
@@ -57,4 +57,6 @@ public @interface Serialize {
    * @return true if this simple action parameter is required, false otherwise.
    */
   boolean required() default false;
+
+  String format() default "";
 }

@@ -2,7 +2,7 @@ package pl.bristleback.server.bristle.serialization.system.json;
 
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
-import pl.bristleback.server.bristle.serialization.PropertyType;
+import pl.bristleback.server.bristle.serialization.system.PropertyType;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
 import pl.bristleback.server.bristle.utils.Getter;
 import pl.bristleback.server.bristle.utils.PropertyAccess;

@@ -4,7 +4,7 @@ import akka.actor.UntypedActor;
 import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.ServerEngine;
 import pl.bristleback.server.bristle.api.WebsocketMessage;
-import pl.bristleback.server.bristle.serialization.MessageType;
+import pl.bristleback.server.bristle.message.MessageType;
 
 /**
  * Actor sending message to single connector.

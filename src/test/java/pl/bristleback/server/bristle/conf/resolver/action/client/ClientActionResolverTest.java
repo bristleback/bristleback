@@ -8,7 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pl.bristleback.server.bristle.action.client.ClientActionInformation;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 import pl.bristleback.server.bristle.message.BristleMessage;
-import pl.bristleback.server.bristle.serialization.PropertyType;
+import pl.bristleback.server.bristle.serialization.system.PropertyType;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
 import pl.bristleback.server.bristle.utils.StringUtils;
 import pl.bristleback.server.mock.action.client.MockClientActionClass;
@@ -79,7 +79,9 @@ public class ClientActionResolverTest {
     PropertySerialization payloadSerialization = serialization.getPropertySerialization(BristleMessage.PAYLOAD_PROPERTY_NAME);
     assertNotNull(payloadSerialization);
     assertEquals(PropertyType.MAP, payloadSerialization.getPropertyType());
-    assertEquals(2, payloadSerialization.getPropertiesInformation().size());
+    int expectedNumberOfParameterSerializations = 2;
+    int expectedNumberOfSerializations = expectedNumberOfParameterSerializations + 1; // one for default element serialization
+    assertEquals(expectedNumberOfSerializations, payloadSerialization.getPropertiesInformation().size());
   }
 
   @Test
