@@ -1,13 +1,12 @@
 package pl.bristleback.server.bristle.serialization.system.json.extractor;
 
-import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
+import pl.bristleback.server.bristle.serialization.system.PropertySerializationConstraints;
 
 import java.text.DateFormat;
-import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -21,30 +20,38 @@ import java.util.Date;
 @Component
 public class DateValueSerializer implements FormattingValueSerializer<Date> {
 
-  public static final String DEFAULT_DATE_FORMAT = "dd-MM-yyyy";
-
-  private DateFormat defaultDateFormat;
-
   @Override
   public void init(BristlebackConfig configuration) {
-    defaultDateFormat = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
   }
 
   @Override
-  public Format prepareFormat(String formatAsString) {
-    if (StringUtils.isBlank(formatAsString)) {
-      return defaultDateFormat;
-    }
-    return new SimpleDateFormat(formatAsString);
+  public ThreadLocal<DateFormat> prepareFormatHolder(final String formatAsString) {
+    return new ThreadLocal<DateFormat>() {
+      @Override
+      protected DateFormat initialValue() {
+        return new SimpleDateFormat(formatAsString);
+      }
+    };
   }
 
   @Override
   public Date toValue(String valueAsString, PropertySerialization information) throws Exception {
-    return ((DateFormat) information.getConstraints().getFormat()).parse(valueAsString);
+    if (information.getConstraints().isFormatted()) {
+      return getFormat(information.getConstraints()).parse(valueAsString);
+    }
+    return new Date(Long.parseLong(valueAsString));
   }
 
   @Override
   public String toText(Date value, PropertySerialization information) {
-    return JSONObject.quote(information.getConstraints().getFormat().format(value));
+    if (information.getConstraints().isFormatted()) {
+      return JSONObject.quote(getFormat(information.getConstraints()).format(value));
+    }
+    return value.getTime() + "";
+  }
+
+  @SuppressWarnings("unchecked")
+  private DateFormat getFormat(PropertySerializationConstraints constraints) {
+    return ((ThreadLocal<DateFormat>) constraints.getFormatHolder()).get();
   }
 }

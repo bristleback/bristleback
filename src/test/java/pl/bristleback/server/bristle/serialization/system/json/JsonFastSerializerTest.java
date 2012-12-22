@@ -23,6 +23,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
@@ -48,6 +49,11 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
   @Serialize(format = "yyyy-MM-dd HH:mm")
   private Date rawCustomFormatDate;
 
+  private Date rawDate;
+
+  @Serialize(format = "0.0000")
+  private BigDecimal rawCustomFormatBigDecimal;
+
   private double[] rawArray;
   private VerySimpleMockBean[] beanArray;
 
@@ -71,6 +77,19 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
   }
 
   @Test
+  public void serializeRawNotFormattedDate() throws Exception {
+    //given
+    PropertySerialization serialization = serializationResolver.resolveSerialization(Date.class);
+    Date dateToSerialize = new Date();
+    //when
+    String result = fastSerializer.serializeObject(dateToSerialize, serialization);
+
+    //then
+    String expectedResult = dateToSerialize.getTime() + "";
+    assertEquals(expectedResult, result);
+  }
+
+  @Test
   public void serializeRawFormattedDate() throws Exception {
     //given
     Calendar calendar = Calendar.getInstance();
@@ -86,6 +105,21 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
 
     //then
     String expectedResult = "\"2003-04-02 22:45\"";
+    assertEquals(expectedResult, result);
+  }
+
+  @Test
+  public void serializeRawFormattedBigDecimal() throws Exception {
+    //given
+    Locale.setDefault(Locale.ENGLISH);
+    BigDecimal number = new BigDecimal("3.12");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(BigDecimal.class, getFieldsAnnotations("rawCustomFormatBigDecimal"));
+
+    //when
+    String result = fastSerializer.serializeObject(number, serialization);
+
+    //then
+    String expectedResult = "\"3.1200\"";
     assertEquals(expectedResult, result);
   }
 

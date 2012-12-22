@@ -1,5 +1,6 @@
 package pl.bristleback.server.bristle.serialization.system;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
@@ -203,15 +204,15 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
     if (propertyInput != null) {
       PropertySerializationConstraints constraints = serialization.getConstraints();
       constraints.setRequired(propertyInput.isRequired());
-      if (isValueSerializerAbleToFormatData(serialization)) {
+      if (isValueSerializerAbleToFormatData(propertyInput,serialization)) {
         FormattingValueSerializer formattingValueSerializer = (FormattingValueSerializer) serialization.getValueSerializer();
-        constraints.setFormat(formattingValueSerializer.prepareFormat(propertyInput.getFormat()));
+        constraints.setFormatHolder(formattingValueSerializer.prepareFormatHolder(propertyInput.getFormat()));
       }
     }
   }
 
-  private boolean isValueSerializerAbleToFormatData(PropertySerialization serialization) {
-    return serialization.getPropertyType() == PropertyType.SIMPLE && serialization.getValueSerializer() instanceof FormattingValueSerializer;
+  private boolean isValueSerializerAbleToFormatData(PropertyInformation propertyInput, PropertySerialization serialization) {
+    return StringUtils.isNotBlank(propertyInput.getFormat()) && serialization.getPropertyType() == PropertyType.SIMPLE && serialization.getValueSerializer() instanceof FormattingValueSerializer;
   }
 
   private PropertySerialization createSimpleTypeSerialization(PropertySerialization serialization) {

@@ -1,7 +1,5 @@
 package pl.bristleback.server.bristle.serialization.system;
 
-import java.text.Format;
-
 /**
  * //@todo class description
  * <p/>
@@ -13,7 +11,11 @@ public class PropertySerializationConstraints {
 
   private boolean required;
   private boolean detailedErrors;
-  private Format format;
+  private Object formatHolder;
+
+  public boolean isFormatted() {
+    return formatHolder != null;
+  }
 
   public boolean isRequired() {
     return required;
@@ -31,11 +33,11 @@ public class PropertySerializationConstraints {
     this.detailedErrors = detailedErrors;
   }
 
-  public Format getFormat() {
-    return format;
+  public Object getFormatHolder() {
+    return formatHolder;
   }
 
-  public void setFormat(Format format) {
-    this.format = format;
+  public void setFormatHolder(Object formatHolder) {
+    this.formatHolder = formatHolder;
   }
 }

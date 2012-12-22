@@ -272,7 +272,7 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
     assertNotNull(rawSerialization);
     assertEquals(DateValueSerializer.class, rawSerialization.getValueSerializer().getClass());
     assertEquals(Date.class, rawSerialization.getPropertyClass());
-    Assert.assertNotNull(rawSerialization.getConstraints().getFormat());
+    Assert.assertNotNull(rawSerialization.getConstraints().getFormatHolder());
   }
 
   @Test
@@ -286,7 +286,7 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
     assertNotNull(rawSerialization);
     assertEquals(DateValueSerializer.class, rawSerialization.getValueSerializer().getClass());
     assertEquals(Date.class, rawSerialization.getPropertyClass());
-    Assert.assertNotNull(rawSerialization.getConstraints().getFormat());
+    Assert.assertNull(rawSerialization.getConstraints().getFormatHolder());
   }
 
   @Test

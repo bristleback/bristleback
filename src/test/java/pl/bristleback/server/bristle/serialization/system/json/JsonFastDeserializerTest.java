@@ -12,6 +12,7 @@ import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
 import pl.bristleback.server.bristle.serialization.system.SerializationException;
 import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
 import pl.bristleback.server.bristle.serialization.system.annotation.Property;
+import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;
 import pl.bristleback.server.bristle.utils.PropertyUtils;
 import pl.bristleback.server.mock.beans.MockBean;
 import pl.bristleback.server.mock.beans.SimpleMockBean;
@@ -21,10 +22,12 @@ import pl.bristleback.server.mock.beans.VerySimpleMockBean;
 import javax.inject.Inject;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
@@ -56,6 +59,9 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
 
   @Bind(format = "yyyy-MM-dd hh:mm:ss")
   private Date rawCustomFormatDate;
+
+  @Serialize(format = "0.0000")
+  private BigDecimal rawCustomFormatBigDecimal;
 
   private double[] rawArray;
   private Double[] rawObjectArray;
@@ -150,6 +156,21 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     Date expectedDate = dateFormat.parse(serializedForm);
     assertEquals(expectedDate, deserialized);
+  }
+
+  @Test
+  public void deserializeBigDecimalCustomFormatValue() throws Exception {
+    //given
+    Locale.setDefault(Locale.ENGLISH);
+    String serializedForm = "332.221";
+    Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerTest.class, "rawCustomFormatBigDecimal");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(type, getFieldsAnnotations("rawCustomFormatBigDecimal"));
+
+    //when
+    Object deserialized = deserializer.deserialize(serializedForm, serialization);
+
+    //then
+    assertEquals(new BigDecimal(serializedForm), deserialized);
   }
 
   @Test
