@@ -71,6 +71,11 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
 
   private Integer rawInteger;
 
+  @Serialize(format = "000,000")
+  private Long rawCustomFormatLong;
+
+  private long rawLong;
+
   private double[] rawArray;
   private Double[] rawObjectArray;
   private VerySimpleMockBean[] beanArray;
@@ -212,19 +217,49 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
   }
 
   @Test
-    public void deserializeIntegerNotFormattedValue() throws Exception {
-      //given
-      Locale.setDefault(Locale.ENGLISH);
-      String serializedForm = "332221";
-      Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerTest.class, "rawInteger");
-      PropertySerialization serialization = serializationResolver.resolveSerialization(type, getFieldsAnnotations("rawInteger"));
+  public void deserializeIntegerNotFormattedValue() throws Exception {
+    //given
+    Locale.setDefault(Locale.ENGLISH);
+    String serializedForm = "332221";
+    Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerTest.class, "rawInteger");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(type, getFieldsAnnotations("rawInteger"));
 
-      //when
-      Object deserialized = deserializer.deserialize(serializedForm, serialization);
+    //when
+    Object deserialized = deserializer.deserialize(serializedForm, serialization);
 
-      //then
-      assertEquals(332221, deserialized);
-    }
+    //then
+    assertEquals(332221, deserialized);
+  }
+
+  @Test
+  public void deserializeLongCustomFormatValue() throws Exception {
+    //given
+    Locale.setDefault(Locale.ENGLISH);
+    String serializedForm = "332,221";
+    Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerTest.class, "rawCustomFormatLong");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(type, getFieldsAnnotations("rawCustomFormatLong"));
+
+    //when
+    Object deserialized = deserializer.deserialize(serializedForm, serialization);
+
+    //then
+    assertEquals(332221L, deserialized);
+  }
+
+  @Test
+  public void deserializeLongNotFormattedValue() throws Exception {
+    //given
+    Locale.setDefault(Locale.ENGLISH);
+    String serializedForm = "332221";
+    Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerTest.class, "rawLong");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(type, getFieldsAnnotations("rawLong"));
+
+    //when
+    Object deserialized = deserializer.deserialize(serializedForm, serialization);
+
+    //then
+    assertEquals(332221L, deserialized);
+  }
 
   @Test
   public void deserializeRawArray() throws Exception {

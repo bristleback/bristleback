@@ -60,9 +60,14 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
   private Double rawDouble;
 
   @Serialize(format = "0,000")
-    private int rawCustomFormatInteger;
+  private int rawCustomFormatInteger;
 
-    private int rawInteger;
+  private int rawInteger;
+
+  @Serialize(format = "000,000,000,000")
+  private long rawCustomFormatLong;
+
+  private Long rawLong;
 
   private double[] rawArray;
   private VerySimpleMockBean[] beanArray;
@@ -164,34 +169,64 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
   }
 
   @Test
-    public void serializeRawFormattedInteger() throws Exception {
-      //given
-      Locale.setDefault(Locale.ENGLISH);
-      int intNumber = 3000;
-      PropertySerialization serialization = serializationResolver.resolveSerialization(Integer.class, getFieldsAnnotations("rawCustomFormatInteger"));
+  public void serializeRawFormattedInteger() throws Exception {
+    //given
+    Locale.setDefault(Locale.ENGLISH);
+    int intNumber = 3000;
+    PropertySerialization serialization = serializationResolver.resolveSerialization(Integer.class, getFieldsAnnotations("rawCustomFormatInteger"));
 
-      //when
-      String result = fastSerializer.serializeObject(intNumber, serialization);
+    //when
+    String result = fastSerializer.serializeObject(intNumber, serialization);
 
-      //then
-      String expectedResult = "\"3,000\"";
-      assertEquals(expectedResult, result);
-    }
+    //then
+    String expectedResult = "\"3,000\"";
+    assertEquals(expectedResult, result);
+  }
 
-    @Test
-    public void serializeRawNotFormattedInteger() throws Exception {
-      //given
-      Locale.setDefault(Locale.ENGLISH);
-      int intNumber = 3000;
-      PropertySerialization serialization = serializationResolver.resolveSerialization(Integer.class, getFieldsAnnotations("rawInteger"));
+  @Test
+  public void serializeRawNotFormattedInteger() throws Exception {
+    //given
+    Locale.setDefault(Locale.ENGLISH);
+    int intNumber = 3000;
+    PropertySerialization serialization = serializationResolver.resolveSerialization(Integer.class, getFieldsAnnotations("rawInteger"));
 
-      //when
-      String result = fastSerializer.serializeObject(intNumber, serialization);
+    //when
+    String result = fastSerializer.serializeObject(intNumber, serialization);
 
-      //then
-      String expectedResult = "3000";
-      assertEquals(expectedResult, result);
-    }
+    //then
+    String expectedResult = "3000";
+    assertEquals(expectedResult, result);
+  }
+
+  @Test
+  public void serializeRawFormattedLong() throws Exception {
+    //given
+    Locale.setDefault(Locale.ENGLISH);
+    Long longNumber = 30000000L;
+    PropertySerialization serialization = serializationResolver.resolveSerialization(Long.class, getFieldsAnnotations("rawCustomFormatLong"));
+
+    //when
+    String result = fastSerializer.serializeObject(longNumber, serialization);
+
+    //then
+    String expectedResult = "\"000,030,000,000\"";
+    assertEquals(expectedResult, result);
+  }
+
+  @Test
+  public void serializeRawNotFormattedLong() throws Exception {
+    //given
+    Locale.setDefault(Locale.ENGLISH);
+    long longNumber = 3000L;
+    PropertySerialization serialization = serializationResolver.resolveSerialization(long.class, getFieldsAnnotations("rawLong"));
+
+    //when
+    String result = fastSerializer.serializeObject(longNumber, serialization);
+
+    //then
+    String expectedResult = "3000";
+    assertEquals(expectedResult, result);
+  }
 
   @Test
   public void serializeRawArray() throws Exception {

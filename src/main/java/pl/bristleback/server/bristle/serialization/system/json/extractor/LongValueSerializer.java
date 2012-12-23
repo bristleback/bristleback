@@ -4,6 +4,9 @@ import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 /**
  * //@todo class description
  * <p/>
@@ -12,19 +15,22 @@ import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
  * @author Wojciech Niemiec
  */
 @Component
-public class LongValueSerializer implements ValueSerializer<Long> {
+public class LongValueSerializer extends BaseNumberFormattingValueSerializer<Long> {
 
   @Override
   public void init(BristlebackConfig configuration) {
   }
 
   @Override
-  public Long toValue(String valueAsString, PropertySerialization information) {
-    return Long.valueOf(valueAsString);
+  protected NumberFormat createNumberFormatObject(String formatAsString) {
+    DecimalFormat format = new DecimalFormat(formatAsString);
+    format.setParseBigDecimal(false);
+    format.setParseIntegerOnly(true);
+    return format;
   }
 
   @Override
-  public String toText(Long value, PropertySerialization information) {
-    return value.toString();
+  protected Long parseFromNotFormattedText(String valueAsString, PropertySerialization information) {
+    return Long.valueOf(valueAsString);
   }
 }
