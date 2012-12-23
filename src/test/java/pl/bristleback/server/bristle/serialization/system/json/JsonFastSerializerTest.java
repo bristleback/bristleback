@@ -54,6 +54,11 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
   @Serialize(format = "0.0000")
   private BigDecimal rawCustomFormatBigDecimal;
 
+  @Serialize(format = "0.0000")
+  private Double rawCustomFormatDouble;
+
+  private Double rawDouble;
+
   private double[] rawArray;
   private VerySimpleMockBean[] beanArray;
 
@@ -120,6 +125,36 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
 
     //then
     String expectedResult = "\"3.1200\"";
+    assertEquals(expectedResult, result);
+  }
+
+  @Test
+  public void serializeRawFormattedDouble() throws Exception {
+    //given
+    Locale.setDefault(Locale.ENGLISH);
+    double doubleNumber = 3.12;
+    PropertySerialization serialization = serializationResolver.resolveSerialization(Double.class, getFieldsAnnotations("rawCustomFormatDouble"));
+
+    //when
+    String result = fastSerializer.serializeObject(doubleNumber, serialization);
+
+    //then
+    String expectedResult = "\"3.1200\"";
+    assertEquals(expectedResult, result);
+  }
+
+  @Test
+  public void serializeRawNotFormattedDouble() throws Exception {
+    //given
+    Locale.setDefault(Locale.ENGLISH);
+    double doubleNumber = 3.12;
+    PropertySerialization serialization = serializationResolver.resolveSerialization(Double.class, getFieldsAnnotations("rawDouble"));
+
+    //when
+    String result = fastSerializer.serializeObject(doubleNumber, serialization);
+
+    //then
+    String expectedResult = "3.12";
     assertEquals(expectedResult, result);
   }
 

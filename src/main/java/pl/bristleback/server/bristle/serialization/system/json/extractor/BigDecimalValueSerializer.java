@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.serialization.system.json.extractor;
 
-import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
@@ -25,31 +24,14 @@ public class BigDecimalValueSerializer extends BaseNumberFormattingValueSerializ
   }
 
   @Override
-  public Object prepareFormatHolder(final String formatAsString) {
-    return new ThreadLocal<NumberFormat>() {
-      @Override
-      protected NumberFormat initialValue() {
-        DecimalFormat format = new DecimalFormat(formatAsString);
-        format.setParseBigDecimal(true);
-        return format;
-      }
-    };
-  }
-
-  @Override
-  public BigDecimal toValue(String valueAsString, PropertySerialization information) throws Exception {
-    if (information.getConstraints().isFormatted()) {
-      return (BigDecimal) getFormat(information.getConstraints()).parse(valueAsString);
-    }
+  protected BigDecimal parseFromNotFormattedText(String valueAsString, PropertySerialization information) {
     String processedValue = valueAsString.replace(StringUtils.COMMA, StringUtils.DOT);
     return new BigDecimal(processedValue);
   }
 
-  @Override
-  public String toText(BigDecimal value, PropertySerialization information) {
-    if (information.getConstraints().isFormatted()) {
-      return JSONObject.quote(getFormat(information.getConstraints()).format(value));
-    }
-    return value.toString();
+  protected NumberFormat createNumberFormatObject(String formatAsString) {
+    DecimalFormat format = new DecimalFormat(formatAsString);
+    format.setParseBigDecimal(true);
+    return format;
   }
 }

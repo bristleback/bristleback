@@ -5,6 +5,9 @@ import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
 import pl.bristleback.server.bristle.utils.StringUtils;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 /**
  * //@todo class description
  * <p/>
@@ -13,20 +16,22 @@ import pl.bristleback.server.bristle.utils.StringUtils;
  * @author Wojciech Niemiec
  */
 @Component
-public class DoubleValueSerializer implements ValueSerializer<Double> {
+public class DoubleValueSerializer extends BaseNumberFormattingValueSerializer<Double> {
 
   @Override
   public void init(BristlebackConfig configuration) {
   }
 
   @Override
-  public Double toValue(String valueAsString, PropertySerialization information) throws Exception {
+  protected Double parseFromNotFormattedText(String valueAsString, PropertySerialization information) {
     String processedValue = valueAsString.replace(StringUtils.COMMA, StringUtils.DOT);
     return Double.parseDouble(processedValue);
   }
 
   @Override
-  public String toText(Double value, PropertySerialization information) {
-    return value.toString();
+  protected NumberFormat createNumberFormatObject(String formatAsString) {
+    DecimalFormat format = new DecimalFormat(formatAsString);
+    format.setParseBigDecimal(false);
+    return format;
   }
 }
