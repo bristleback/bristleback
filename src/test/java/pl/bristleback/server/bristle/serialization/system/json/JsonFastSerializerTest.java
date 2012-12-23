@@ -59,6 +59,11 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
 
   private Double rawDouble;
 
+  @Serialize(format = "0,000")
+    private int rawCustomFormatInteger;
+
+    private int rawInteger;
+
   private double[] rawArray;
   private VerySimpleMockBean[] beanArray;
 
@@ -157,6 +162,36 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
     String expectedResult = "3.12";
     assertEquals(expectedResult, result);
   }
+
+  @Test
+    public void serializeRawFormattedInteger() throws Exception {
+      //given
+      Locale.setDefault(Locale.ENGLISH);
+      int intNumber = 3000;
+      PropertySerialization serialization = serializationResolver.resolveSerialization(Integer.class, getFieldsAnnotations("rawCustomFormatInteger"));
+
+      //when
+      String result = fastSerializer.serializeObject(intNumber, serialization);
+
+      //then
+      String expectedResult = "\"3,000\"";
+      assertEquals(expectedResult, result);
+    }
+
+    @Test
+    public void serializeRawNotFormattedInteger() throws Exception {
+      //given
+      Locale.setDefault(Locale.ENGLISH);
+      int intNumber = 3000;
+      PropertySerialization serialization = serializationResolver.resolveSerialization(Integer.class, getFieldsAnnotations("rawInteger"));
+
+      //when
+      String result = fastSerializer.serializeObject(intNumber, serialization);
+
+      //then
+      String expectedResult = "3000";
+      assertEquals(expectedResult, result);
+    }
 
   @Test
   public void serializeRawArray() throws Exception {

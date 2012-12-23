@@ -61,10 +61,15 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
   private Date rawCustomFormatDate;
 
   @Serialize(format = "0.0000")
-    private BigDecimal rawCustomFormatBigDecimal;
+  private BigDecimal rawCustomFormatBigDecimal;
 
   @Serialize(format = "0.0000")
-    private Double rawCustomFormatDouble;
+  private Double rawCustomFormatDouble;
+
+  @Serialize(format = "000,000")
+  private int rawCustomFormatInteger;
+
+  private Integer rawInteger;
 
   private double[] rawArray;
   private Double[] rawObjectArray;
@@ -177,18 +182,48 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
   }
 
   @Test
-    public void deserializeDoubleCustomFormatValue() throws Exception {
+  public void deserializeDoubleCustomFormatValue() throws Exception {
+    //given
+    Locale.setDefault(Locale.ENGLISH);
+    String serializedForm = "332.221";
+    Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerTest.class, "rawCustomFormatDouble");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(type, getFieldsAnnotations("rawCustomFormatDouble"));
+
+    //when
+    Object deserialized = deserializer.deserialize(serializedForm, serialization);
+
+    //then
+    assertEquals(new Double(serializedForm), deserialized);
+  }
+
+  @Test
+  public void deserializeIntegerCustomFormatValue() throws Exception {
+    //given
+    Locale.setDefault(Locale.ENGLISH);
+    String serializedForm = "332,221";
+    Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerTest.class, "rawCustomFormatInteger");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(type, getFieldsAnnotations("rawCustomFormatInteger"));
+
+    //when
+    Object deserialized = deserializer.deserialize(serializedForm, serialization);
+
+    //then
+    assertEquals(332221, deserialized);
+  }
+
+  @Test
+    public void deserializeIntegerNotFormattedValue() throws Exception {
       //given
       Locale.setDefault(Locale.ENGLISH);
-      String serializedForm = "332.221";
-      Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerTest.class, "rawCustomFormatDouble");
-      PropertySerialization serialization = serializationResolver.resolveSerialization(type, getFieldsAnnotations("rawCustomFormatDouble"));
+      String serializedForm = "332221";
+      Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerTest.class, "rawInteger");
+      PropertySerialization serialization = serializationResolver.resolveSerialization(type, getFieldsAnnotations("rawInteger"));
 
       //when
       Object deserialized = deserializer.deserialize(serializedForm, serialization);
 
       //then
-      assertEquals(new Double(serializedForm), deserialized);
+      assertEquals(332221, deserialized);
     }
 
   @Test

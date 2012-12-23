@@ -4,6 +4,10 @@ import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+
 /**
  * //@todo class description
  * <p/>
@@ -12,19 +16,27 @@ import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
  * @author Wojciech Niemiec
  */
 @Component
-public class IntegerValueSerializer implements ValueSerializer<Integer> {
+public class IntegerValueSerializer extends BaseNumberFormattingValueSerializer<Integer> {
 
   @Override
   public void init(BristlebackConfig configuration) {
 
   }
 
-  public Integer toValue(String value, PropertySerialization information) throws Exception {
-    return Integer.parseInt(value);
+  protected Integer parseFromFormattedString(String valueAsString, PropertySerialization information) throws ParseException {
+    return getFormat(information.getConstraints()).parse(valueAsString).intValue();
   }
 
   @Override
-  public String toText(Integer value, PropertySerialization information) {
-    return value.toString();
+  protected NumberFormat createNumberFormatObject(String formatAsString) {
+    DecimalFormat format = new DecimalFormat(formatAsString);
+    format.setParseBigDecimal(false);
+    format.setParseIntegerOnly(true);
+    return format;
+  }
+
+  @Override
+  protected Integer parseFromNotFormattedText(String valueAsString, PropertySerialization information) {
+    return Integer.parseInt(valueAsString);
   }
 }

@@ -52,7 +52,7 @@ public abstract class BaseNumberFormattingValueSerializer<T extends Number> impl
   }
 
   @SuppressWarnings("unchecked")
-  private NumberFormat getFormat(PropertySerializationConstraints constraints) {
+  protected NumberFormat getFormat(PropertySerializationConstraints constraints) {
     return ((ThreadLocal<NumberFormat>) constraints.getFormatHolder()).get();
   }
 }
