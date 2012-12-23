@@ -1,11 +1,16 @@
 package pl.bristleback.server.bristle.utils;
 
 import pl.bristleback.server.bristle.exceptions.BristleInitializationException;
+import pl.bristleback.server.bristle.exceptions.SerializationResolvingException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 /**
@@ -51,6 +56,8 @@ public final class ReflectionUtils {
 
   public static Type[] getParameterTypes(Class implementation, Class parametrizedInterface) {
     Type genericInterface = null;
+    List<Class> classesStack = new LinkedList<Class>();
+    classesStack.add(implementation);
     while (genericInterface == null) {
       genericInterface = findGenericInterface(implementation, parametrizedInterface);
       if (implementation == Object.class && genericInterface == null) {
@@ -58,12 +65,43 @@ public final class ReflectionUtils {
       }
       if (implementation != Object.class) {
         implementation = implementation.getSuperclass();
+        classesStack.add(implementation);
       }
     }
     if (genericInterface instanceof ParameterizedType) {
-      return ((ParameterizedType) (genericInterface)).getActualTypeArguments();
+      return findRealTypeArguments(genericInterface, classesStack);
     }
     throw new IllegalArgumentException("Interface " + parametrizedInterface.getSimpleName() + " is not parametrized");
+  }
+
+  private static Type[] findRealTypeArguments(Type genericInterface, List<Class> classesStack) {
+    Type[] interfaceTypeArguments = ((ParameterizedType) (genericInterface)).getActualTypeArguments();
+    Type[] realTypeArguments = new Type[interfaceTypeArguments.length];
+    for (int i = 0; i < interfaceTypeArguments.length; i++) {
+      Type interfaceTypeArgument = interfaceTypeArguments[i];
+      if (interfaceTypeArgument instanceof TypeVariable) {
+        realTypeArguments[i] = extractRealTypeFromTypeVariable(classesStack, (TypeVariable) interfaceTypeArgument);
+      } else {
+        realTypeArguments[i] = interfaceTypeArgument;
+      }
+    }
+    return realTypeArguments;
+  }
+
+  private static Type extractRealTypeFromTypeVariable(List<Class> classesStack, TypeVariable interfaceTypeArgument) {
+    String name = interfaceTypeArgument.getName();
+    for (ListIterator<Class> iterator = classesStack.listIterator(classesStack.size()); iterator.hasPrevious();) {
+      Class clazz = iterator.previous();
+      for (int j = 0; j < clazz.getTypeParameters().length; j++) {
+        TypeVariable typeVariableFromClass = clazz.getTypeParameters()[j];
+        if (name.equals(typeVariableFromClass.getName())) {
+          Class childClass = iterator.previous();
+          ParameterizedType genericSuperClassType = (ParameterizedType) childClass.getGenericSuperclass();
+          return genericSuperClassType.getActualTypeArguments()[j];
+        }
+      }
+    }
+    throw new SerializationResolvingException("Could not extract real type from type variable");
   }
 
   private static Type findGenericInterface(Class<?> implementation, Class<?> parametrizedInterface) {

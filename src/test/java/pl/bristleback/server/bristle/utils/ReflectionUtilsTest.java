@@ -46,14 +46,13 @@ public class ReflectionUtilsTest {
     assertEquals(RuntimeException.class, parameterTypes[0]);
   }
 
-  /*@Test*/ //todo-wojtek fix it
-
+  @Test
   public void getParameterTypesCorrectlySubclassImplementationWithTypedAbstractClass() {
     //when
     Type[] parameterTypes = ReflectionUtils.getParameterTypes(SubExceptionHandler2.class, ActionExceptionHandler.class);
 
     //then
-    assertEquals(RuntimeException.class, parameterTypes[0]);
+    assertEquals(IllegalAccessException.class, parameterTypes[0]);
   }
 
   @Test

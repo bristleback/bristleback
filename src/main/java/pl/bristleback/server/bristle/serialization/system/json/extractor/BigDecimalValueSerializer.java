@@ -4,7 +4,6 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
-import pl.bristleback.server.bristle.serialization.system.PropertySerializationConstraints;
 import pl.bristleback.server.bristle.utils.StringUtils;
 
 import java.math.BigDecimal;
@@ -19,7 +18,7 @@ import java.text.NumberFormat;
  * @author Wojciech Niemiec
  */
 @Component
-public class BigDecimalValueSerializer implements FormattingValueSerializer<BigDecimal> {
+public class BigDecimalValueSerializer extends BaseNumberFormattingValueSerializer<BigDecimal> {
 
   @Override
   public void init(BristlebackConfig configuration) {
@@ -52,10 +51,5 @@ public class BigDecimalValueSerializer implements FormattingValueSerializer<BigD
       return JSONObject.quote(getFormat(information.getConstraints()).format(value));
     }
     return value.toString();
-  }
-
-  @SuppressWarnings("unchecked")
-  private NumberFormat getFormat(PropertySerializationConstraints constraints) {
-    return ((ThreadLocal<NumberFormat>) constraints.getFormatHolder()).get();
   }
 }
