@@ -23,6 +23,7 @@ import javax.inject.Inject;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -62,6 +63,9 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
 
   @Serialize(format = "0.0000")
   private BigDecimal rawCustomFormatBigDecimal;
+
+  @Serialize(format = "000,000,000,000")
+  private BigInteger rawCustomFormatBigInteger;
 
   @Serialize(format = "0.0000")
   private Double rawCustomFormatDouble;
@@ -184,6 +188,21 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
 
     //then
     assertEquals(new BigDecimal(serializedForm), deserialized);
+  }
+
+  @Test
+  public void deserializeBigIntegerCustomFormatValue() throws Exception {
+    //given
+    Locale.setDefault(Locale.ENGLISH);
+    String serializedForm = "332,221,233";
+    Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerTest.class, "rawCustomFormatBigInteger");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(type, getFieldsAnnotations("rawCustomFormatBigInteger"));
+
+    //when
+    Object deserialized = deserializer.deserialize(serializedForm, serialization);
+
+    //then
+    assertEquals(new BigInteger("332221233"), deserialized);
   }
 
   @Test

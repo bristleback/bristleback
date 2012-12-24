@@ -4,7 +4,11 @@ import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 
 /**
  * //@todo class description
@@ -14,19 +18,26 @@ import java.math.BigInteger;
  * @author Wojciech Niemiec
  */
 @Component
-public class BigIntegerValueSerializer implements ValueSerializer<BigInteger> {
+public class BigIntegerValueSerializer extends BaseNumberFormattingValueSerializer<BigInteger> {
 
   @Override
   public void init(BristlebackConfig configuration) {
   }
 
-  @Override
-  public BigInteger toValue(String valueAsString, PropertySerialization information) {
-    return new BigInteger(valueAsString);
+  protected BigInteger parseFromFormattedString(String valueAsString, PropertySerialization information) throws ParseException {
+    return ((BigDecimal) getFormat(information.getConstraints()).parse(valueAsString)).toBigInteger();
   }
 
   @Override
-  public String toText(BigInteger value, PropertySerialization information) {
-    return value.toString();
+  protected NumberFormat createNumberFormatObject(String formatAsString) {
+    DecimalFormat format = new DecimalFormat(formatAsString);
+    format.setParseBigDecimal(true);
+    format.setParseIntegerOnly(true);
+    return format;
+  }
+
+  @Override
+  protected BigInteger parseFromNotFormattedText(String valueAsString, PropertySerialization information) {
+    return new BigInteger(valueAsString);
   }
 }

@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -53,6 +54,9 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
 
   @Serialize(format = "0.0000")
   private BigDecimal rawCustomFormatBigDecimal;
+
+  @Serialize(format = "###,###,000,000,000,000,000")
+  private BigDecimal rawCustomFormatBigInteger;
 
   @Serialize(format = "0.0000")
   private Double rawCustomFormatDouble;
@@ -135,6 +139,21 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
 
     //then
     String expectedResult = "\"3.1200\"";
+    assertEquals(expectedResult, result);
+  }
+
+  @Test
+  public void serializeRawFormattedBigInteger() throws Exception {
+    //given
+    Locale.setDefault(Locale.ENGLISH);
+    BigInteger number = new BigInteger("77383793873897398");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(BigInteger.class, getFieldsAnnotations("rawCustomFormatBigInteger"));
+
+    //when
+    String result = fastSerializer.serializeObject(number, serialization);
+
+    //then
+    String expectedResult = "\"77,383,793,873,897,398\"";
     assertEquals(expectedResult, result);
   }
 
