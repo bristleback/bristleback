@@ -81,7 +81,7 @@ public class JsonFastSerializer {
     public String serialize(Object value, PropertySerialization information) throws Exception {
       StringBuilder jsonObjectBuilder = new StringBuilder();
       jsonObjectBuilder.append(StringUtils.LEFT_CURLY);
-      Iterator<PropertyAccess> it = information.getChildrenProperties().iterator();
+      Iterator<PropertyAccess> it = information.getReadableProperties().iterator();
       while (it.hasNext()) {
         Getter childGetter = it.next().getPropertyGetter();
         jsonObjectBuilder.append(JSONObject.quote(childGetter.getFieldName())).append(StringUtils.COLON);

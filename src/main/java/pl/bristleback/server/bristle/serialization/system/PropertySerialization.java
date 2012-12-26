@@ -5,7 +5,6 @@ import pl.bristleback.server.bristle.utils.PropertyAccess;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +29,8 @@ public class PropertySerialization {
   private ValueSerializer valueSerializer;
 
   private Map<String, PropertySerialization> propertiesInformation = new HashMap<String, PropertySerialization>();
-  private List<PropertyAccess> childrenProperties = new ArrayList<PropertyAccess>();
+  private List<PropertyAccess> readableProperties;
+  private List<PropertyAccess> writableProperties;
 
   public boolean isParametrized() {
     return genericType != null && genericType instanceof ParameterizedType;
@@ -100,12 +100,20 @@ public class PropertySerialization {
     this.propertyType = propertyType;
   }
 
-  public List<PropertyAccess> getChildrenProperties() {
-    return childrenProperties;
+  public List<PropertyAccess> getReadableProperties() {
+    return readableProperties;
   }
 
-  public void setChildrenProperties(List<PropertyAccess> childrenProperties) {
-    this.childrenProperties = childrenProperties;
+  public void setReadableProperties(List<PropertyAccess> readableProperties) {
+    this.readableProperties = readableProperties;
+  }
+
+  public List<PropertyAccess> getWritableProperties() {
+    return writableProperties;
+  }
+
+  public void setWritableProperties(List<PropertyAccess> writableProperties) {
+    this.writableProperties = writableProperties;
   }
 
   public PropertySerializationConstraints getConstraints() {

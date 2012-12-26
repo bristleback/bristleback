@@ -4,8 +4,8 @@ import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
-import pl.bristleback.server.bristle.serialization.system.PropertyType;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
+import pl.bristleback.server.bristle.serialization.system.PropertyType;
 import pl.bristleback.server.bristle.serialization.system.SerializationException;
 import pl.bristleback.server.bristle.utils.PropertyAccess;
 
@@ -69,7 +69,7 @@ public class JsonFastDeserializer {
     public Object deserializeElement(JSONObject input, PropertySerialization information) throws Exception {
       Object value = createObject(information.getPropertyClass());
 
-      for (PropertyAccess property : information.getChildrenProperties()) {
+      for (PropertyAccess property : information.getWritableProperties()) {
         String propertyName = property.getFieldName();
         PropertySerialization childInformation = information.getPropertySerialization(propertyName);
         Object jsonValue = input.opt(propertyName);

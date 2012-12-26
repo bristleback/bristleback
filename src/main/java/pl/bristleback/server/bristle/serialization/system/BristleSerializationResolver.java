@@ -17,7 +17,6 @@ import pl.bristleback.server.bristle.serialization.system.json.extractor.EnumSer
 import pl.bristleback.server.bristle.serialization.system.json.extractor.FormattingValueSerializer;
 import pl.bristleback.server.bristle.serialization.system.json.extractor.ValueProcessorsResolver;
 import pl.bristleback.server.bristle.serialization.system.json.extractor.ValueSerializer;
-import pl.bristleback.server.bristle.utils.Getter;
 import pl.bristleback.server.bristle.utils.PropertyAccess;
 import pl.bristleback.server.bristle.utils.PropertyUtils;
 import pl.bristleback.server.bristle.utils.ReflectionUtils;
@@ -204,7 +203,7 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
     if (propertyInput != null) {
       PropertySerializationConstraints constraints = serialization.getConstraints();
       constraints.setRequired(propertyInput.isRequired());
-      if (isValueSerializerAbleToFormatData(propertyInput,serialization)) {
+      if (isValueSerializerAbleToFormatData(propertyInput, serialization)) {
         FormattingValueSerializer formattingValueSerializer = (FormattingValueSerializer) serialization.getValueSerializer();
         constraints.setFormatHolder(formattingValueSerializer.prepareFormatHolder(propertyInput.getFormat()));
       }
@@ -261,12 +260,12 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
 
   private PropertySerialization createBeanObjectSerialization(PropertySerialization propertySerialization, SerializationInput input) {
     propertySerialization.setPropertyType(PropertyType.BEAN);
-    List<PropertyAccess> properties = PropertyUtils.getClassProperties(propertySerialization.getPropertyClass(), true);
-    propertySerialization.setChildrenProperties(properties);
+    List<PropertyAccess> properties = setChildrenProperties(propertySerialization);
+
     Iterator<PropertyAccess> iterator = properties.iterator();
     while (iterator.hasNext()) {
       PropertyAccess property = iterator.next();
-      Type childType = resolveChildType(input, propertySerialization, property.getPropertyGetter());
+      Type childType = resolveChildType(input, propertySerialization, property.getPropertyField());
       SerializationInput childInput = resolveChildInput(input, property);
       PropertySerialization childPropertySerialization = doResolveSerialization(propertySerialization, childType, childInput);
       if (childPropertySerialization == null) {
@@ -278,12 +277,29 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
     return propertySerialization;
   }
 
-  private Type resolveChildType(SerializationInput parentInput, PropertySerialization propertySerialization, Getter propertyGetter) {
-    SerializationInput childInput = parentInput.getNonDefaultProperties().get(propertyGetter.getFieldName());
+  private List<PropertyAccess> setChildrenProperties(PropertySerialization propertySerialization) {
+    List<PropertyAccess> properties = PropertyUtils.getClassProperties(propertySerialization.getPropertyClass(), true);
+    List<PropertyAccess> readableProperties = new ArrayList<PropertyAccess>();
+    List<PropertyAccess> writableProperties = new ArrayList<PropertyAccess>();
+    for (PropertyAccess property : properties) {
+      if (property.isReadable()) {
+        readableProperties.add(property);
+      }
+      if (property.isWritable()) {
+        writableProperties.add(property);
+      }
+    }
+    propertySerialization.setReadableProperties(readableProperties);
+    propertySerialization.setWritableProperties(writableProperties);
+    return properties;
+  }
+
+  private Type resolveChildType(SerializationInput parentInput, PropertySerialization propertySerialization, Field propertyField) {
+    SerializationInput childInput = parentInput.getNonDefaultProperties().get(propertyField.getName());
     if (childInput != null && childInput.hasSpecifiedType()) {
       return resolveType(propertySerialization, childInput.getPropertyInformation().getType());
     }
-    Type genericReturnType = propertyGetter.getGenericReturnType();
+    Type genericReturnType = propertyField.getGenericType();
     return resolveType(propertySerialization, genericReturnType);
   }
 

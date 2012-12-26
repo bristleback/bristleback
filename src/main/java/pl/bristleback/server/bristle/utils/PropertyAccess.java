@@ -15,10 +15,8 @@ public class PropertyAccess {
   private Getter propertyGetter;
   private Setter propertySetter;
 
-  public PropertyAccess(Field propertyField, Getter propertyGetter, Setter propertySetter) {
+  public PropertyAccess(Field propertyField) {
     this.propertyField = propertyField;
-    this.propertyGetter = propertyGetter;
-    this.propertySetter = propertySetter;
   }
 
   public Field getPropertyField() {
@@ -35,5 +33,21 @@ public class PropertyAccess {
 
   public Setter getPropertySetter() {
     return propertySetter;
+  }
+
+  public void setPropertyGetter(Getter propertyGetter) {
+    this.propertyGetter = propertyGetter;
+  }
+
+  public void setPropertySetter(Setter propertySetter) {
+    this.propertySetter = propertySetter;
+  }
+
+  public boolean isReadable() {
+    return propertyGetter != null;
+  }
+
+  public boolean isWritable() {
+    return propertySetter != null;
   }
 }

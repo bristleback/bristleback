@@ -43,8 +43,10 @@ public final class PropertyUtils {
     for (Field field : fields) {
       Getter getter = getGetter(field.getName(), getters);
       Setter setter = getSetter(field.getName(), setters);
-      if (getter != null && setter != null) {
-        PropertyAccess propertyAccess = new PropertyAccess(field, getter, setter);
+      if (getter != null || setter != null) {
+        PropertyAccess propertyAccess = new PropertyAccess(field);
+        propertyAccess.setPropertyGetter(getter);
+        propertyAccess.setPropertySetter(setter);
         classProperties.add(propertyAccess);
       }
 

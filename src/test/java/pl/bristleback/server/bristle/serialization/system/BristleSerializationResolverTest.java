@@ -125,7 +125,8 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
     assertEquals(MockBean.class, beanSerialization.getPropertyClass());
     assertNotNull(beanSerialization.getPropertySerialization(MockBean.RAW_DOUBLE_PROPERTY));
     assertEquals(DoubleValueSerializer.class, beanSerialization.getPropertySerialization(MockBean.RAW_DOUBLE_PROPERTY).getValueSerializer().getClass());
-    assertEquals(MockBean.FIELDS_COUNT, beanSerialization.getChildrenProperties().size());
+    assertEquals(MockBean.FIELDS_COUNT, beanSerialization.getReadableProperties().size());
+    assertEquals(MockBean.FIELDS_COUNT, beanSerialization.getWritableProperties().size());
   }
 
   @Test
@@ -153,7 +154,8 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
     assertNotNull(listElementSerialization);
     assertNull(listElementSerialization.getValueSerializer());
     assertEquals(MockBean.class, listElementSerialization.getPropertyClass());
-    assertEquals(MockBean.FIELDS_COUNT, listElementSerialization.getChildrenProperties().size());
+    assertEquals(MockBean.FIELDS_COUNT, listElementSerialization.getReadableProperties().size());
+    assertEquals(MockBean.FIELDS_COUNT, listElementSerialization.getWritableProperties().size());
   }
 
   @Test
@@ -181,7 +183,8 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
     assertNotNull(listElementSerialization);
     assertNull(listElementSerialization.getValueSerializer());
     assertEquals(MockBean.class, listElementSerialization.getPropertyClass());
-    assertEquals(MockBean.FIELDS_COUNT, listElementSerialization.getChildrenProperties().size());
+    assertEquals(MockBean.FIELDS_COUNT, listElementSerialization.getReadableProperties().size());
+    assertEquals(MockBean.FIELDS_COUNT, listElementSerialization.getWritableProperties().size());
   }
 
   @Test
@@ -209,7 +212,8 @@ public class BristleSerializationResolverTest extends AbstractJUnit4SpringContex
     assertNotNull(listElementSerialization);
     assertNull(listElementSerialization.getValueSerializer());
     assertEquals(MockBean.class, listElementSerialization.getPropertyClass());
-    assertEquals(MockBean.FIELDS_COUNT, listElementSerialization.getChildrenProperties().size());
+    assertEquals(MockBean.FIELDS_COUNT, listElementSerialization.getReadableProperties().size());
+    assertEquals(MockBean.FIELDS_COUNT, listElementSerialization.getWritableProperties().size());
   }
 
   @Test
