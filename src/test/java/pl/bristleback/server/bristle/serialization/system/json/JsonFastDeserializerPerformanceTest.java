@@ -29,6 +29,7 @@ import java.util.Map;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/test-context.xml"})
+@Ignore
 public class JsonFastDeserializerPerformanceTest extends AbstractJUnit4SpringContextTests {
 
   @Inject
