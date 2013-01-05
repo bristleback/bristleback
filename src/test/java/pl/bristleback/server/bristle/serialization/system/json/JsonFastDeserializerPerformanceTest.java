@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -46,6 +47,8 @@ public class JsonFastDeserializerPerformanceTest extends AbstractJUnit4SpringCon
   private BigDecimal rawCustomFormatBigDecimal;
 
   private Double[] rawObjectArray;
+
+  private List<VerySimpleMockBean> beanCollection;
 
   private Map<String, Long> rawMap;
 
@@ -86,6 +89,16 @@ public class JsonFastDeserializerPerformanceTest extends AbstractJUnit4SpringCon
     PropertySerialization serialization = serializationResolver.resolveSerialization(type);
 
     measurePerformance(serializedForm, serialization, "Double[] array (3 elements)");
+  }
+
+  @Test
+  public void deserializeBeanCollection() throws Exception {
+    //given
+    String serializedForm = "[{\"simpleField\":1},{\"simpleField\":2},{\"simpleField\":3}]";
+    Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerPerformanceTest.class, "beanCollection");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(type);
+
+    measurePerformance(serializedForm, serialization, "List<VerySimpleMockBean> (3 elements)");
   }
 
   @Test
