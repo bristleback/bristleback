@@ -1,8 +1,8 @@
 package pl.bristleback.server.bristle.serialization.system.json.extractor;
 
-import org.json.JSONObject;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
 import pl.bristleback.server.bristle.serialization.system.PropertySerializationConstraints;
+import pl.bristleback.server.bristle.serialization.system.json.converter.JsonTokenizer;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -14,7 +14,7 @@ import java.text.ParseException;
  *
  * @author Wojciech Niemiec
  */
-public abstract class BaseNumberFormattingValueSerializer<T extends Number> implements FormattingValueSerializer<T> {
+public abstract class BaseNumberFormattingValueSerializer<T extends Number> extends BaseRawValueSerializer<T> implements FormattingValueSerializer<T> {
 
   protected abstract NumberFormat createNumberFormatObject(String formatAsString);
 
@@ -31,7 +31,7 @@ public abstract class BaseNumberFormattingValueSerializer<T extends Number> impl
   }
 
   @Override
-  public T toValue(String valueAsString, PropertySerialization information) throws Exception {
+  protected T toValueFromString(String valueAsString, PropertySerialization information) throws ParseException {
     if (information.getConstraints().isFormatted()) {
       return parseFromFormattedString(valueAsString, information);
     }
@@ -46,7 +46,7 @@ public abstract class BaseNumberFormattingValueSerializer<T extends Number> impl
   @Override
   public String toText(T value, PropertySerialization information) {
     if (information.getConstraints().isFormatted()) {
-      return JSONObject.quote(getFormat(information.getConstraints()).format(value));
+      return JsonTokenizer.quote(getFormat(information.getConstraints()).format(value));
     }
     return value.toString();
   }

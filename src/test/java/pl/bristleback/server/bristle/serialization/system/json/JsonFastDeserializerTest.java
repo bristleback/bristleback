@@ -8,8 +8,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pl.bristleback.server.bristle.serialization.system.BristleSerializationResolver;
+import pl.bristleback.server.bristle.serialization.system.DeserializationException;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
-import pl.bristleback.server.bristle.serialization.system.SerializationException;
 import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
 import pl.bristleback.server.bristle.serialization.system.annotation.Property;
 import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;
@@ -35,7 +35,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 
 /**
  * //@todo class description
@@ -47,14 +46,15 @@ import static junit.framework.Assert.fail;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/test-context.xml"})
 public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
+
   private static Logger log = Logger.getLogger(JsonFastDeserializerTest.class.getName());
 
   @Inject
   private SpringMockBeansFactory mockBeansFactory;
 
   private JsonFastDeserializer deserializer;
-  private BristleSerializationResolver serializationResolver;
 
+  private BristleSerializationResolver serializationResolver;
 
   private Long rawPropertyLong;
 
@@ -81,10 +81,15 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
   private long rawLong;
 
   private double[] rawArray;
+
   private Double[] rawObjectArray;
+
+  private String[] rawStringArray;
+
   private VerySimpleMockBean[] beanArray;
 
   private List<Character> rawCollectionChar;
+
   private List<VerySimpleMockBean> beanCollectionChar;
 
   @Bind(properties = @Property(name = "simpleField", required = true))
@@ -99,7 +104,7 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
 
   @Before
   public void setUp() {
-    deserializer = mockBeansFactory.getFrameworkBean("jsonSerializer.fastDeserializer", JsonFastDeserializer.class);
+    deserializer = mockBeansFactory.getFrameworkBean(JsonFastDeserializer.class);
     serializationResolver = mockBeansFactory.getFrameworkBean("system.serializationResolver", BristleSerializationResolver.class);
   }
 
@@ -162,7 +167,7 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
   @Test
   public void deserializeDateCustomFormatValue() throws Exception {
     //given
-    String serializedForm = "1987-08-13 12:38:55";
+    String serializedForm = "\"1987-08-13 12:38:55\"";
     Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerTest.class, "rawCustomFormatDate");
     PropertySerialization serialization = serializationResolver.resolveSerialization(type, getFieldsAnnotations("rawCustomFormatDate"));
 
@@ -171,7 +176,7 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
 
     //then
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-    Date expectedDate = dateFormat.parse(serializedForm);
+    Date expectedDate = dateFormat.parse("1987-08-13 12:38:55");
     assertEquals(expectedDate, deserialized);
   }
 
@@ -194,7 +199,7 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
   public void deserializeBigIntegerCustomFormatValue() throws Exception {
     //given
     Locale.setDefault(Locale.ENGLISH);
-    String serializedForm = "332,221,233";
+    String serializedForm = "\"332,221,233\"";
     Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerTest.class, "rawCustomFormatBigInteger");
     PropertySerialization serialization = serializationResolver.resolveSerialization(type, getFieldsAnnotations("rawCustomFormatBigInteger"));
 
@@ -224,7 +229,7 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
   public void deserializeIntegerCustomFormatValue() throws Exception {
     //given
     Locale.setDefault(Locale.ENGLISH);
-    String serializedForm = "332,221";
+    String serializedForm = "\"332,221\"";
     Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerTest.class, "rawCustomFormatInteger");
     PropertySerialization serialization = serializationResolver.resolveSerialization(type, getFieldsAnnotations("rawCustomFormatInteger"));
 
@@ -254,7 +259,7 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
   public void deserializeLongCustomFormatValue() throws Exception {
     //given
     Locale.setDefault(Locale.ENGLISH);
-    String serializedForm = "332,221";
+    String serializedForm = "\"332,221\"";
     Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerTest.class, "rawCustomFormatLong");
     PropertySerialization serialization = serializationResolver.resolveSerialization(type, getFieldsAnnotations("rawCustomFormatLong"));
 
@@ -313,6 +318,22 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
   }
 
   @Test
+  public void deserializeRawObjectArrayNullContent() throws Exception {
+    //given
+    String serializedForm = "[null]";
+    Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerTest.class, "rawStringArray");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(type);
+
+    //when
+    Object deserialized = deserializer.deserialize(serializedForm, serialization);
+
+    //then
+    assertTrue(deserialized instanceof String[]);
+    String[] deserializedArray = (String[]) deserialized;
+    assertNull(deserializedArray[0]);
+  }
+
+  @Test
   public void deserializeRawCollection() throws Exception {
     //given
     String serializedForm = "[\"a\", \"b\", \"c\"]";
@@ -362,7 +383,7 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
     assertEquals(0, firstElement.getSimpleField());
   }
 
-  @Test
+  @Test(expected = DeserializationException.class)
   public void deserializeBeanCollectionOneEmptyRequired() throws Exception {
     //given
     String serializedForm = "[{},{\"simpleField\":2}]";
@@ -371,20 +392,11 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
     PropertySerialization serialization = serializationResolver
       .resolveSerialization(type, getFieldsAnnotations("beanCollectionCharRequired"));
 
-    try {
-      //when
-      deserializer.deserialize(serializedForm, serialization);
-
-      //then
-      fail("Method should throw SerializationException");
-    } catch (SerializationException e) {
-      PropertySerialization elementSerialization = serialization.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
-      assertEquals(elementSerialization.getPropertySerialization("simpleField"), e.getInformation());
-      assertEquals(SerializationException.Reason.NOT_NULL_VIOLATION, e.getReason());
-    }
+    //when
+    deserializer.deserialize(serializedForm, serialization);
   }
 
-  @Test
+  @Test(expected = DeserializationException.class)
   public void deserializeNotSimpleBeanCollectionOneEmptyRequired() throws Exception {
     //given
     String serializedForm = "[{\"arrayOfBeans\": [{}, {}]}]";
@@ -393,19 +405,8 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
     PropertySerialization serialization = serializationResolver
       .resolveSerialization(type, getFieldsAnnotations("notSimpleBeanCollectionFieldRequired"));
 
-    try {
-      //when
-      deserializer.deserialize(serializedForm, serialization);
-      //then
-      fail("Method should throw SerializationException");
-    } catch (SerializationException e) {
-      PropertySerialization elementSerialization = serialization.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
-      PropertySerialization nestedArraySerialization = elementSerialization.getPropertySerialization("arrayOfBeans");
-      PropertySerialization nestedBeanSerialization = nestedArraySerialization
-        .getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
-      assertEquals(nestedBeanSerialization.getPropertySerialization("property1"), e.getInformation());
-      assertEquals(SerializationException.Reason.NOT_NULL_VIOLATION, e.getReason());
-    }
+    //when
+    deserializer.deserialize(serializedForm, serialization);
   }
 
   @Test

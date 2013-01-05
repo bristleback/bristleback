@@ -22,11 +22,13 @@ import java.util.Map;
  */
 public final class ReflectionUtils {
 
-  private static final Map<Class, Class> PRIMITIVE_TO_WRAPPERS_MAP = new HashMap<Class, Class>();
-  private static final Map<Class, Class> WRAPPERS_TO_PRIMITIVE_MAP = new HashMap<Class, Class>();
-
   public static final int COLLECTION_ELEMENT_PARAMETER_INDEX = 0;
+
   public static final int MAP_ELEMENT_PARAMETER_INDEX = 1;
+
+  private static final Map<Class, Class> PRIMITIVE_TO_WRAPPERS_MAP = new HashMap<Class, Class>();
+
+  private static final Map<Class, Class> WRAPPERS_TO_PRIMITIVE_MAP = new HashMap<Class, Class>();
 
   private ReflectionUtils() {
     throw new UnsupportedOperationException();
@@ -92,16 +94,32 @@ public final class ReflectionUtils {
     String name = interfaceTypeArgument.getName();
     for (ListIterator<Class> iterator = classesStack.listIterator(classesStack.size()); iterator.hasPrevious();) {
       Class clazz = iterator.previous();
-      for (int j = 0; j < clazz.getTypeParameters().length; j++) {
-        TypeVariable typeVariableFromClass = clazz.getTypeParameters()[j];
-        if (name.equals(typeVariableFromClass.getName())) {
-          Class childClass = iterator.previous();
-          ParameterizedType genericSuperClassType = (ParameterizedType) childClass.getGenericSuperclass();
-          return genericSuperClassType.getActualTypeArguments()[j];
-        }
+      Type realType = extractRealTypeFromClass(clazz, iterator, name);
+      if (realType != null) {
+        return realType;
       }
     }
     throw new SerializationResolvingException("Could not extract real type from type variable");
+  }
+
+  private static Type extractRealTypeFromClass(Class clazz, ListIterator<Class> iterator, String name) {
+    for (int j = 0; j < clazz.getTypeParameters().length; j++) {
+      TypeVariable typeVariableFromClass = clazz.getTypeParameters()[j];
+      if (name.equals(typeVariableFromClass.getName())) {
+        return findClassParameterRealType(iterator, j);
+      }
+    }
+    return null;
+  }
+
+  private static Type findClassParameterRealType(ListIterator<Class> iterator, int index) {
+    Class childClass = iterator.previous();
+    ParameterizedType genericSuperClassType = (ParameterizedType) childClass.getGenericSuperclass();
+    Type type = genericSuperClassType.getActualTypeArguments()[index];
+    if (type instanceof TypeVariable) {
+      return extractRealTypeFromClass(childClass, iterator, ((TypeVariable) type).getName());
+    }
+    return type;
   }
 
   private static Type findGenericInterface(Class<?> implementation, Class<?> parametrizedInterface) {

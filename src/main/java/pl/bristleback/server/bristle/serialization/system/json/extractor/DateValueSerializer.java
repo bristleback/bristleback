@@ -1,10 +1,10 @@
 package pl.bristleback.server.bristle.serialization.system.json.extractor;
 
-import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
 import pl.bristleback.server.bristle.serialization.system.PropertySerializationConstraints;
+import pl.bristleback.server.bristle.serialization.system.json.converter.JsonTokenizer;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -18,7 +18,7 @@ import java.util.Date;
  * @author Wojciech Niemiec
  */
 @Component
-public class DateValueSerializer implements FormattingValueSerializer<Date> {
+public class DateValueSerializer extends BaseRawValueSerializer<Date> implements FormattingValueSerializer<Date> {
 
   @Override
   public void init(BristlebackConfig configuration) {
@@ -35,7 +35,7 @@ public class DateValueSerializer implements FormattingValueSerializer<Date> {
   }
 
   @Override
-  public Date toValue(String valueAsString, PropertySerialization information) throws Exception {
+  protected Date toValueFromString(String valueAsString, PropertySerialization information) throws Exception {
     if (information.getConstraints().isFormatted()) {
       return getFormat(information.getConstraints()).parse(valueAsString);
     }
@@ -45,7 +45,7 @@ public class DateValueSerializer implements FormattingValueSerializer<Date> {
   @Override
   public String toText(Date value, PropertySerialization information) {
     if (information.getConstraints().isFormatted()) {
-      return JSONObject.quote(getFormat(information.getConstraints()).format(value));
+      return JsonTokenizer.quote(getFormat(information.getConstraints()).format(value));
     }
     return value.getTime() + "";
   }

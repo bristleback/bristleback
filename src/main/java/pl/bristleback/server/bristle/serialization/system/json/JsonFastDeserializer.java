@@ -1,18 +1,17 @@
 package pl.bristleback.server.bristle.serialization.system.json;
 
 import org.apache.commons.lang.StringUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.stereotype.Component;
+import pl.bristleback.server.bristle.serialization.system.DeserializationException;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
 import pl.bristleback.server.bristle.serialization.system.PropertyType;
-import pl.bristleback.server.bristle.serialization.system.SerializationException;
+import pl.bristleback.server.bristle.serialization.system.json.converter.JsonTokenType;
+import pl.bristleback.server.bristle.serialization.system.json.converter.JsonTokenizer;
 import pl.bristleback.server.bristle.utils.PropertyAccess;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,18 +22,18 @@ import java.util.Map;
  *
  * @author Wojciech Niemiec
  */
-@Component("jsonSerializer.fastDeserializer")
+@Component
 public class JsonFastDeserializer {
 
   private Map<PropertyType, TypeDeserializer> deserializationMap;
 
   public JsonFastDeserializer() {
     deserializationMap = new HashMap<PropertyType, TypeDeserializer>();
-    deserializationMap.put(PropertyType.COLLECTION, new CollectionDeserializer());
-    deserializationMap.put(PropertyType.BEAN, new BeanDeserializer());
-    deserializationMap.put(PropertyType.ARRAY, new ArrayDeserializer());
     deserializationMap.put(PropertyType.MAP, new MapDeserializer());
+    deserializationMap.put(PropertyType.COLLECTION, new CollectionDeserializer());
+    deserializationMap.put(PropertyType.ARRAY, new ArrayDeserializer());
     deserializationMap.put(PropertyType.SIMPLE, new SimpleDeserializer());
+    deserializationMap.put(PropertyType.BEAN, new BeanDeserializer());
   }
 
   public Object deserialize(String serializedObject, PropertySerialization information) throws Exception {
@@ -42,186 +41,183 @@ public class JsonFastDeserializer {
       handleNullValue(information);
       return null;
     }
-    TypeDeserializer rootDeserializer = deserializationMap.get(information.getPropertyType());
-    Object input = rootDeserializer.resolveInput(serializedObject);
-    return rootDeserializer.deserializeElement(input, information);
+    JsonTokenizer tokenizer = new JsonTokenizer(serializedObject);
+    return doDeserialize(tokenizer, information);
+
   }
 
-  private Object doDeserialize(Object input, PropertySerialization information) throws Exception {
+  private Object doDeserialize(JsonTokenizer tokenizer, PropertySerialization information) throws Exception {
     TypeDeserializer rootDeserializer = deserializationMap.get(information.getPropertyType());
-    return rootDeserializer.deserializeElement(input, information);
+    return rootDeserializer.deserializeElement(tokenizer, information);
   }
 
   private void handleNullValue(PropertySerialization propertyInformation) {
     if (propertyInformation.getConstraints().isRequired()) {
-      throw new SerializationException(SerializationException.Reason.NOT_NULL_VIOLATION, propertyInformation);
+      throw new DeserializationException("Required value cannot be null");
     }
   }
 
-  interface TypeDeserializer<T> {
-    Object deserializeElement(T input, PropertySerialization information) throws Exception;
+  interface TypeDeserializer {
 
-    Object resolveInput(String text) throws Exception;
+    Object deserializeElement(JsonTokenizer tokenizer, PropertySerialization information) throws Exception;
+
   }
 
-  private class BeanDeserializer implements TypeDeserializer<JSONObject> {
-    @Override
-    public Object deserializeElement(JSONObject input, PropertySerialization information) throws Exception {
-      Object value = createObject(information.getPropertyClass());
+  abstract class BaseMapDeserializer<T> implements TypeDeserializer {
 
-      for (PropertyAccess property : information.getWritableProperties()) {
-        String propertyName = property.getFieldName();
-        PropertySerialization childInformation = information.getPropertySerialization(propertyName);
-        Object jsonValue = input.opt(propertyName);
-        if (jsonValue == null) {
-          handleNullValue(childInformation);
+    @Override
+    public Object deserializeElement(JsonTokenizer tokenizer, PropertySerialization information) throws Exception {
+      T value = createObject(information);
+
+      JsonTokenType tokenType = tokenizer.nextToken();
+      if (tokenType != JsonTokenType.OBJECT_START) {
+        throw new DeserializationException("Serialized json object must start with '{' character");
+      }
+      int requiredPropertiesCount = 0;
+
+      while (tokenizer.nextToken() == JsonTokenType.PROPERTY_NAME_OR_RAW_VALUE) {
+        String propertyName = tokenizer.getLastTokenValue();
+        PropertySerialization childInformation = getElementSerialization(propertyName, information);
+        if (childInformation != null) {
+          Object child = doDeserialize(tokenizer, childInformation);
+          addChild(value, child, information, propertyName);
+          if (childInformation.getConstraints().isRequired()) {
+            requiredPropertiesCount++;
+          }
         } else {
-          Object childValue = doDeserialize(jsonValue, childInformation);
-          property.getPropertySetter().invokeWithoutCheck(value, childValue);
+          tokenizer.fastForwardValue();
         }
       }
+      if (tokenizer.getLastTokenType() != JsonTokenType.OBJECT_END) {
+        throw new DeserializationException("Serialized json object must end with '}' character");
+      }
+      processRequiredProperties(information, requiredPropertiesCount);
       return value;
     }
 
+    protected abstract void processRequiredProperties(PropertySerialization information, int requiredPropertiesCount);
+
+    protected abstract void addChild(T value, Object child, PropertySerialization parentInformation, String propertyName) throws Exception;
+
+    protected abstract PropertySerialization getElementSerialization(String key, PropertySerialization parent);
+
+    protected abstract T createObject(PropertySerialization information) throws Exception;
+  }
+
+  class BeanDeserializer extends BaseMapDeserializer<Object> {
+
     @Override
-    public Object resolveInput(String text) throws Exception {
-      return new JSONObject(text);
+    protected Object createObject(PropertySerialization information) throws Exception {
+      return information.getPropertyClass().newInstance();
     }
 
-    private Object createObject(Class beanClass) throws Exception {
-      return beanClass.newInstance();
+    @Override
+    protected void addChild(Object value, Object child, PropertySerialization parentInformation, String propertyName) throws Exception {
+      PropertyAccess childAccess = parentInformation.getWritableProperty(propertyName);
+      childAccess.getPropertySetter().invokeWithoutCheck(value, child);
     }
 
     @Override
-    public String toString() {
-      return "Bean serializer";
+    protected PropertySerialization getElementSerialization(String key, PropertySerialization parent) {
+      return parent.getPropertySerialization(key);
+    }
+
+    @Override
+    protected void processRequiredProperties(PropertySerialization information, int requiredPropertiesCount) {
+      if (information.getConstraints().getRequiredChildren() > requiredPropertiesCount) {
+        throw new DeserializationException("Required value cannot be null");
+      }
     }
   }
 
-  private class CollectionDeserializer implements TypeDeserializer<JSONArray> {
+  class MapDeserializer extends BaseMapDeserializer<Map<String, Object>> {
 
     @Override
-    public Object deserializeElement(JSONArray input, PropertySerialization information) throws Exception {
-      List list = new ArrayList();
+    protected Map<String, Object> createObject(PropertySerialization information) throws Exception {
+      return new HashMap<String, Object>();
+    }
+
+    @Override
+    protected void addChild(Map<String, Object> value, Object child, PropertySerialization parentInformation, String propertyName) throws Exception {
+      value.put(propertyName, child);
+    }
+
+    @Override
+    protected void processRequiredProperties(PropertySerialization information, int requiredPropertiesCount) {
+    }
+
+    protected PropertySerialization getElementSerialization(String key, PropertySerialization parent) {
+      PropertySerialization defaultElementInformation = parent.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
+      if (parent.getPropertiesInformation().size() == 1) {
+        return defaultElementInformation;
+      }
+      if (parent.containsPropertySerialization(key)) {
+        return parent.getPropertySerialization(key);
+      }
+      return defaultElementInformation;
+    }
+  }
+
+  class SimpleDeserializer implements TypeDeserializer {
+
+    @Override
+    public Object deserializeElement(JsonTokenizer tokenizer, PropertySerialization information) throws Exception {
+      return information.getValueSerializer().toValue(tokenizer, information);
+    }
+  }
+
+  class ArrayDeserializer extends CollectionDeserializer implements TypeDeserializer {
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Object deserializeElement(JsonTokenizer tokenizer, PropertySerialization information) throws Exception {
+      List<Object> arrayAsList = (List<Object>) super.deserializeElement(tokenizer, information);
+
       PropertySerialization elementInformation = information.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
-      for (int i = 0; i < input.length(); i++) {
-        Object element = doDeserialize(input.get(i), elementInformation);
-        list.add(element);
-      }
-
-      return list;
-    }
-
-    @Override
-    public JSONArray resolveInput(String text) throws Exception {
-      return new JSONArray(text);
-    }
-
-    @Override
-    public String toString() {
-      return "Collection serializer";
-    }
-  }
-
-  private class MapDeserializer implements TypeDeserializer<JSONObject> {
-
-    @Override
-    public Object deserializeElement(JSONObject input, PropertySerialization information) throws Exception {
-      Map<String, Object> map = new HashMap<String, Object>();
-      PropertySerialization defaultElementInformation = information.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
-      Iterator keys = input.keys();
-      String key;
-      Object value;
-      while (keys.hasNext()) {
-        key = (String) keys.next();
-        value = input.get(key);
-        if (value == null) {
-          continue;
-        }
-        PropertySerialization elementInformation = getMapElementSerialization(key, information, defaultElementInformation);
-        Object element = doDeserialize(value, elementInformation);
-        map.put(key, element);
-      }
-
-      return map;
-    }
-
-    private PropertySerialization getMapElementSerialization(String key, PropertySerialization mapInformation, PropertySerialization baseElementInformation) {
-      if (mapInformation.getPropertiesInformation().size() == 1) {
-        return baseElementInformation;
-      }
-      if (mapInformation.containsPropertySerialization(key)) {
-        return mapInformation.getPropertySerialization(key);
-      }
-      return baseElementInformation;
-    }
-
-    @Override
-    public JSONObject resolveInput(String text) throws Exception {
-      return new JSONObject(text);
-    }
-
-    @Override
-    public String toString() {
-      return "Map serializer";
-    }
-  }
-
-  private class ArrayDeserializer implements TypeDeserializer<JSONArray> {
-
-    @Override
-    public Object deserializeElement(JSONArray input, PropertySerialization information) throws Exception {
-      PropertySerialization elementInformation = information.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
+      Object array = Array.newInstance(elementInformation.getPropertyClass(), arrayAsList.size());
       boolean primitiveType = elementInformation.getPropertyClass().isPrimitive();
-      Object array = Array.newInstance(elementInformation.getPropertyClass(), input.length());
       if (primitiveType) {
-        processPrimitiveArray(input, array, elementInformation);
+        addElementsToPrimitiveArray(array, arrayAsList);
       } else {
-        processObjectArray(input, (Object[]) array, elementInformation);
+        addElementsToObjectArray((Object[]) array, arrayAsList);
       }
-
       return array;
     }
 
-    private void processObjectArray(JSONArray input, Object[] objects, PropertySerialization elementInformation) throws Exception {
-      for (int i = 0; i < objects.length; i++) {
-        objects[i] = doDeserialize(input.get(i), elementInformation);
-      }
+    private void addElementsToObjectArray(Object[] array, List<Object> arrayAsList) {
+      arrayAsList.toArray(array);
     }
 
-    private void processPrimitiveArray(JSONArray input, Object array, PropertySerialization elementInformation) throws Exception {
-      int length = input.length();
+    private void addElementsToPrimitiveArray(Object array, List<Object> arrayAsList) {
+      int length = arrayAsList.size();
       for (int i = 0; i < length; i++) {
-        Object elementValue = doDeserialize(input.get(i), elementInformation);
-        Array.set(array, i, elementValue);
+        Array.set(array, i, arrayAsList.get(i));
       }
-    }
-
-    @Override
-    public JSONArray resolveInput(String text) throws Exception {
-      return new JSONArray(text);
-    }
-
-    @Override
-    public String toString() {
-      return "Array serializer";
     }
   }
 
-  private class SimpleDeserializer implements TypeDeserializer<Object> {
-    @Override
-    public Object deserializeElement(Object input, PropertySerialization information) throws Exception {
-      return information.getValueSerializer().toValue(input.toString(), information);
-    }
+  class CollectionDeserializer implements TypeDeserializer {
 
     @Override
-    public Object resolveInput(String text) throws Exception {
-      return text;
-    }
+    public Object deserializeElement(JsonTokenizer tokenizer, PropertySerialization information) throws Exception {
+      List<Object> list = new ArrayList<Object>();
 
-    @Override
-    public String toString() {
-      return "Simple field serializer";
+      PropertySerialization elementInformation = information.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
+      JsonTokenType tokenType = tokenizer.nextToken();
+      if (tokenType != JsonTokenType.ARRAY_START) {
+        throw new DeserializationException("Serialized json array must start with '[' character");
+      }
+
+      while (tokenizer.nextToken() != JsonTokenType.ARRAY_END) {
+        if (tokenizer.getLastTokenType() == JsonTokenType.END_OF_JSON) {
+          throw new DeserializationException("Serialized json array must end with ']' character");
+        }
+        tokenizer.setNextReadRepeatedFromLast();
+        Object child = doDeserialize(tokenizer, elementInformation);
+        list.add(child);
+      }
+
+      return list;
     }
   }
 }

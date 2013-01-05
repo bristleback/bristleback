@@ -12,14 +12,14 @@ import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
  * @author Wojciech Niemiec
  */
 @Component
-public class BooleanValueSerializer implements ValueSerializer<Boolean> {
+public class BooleanValueSerializer extends BaseRawValueSerializer<Boolean> {
 
   @Override
   public void init(BristlebackConfig configuration) {
   }
 
   @Override
-  public Boolean toValue(String valueAsString, PropertySerialization
+  public Boolean toValueFromString(String valueAsString, PropertySerialization
     information) throws Exception {
     return Boolean.valueOf(valueAsString);
   }

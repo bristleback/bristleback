@@ -1,9 +1,9 @@
 package pl.bristleback.server.bristle.serialization.system.json;
 
-import org.json.JSONObject;
 import org.springframework.stereotype.Component;
-import pl.bristleback.server.bristle.serialization.system.PropertyType;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
+import pl.bristleback.server.bristle.serialization.system.PropertyType;
+import pl.bristleback.server.bristle.serialization.system.json.converter.JsonTokenizer;
 import pl.bristleback.server.bristle.utils.Getter;
 import pl.bristleback.server.bristle.utils.PropertyAccess;
 import pl.bristleback.server.bristle.utils.StringUtils;
@@ -27,9 +27,7 @@ public class JsonFastSerializer {
   private static final String EMPTY_JSON_ARRAY = StringUtils.LEFT_BRACKET + "" + StringUtils.RIGHT_BRACKET;
   private static final String EMPTY_JSON_OBJECT = StringUtils.LEFT_CURLY + "" + StringUtils.RIGHT_CURLY;
   private static final String NULL_OBJECT = "null";
-
   private Map<PropertyType, TypeSerializer> serializationMap;
-
 
   public JsonFastSerializer() {
     serializationMap = new HashMap<PropertyType, TypeSerializer>();
@@ -81,10 +79,10 @@ public class JsonFastSerializer {
     public String serialize(Object value, PropertySerialization information) throws Exception {
       StringBuilder jsonObjectBuilder = new StringBuilder();
       jsonObjectBuilder.append(StringUtils.LEFT_CURLY);
-      Iterator<PropertyAccess> it = information.getReadableProperties().iterator();
+      Iterator<PropertyAccess> it = information.getReadableProperties().values().iterator();
       while (it.hasNext()) {
         Getter childGetter = it.next().getPropertyGetter();
-        jsonObjectBuilder.append(JSONObject.quote(childGetter.getFieldName())).append(StringUtils.COLON);
+        jsonObjectBuilder.append(JsonTokenizer.quotePropertyName(childGetter.getFieldName())).append(StringUtils.COLON);
         PropertySerialization childInformation = information.getPropertySerialization(childGetter.getFieldName());
         Object childValue = childGetter.invokeWithoutCheck(value);
         jsonObjectBuilder.append(serializeObject(childValue, childInformation));
@@ -160,7 +158,7 @@ public class JsonFastSerializer {
       PropertySerialization defaultElementInformation = information.getPropertySerialization(PropertySerialization.CONTAINER_ELEMENT_PROPERTY_NAME);
       while (it.hasNext()) {
         Map.Entry<?, ?> entry = it.next();
-        jsonObjectBuilder.append(JSONObject.quote(entry.getKey().toString())).append(StringUtils.COLON);
+        jsonObjectBuilder.append(JsonTokenizer.quotePropertyName(entry.getKey().toString())).append(StringUtils.COLON);
         PropertySerialization elementSerialization = getMapElementSerialization((String) entry.getKey(), information, defaultElementInformation);
         String serializedEntryValue = serializeObject(entry.getValue(), elementSerialization);
         jsonObjectBuilder.append(serializedEntryValue);

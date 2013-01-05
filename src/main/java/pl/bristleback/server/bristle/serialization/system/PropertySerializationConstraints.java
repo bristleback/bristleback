@@ -10,6 +10,7 @@ package pl.bristleback.server.bristle.serialization.system;
 public class PropertySerializationConstraints {
 
   private boolean required;
+  private int requiredChildren;
   private boolean detailedErrors;
   private Object formatHolder;
 
@@ -39,5 +40,13 @@ public class PropertySerializationConstraints {
 
   public void setFormatHolder(Object formatHolder) {
     this.formatHolder = formatHolder;
+  }
+
+  public int getRequiredChildren() {
+    return requiredChildren;
+  }
+
+  public void setRequiredChildren(int requiredChildren) {
+    this.requiredChildren = requiredChildren;
   }
 }

@@ -32,7 +32,6 @@ import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +44,7 @@ import java.util.Map;
  */
 @Component("system.serializationResolver")
 public class BristleSerializationResolver implements SerializationResolver<PropertySerialization> {
+
   private static Logger log = Logger.getLogger(BristleSerializationResolver.class.getName());
 
   @Inject
@@ -262,31 +262,35 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
     propertySerialization.setPropertyType(PropertyType.BEAN);
     List<PropertyAccess> properties = setChildrenProperties(propertySerialization);
 
-    Iterator<PropertyAccess> iterator = properties.iterator();
-    while (iterator.hasNext()) {
-      PropertyAccess property = iterator.next();
+    int requiredChildren = 0;
+    for (PropertyAccess property : properties) {
       Type childType = resolveChildType(input, propertySerialization, property.getPropertyField());
       SerializationInput childInput = resolveChildInput(input, property);
       PropertySerialization childPropertySerialization = doResolveSerialization(propertySerialization, childType, childInput);
       if (childPropertySerialization == null) {
-        iterator.remove();
+        propertySerialization.getReadableProperties().remove(property.getFieldName());
+        propertySerialization.getWritableProperties().remove(property.getFieldName());
       } else {
         propertySerialization.addSerializedProperty(property.getFieldName(), childPropertySerialization);
+        if (childPropertySerialization.getConstraints().isRequired()) {
+          requiredChildren++;
+        }
       }
     }
+    propertySerialization.getConstraints().setRequiredChildren(requiredChildren);
     return propertySerialization;
   }
 
   private List<PropertyAccess> setChildrenProperties(PropertySerialization propertySerialization) {
     List<PropertyAccess> properties = PropertyUtils.getClassProperties(propertySerialization.getPropertyClass(), true);
-    List<PropertyAccess> readableProperties = new ArrayList<PropertyAccess>();
-    List<PropertyAccess> writableProperties = new ArrayList<PropertyAccess>();
+    Map<String, PropertyAccess> readableProperties = new HashMap<String, PropertyAccess>();
+    Map<String, PropertyAccess> writableProperties = new HashMap<String, PropertyAccess>();
     for (PropertyAccess property : properties) {
       if (property.isReadable()) {
-        readableProperties.add(property);
+        readableProperties.put(property.getFieldName(), property);
       }
       if (property.isWritable()) {
-        writableProperties.add(property);
+        writableProperties.put(property.getFieldName(), property);
       }
     }
     propertySerialization.setReadableProperties(readableProperties);
@@ -383,7 +387,6 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
     }
     return input.getPropertyInformation().getElementClass();
   }
-
 
   private boolean isPropertySkipped(SerializationInput input) {
     PropertyInformation propertyInput = input.getPropertyInformation();

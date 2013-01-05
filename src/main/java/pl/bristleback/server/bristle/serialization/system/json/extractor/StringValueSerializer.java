@@ -1,9 +1,9 @@
 package pl.bristleback.server.bristle.serialization.system.json.extractor;
 
-import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
+import pl.bristleback.server.bristle.serialization.system.json.converter.JsonTokenizer;
 
 /**
  * //@todo class description
@@ -20,12 +20,12 @@ public class StringValueSerializer implements ValueSerializer<String> {
   }
 
   @Override
-  public String toValue(String valueAsString, PropertySerialization information) {
-    return valueAsString;
+  public String toValue(JsonTokenizer tokenizer, PropertySerialization information) {
+    return tokenizer.nextValueAsString();
   }
 
   @Override
   public String toText(String value, PropertySerialization information) {
-    return JSONObject.quote(value);
+    return JsonTokenizer.quote(value);
   }
 }

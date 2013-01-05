@@ -12,14 +12,14 @@ import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
  * @author Wojciech Niemiec
  */
 @Component
-public class CharacterValueSerializer implements ValueSerializer<Character> {
+public class CharacterValueSerializer extends BaseRawValueSerializer<Character> {
 
   @Override
   public void init(BristlebackConfig configuration) {
   }
 
   @Override
-  public Character toValue(String valueAsString, PropertySerialization information) throws Exception {
+  protected Character toValueFromString(String valueAsString, PropertySerialization information) throws Exception {
     return valueAsString.charAt(0);
   }
 

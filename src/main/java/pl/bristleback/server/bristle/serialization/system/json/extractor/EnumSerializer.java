@@ -1,8 +1,8 @@
 package pl.bristleback.server.bristle.serialization.system.json.extractor;
 
-import org.json.JSONObject;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
+import pl.bristleback.server.bristle.serialization.system.json.converter.JsonTokenizer;
 
 import java.util.Map;
 
@@ -13,7 +13,7 @@ import java.util.Map;
  *
  * @author Wojciech Niemiec
  */
-public class EnumSerializer implements ValueSerializer<Enum> {
+public class EnumSerializer extends BaseRawValueSerializer<Enum> {
 
   private Map<String, Enum> enumValues;
 
@@ -27,12 +27,12 @@ public class EnumSerializer implements ValueSerializer<Enum> {
   }
 
   @Override
-  public Enum toValue(String valueAsString, PropertySerialization information) throws Exception {
+  protected Enum toValueFromString(String valueAsString, PropertySerialization information) throws Exception {
     return enumValues.get(valueAsString);
   }
 
   @Override
   public String toText(Enum value, PropertySerialization information) throws Exception {
-    return JSONObject.quote(value.name());
+    return JsonTokenizer.quote(value.name());
   }
 }

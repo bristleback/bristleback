@@ -5,8 +5,9 @@ import org.junit.Test;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
 import pl.bristleback.server.bristle.api.action.ActionExceptionHandler;
-import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.bristle.exceptions.BristleRuntimeException;
+import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
 import pl.bristleback.server.mock.action.client.MockClientActionClass;
 import pl.bristleback.server.mock.beans.VerySimpleMockBean;
 
@@ -26,6 +27,7 @@ import static junit.framework.Assert.assertNull;
  * @author Wojciech Niemiec
  */
 public class ReflectionUtilsTest {
+
   private static Logger log = Logger.getLogger(ReflectionUtilsTest.class.getName());
 
   @Test
@@ -53,6 +55,15 @@ public class ReflectionUtilsTest {
 
     //then
     assertEquals(IllegalAccessException.class, parameterTypes[0]);
+  }
+
+  @Test
+  public void getParameterTypesCorrectlySubclassImplementationWithTwoTypedAbstractClasses() {
+    //when
+    Type[] parameterTypes = ReflectionUtils.getParameterTypes(SubExceptionHandlerFromLessAbstract.class, ActionExceptionHandler.class);
+
+    //then
+    assertEquals(BristleRuntimeException.class, parameterTypes[0]);
   }
 
   @Test
@@ -108,6 +119,13 @@ public class ReflectionUtilsTest {
 
   }
 
+  abstract class LessAbstractExceptionHandler<X extends Exception> extends AbstractExceptionHandler<X> {
+
+    public Object handleException(X exception, ActionExecutionContext context) {
+      return null;
+    }
+  }
+
   class SubExceptionHandler2 extends AbstractExceptionHandler<IllegalAccessException> {
 
     @Override
@@ -120,5 +138,14 @@ public class ReflectionUtilsTest {
       return new ActionExecutionStage[0];
     }
   }
+
+  class SubExceptionHandlerFromLessAbstract extends LessAbstractExceptionHandler<BristleRuntimeException> {
+
+    @Override
+    public ActionExecutionStage[] getHandledStages() {
+      return new ActionExecutionStage[0];
+    }
+  }
+
 }
 
