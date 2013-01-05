@@ -61,7 +61,7 @@ public class JsonFastDeserializerPerformanceTest extends AbstractJUnit4SpringCon
   public void testRawSimpleValue() throws Exception {
     Locale.setDefault(Locale.ENGLISH);
     String serializedForm = "332221";
-    Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerTest.class, "rawLong");
+    Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerPerformanceTest.class, "rawLong");
     PropertySerialization serialization = serializationResolver.resolveSerialization(type, getFieldsAnnotations("rawLong"));
 
     measurePerformance(serializedForm, serialization, "Long raw value");
@@ -72,7 +72,7 @@ public class JsonFastDeserializerPerformanceTest extends AbstractJUnit4SpringCon
     //given
     Locale.setDefault(Locale.ENGLISH);
     String serializedForm = "332.221";
-    Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerTest.class, "rawCustomFormatBigDecimal");
+    Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerPerformanceTest.class, "rawCustomFormatBigDecimal");
     PropertySerialization serialization = serializationResolver.resolveSerialization(type, getFieldsAnnotations("rawCustomFormatBigDecimal"));
 
     measurePerformance(serializedForm, serialization, "BigDecimal FORMATTED value");
@@ -82,7 +82,7 @@ public class JsonFastDeserializerPerformanceTest extends AbstractJUnit4SpringCon
   public void deserializeRawObjectArray() throws Exception {
     //given
     String serializedForm = "[1.0, 2, 3.1]";
-    Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerTest.class, "rawObjectArray");
+    Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerPerformanceTest.class, "rawObjectArray");
     PropertySerialization serialization = serializationResolver.resolveSerialization(type);
 
     measurePerformance(serializedForm, serialization, "Double[] array (3 elements)");
@@ -92,7 +92,7 @@ public class JsonFastDeserializerPerformanceTest extends AbstractJUnit4SpringCon
   public void deserializeRawMap() throws Exception {
     //given
     String serializedForm = "{\"a\":11, \"b\":22, \"c\":33}";
-    Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerTest.class, "rawMap");
+    Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerPerformanceTest.class, "rawMap");
     PropertySerialization serialization = serializationResolver.resolveSerialization(type);
 
     measurePerformance(serializedForm, serialization, "Map<String, Long> (3 elements)");
@@ -102,7 +102,7 @@ public class JsonFastDeserializerPerformanceTest extends AbstractJUnit4SpringCon
   public void deserializeBeanMap() throws Exception {
     //given
     String serializedForm = "{\"a\":{\"simpleField\":11}, \"b\":{\"simpleField\":22}, \"c\":{\"simpleField\":33}}";
-    Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerTest.class, "beanMap");
+    Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerPerformanceTest.class, "beanMap");
     PropertySerialization serialization = serializationResolver.resolveSerialization(type);
 
     measurePerformance(serializedForm, serialization, "Map<String, VerySimpleMockBean> (3 elements)");
