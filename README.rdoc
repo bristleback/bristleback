@@ -1,4 +1,4 @@
-== Bristleback Server version 0.2.1
+== Bristleback Server version 0.3.0
 Welcome,
 
 Bristleback server has got a new homepage http://bristleback.pl.
@@ -6,16 +6,16 @@ Several samples and tutorials can be found there.
 
 If you like our project, please star or follow us!
 
-Latest Bristleback version: 0.2.1
+Latest Bristleback version: 0.3.0
 
 Check our wiki pages for tutorials.
 
-0.2.1 is now available in central Maven repository:
+0.3.0 is now available in central Maven repository:
 
     <dependency>
       <groupId>pl.bristleback</groupId>
       <artifactId>bristleServer</artifactId>
-      <version>0.2.1</version>
+      <version>0.3.0</version>
     </dependency>
 
 Few samples are available at https://github.com/bristleback/bristleback-samples
