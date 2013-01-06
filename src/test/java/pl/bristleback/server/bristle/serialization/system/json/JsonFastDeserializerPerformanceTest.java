@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.serialization.SerializationInput;
 import pl.bristleback.server.bristle.serialization.system.BristleSerializationResolver;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
@@ -17,6 +18,7 @@ import pl.bristleback.server.mock.beans.VerySimpleMockBean;
 import javax.inject.Inject;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -43,9 +45,13 @@ public class JsonFastDeserializerPerformanceTest extends AbstractJUnit4SpringCon
 
   private Double[] rawObjectArray;
 
+  private List<VerySimpleMockBean> beanCollection;
+
   private Map<String, Long> rawMap;
 
   private Map<String, VerySimpleMockBean> beanMap;
+
+  private BristleMessage<String> bristleMessage;
 
   @Before
   public void setUp() {
@@ -74,6 +80,16 @@ public class JsonFastDeserializerPerformanceTest extends AbstractJUnit4SpringCon
   }
 
   @Test
+  public void deserializeBeanCollection() throws Exception {
+    //given
+    String serializedForm = "[{\"simpleField\":1},{\"simpleField\":2},{\"simpleField\":3}]";
+    Type type = PropertyUtils.getDeclaredField(JsonFastDeserializerPerformanceTest.class, "beanCollection");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(type, new SerializationInput());
+
+    measurePerformance(serializedForm, serialization, "List<VerySimpleMockBean> (3 elements)");
+  }
+
+  @Test
   public void deserializeRawMap() throws Exception {
     //given
     String serializedForm = "{\"a\":11, \"b\":22, \"c\":33}";
@@ -91,6 +107,16 @@ public class JsonFastDeserializerPerformanceTest extends AbstractJUnit4SpringCon
     PropertySerialization serialization = serializationResolver.resolveSerialization(type, new SerializationInput());
 
     measurePerformance(serializedForm, serialization, "Map<String, VerySimpleMockBean> (3 elements)");
+  }
+
+  @Test
+  public void deserializeBristleMessage() throws Exception {
+    //given
+    String serializedForm = "{\"id\":12, \"name\":\"actionClass.action\", \"payload\":{\"simpleField\":22}}";
+    Type type = PropertyUtils.getDeclaredField(JsonFastDeserializerPerformanceTest.class, "bristleMessage");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(type, new SerializationInput());
+
+    measurePerformance(serializedForm, serialization, "BristleMessage");
   }
 
   private void measurePerformance(String serializedForm, PropertySerialization serialization, String typeMessage) throws Exception {
@@ -115,9 +141,5 @@ public class JsonFastDeserializerPerformanceTest extends AbstractJUnit4SpringCon
   private void printTotalTime(long startTime, long endTime, int iterations, String objectTypeMessage) {
     long totalTime = (endTime - startTime) / 1000000;
     System.out.println("Total time for test: " + objectTypeMessage + " \t for " + iterations + " iterations: " + totalTime + " milliseconds.");
-  }
-
-  private Annotation[] getFieldsAnnotations(String fieldName) throws NoSuchFieldException {
-    return getClass().getDeclaredField(fieldName).getAnnotations();
   }
 }
