@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.serialization.system.BristleSerializationResolver;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
 import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;
@@ -53,6 +54,8 @@ public class JsonFastDeserializerPerformanceTest extends AbstractJUnit4SpringCon
   private Map<String, Long> rawMap;
 
   private Map<String, VerySimpleMockBean> beanMap;
+
+  private BristleMessage<String> bristleMessage;
 
   @Before
   public void setUp() {
@@ -119,6 +122,16 @@ public class JsonFastDeserializerPerformanceTest extends AbstractJUnit4SpringCon
     PropertySerialization serialization = serializationResolver.resolveSerialization(type);
 
     measurePerformance(serializedForm, serialization, "Map<String, VerySimpleMockBean> (3 elements)");
+  }
+
+  @Test
+  public void deserializeBristleMessage() throws Exception {
+    //given
+    String serializedForm = "{\"id\":12, \"name\":\"actionClass.action\", \"payload\":{\"simpleField\":22}}";
+    Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerPerformanceTest.class, "bristleMessage");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(type);
+
+    measurePerformance(serializedForm, serialization, "BristleMessage");
   }
 
   private void measurePerformance(String serializedForm, PropertySerialization serialization, String typeMessage) throws Exception {
