@@ -7,81 +7,82 @@
   <link rel="stylesheet" type="text/css" href="css/styles.css">
   <link rel="stylesheet" type="text/css" href="css/highlighting.css">
 
-  <script type="text/javascript">
-
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-35972690-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script');
-      ga.type = 'text/javascript';
-      ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0];
-      s.parentNode.insertBefore(ga, s);
-    })();
-
-  </script>
 </head>
+
 <body>
 
-<div id="header">
+<header>
   <div id="headerDiv">
     <div id="logoDiv">
-      <a href="index.html" id="logoLink">
-        <img src="img/logo.png" alt="bristleback.pl">
+      <a href="index2.html" id="logoLink">
+        <img src="../img/logo.png" alt="bristleback.pl">
       </a>
+
+      <div id="subheader">
+        Fast, high level WebSocket Framework for every Java developer
+      </div>
     </div>
+
     <div id="rightHeaderDiv">
+
+
       <div id="menuDiv">
 
-        <a href="https://github.com/bristleback/bristleback/downloads" class="menuButton">
-          Downloads
+        <a href="https://github.com/bristleback/bristleback/downloads" class="menuButton menuButtonLast">
+          DOWNLOADS
+        </a>
+
+        <a href="documentation.html" class="menuButton">
+          DOCUMENTATION
+        </a>
+
+
+        <a href="first_steps.html" class="menuButton">
+          FIRST STEPS
+        </a>
+
+        <a href="samples.html" class="menuButton">
+          SAMPLES
+        </a>
+
+        <a href="index.html" class="menuButton menuButtonActive menuButtonFirst">
+          HOME
+        </a>
+
+      </div>
+
+      <div id="menuDivDropDown">
+
+        <a href="samples.html" class="menuButton">
+          Samples
+        </a>
+
+        <a href="first_steps.html" class="menuButton">
+          First steps
         </a>
 
         <a href="documentation.html" class="menuButton">
           Documentation
         </a>
 
-
-        <a href="first_steps.html" class="menuButton">
-          First steps
+        <a href="https://github.com/bristleback/bristleback/downloads" class="menuButton">
+          Downloads
         </a>
 
-        <a href="samples.html" class="menuButton">
-          Samples
-        </a>
 
-        <a href="index.html" class="menuButton">
-          Home
-        </a>
-
-      </div>
-
-      <div id="subheader">
-        A fast, high level WebSocket Server powered by Spring Framework
-      </div>
-
-      <div id="gitHubProfile">
-        <iframe src="http://ghbtns.com/github-btn.html?user=bristleback&repo=bristleback&type=watch"
-                frameborder="0" scrolling="0" width="62px" height="20px"></iframe>
-
-        <iframe src="http://ghbtns.com/github-btn.html?user=bristleback&type=follow"
-                allowtransparency="true" frameborder="0" scrolling="0" width="140px" height="20px"></iframe>
       </div>
 
     </div>
 
+
   </div>
-</div>
+</header>
 
 <content>
   <div id="main">
     <div id="content">
       {{ content }}
     </div>
-
   </div>
 </content>
 
@@ -89,6 +90,6 @@
   © Copyright 2012 <a href="http://bristleback.pl" class="classicLinkBold">Bristleback Server</a>
 </footer>
 
-
 </body>
+
 </html>
