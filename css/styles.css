@@ -29,7 +29,10 @@ header {
 }
 
 .sampleImage {
-  max-width: 500px;
+  width: 95%;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+  margin-bottom: 15px;
 }
 
 .bordered {
@@ -149,10 +152,10 @@ header {
 }
 
 .classicHorizontalLine {
+  float: left;
   width: 80%;
   color: #333333;
-  margin-bottom: 20px;
-  margin-top: 15px;
+  margin: 15px 10% 20px;
 }
 
 .rightSideIndexContent {
@@ -204,9 +207,6 @@ footer {
   line-height: 25px;
   font-size: 15px;
   color: #333333;
-}
-
-.sampleDiv {
 }
 
 #gitHubProfile {
@@ -306,7 +306,7 @@ and (max-width : 899px) {
 }
 
 @media only screen
-and (max-width : 480px) {
+and (max-width : 495px) {
   #subheader {
     display: none;
   }
