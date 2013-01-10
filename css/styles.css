@@ -75,7 +75,7 @@ header {
   width: 580px;
   height: 40px;
   padding-right: 5px;
-  margin: 80px 0 0;
+  margin: 57px 0 0;
   border: 0;
   float: right;
 }
@@ -209,6 +209,14 @@ footer {
 .sampleDiv {
 }
 
+#gitHubProfile {
+  padding-top: 3px;
+  padding-right: 5px;
+  display: block;
+  float: right;
+  height: 20px;
+}
+
 @media only screen
 and (min-width : 900px) {
   #headerDiv {
@@ -290,6 +298,10 @@ and (max-width : 899px) {
     background-color: #333333;
     margin: 0;
     float: right;
+  }
+
+  #gitHubProfile {
+    display: none;
   }
 }
 
