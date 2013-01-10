@@ -60,7 +60,7 @@ header {
   color: #cccccc;
   height: 20px;
   margin-top: -20px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: bold;
   font-family: arial, serif;
   width: 95%;
@@ -76,6 +76,7 @@ header {
   height: 40px;
   padding-right: 5px;
   margin: 80px 0 0;
+  border: 0;
   float: right;
 }
 
@@ -245,18 +246,14 @@ and (min-width : 860px) {
 
 @media only screen
 and (max-width : 990px)
-and (min-width : 870px) {
+and (min-width : 900px) {
   #subheader {
-    font-size: 13px;
-  }
-
-  .menuButton {
     font-size: 12px;
   }
 }
 
 @media only screen
-and (max-width : 869px) {
+and (max-width : 899px) {
   #headerDiv {
     max-width: 1050px;
     height: 120px;
@@ -286,36 +283,13 @@ and (max-width : 869px) {
   #menuDiv {
     width: 100%;
     background-color: #333333;
-    height: 40px;
     margin: 0;
     float: right;
   }
 }
 
 @media only screen
-and (max-width : 500px) {
-  #subheader {
-    font-size: 12px;
-  }
-
-  #homeMenuElement {
-    display: none;
-  }
-
-  .menuButton {
-    font-size: 12px;
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-
-  #videoAboutBristlebackDiv iframe {
-    width: 90%;
-    height: 220px;
-  }
-}
-
-@media only screen
-and (max-width : 400px) {
+and (max-width : 480px) {
   #subheader {
     display: none;
   }
@@ -350,6 +324,10 @@ and (max-width : 400px) {
   }
 
   #videoAboutBristlebackDiv {
+    display: none;
+  }
+
+  #videoAboutBristlebackHeader {
     display: none;
   }
 }
