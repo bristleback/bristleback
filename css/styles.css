@@ -4,6 +4,13 @@ body {
   margin: 0;
 }
 
+header {
+  background-color: #333333;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
 .classicLink {
   color: #333333;
 }
@@ -18,11 +25,14 @@ body {
 }
 
 .standardCodeSnippet {
-  font-size:12px;  
+  font-size: 12px;
 }
 
 .sampleImage {
-  max-width:500px;
+  width: 95%;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+  margin-bottom: 15px;
 }
 
 .bordered {
@@ -33,113 +43,104 @@ body {
   list-style-image: url("../img/arrow.png");
 }
 
-#header {
-  background-color: #333333;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-}
-
-#headerDiv {
-  width: 1050px;
-  height: 120px;
-  margin: auto;
-}
-
 #logoLink {
-  border:none;
+  border: none;
 }
+
 #logoLink:visited {
-  border:none;
+  border: none;
 }
 
 #logoLink img {
-  border:none;
-}
-#logoLink:visited img {
-  border:none;
+  border: none;
 }
 
-#logoDiv {
-  width: 400px;
-  display: inline-block;
+#logoLink:visited img {
+  border: none;
+}
+
+#subheader {
+  color: #cccccc;
+  height: 20px;
+  margin-top: -20px;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: arial, serif;
+  width: 95%;
+  padding-left: 5px;
 }
 
 #rightHeaderDiv {
-  display: inline-block;
-  float: right;
-  width: 600px;
-  height: 120px;
+  float: left;
 }
 
 #menuDiv {
   width: 580px;
   height: 40px;
-  border: 1px black solid;
-  border-bottom-left-radius: 5px 5px;
-  border-bottom-right-radius: 5px 5px;
-  background-color: #eeeeee;
-  padding: 0;
-  margin: 0;
+  padding-right: 5px;
+  margin: 57px 0 0;
+  border: 0;
   float: right;
 }
 
-#main {
+#menuDivDropDown {
+  display: none;
+  background-color: #eeeeee;
+  border: 0;
   width: 100%;
-  float: left;
-}
-
-#content {
-  padding-top: 20px;
-  width: 1050px;
-  min-height: 500px;
-  margin: auto;
-  font-family: arial, Serif;
-  font-size: 17px;
+  height: 160px;
 }
 
 .menuButton {
-  font-variant: small-caps;
-  color: #402730;
+  color: #333333;
   display: inline-block;
   float: right;
   padding-left: 8px;
   padding-right: 8px;
-  height: 30px;
-  padding-top: 8px;
-  font-family: verdana, sans-serif;
+  height: 27px;
+  padding-top: 12px;
+  font-family: arial, sans-serif;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 14px;
   text-decoration: none;
+  background-color: #cccccc;
+  border-left: 2px #000000 solid;
+  border-bottom: 1px #000000 solid;
+}
+
+.menuButtonActive {
+  background-color: #eeeeee;
+  border-bottom: 0;
+  height: 28px;
+}
+
+.menuButtonFirst {
+  border-top-left-radius: 5px 5px;
+  border-left: 0;
+}
+
+.menuButtonLast {
+  border-top-right-radius: 5px 5px;
 }
 
 .menuButton:hover {
-  background-color: #b6d7a8;
-  text-decoration: underline;
+  background-color: #eeeeee;
   cursor: pointer;
 }
 
-#subheader {
-  color: #cccccc;
-  width: 600px;
-  height: 20px;
-  padding: 60px 25px 10px;
+#content {
+  padding-top: 20px;
+  max-width: 1050px;
+  min-height: 500px;
+  margin: auto;
+  font-family: arial, serif;
   font-size: 17px;
-  font-weight: bold;
-  font-family: arial, Serif;
-}
-
-#gitHubProfile {
-  padding-top: 3px;
-  padding-right: 5px;
-  display: inline-block;
-  float: right;
 }
 
 .leftSideIndexContent {
-  display:inline-block;
-  vertical-align:top;
-  width: 550px;
+  float: left;
+  vertical-align: top;
+  width: 100%;
 }
 
 .bristlebackContentHeaderDiv {
@@ -151,27 +152,35 @@ body {
 }
 
 .classicHorizontalLine {
+  float: left;
   width: 80%;
   color: #333333;
-  margin-bottom: 20px;
-  margin-top: 15px;
+  margin: 15px 10% 20px;
 }
 
 .rightSideIndexContent {
-  width: 495px;
-  display:inline-block;
-  font-family: arial, Serif;
+  width: 100%;
+  float: left;
+  font-family: arial, serif;
   font-size: 17px;
   margin-top: 0;
-  vertical-align:top;
+  vertical-align: top;
 }
 
 #videoAboutBristlebackDiv {
   margin-bottom: 15px;
+  width: 100%;
+}
+
+#videoAboutBristlebackDiv iframe {
+  width: 450px;
+  height: 253px;
+  display: block;
+  margin: auto;
 }
 
 .bristlebackleftSideContentDiv {
-  width: 450px;
+  width: 85%;
   margin: auto;
   text-align: justify;
   padding-right: 20px;
@@ -181,18 +190,17 @@ body {
 }
 
 footer {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  width: 1050px;
+  width: 100%;
+  float: left;
   margin: auto;
   text-align: center;
-  padding-right: 15px;
+  padding: 20px 0;
   font-family: arial, lucida, sans-serif;
   font-size: 12px;
 }
 
 .bristlebackContentDiv {
-  width: 950px;
+  width: 85%;
   margin: auto;
   text-align: justify;
   padding-right: 20px;
@@ -201,12 +209,145 @@ footer {
   color: #333333;
 }
 
-.sampleDiv {
+#gitHubProfile {
+  padding-top: 3px;
+  padding-right: 5px;
+  display: block;
+  float: right;
+  height: 20px;
 }
 
+@media only screen
+and (min-width : 900px) {
+  #headerDiv {
+    max-width: 1050px;
+    height: 120px;
+    margin: auto;
+  }
 
+  #logoDiv {
+    width: 50%;
+    float: left;
+  }
 
+  #logoDiv img {
+    width: 90%;
+    max-width: 384px;
+    margin-top: -5px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
+  #rightHeaderDiv {
+    width: 50%;
+    height: 120px;
+  }
 
+  .leftSideIndexContent {
+    width: 50%;
+  }
 
+  .rightSideIndexContent {
+    width: 50%;
+  }
+}
+
+@media only screen
+and (max-width : 990px)
+and (min-width : 900px) {
+  #subheader {
+    font-size: 12px;
+  }
+
+  #videoAboutBristlebackDiv iframe {
+    width: 400px;
+    height: 224px;
+  }
+}
+
+@media only screen
+and (max-width : 899px) {
+  #headerDiv {
+    max-width: 1050px;
+    height: 120px;
+    margin: auto;
+  }
+
+  #subheader {
+  }
+
+  #logoDiv {
+    width: 100%;
+    float: left;
+  }
+
+  #logoDiv img {
+    width: 90%;
+    max-width: 384px;
+    margin: auto;
+    display: block;
+  }
+
+  #rightHeaderDiv {
+    width: 100%;
+    height: 60px;
+  }
+
+  #menuDiv {
+    width: 100%;
+    background-color: #333333;
+    margin: 0;
+    float: right;
+  }
+
+  #gitHubProfile {
+    display: none;
+  }
+}
+
+@media only screen
+and (max-width : 495px) {
+  #subheader {
+    display: none;
+  }
+
+  #menuDiv {
+    display: none;
+  }
+
+  #menuDivDropDown {
+    display: block;
+    height: 300px;
+  }
+
+  #logoDiv img {
+    margin-top: 0;
+  }
+
+  .menuButton {
+    float: left;
+    padding-top: 5px;
+    padding-left: 0;
+    padding-right: 0;
+    border-left: 0;
+    border-right: 0;
+    width: 100%;
+    height: 25px;
+    text-align: center;
+  }
+
+  #rightHeaderDiv {
+    height: 140px;
+  }
+
+  #videoAboutBristlebackDiv {
+    display: none;
+  }
+
+  #videoAboutBristlebackHeader {
+    display: none;
+  }
+}
+
+/* --------------PAGES ------------ */
 
