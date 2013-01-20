@@ -3,6 +3,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bristleback Server Homepage</title>
   <link rel="stylesheet" type="text/css" href="css/styles.css">
   <link rel="stylesheet" type="text/css" href="css/highlighting.css">
@@ -13,7 +14,7 @@
     _gaq.push(['_setAccount', 'UA-35972690-1']);
     _gaq.push(['_trackPageview']);
 
-    (function() {
+    (function () {
       var ga = document.createElement('script');
       ga.type = 'text/javascript';
       ga.async = true;
@@ -23,45 +24,24 @@
     })();
 
   </script>
+
 </head>
+
 <body>
 
-<div id="header">
+<header>
   <div id="headerDiv">
     <div id="logoDiv">
       <a href="index.html" id="logoLink">
-        <img src="img/logo.png" alt="bristleback.pl">
+        <img src="../img/logo.png" alt="bristleback.pl">
       </a>
-    </div>
-    <div id="rightHeaderDiv">
-      <div id="menuDiv">
-
-        <a href="https://github.com/bristleback/bristleback/downloads" class="menuButton">
-          Downloads
-        </a>
-
-        <a href="documentation.html" class="menuButton">
-          Documentation
-        </a>
-
-
-        <a href="first_steps.html" class="menuButton">
-          First steps
-        </a>
-
-        <a href="samples.html" class="menuButton">
-          Samples
-        </a>
-
-        <a href="index.html" class="menuButton">
-          Home
-        </a>
-
-      </div>
 
       <div id="subheader">
-        A fast, high level WebSocket Server powered by Spring Framework
+        Fast, high level WebSocket Framework for every Java developer
       </div>
+    </div>
+
+    <div id="rightHeaderDiv">
 
       <div id="gitHubProfile">
         <iframe src="http://ghbtns.com/github-btn.html?user=bristleback&repo=bristleback&type=watch"
@@ -71,24 +51,70 @@
                 allowtransparency="true" frameborder="0" scrolling="0" width="140px" height="20px"></iframe>
       </div>
 
+      <div id="menuDiv">
+
+        <a href="https://github.com/bristleback/bristleback/downloads" class="menuButton menuButtonLast">
+          Downloads
+        </a>
+
+        <a href="documentation.html" class="menuButton {{ page.isDocumentationActive }}">
+          Documentation
+        </a>
+
+
+        <a href="first_steps.html" class="menuButton {{ page.isFirstStepsActive }}">
+          First steps
+        </a>
+
+        <a href="samples.html" class="menuButton {{ page.isSamplesActive }}">
+          Samples
+        </a>
+
+        <a href="index.html" class="menuButton menuButtonFirst {{ page.isIndexActive }}">
+          Home
+        </a>
+
+      </div>
+
+      <div id="menuDivDropDown">
+
+        <a href="samples.html" class="menuButton">
+          Samples
+        </a>
+
+        <a href="first_steps.html" class="menuButton">
+          First steps
+        </a>
+
+        <a href="documentation.html" class="menuButton">
+          Documentation
+        </a>
+
+        <a href="https://github.com/bristleback/bristleback/downloads" class="menuButton">
+          Downloads
+        </a>
+
+
+      </div>
+
     </div>
 
+
   </div>
-</div>
+</header>
 
 <content>
   <div id="main">
     <div id="content">
       {{ content }}
     </div>
-
   </div>
 </content>
 
 <footer>
-  © Copyright 2012 <a href="http://bristleback.pl" class="classicLinkBold">Bristleback Server</a>
+  © Copyright 2012-2013 <a href="http://bristleback.pl" class="classicLinkBold">Bristleback Server</a>
 </footer>
 
-
 </body>
+
 </html>
