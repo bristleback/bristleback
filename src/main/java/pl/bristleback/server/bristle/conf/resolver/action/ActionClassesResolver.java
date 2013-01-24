@@ -3,8 +3,8 @@ package pl.bristleback.server.bristle.conf.resolver.action;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionClassInformation;
+import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.action.ActionsContainer;
-import pl.bristleback.server.bristle.api.action.ActionInformation;
 import pl.bristleback.server.bristle.api.annotations.Action;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
 import pl.bristleback.server.bristle.exceptions.ActionInitializationException;
@@ -33,6 +33,9 @@ public class ActionClassesResolver {
   @Inject
   private BristleSpringIntegration springIntegration;
 
+  @Inject
+  private ActionInterceptorsResolver actionInterceptorsResolver;
+
   public ActionsContainer resolve() {
     ActionsContainer actionsContainer = new ActionsContainer();
     Map<String, ActionClassInformation> actionClasses = new HashMap<String, ActionClassInformation>();
@@ -42,6 +45,7 @@ public class ActionClassesResolver {
       Object actionClass = actionClassEntry.getValue();
       ActionClassInformation actionClassInformation = prepareActionClassInformation(actionClass, actionClassBeanName);
       actionClasses.put(actionClassInformation.getName(), actionClassInformation);
+      actionInterceptorsResolver.resolveInterceptors(actionClassInformation);
     }
     actionsContainer.setActionClasses(actionClasses);
     return actionsContainer;
@@ -85,14 +89,14 @@ public class ActionClassesResolver {
   }
 
   private void addCreatedAction(ActionClassInformation actionClassInformation, ActionInformation actionInformation) {
+    actionInformation.setActionClass(actionClassInformation);
     if (actionInformation.isDefaultAction()) {
       actionClassInformation.setDefaultAction(actionInformation);
-    } else {
-      if (actionClassInformation.getActions().containsKey(actionInformation.getName())) {
-        throw new ActionInitializationException("Currently, multiple methods with the same name in one action class are not allowed");
-      }
-      actionClassInformation.getActions().put(actionInformation.getName(), actionInformation);
     }
+    if (actionClassInformation.getActions().containsKey(actionInformation.getName())) {
+      throw new ActionInitializationException("Currently, multiple methods with the same name in one action class are not allowed");
+    }
+    actionClassInformation.getActions().put(actionInformation.getName(), actionInformation);
   }
 
 

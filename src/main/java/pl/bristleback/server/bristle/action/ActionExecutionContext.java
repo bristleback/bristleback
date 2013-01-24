@@ -15,11 +15,16 @@ import pl.bristleback.server.bristle.utils.StringUtils;
 public class ActionExecutionContext {
 
   private ActionExecutionStage stage;
+
   private BristleMessage<String[]> message;
+
   private IdentifiedUser user;
 
   private String actionClassName;
+
   private String actionName;
+
+  private ActionInformation action;
 
   public ActionExecutionContext(IdentifiedUser user) {
     stage = ActionExecutionStage.MESSAGE_DESERIALIZATION;
@@ -68,5 +73,13 @@ public class ActionExecutionContext {
 
   public IdentifiedUser getUser() {
     return user;
+  }
+
+  public ActionInformation getAction() {
+    return action;
+  }
+
+  public void setAction(ActionInformation action) {
+    this.action = action;
   }
 }

@@ -1,12 +1,9 @@
 package pl.bristleback.server.bristle.conf.resolver.action;
 
 import org.springframework.stereotype.Component;
-import pl.bristleback.server.bristle.action.AbstractActionInformation;
+import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.action.ActionParameterInformation;
-import pl.bristleback.server.bristle.action.DefaultActionInformation;
-import pl.bristleback.server.bristle.action.MethodActionInformation;
 import pl.bristleback.server.bristle.action.response.ActionResponseInformation;
-import pl.bristleback.server.bristle.api.action.ActionInformation;
 import pl.bristleback.server.bristle.api.action.DefaultAction;
 
 import javax.inject.Inject;
@@ -32,9 +29,8 @@ public class ActionResolver {
   @Inject
   private ResponseResolver responseResolver;
 
-
   public ActionInformation prepareActionInformation(Class<?> clazz, Method action) {
-    ActionInformation<?> actionInformation = prepareAction(clazz, action);
+    ActionInformation actionInformation = prepareAction(clazz, action);
 
     List<ActionParameterInformation> parameters = new ArrayList<ActionParameterInformation>();
     for (int i = 0; i < action.getParameterTypes().length; i++) {
@@ -49,14 +45,12 @@ public class ActionResolver {
     return actionInformation;
   }
 
-  private ActionInformation<?> prepareAction(Class<?> clazz, Method action) {
-    AbstractActionInformation<?> actionInformation;
+  private ActionInformation prepareAction(Class<?> clazz, Method action) {
     String actionName = ActionResolvingUtils.resolveActionName(action);
-    if (isDefaultRemoteAction(clazz, action)) {
-      actionInformation = new DefaultActionInformation(actionName);
-    } else {
-      actionInformation = new MethodActionInformation(actionName, action);
-    }
+    boolean defaultAction = isDefaultRemoteAction(clazz, action);
+
+    ActionInformation actionInformation = new ActionInformation(actionName, action, defaultAction);
+
     return actionInformation;
   }
 

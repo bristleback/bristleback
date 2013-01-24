@@ -1,8 +1,8 @@
 package pl.bristleback.server.bristle.action;
 
 import org.springframework.stereotype.Component;
+import pl.bristleback.server.bristle.action.interceptor.ActionInterceptorsExecutor;
 import pl.bristleback.server.bristle.action.response.ResponseHelper;
-import pl.bristleback.server.bristle.api.action.ActionInformation;
 import pl.bristleback.server.bristle.conf.resolver.action.ActionClassesResolver;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.message.BristleMessage;
@@ -31,25 +31,45 @@ public class ActionDispatcher {
   @Inject
   private BristleSpringIntegration springIntegration;
 
+  @Inject
+  private ActionInterceptorsExecutor interceptorPolicyExecutor;
+
   @PostConstruct
   public void init() {
     actionsContainer = actionClassesResolver.resolve();
   }
 
-  @SuppressWarnings("unchecked")
   public void dispatch(ActionExecutionContext context) throws Exception {
+    ActionInformation action = extractAction(context);
+    Object[] parameters = extractActionParameters(context, action);
+    Object response = executeAction(context, action, parameters);
+    sendResponse(context, action, response);
+  }
+
+  private ActionInformation extractAction(ActionExecutionContext context) {
     context.extractActionInformation();
     ActionClassInformation actionClass = actionsContainer.getActionClass(context.getActionClassName());
-    Object actionClassInstance = actionsContainer.getActionClassInstance(actionClass, springIntegration);
     ActionInformation action = actionClass.getActionToExecute(context);
+    context.setAction(action);
+    interceptorPolicyExecutor.executeInterceptorPolicy(action, context);
 
-    setActionExecutionStage(context, ActionExecutionStage.PARAMETERS_EXTRACTION);
-    Object[] parameters = resolveActionParameters(action, context);
+    return action;
+  }
 
-    setActionExecutionStage(context, ActionExecutionStage.ACTION_EXECUTION);
-    Object response = action.execute(actionClassInstance, parameters);
+  private Object[] extractActionParameters(ActionExecutionContext context, ActionInformation action) throws Exception {
+    context.setStage(ActionExecutionStage.PARAMETERS_EXTRACTION);
+    return resolveActionParameters(action, context);
+  }
 
-    setActionExecutionStage(context, ActionExecutionStage.RESPONSE_CONSTRUCTION);
+  @SuppressWarnings("unchecked")
+  private Object executeAction(ActionExecutionContext context, ActionInformation action, Object[] parameters) throws Exception {
+    context.setStage(ActionExecutionStage.ACTION_EXECUTION);
+    Object actionClassInstance = actionsContainer.getActionClassInstance(action.getActionClass(), springIntegration);
+    return action.execute(actionClassInstance, parameters);
+  }
+
+  private void sendResponse(ActionExecutionContext context, ActionInformation action, Object response) throws Exception {
+    context.setStage(ActionExecutionStage.RESPONSE_CONSTRUCTION);
 
     if (!action.getResponseInformation().isVoidResponse()) {
       Object serialization = action.getResponseInformation().getSerialization();
@@ -57,11 +77,7 @@ public class ActionDispatcher {
     }
   }
 
-  private void setActionExecutionStage(ActionExecutionContext context, ActionExecutionStage newState) {
-    context.setStage(newState);
-  }
-
-  public Object[] resolveActionParameters(ActionInformation actionInformation, ActionExecutionContext context) throws Exception {
+  private Object[] resolveActionParameters(ActionInformation actionInformation, ActionExecutionContext context) throws Exception {
     Object[] parameters = new Object[actionInformation.getParameters().size()];
     BristleMessage<String[]> message = context.getMessage();
     for (int i = 0; i < actionInformation.getParameters().size(); i++) {

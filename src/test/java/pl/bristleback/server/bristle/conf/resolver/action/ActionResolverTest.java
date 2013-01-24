@@ -6,8 +6,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.action.response.ActionResponseInformation;
-import pl.bristleback.server.bristle.api.action.ActionInformation;
 import pl.bristleback.server.bristle.engine.base.users.DefaultUser;
 import pl.bristleback.server.mock.action.SimpleActionClass;
 import pl.bristleback.server.mock.beans.SpringMockBeansFactory;
@@ -30,6 +30,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/test-context.xml"})
 public class ActionResolverTest {
+
   private static Logger log = Logger.getLogger(ActionResolverTest.class.getName());
 
   @Inject

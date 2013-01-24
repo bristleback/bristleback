@@ -32,6 +32,7 @@ import java.util.Map;
 public final class BristleSpringIntegration {
 
   private ApplicationContext actualContext;
+
   private ApplicationContext bristlebackFrameworkContext;
 
   /**
@@ -101,6 +102,14 @@ public final class BristleSpringIntegration {
       return getApplicationBean(beanName, beanClass);
     }
     return getFrameworkBean(beanName, beanClass);
+  }
+
+  public <T> T getBean(Class<T> beanClass) {
+    T applicationBean = actualContext.getBean(beanClass);
+    if (applicationBean != null) {
+      return applicationBean;
+    }
+    return bristlebackFrameworkContext.getBean(beanClass);
   }
 
   /**

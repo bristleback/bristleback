@@ -1,7 +1,6 @@
 package pl.bristleback.server.bristle.action;
 
 import org.apache.commons.lang.StringUtils;
-import pl.bristleback.server.bristle.api.action.ActionInformation;
 import pl.bristleback.server.bristle.exceptions.BrokenActionProtocolException;
 
 import java.util.HashMap;
@@ -17,13 +16,17 @@ import java.util.Map;
 public class ActionClassInformation {
 
   private boolean singleton;
+
   private String name;
+
   private String springBeanName;
 
   private Object actionClassInstance;
 
   private Map<String, ActionInformation> actions;
+
   private ActionInformation defaultAction;
+
   private Class<?> type;
 
   public ActionClassInformation() {
@@ -61,12 +64,12 @@ public class ActionClassInformation {
     return name;
   }
 
-  public void setDefaultAction(ActionInformation defaultAction) {
-    this.defaultAction = defaultAction;
-  }
-
   public void setName(String name) {
     this.name = name;
+  }
+
+  public void setDefaultAction(ActionInformation defaultAction) {
+    this.defaultAction = defaultAction;
   }
 
   public Map<String, ActionInformation> getActions() {
