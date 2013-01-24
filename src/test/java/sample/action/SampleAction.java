@@ -6,6 +6,7 @@ import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.action.DefaultAction;
 import pl.bristleback.server.bristle.api.annotations.Action;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
+import pl.bristleback.server.bristle.api.annotations.Intercept;
 import pl.bristleback.server.bristle.api.annotations.ObjectSender;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 import pl.bristleback.server.bristle.engine.base.users.DefaultUser;
@@ -16,6 +17,7 @@ import pl.bristleback.server.bristle.serialization.system.annotation.Property;
 import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;
 import sample.Card;
 import sample.User;
+import sample.action.interceptor.SampleInterceptor;
 import sample.outgoing.SampleClientActionClass;
 import sample.service.HelloServiceBean;
 
@@ -36,6 +38,7 @@ import java.util.Map;
 
 @ActionClass(name = "sample")
 @Component
+@Intercept(SampleInterceptor.class)
 public class SampleAction implements DefaultAction<DefaultUser, Map<String, BigDecimal>> {
   private static Logger log = Logger.getLogger(SampleAction.class.getName());
 
