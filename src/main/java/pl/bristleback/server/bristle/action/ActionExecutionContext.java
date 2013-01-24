@@ -26,6 +26,10 @@ public class ActionExecutionContext {
 
   private ActionInformation action;
 
+  private Object[] actionParameters;
+
+  private Object response;
+
   public ActionExecutionContext(IdentifiedUser user) {
     stage = ActionExecutionStage.MESSAGE_DESERIALIZATION;
     this.user = user;
@@ -34,7 +38,7 @@ public class ActionExecutionContext {
   public void extractActionInformation() {
     if (org.apache.commons.lang.StringUtils.isEmpty(message.getId())) {
       throw new BrokenActionProtocolException(BrokenActionProtocolException.ReasonType.NO_MESSAGE_ID_FOUND,
-        "Request Id must not be null.");
+        "Request Id cannot be null.");
     }
     setStage(ActionExecutionStage.ACTION_EXTRACTION);
     if (message.getName().contains(StringUtils.DOT_AS_STRING)) {
@@ -81,5 +85,21 @@ public class ActionExecutionContext {
 
   public void setAction(ActionInformation action) {
     this.action = action;
+  }
+
+  public Object[] getActionParameters() {
+    return actionParameters;
+  }
+
+  public void setActionParameters(Object[] actionParameters) {
+    this.actionParameters = actionParameters;
+  }
+
+  public Object getResponse() {
+    return response;
+  }
+
+  public void setResponse(Object response) {
+    this.response = response;
   }
 }

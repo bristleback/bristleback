@@ -47,7 +47,8 @@ public class ActionInformation {
   public Object execute(Object actionInstance, Object[] parameterValues) throws Exception {
     if (defaultAction) {
       return ((DefaultAction) actionInstance)
-        .executeDefault((IdentifiedUser) parameterValues[CONNECTOR_ACTION_PARAMETER], parameterValues[SECOND_ACTION_PARAMETER]);
+        .executeDefault((IdentifiedUser) parameterValues[CONNECTOR_ACTION_PARAMETER],
+          parameterValues[SECOND_ACTION_PARAMETER]);
     }
     return method.invoke(actionInstance, parameterValues);
   }

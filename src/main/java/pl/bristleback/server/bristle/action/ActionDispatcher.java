@@ -58,14 +58,20 @@ public class ActionDispatcher {
 
   private Object[] extractActionParameters(ActionExecutionContext context, ActionInformation action) throws Exception {
     context.setStage(ActionExecutionStage.PARAMETERS_EXTRACTION);
-    return resolveActionParameters(action, context);
+    Object[] actionParameters = resolveActionParameters(action, context);
+    context.setActionParameters(actionParameters);
+    interceptorPolicyExecutor.executeInterceptorPolicy(action, context);
+    return actionParameters;
   }
 
   @SuppressWarnings("unchecked")
   private Object executeAction(ActionExecutionContext context, ActionInformation action, Object[] parameters) throws Exception {
     context.setStage(ActionExecutionStage.ACTION_EXECUTION);
     Object actionClassInstance = actionsContainer.getActionClassInstance(action.getActionClass(), springIntegration);
-    return action.execute(actionClassInstance, parameters);
+    Object response= action.execute(actionClassInstance, parameters);
+    context.setResponse(response);
+    interceptorPolicyExecutor.executeInterceptorPolicy(action, context);
+    return response;
   }
 
   private void sendResponse(ActionExecutionContext context, ActionInformation action, Object response) throws Exception {

@@ -62,7 +62,6 @@ public abstract class AbstractServerEngine implements ServerEngine {
     chain.connectorStopped(user);
 
     log.info("Connector has stopped - id: " + connector.getConnectorId());
-
   }
 
 }
