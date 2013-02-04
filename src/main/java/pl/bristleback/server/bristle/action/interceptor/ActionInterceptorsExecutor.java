@@ -3,7 +3,6 @@ package pl.bristleback.server.bristle.action.interceptor;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionInformation;
-import pl.bristleback.server.bristle.api.action.ActionInterceptor;
 
 import java.util.List;
 
@@ -18,12 +17,12 @@ import java.util.List;
 public class ActionInterceptorsExecutor {
 
   public void executeInterceptorPolicy(ActionInformation actionInformation, ActionExecutionContext context) {
-    List<ActionInterceptor> interceptors = actionInformation.getActionInterceptors().getInterceptorsForStage(context.getStage());
+    List<ActionInterceptorInformation> interceptors = actionInformation.getActionInterceptors().getInterceptorsForStage(context.getStage());
     if (interceptors.isEmpty()) {
       return;
     }
-    for (ActionInterceptor interceptor : interceptors) {
-      interceptor.intercept(actionInformation, context);
+    for (ActionInterceptorInformation interceptorInformation : interceptors) {
+      interceptorInformation.getInterceptorInstance().intercept(actionInformation, context);
     }
   }
 }

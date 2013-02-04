@@ -1,7 +1,6 @@
 package pl.bristleback.server.bristle.action.interceptor;
 
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
-import pl.bristleback.server.bristle.api.action.ActionInterceptor;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,13 +15,13 @@ import java.util.Map;
  */
 public class ActionInterceptors {
 
-  private Map<ActionExecutionStage, List<ActionInterceptor>> interceptors = new HashMap<ActionExecutionStage, List<ActionInterceptor>>();
+  private Map<ActionExecutionStage, List<ActionInterceptorInformation>> interceptors = new HashMap<ActionExecutionStage, List<ActionInterceptorInformation>>();
 
-  public ActionInterceptors(Map<ActionExecutionStage, List<ActionInterceptor>> interceptors) {
+  public ActionInterceptors(Map<ActionExecutionStage, List<ActionInterceptorInformation>> interceptors) {
     this.interceptors = interceptors;
   }
 
-  public List<ActionInterceptor> getInterceptorsForStage(ActionExecutionStage stage) {
+  public List<ActionInterceptorInformation> getInterceptorsForStage(ActionExecutionStage stage) {
     return interceptors.get(stage);
   }
 }

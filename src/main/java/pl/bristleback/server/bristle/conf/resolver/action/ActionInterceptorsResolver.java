@@ -3,6 +3,7 @@ package pl.bristleback.server.bristle.conf.resolver.action;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionClassInformation;
 import pl.bristleback.server.bristle.action.ActionInformation;
+import pl.bristleback.server.bristle.action.interceptor.ActionInterceptorInformation;
 import pl.bristleback.server.bristle.action.interceptor.ActionInterceptors;
 import pl.bristleback.server.bristle.api.action.ActionInterceptor;
 import pl.bristleback.server.bristle.api.annotations.Intercept;
@@ -31,41 +32,46 @@ public class ActionInterceptorsResolver {
   private ActionInterceptorsSorter actionInterceptorsSorter;
 
   public void resolveInterceptors(ActionClassInformation actionClassInformation) {
-    List<ActionInterceptor> interceptorsForClass = resolveInterceptorsForClass(actionClassInformation);
+    List<ActionInterceptorInformation> interceptorsForClass = resolveInterceptorsForClass(actionClassInformation);
     for (ActionInformation actionInformation : actionClassInformation.getActions().values()) {
       ActionInterceptors sortedInterceptors = resolveInterceptorsList(interceptorsForClass, actionInformation);
       actionInformation.setActionInterceptors(sortedInterceptors);
     }
   }
 
-  private ActionInterceptors resolveInterceptorsList(List<ActionInterceptor> interceptorsForClass, ActionInformation actionInformation) {
-    List<ActionInterceptor> interceptorsForAction = resolveInterceptorsForAction(actionInformation);
-    List<ActionInterceptor> allInterceptors = new ArrayList<ActionInterceptor>(interceptorsForAction);
+  private ActionInterceptors resolveInterceptorsList(List<ActionInterceptorInformation> interceptorsForClass, ActionInformation actionInformation) {
+    List<ActionInterceptorInformation> interceptorsForAction = resolveInterceptorsForAction(actionInformation);
+    List<ActionInterceptorInformation> allInterceptors = new ArrayList<ActionInterceptorInformation>(interceptorsForAction);
     allInterceptors.addAll(interceptorsForClass);
     return actionInterceptorsSorter.sortInterceptors(allInterceptors);
   }
 
-  private List<ActionInterceptor> resolveInterceptorsForClass(ActionClassInformation actionClassInformation) {
+  private List<ActionInterceptorInformation> resolveInterceptorsForClass(ActionClassInformation actionClassInformation) {
     return resolveInterceptorsFromAnnotation(actionClassInformation.getType().getAnnotation(Intercept.class));
   }
 
-  private List<ActionInterceptor> resolveInterceptorsForAction(ActionInformation actionInformation) {
+  private List<ActionInterceptorInformation> resolveInterceptorsForAction(ActionInformation actionInformation) {
     return resolveInterceptorsFromAnnotation(actionInformation.getMethod().getAnnotation(Intercept.class));
   }
 
-  private List<ActionInterceptor> resolveInterceptorsFromAnnotation(Intercept interceptAnnotation) {
+  private List<ActionInterceptorInformation> resolveInterceptorsFromAnnotation(Intercept interceptAnnotation) {
     if (interceptAnnotation == null) {
       return Collections.emptyList();
     }
-    List<ActionInterceptor> interceptors = new ArrayList<ActionInterceptor>();
+    List<ActionInterceptorInformation> interceptors = new ArrayList<ActionInterceptorInformation>();
     for (Class<? extends ActionInterceptor> interceptorClass : interceptAnnotation.value()) {
       ActionInterceptor interceptor = springIntegration.getBean(interceptorClass);
       if (interceptor == null) {
         throw new BristleInitializationException("Cannot find interceptor Spring bean of type: " + interceptorClass);
       }
-      interceptors.add(interceptor);
+      ActionInterceptorInformation interceptorInformation = createActionInterceptorInformation(interceptor);
+      interceptors.add(interceptorInformation);
     }
     return interceptors;
+  }
+
+  private ActionInterceptorInformation createActionInterceptorInformation(ActionInterceptor interceptor) {
+    return new ActionInterceptorInformation(interceptor);
   }
 
 }
