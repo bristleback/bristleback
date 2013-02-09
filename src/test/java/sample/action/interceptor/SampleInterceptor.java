@@ -15,14 +15,14 @@ import pl.bristleback.server.bristle.api.annotations.Interceptor;
  *
  * @author Wojciech Niemiec
  */
-@Interceptor(stages = ActionExecutionStage.ACTION_EXTRACTION)
+@Interceptor(stages = ActionExecutionStage.ACTION_EXTRACTION, contextResolver = SampleInterceptorContextResolver.class)
 @Component
-public class SampleInterceptor implements ActionInterceptor {
+public class SampleInterceptor implements ActionInterceptor<ActionInterceptorContextObject> {
 
   private static Logger log = Logger.getLogger(SampleInterceptor.class.getName());
 
   @Override
-  public void intercept(ActionInformation actionInformation, ActionExecutionContext context) {
+  public void intercept(ActionInformation actionInformation, ActionExecutionContext context, ActionInterceptorContextObject interceptorContext) {
     log.debug("interceptor works");
   }
 }

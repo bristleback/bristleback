@@ -17,12 +17,12 @@ import java.util.List;
 public class ActionInterceptorsExecutor {
 
   public void executeInterceptorPolicy(ActionInformation actionInformation, ActionExecutionContext context) {
-    List<ActionInterceptorInformation> interceptors = actionInformation.getActionInterceptors().getInterceptorsForStage(context.getStage());
+    List<InterceptionProcessContext> interceptors = actionInformation.getActionInterceptors().getInterceptorsForStage(context.getStage());
     if (interceptors.isEmpty()) {
       return;
     }
-    for (ActionInterceptorInformation interceptorInformation : interceptors) {
-      interceptorInformation.getInterceptorInstance().intercept(actionInformation, context);
+    for (InterceptionProcessContext interceptionOperationContext : interceptors) {
+      interceptionOperationContext.intercept(actionInformation, context);
     }
   }
 }

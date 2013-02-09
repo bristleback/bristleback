@@ -15,13 +15,13 @@ import java.util.Map;
  */
 public class ActionInterceptors {
 
-  private Map<ActionExecutionStage, List<ActionInterceptorInformation>> interceptors = new HashMap<ActionExecutionStage, List<ActionInterceptorInformation>>();
+  private Map<ActionExecutionStage, List<InterceptionProcessContext>> interceptors = new HashMap<ActionExecutionStage, List<InterceptionProcessContext>>();
 
-  public ActionInterceptors(Map<ActionExecutionStage, List<ActionInterceptorInformation>> interceptors) {
+  public ActionInterceptors(Map<ActionExecutionStage, List<InterceptionProcessContext>> interceptors) {
     this.interceptors = interceptors;
   }
 
-  public List<ActionInterceptorInformation> getInterceptorsForStage(ActionExecutionStage stage) {
+  public List<InterceptionProcessContext> getInterceptorsForStage(ActionExecutionStage stage) {
     return interceptors.get(stage);
   }
 }

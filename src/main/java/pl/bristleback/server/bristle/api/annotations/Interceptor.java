@@ -1,6 +1,7 @@
 package pl.bristleback.server.bristle.api.annotations;
 
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
+import pl.bristleback.server.bristle.api.action.ActionInterceptorContextResolver;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -18,4 +19,6 @@ import java.lang.annotation.Target;
 public @interface Interceptor {
 
   ActionExecutionStage[] stages();
+
+  Class<? extends ActionInterceptorContextResolver> contextResolver();
 }

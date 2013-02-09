@@ -7,6 +7,7 @@ import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.action.ActionsContainer;
 import pl.bristleback.server.bristle.api.annotations.Action;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
+import pl.bristleback.server.bristle.conf.resolver.action.interceptor.ActionInterceptorsResolver;
 import pl.bristleback.server.bristle.exceptions.ActionInitializationException;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.utils.PropertyUtils;

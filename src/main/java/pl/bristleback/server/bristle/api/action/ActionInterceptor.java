@@ -10,7 +10,7 @@ import pl.bristleback.server.bristle.action.ActionInformation;
  *
  * @author Wojciech Niemiec
  */
-public interface ActionInterceptor {
+public interface ActionInterceptor<T> {
 
-  void intercept(ActionInformation actionInformation, ActionExecutionContext context);
+  void intercept(ActionInformation actionInformation, ActionExecutionContext context, T interceptorContext);
 }
