@@ -5,6 +5,7 @@ import pl.bristleback.server.bristle.api.action.DefaultAction;
 import pl.bristleback.server.bristle.api.annotations.Action;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
 import pl.bristleback.server.bristle.api.annotations.ObjectSender;
+import pl.bristleback.server.bristle.authorisation.interceptor.Authorized;
 import pl.bristleback.server.bristle.engine.base.users.DefaultUser;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
@@ -22,6 +23,7 @@ import pl.bristleback.server.mock.beans.SimpleMockBean;
  * @author Wojciech Niemiec
  */
 @ActionClass(name = SimpleActionClass.NAME)
+@Authorized("test")
 public class SimpleActionClass implements DefaultAction<DefaultUser, String> {
   private static Logger log = Logger.getLogger(SimpleActionClass.class.getName());
 
@@ -46,6 +48,7 @@ public class SimpleActionClass implements DefaultAction<DefaultUser, String> {
   @Serialize(properties = {
     @Property(name = "mockBean", required = true)
   })
+  @Authorized("test")
   public SimpleMockBean nonDefaultAction(@Bind(required = true) String param1) {
     return null;
   }

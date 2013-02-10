@@ -12,10 +12,13 @@ import pl.bristleback.server.bristle.api.annotations.Intercept;
 import pl.bristleback.server.bristle.api.annotations.Interceptor;
 import pl.bristleback.server.bristle.exceptions.BristleInitializationException;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
+import pl.bristleback.server.bristle.utils.AnnotationUtils;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import java.lang.reflect.AnnotatedElement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,19 +62,15 @@ public class ActionInterceptorsResolver {
       throw new BristleInitializationException("Interceptor classes must be annotated with " + Interceptor.class);
     }
     Interceptor interceptorAnnotation = interceptorClass.getAnnotation(Interceptor.class);
-    if (!interceptorAnnotation.contextResolver().equals(ActionInterceptorContextResolver.class)) {
-      ActionInterceptorContextResolver interceptorContextResolver = springIntegration.getBean(interceptorAnnotation.contextResolver());
-      return new ActionInterceptorInformation(actionInterceptor, interceptorContextResolver, interceptorAnnotation.stages());
-    } else {
-      return new ActionInterceptorInformation(actionInterceptor, interceptorAnnotation.stages());
-    }
+    ActionInterceptorContextResolver interceptorContextResolver = springIntegration.getBean(interceptorAnnotation.contextResolver());
+    return new ActionInterceptorInformation(actionInterceptor, interceptorContextResolver, interceptorAnnotation.stages());
   }
 
   public void resolveInterceptors(ActionClassInformation actionClassInformation) {
     List<ActionInterceptorInformation> interceptorsInformationForClass = getInterceptorDescriptionsForClass(actionClassInformation);
     for (ActionInformation actionInformation : actionClassInformation.getActions().values()) {
-      Intercept interceptAnnotation = actionInformation.getMethod().getAnnotation(Intercept.class);
-      List<ActionInterceptorInformation> interceptorsInformationForAction = resolveInterceptorsFromAnnotation(interceptAnnotation);
+      List<Class<? extends ActionInterceptor>> interceptorClasses = getInterceptorsUsed(actionInformation.getMethod());
+      List<ActionInterceptorInformation> interceptorsInformationForAction = resolveInterceptorsInformation(interceptorClasses);
       interceptorsInformationForAction.addAll(interceptorsInformationForClass);
       List<InterceptionProcessContext> interceptorContexts = actionInterceptorContextsResolver
         .resolveContexts(interceptorsInformationForAction, actionInformation);
@@ -80,17 +79,24 @@ public class ActionInterceptorsResolver {
     }
   }
 
-  private List<ActionInterceptorInformation> getInterceptorDescriptionsForClass(ActionClassInformation actionClassInformation) {
-    Intercept interceptAnnotation = actionClassInformation.getType().getAnnotation(Intercept.class);
-    return resolveInterceptorsFromAnnotation(interceptAnnotation);
+  private List<Class<? extends ActionInterceptor>> getInterceptorsUsed(AnnotatedElement annotatedElement) {
+    List<Class<? extends ActionInterceptor>> interceptorClasses = new ArrayList<Class<? extends ActionInterceptor>>();
+    List<Intercept> interceptAnnotations = AnnotationUtils.findNestedAnnotations(annotatedElement, Intercept.class);
+    for (Intercept interceptAnnotation : interceptAnnotations) {
+      interceptorClasses.addAll(Arrays.asList(interceptAnnotation.value()));
+    }
+    return interceptorClasses;
   }
 
-  private List<ActionInterceptorInformation> resolveInterceptorsFromAnnotation(Intercept interceptAnnotation) {
-    if (interceptAnnotation == null) {
-      return new ArrayList<ActionInterceptorInformation>();
-    }
+  private List<ActionInterceptorInformation> getInterceptorDescriptionsForClass(ActionClassInformation actionClassInformation) {
+    List<Class<? extends ActionInterceptor>> interceptorClasses = getInterceptorsUsed(actionClassInformation.getType());
+    return resolveInterceptorsInformation(interceptorClasses);
+  }
+
+  private List<ActionInterceptorInformation> resolveInterceptorsInformation(List<Class<? extends ActionInterceptor>>
+                                                                              interceptorClasses) {
     List<ActionInterceptorInformation> interceptors = new ArrayList<ActionInterceptorInformation>();
-    for (Class<? extends ActionInterceptor> interceptorClass : interceptAnnotation.value()) {
+    for (Class<? extends ActionInterceptor> interceptorClass : interceptorClasses) {
       if (!allInterceptors.containsKey(interceptorClass)) {
         throw new BristleInitializationException("Cannot find interceptor Spring bean of type: " + interceptorClass);
       }

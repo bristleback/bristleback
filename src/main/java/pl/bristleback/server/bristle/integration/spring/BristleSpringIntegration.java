@@ -16,6 +16,7 @@
 package pl.bristleback.server.bristle.integration.spring;
 
 import org.springframework.context.ApplicationContext;
+import pl.bristleback.server.bristle.exceptions.BristleRuntimeException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -105,11 +106,14 @@ public final class BristleSpringIntegration {
   }
 
   public <T> T getBean(Class<T> beanClass) {
-    T applicationBean = actualContext.getBean(beanClass);
-    if (applicationBean != null) {
-      return applicationBean;
+    Map<String, T> beansOfType = actualContext.getBeansOfType(beanClass);
+    if (beansOfType.isEmpty()) {
+      return bristlebackFrameworkContext.getBean(beanClass);
     }
-    return bristlebackFrameworkContext.getBean(beanClass);
+    if (beansOfType.size() > 1) {
+      throw new BristleRuntimeException("More than one matching Spring bean found for type: " + beanClass);
+    }
+    return actualContext.getBean(beanClass);
   }
 
   /**

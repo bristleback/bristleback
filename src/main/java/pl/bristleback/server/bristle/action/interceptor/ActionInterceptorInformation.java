@@ -29,11 +29,6 @@ public class ActionInterceptorInformation {
     this.stages = stages;
   }
 
-  public ActionInterceptorInformation(ActionInterceptor interceptorInstance, ActionExecutionStage[] stages) {
-    this.interceptorInstance = interceptorInstance;
-    this.stages = stages;
-  }
-
   public ActionInterceptor getInterceptorInstance() {
     return interceptorInstance;
   }

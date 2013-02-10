@@ -19,7 +19,14 @@ import java.util.Map;
  * Interceptors coming from {@link pl.bristleback.server.bristle.api.annotations.Intercept} annotation placed above action.
  * </li>
  * <li>
+ * Interceptors coming from annotations placed above action, marked with {@link pl.bristleback.server.bristle.api.annotations.Intercept} annotation.
+ * </li>
+ * <li>
  * Interceptors coming from {@link pl.bristleback.server.bristle.api.annotations.Intercept} annotation placed above action class.
+ * </li>
+ * <li>
+ * Interceptors coming from annotations placed above action class,
+ * marked with {@link pl.bristleback.server.bristle.api.annotations.Intercept} annotation.
  * </li>
  * <li>
  * Interceptors from interceptor matchers defined in application configuration.

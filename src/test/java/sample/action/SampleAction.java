@@ -2,7 +2,6 @@ package sample.action;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
-import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.action.DefaultAction;
 import pl.bristleback.server.bristle.api.annotations.Action;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
@@ -40,6 +39,7 @@ import java.util.Map;
 @Component
 @Intercept(SampleInterceptor.class)
 public class SampleAction implements DefaultAction<DefaultUser, Map<String, BigDecimal>> {
+
   private static Logger log = Logger.getLogger(SampleAction.class.getName());
 
   @ObjectSender
