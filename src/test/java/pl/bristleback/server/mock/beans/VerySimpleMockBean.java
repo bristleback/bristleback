@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
  * @author Wojciech Niemiec
  */
 public class VerySimpleMockBean {
+
   private static Logger log = Logger.getLogger(VerySimpleMockBean.class.getName());
 
   private int simpleField;

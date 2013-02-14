@@ -15,6 +15,7 @@ import pl.bristleback.server.mock.beans.MockBean;
  * @author Wojciech Niemiec
  */
 public class MockBeanSerializer implements ValueSerializer<MockBean> {
+
   private static Logger log = Logger.getLogger(MockBeanSerializer.class.getName());
 
   @Override

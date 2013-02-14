@@ -25,6 +25,7 @@ import pl.bristleback.server.mock.beans.SimpleMockBean;
 @ActionClass(name = SimpleActionClass.NAME)
 @Authorized("test")
 public class SimpleActionClass implements DefaultAction<DefaultUser, String> {
+
   private static Logger log = Logger.getLogger(SimpleActionClass.class.getName());
 
   public static final String RESPONSE_TEXT = "response";

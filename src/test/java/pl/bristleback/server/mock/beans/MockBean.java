@@ -13,25 +13,37 @@ import java.util.Map;
  * @author Wojciech Niemiec
  */
 public class MockBean {
+
   private static Logger log = Logger.getLogger(MockBean.class.getName());
 
   public static final String RAW_STRING_PROPERTY = "property1";
+
   public static final String RAW_INT_PROPERTY = "property2";
+
   public static final String RAW_DOUBLE_PROPERTY = "property3";
+
   public static final String LIST_OF_STRINGS_PROPERTY = "property4";
+
   public static final String MAP_OF_DOUBLES_PROPERTY = "property5";
+
   public static final String ARRAY_OF_BEANS_PROPERTY = "arrayOfBeans";
+
   public static final String SIMPLE_MOCK_BEAN_PROPERTY = "simpleMockBean";
 
   public static final int FIELDS_COUNT = 7;
 
   private String property1;
+
   private int property2;
+
   private Double property3;
+
   private List<String> property4;
 
   private Map<String, Double> property5;
+
   private SimpleMockBean[] arrayOfBeans;
+
   private SimpleMockBean simpleMockBean;
 
   public String getProperty1() {

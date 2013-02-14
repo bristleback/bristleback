@@ -1,10 +1,10 @@
 package pl.bristleback.server.mock.action.client;
 
-import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
 import pl.bristleback.server.bristle.api.annotations.ClientAction;
 import pl.bristleback.server.bristle.api.annotations.ClientActionClass;
 import pl.bristleback.server.bristle.api.annotations.Ignore;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
 import pl.bristleback.server.mock.beans.VerySimpleMockBean;
 
 /**
@@ -22,6 +22,7 @@ public class MockClientActionClass {
   public static final String MULTIPLE_PARAMS_ONE_SERIALIZED_ACTION_NAME = "multipleParamsOneSerialized";
 
   public static final String SINGLE_PARAM_ACTION_METHOD_NAME = "singleParam";
+
   public static final String SINGLE_PARAM_ACTION_NAME = "nonDefaultName";
 
   @ClientAction

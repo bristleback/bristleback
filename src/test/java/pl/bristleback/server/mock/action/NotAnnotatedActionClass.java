@@ -12,6 +12,7 @@ import pl.bristleback.server.bristle.engine.base.users.DefaultUser;
  * @author Wojciech Niemiec
  */
 public class NotAnnotatedActionClass implements DefaultAction<DefaultUser, Integer> {
+
   private static Logger log = Logger.getLogger(NotAnnotatedActionClass.class.getName());
 
   @Override

@@ -10,5 +10,6 @@ import org.apache.log4j.Logger;
  * @author Wojciech Niemiec
  */
 public class NonDefaultSerializedMockBean extends SimpleMockBean {
+
   private static Logger log = Logger.getLogger(NonDefaultSerializedMockBean.class.getName());
 }

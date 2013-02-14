@@ -13,6 +13,7 @@ import java.util.Map;
  * @author Wojciech Niemiec
  */
 public class ParametrizedBean<T> {
+
   private static Logger log = Logger.getLogger(ParametrizedBean.class.getName());
 
 

@@ -17,6 +17,7 @@ import pl.bristleback.server.mock.beans.NonDefaultSerializedMockBean;
  */
 @Component
 public class SimpleMockParameterExtractor implements ActionParameterExtractor<NonDefaultSerializedMockBean> {
+
   private static Logger log = Logger.getLogger(SimpleMockParameterExtractor.class.getName());
 
   @Override

@@ -16,6 +16,7 @@ public class ExtendingClientActionClass extends NonStandardClientActionClass {
 
   /**
    * Overriding action
+   *
    * @param user user
    * @return user
    */

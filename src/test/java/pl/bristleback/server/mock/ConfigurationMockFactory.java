@@ -20,13 +20,17 @@ import static org.mockito.Mockito.mock;
  * @author Wojciech Niemiec
  */
 public class ConfigurationMockFactory {
+
   private static Logger log = Logger.getLogger(ConfigurationMockFactory.class.getName());
 
   private static final String DEFAULT_MOCK_PROTOCOL_NAME = "bristle-action";
+
   private static final String DEFAULT_SERIALIZATION_ENGINE = "json";
+
   private static final String DEFAULT_MOCK_BASE_PACKAGE = "sample";
 
   private static final String DEFAULT_MOCK_ENGINE_NAME = "netty";
+
   private static final int DEFAULT_MOCK_PORT = 7890;
 
   public static BristleConfig getConfiguration(ApplicationContext applicationContext) {

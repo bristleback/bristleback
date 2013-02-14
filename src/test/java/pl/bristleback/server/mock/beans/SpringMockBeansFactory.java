@@ -16,6 +16,7 @@ import javax.inject.Inject;
  * @author Wojciech Niemiec
  */
 public class SpringMockBeansFactory {
+
   private static Logger log = Logger.getLogger(SpringMockBeansFactory.class.getName());
 
   @Inject

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionClassInformation;
 import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.action.interceptor.ActionInterceptorInformation;
+import pl.bristleback.server.bristle.action.interceptor.ActionInterceptorMapping;
 import pl.bristleback.server.bristle.action.interceptor.ActionInterceptors;
 import pl.bristleback.server.bristle.action.interceptor.InterceptionProcessContext;
 import pl.bristleback.server.bristle.api.action.ActionInterceptor;
@@ -46,7 +47,19 @@ public class ActionInterceptorsResolver {
 
   private Map<Class, ActionInterceptorInformation> allInterceptors;
 
+  private List<ActionInterceptorMapping> allInterceptorMappings;
+
   @PostConstruct
+  private void initInterceptorResolver() {
+    loadAllInterceptors();
+    loadInterceptorMatcherList();
+  }
+
+  private void loadInterceptorMatcherList() {
+    allInterceptorMappings =
+      new ArrayList<ActionInterceptorMapping>(springIntegration.getBeansOfType(ActionInterceptorMapping.class).values());
+  }
+
   private void loadAllInterceptors() {
     allInterceptors = new HashMap<Class, ActionInterceptorInformation>();
     Map<String, ActionInterceptor> interceptorBeans = springIntegration.getBeansOfType(ActionInterceptor.class);
@@ -69,7 +82,7 @@ public class ActionInterceptorsResolver {
   public void resolveInterceptors(ActionClassInformation actionClassInformation) {
     List<ActionInterceptorInformation> interceptorsInformationForClass = getInterceptorDescriptionsForClass(actionClassInformation);
     for (ActionInformation actionInformation : actionClassInformation.getActions().values()) {
-      List<Class<? extends ActionInterceptor>> interceptorClasses = getInterceptorsUsed(actionInformation.getMethod());
+      List<Class<? extends ActionInterceptor>> interceptorClasses = getInterceptorsUsed(actionInformation);
       List<ActionInterceptorInformation> interceptorsInformationForAction = resolveInterceptorsInformation(interceptorClasses);
       interceptorsInformationForAction.addAll(interceptorsInformationForClass);
       List<InterceptionProcessContext> interceptorContexts = actionInterceptorContextsResolver
@@ -77,6 +90,20 @@ public class ActionInterceptorsResolver {
       ActionInterceptors sortedInterceptors = actionInterceptorsSorter.sortInterceptors(interceptorContexts);
       actionInformation.setActionInterceptors(sortedInterceptors);
     }
+  }
+
+  private List<Class<? extends ActionInterceptor>> getInterceptorsUsed(ActionInformation actionInformation) {
+    List<Class<? extends ActionInterceptor>> interceptorClasses = getInterceptorsUsed(actionInformation.getMethod());
+
+    for (ActionInterceptorMapping actionInterceptorMapping : allInterceptorMappings) {
+      boolean interceptorApplicable = actionInterceptorMapping.getInterceptorMatcher()
+        .isInterceptorApplicable(actionInformation, actionInterceptorMapping.getInterceptorClass());
+      if (interceptorApplicable) {
+        interceptorClasses.add(actionInterceptorMapping.getInterceptorClass());
+      }
+    }
+
+    return interceptorClasses;
   }
 
   private List<Class<? extends ActionInterceptor>> getInterceptorsUsed(AnnotatedElement annotatedElement) {
