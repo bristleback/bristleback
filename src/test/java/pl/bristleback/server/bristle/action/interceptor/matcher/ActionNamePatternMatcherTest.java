@@ -22,7 +22,7 @@ public class ActionNamePatternMatcherTest extends AbstractPatternMatcherTest<Act
     ActionClassInformation actionClass = actionsContainer.getActionClass(SimpleActionClass.NAME);
     ActionInformation actionInformation = actionClass.getActions().get("unusualActionName");
     //when
-    boolean result = matcher.isInterceptorApplicable(actionInformation,MockActionInterceptor.class);
+    boolean result = matcher.isInterceptorApplicable(actionInformation, MockActionInterceptor.class);
 
     //then
     assertTrue(result);

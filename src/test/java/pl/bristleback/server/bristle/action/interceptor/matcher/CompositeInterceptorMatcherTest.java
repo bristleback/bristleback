@@ -62,7 +62,7 @@ public class CompositeInterceptorMatcherTest {
       new CompositeInterceptorMatcher(LogicalOperation.OR, matcher1, matcher2, matcher3);
 
     //when
-    boolean result = compositeInterceptorMatcher.isInterceptorApplicable(actionInformation,MockActionInterceptor.class);
+    boolean result = compositeInterceptorMatcher.isInterceptorApplicable(actionInformation, MockActionInterceptor.class);
 
     //then
     assertTrue(result);

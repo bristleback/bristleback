@@ -17,5 +17,7 @@ import java.lang.annotation.Target;
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
 public @interface Intercept {
 
-  Class<? extends ActionInterceptor>[] value();
+  Class<? extends ActionInterceptor>[] value() default {};
+
+  String[] refs() default {};
 }

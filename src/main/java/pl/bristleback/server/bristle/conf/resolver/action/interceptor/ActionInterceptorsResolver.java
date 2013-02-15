@@ -19,7 +19,6 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.lang.reflect.AnnotatedElement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,6 +64,10 @@ public class ActionInterceptorsResolver {
     Map<String, ActionInterceptor> interceptorBeans = springIntegration.getBeansOfType(ActionInterceptor.class);
     for (ActionInterceptor actionInterceptor : interceptorBeans.values()) {
       ActionInterceptorInformation interceptorInformation = loadInterceptor(actionInterceptor);
+      if (allInterceptors.containsKey(actionInterceptor.getClass())) {
+        throw new BristleInitializationException("Currently, it is not possible to define more than one "
+          + "action interceptor bean of the same type.");
+      }
       allInterceptors.put(actionInterceptor.getClass(), interceptorInformation);
     }
   }
@@ -110,9 +113,20 @@ public class ActionInterceptorsResolver {
     List<Class<? extends ActionInterceptor>> interceptorClasses = new ArrayList<Class<? extends ActionInterceptor>>();
     List<Intercept> interceptAnnotations = AnnotationUtils.findNestedAnnotations(annotatedElement, Intercept.class);
     for (Intercept interceptAnnotation : interceptAnnotations) {
-      interceptorClasses.addAll(Arrays.asList(interceptAnnotation.value()));
+      interceptorClasses.addAll(getInterceptorBeans(interceptAnnotation));
     }
     return interceptorClasses;
+  }
+
+  private List<Class<? extends ActionInterceptor>> getInterceptorBeans(Intercept interceptAnnotation) {
+    List<Class<? extends ActionInterceptor>> interceptors = new ArrayList<Class<? extends ActionInterceptor>>();
+    for (String interceptorReference : interceptAnnotation.refs()) {
+      interceptors.add(springIntegration.getBean(interceptorReference, ActionInterceptor.class).getClass());
+    }
+    for (Class<? extends ActionInterceptor> interceptorClass : interceptAnnotation.value()) {
+      interceptors.add(springIntegration.getBean(interceptorClass).getClass());
+    }
+    return interceptors;
   }
 
   private List<ActionInterceptorInformation> getInterceptorDescriptionsForClass(ActionClassInformation actionClassInformation) {
