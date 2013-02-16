@@ -6,7 +6,7 @@ Several samples and tutorials can be found there.
 
 If you like our project, please star or follow us!
 
-Latest Bristleback version: 0.2.1
+Latest Bristleback version: 0.2.1, version 0.3.0 is under development on separate branch.
 
 Check our wiki pages for tutorials.
 
