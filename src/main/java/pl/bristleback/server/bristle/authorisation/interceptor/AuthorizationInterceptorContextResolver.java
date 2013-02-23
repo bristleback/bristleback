@@ -3,13 +3,14 @@ package pl.bristleback.server.bristle.authorisation.interceptor;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.api.action.ActionInterceptorContextResolver;
+import pl.bristleback.server.bristle.api.annotations.Authorized;
 
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * This class helps {@link AuthorizationInterceptor} and resolves required rights for action or action class,
- * using {@link Authorized} annotation. Resolved objects are of {@link RequiredRights} type.
+ * using {@link pl.bristleback.server.bristle.api.annotations.Authorized} annotation. Resolved objects are of {@link RequiredRights} type.
  * <p/>
  * Created on: 09.02.13 18:52 <br/>
  *

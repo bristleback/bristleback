@@ -5,7 +5,7 @@ import pl.bristleback.server.bristle.api.action.DefaultAction;
 import pl.bristleback.server.bristle.api.annotations.Action;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
 import pl.bristleback.server.bristle.api.annotations.ObjectSender;
-import pl.bristleback.server.bristle.authorisation.interceptor.Authorized;
+import pl.bristleback.server.bristle.api.annotations.Authorized;
 import pl.bristleback.server.bristle.engine.base.users.DefaultUser;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import pl.bristleback.server.bristle.serialization.system.annotation.Bind;

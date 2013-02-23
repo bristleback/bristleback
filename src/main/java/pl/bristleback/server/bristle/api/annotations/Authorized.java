@@ -1,6 +1,6 @@
-package pl.bristleback.server.bristle.authorisation.interceptor;
+package pl.bristleback.server.bristle.api.annotations;
 
-import pl.bristleback.server.bristle.api.annotations.Intercept;
+import pl.bristleback.server.bristle.authorisation.interceptor.AuthorizationInterceptor;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

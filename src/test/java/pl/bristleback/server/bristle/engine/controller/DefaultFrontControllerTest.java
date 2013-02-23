@@ -9,9 +9,9 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 import pl.bristleback.server.bristle.authorisation.user.UsersContainer;
 import pl.bristleback.server.bristle.engine.WebsocketOperation;
+import pl.bristleback.server.bristle.engine.base.ConnectedUser;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
@@ -26,11 +26,13 @@ public class DefaultFrontControllerTest {
 
   @Mock
   private UsersContainer usersContainer;
+
   @InjectMocks
   private DefaultFrontController frontController = new DefaultFrontController();
 
   @Mock
   private WebsocketConnector anyConnector;
+
   @Mock
   private DataController dataController;
 
@@ -42,13 +44,13 @@ public class DefaultFrontControllerTest {
   @Test
   public void shouldProcessTextMessage() throws Exception {
     frontController.processCommand(anyConnector, WebsocketOperation.TEXT_FRAME.getOperationCode().getCode(), "sampleParam");
-    Mockito.verify(anyConnector.getDataController()).processTextData(eq("sampleParam"), Mockito.any(IdentifiedUser.class));
+    Mockito.verify(anyConnector.getDataController()).processTextData(eq("sampleParam"), Mockito.any(ConnectedUser.class));
   }
 
   @Test
   public void shouldProcessBinaryMessage() throws Exception {
     frontController.processCommand(anyConnector, WebsocketOperation.BINARY_FRAME.getOperationCode().getCode(), new byte[]{1});
-    Mockito.verify(anyConnector.getDataController()).processBinaryData(eq(new byte[]{1}), Mockito.any(IdentifiedUser.class));
+    Mockito.verify(anyConnector.getDataController()).processBinaryData(eq(new byte[]{1}), Mockito.any(ConnectedUser.class));
   }
 
   @Test

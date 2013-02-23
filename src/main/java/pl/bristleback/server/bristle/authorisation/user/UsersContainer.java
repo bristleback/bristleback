@@ -41,6 +41,10 @@ public class UsersContainer {
     return newUser;
   }
 
+  public ConnectedUser getConnectedUser(WebsocketConnector connector) {
+    return connectedUsers.get(connector.getConnectorId());
+  }
+
   public IdentifiedUser getUserByConnector(WebsocketConnector connector) {
     return connectedUsers.get(connector.getConnectorId()).getUser();
   }

@@ -3,6 +3,7 @@ package pl.bristleback.server.bristle.api;
 import pl.bristleback.server.bristle.conf.DataControllers;
 import pl.bristleback.server.bristle.conf.InitialConfiguration;
 import pl.bristleback.server.bristle.conf.MessageConfiguration;
+import pl.bristleback.server.bristle.conf.UserConfiguration;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.listener.ListenersContainer;
 
@@ -72,4 +73,6 @@ public interface BristlebackConfig {
    * @return Spring application contexts container.
    */
   BristleSpringIntegration getSpringIntegration();
+
+  UserConfiguration getUserConfiguration();
 }

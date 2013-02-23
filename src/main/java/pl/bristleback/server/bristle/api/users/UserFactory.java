@@ -8,14 +8,14 @@ package pl.bristleback.server.bristle.api.users;
  *
  * @author Pawel Machowski created at 03.06.12 16:34
  */
-public interface UserFactory {
+public interface UserFactory<T extends IdentifiedUser> {
 
   /**
    * Creates new instance of user object. For every new WebSocket connection it should return unique instance of  {@link
-   * IdentifiedUser}.
+   * IdentifiedUser} implementation.
    *
    * @return new instance of user object.
    */
-  IdentifiedUser createNewUser();
+  T createNewUser();
 
 }

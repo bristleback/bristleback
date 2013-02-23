@@ -7,10 +7,10 @@ import pl.bristleback.server.bristle.api.users.UserFactory;
  * Pawel Machowski
  * created at 03.06.12 15:10
  */
-public class MockUserFactory implements UserFactory {
+public class MockUserFactory implements UserFactory<MockUserFactory.MockUser> {
 
   @Override
-  public IdentifiedUser createNewUser() {
+  public MockUser createNewUser() {
     return new MockUser();
   }
 

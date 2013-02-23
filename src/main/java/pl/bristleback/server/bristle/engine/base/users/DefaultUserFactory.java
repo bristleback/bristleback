@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.engine.base.users;
 
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 import pl.bristleback.server.bristle.api.users.UserFactory;
 
 /**
@@ -10,10 +9,10 @@ import pl.bristleback.server.bristle.api.users.UserFactory;
  * Pawel Machowski
  * created at 03.05.12 16:34
  */
-public class DefaultUserFactory implements UserFactory {
+public class DefaultUserFactory implements UserFactory<DefaultUser> {
 
   @Override
-  public IdentifiedUser createNewUser() {
+  public DefaultUser createNewUser() {
     return new DefaultUser();
   }
 

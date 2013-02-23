@@ -2,7 +2,7 @@ package pl.bristleback.server.bristle.utils;
 
 import org.junit.Test;
 import pl.bristleback.server.bristle.api.annotations.Intercept;
-import pl.bristleback.server.bristle.authorisation.interceptor.Authorized;
+import pl.bristleback.server.bristle.api.annotations.Authorized;
 import pl.bristleback.server.mock.action.SimpleActionClass;
 
 import java.lang.reflect.Method;

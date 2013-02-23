@@ -9,12 +9,15 @@ import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.MessageDispatcher;
 import pl.bristleback.server.bristle.api.SerializationEngine;
 import pl.bristleback.server.bristle.api.ServerEngine;
+import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 import pl.bristleback.server.bristle.api.users.UserFactory;
+import pl.bristleback.server.bristle.authorisation.user.UsersContainer;
 import pl.bristleback.server.bristle.conf.BristleConfig;
 import pl.bristleback.server.bristle.conf.DataControllers;
 import pl.bristleback.server.bristle.conf.EngineConfig;
 import pl.bristleback.server.bristle.conf.InitialConfiguration;
 import pl.bristleback.server.bristle.conf.MessageConfiguration;
+import pl.bristleback.server.bristle.conf.UserConfiguration;
 import pl.bristleback.server.bristle.conf.resolver.message.ObjectSenderInitializer;
 import pl.bristleback.server.bristle.conf.resolver.message.ObjectSenderInjector;
 import pl.bristleback.server.bristle.engine.base.users.DefaultUserFactory;
@@ -22,6 +25,7 @@ import pl.bristleback.server.bristle.exceptions.BristleInitializationException;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.listener.ListenersContainer;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
+import pl.bristleback.server.bristle.utils.ReflectionUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,7 +57,7 @@ public class SpringConfigurationResolver {
     configuration.setMessageConfiguration(messageConfiguration());
     configuration.setDataControllers(dataControllers());
     configuration.setListenersContainer(listenersContainer());
-
+    configuration.setUserConfiguration(userConfiguration());
     initObjectSenders();
 
     return configuration;
@@ -145,6 +149,18 @@ public class SpringConfigurationResolver {
 
   private ObjectSenderInitializer objectSenderInitializer() {
     return springIntegration.getFrameworkBean("objectSenderInitializer", ObjectSenderInitializer.class);
+  }
+
+  @SuppressWarnings("unchecked")
+  @Bean
+  public UserConfiguration userConfiguration() {
+
+    UserFactory userFactory = userFactory();
+    Class<? extends IdentifiedUser> userClass =(Class<? extends IdentifiedUser>)ReflectionUtils.getParameterTypes(userFactory().getClass(), UserFactory.class)[0];
+
+    UsersContainer usersContainer = springIntegration().getBean(UsersContainer.class);
+
+    return new UserConfiguration(userFactory, userClass, usersContainer);
   }
 
   @Bean

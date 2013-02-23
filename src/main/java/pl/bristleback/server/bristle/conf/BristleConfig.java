@@ -32,6 +32,8 @@ public class BristleConfig implements BristlebackConfig {
 
   private SerializationEngine serializationEngine;
 
+  private UserConfiguration userConfiguration;
+
   public ServerEngine getServerEngine() {
     return serverEngine;
   }
@@ -90,5 +92,13 @@ public class BristleConfig implements BristlebackConfig {
 
   public void setMessageConfiguration(MessageConfiguration messageConfiguration) {
     this.messageConfiguration = messageConfiguration;
+  }
+
+  public UserConfiguration getUserConfiguration() {
+    return userConfiguration;
+  }
+
+  public void setUserConfiguration(UserConfiguration userConfiguration) {
+    this.userConfiguration = userConfiguration;
   }
 }

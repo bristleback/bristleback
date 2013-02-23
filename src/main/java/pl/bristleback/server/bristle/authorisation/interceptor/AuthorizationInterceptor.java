@@ -9,7 +9,7 @@ import pl.bristleback.server.bristle.api.annotations.Interceptor;
 
 /**
  * Prototype of Bristleback built in authorization interceptor.
- * This interceptor uses custom intercepting annotation, {@link Authorized}.
+ * This interceptor uses custom intercepting annotation, {@link pl.bristleback.server.bristle.api.annotations.Authorized}.
  * <p/>
  * Created on: 09.02.13 18:49 <br/>
  *
