@@ -1,7 +1,5 @@
 package pl.bristleback.server.bristle.authentication;
 
-import org.springframework.stereotype.Component;
-
 /**
  * //@todo class description
  * <p/>
@@ -9,7 +7,6 @@ import org.springframework.stereotype.Component;
  *
  * @author Wojciech Niemiec
  */
-@Component
 public class AuthenticationConfiguration {
 
   private int maximumAuthenticationsPerUsername = 2;

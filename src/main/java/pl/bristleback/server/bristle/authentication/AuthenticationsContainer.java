@@ -1,7 +1,6 @@
 package pl.bristleback.server.bristle.authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.engine.base.ConnectedUser;
 import pl.bristleback.server.bristle.exceptions.UserNotAuthenticatedException;
 
@@ -18,7 +17,6 @@ import java.util.Map;
  *
  * @author Wojciech Niemiec
  */
-@Component
 public class AuthenticationsContainer {
 
   private Map<String, UserAuthentication> connectorIdToAuthenticationMappings;
@@ -55,7 +53,7 @@ public class AuthenticationsContainer {
   public void logout(ConnectedUser user) {
     String connectorId = user.getConnector().getConnectorId();
     UserAuthentication authentication = connectorIdToAuthenticationMappings.get(connectorId);
-    if(authentication == null) {
+    if (authentication == null) {
       throw new UserNotAuthenticatedException();
     }
     authentication.invalidate();

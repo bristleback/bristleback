@@ -1,7 +1,5 @@
 package pl.bristleback.server.bristle.authentication;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
 import pl.bristleback.server.bristle.action.ActionInformation;
@@ -12,6 +10,9 @@ import pl.bristleback.server.bristle.api.annotations.Interceptor;
 import pl.bristleback.server.bristle.api.users.UserDetails;
 import pl.bristleback.server.bristle.conf.UserConfiguration;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 /**
  * //@todo class description
  * <p/>
@@ -19,13 +20,13 @@ import pl.bristleback.server.bristle.conf.UserConfiguration;
  *
  * @author Wojciech Niemiec
  */
-@Component
 @Interceptor(stages = ActionExecutionStage.RESPONSE_CONSTRUCTION, contextResolver = AuthenticationInterceptorContextResolver.class)
 public class AuthenticationInterceptor implements ActionInterceptor<AuthenticationOperationContext>, ConfigurationAware {
 
   private UserConfiguration userConfiguration;
 
-  @Autowired
+  @Inject
+  @Named("bristleAuthenticationsContainer")
   private AuthenticationsContainer authenticationsContainer;
 
   @Override

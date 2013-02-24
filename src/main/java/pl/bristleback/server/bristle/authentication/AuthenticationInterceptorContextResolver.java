@@ -1,6 +1,5 @@
 package pl.bristleback.server.bristle.authentication;
 
-import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.api.action.ActionInterceptorContextResolver;
 
@@ -11,7 +10,6 @@ import pl.bristleback.server.bristle.api.action.ActionInterceptorContextResolver
  *
  * @author Wojciech Niemiec
  */
-@Component
 public class AuthenticationInterceptorContextResolver implements ActionInterceptorContextResolver<AuthenticationOperationContext> {
 
   @Override

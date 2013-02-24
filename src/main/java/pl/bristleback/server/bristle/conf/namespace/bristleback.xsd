@@ -87,15 +87,26 @@
       <xsd:attribute name="userDetailsService" type="xsd:string" use="optional">
         <xsd:annotation>
           <xsd:documentation source="pl.bristleback.server.bristle.api.users.UserDetailsService"><![CDATA[
-        	              The bean name of the UserDetailsService used in default authentication action.
-        	              If not specified, custom authentication actions must be provided
-        	              (check pl.bristleback.server.bristle.api.annotations.Authenticator annotation).
-        							]]></xsd:documentation>
+              	              The bean name of the UserDetailsService used in default authentication action.
+              	              If not specified, custom authentication actions must be provided
+              	              (check pl.bristleback.server.bristle.api.annotations.Authenticator annotation).
+              							]]></xsd:documentation>
           <xsd:appinfo>
             <tool:annotation kind="ref">
               <tool:expected-type type="pl.bristleback.server.bristle.api.users.UserDetailsService"/>
             </tool:annotation>
           </xsd:appinfo>
+        </xsd:annotation>
+      </xsd:attribute>
+
+      <xsd:attribute name="useDefaultLogoutAction" type="xsd:boolean" use="optional" default="true">
+        <xsd:annotation>
+          <xsd:documentation source="java.lang.Boolean"><![CDATA[
+              	              Indicates whether default pl.bristleback.server.bristle.authentication.LogoutAction
+              	              action class should be created.
+              	              If set to false, user must provide custom logout action,
+              	              intercepted by pl.bristleback.server.bristle.authentication.LogoutInterceptor.
+              							]]></xsd:documentation>
         </xsd:annotation>
       </xsd:attribute>
     </xsd:complexType>
