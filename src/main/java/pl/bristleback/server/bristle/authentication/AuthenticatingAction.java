@@ -15,8 +15,8 @@ import pl.bristleback.server.bristle.exceptions.IncorrectUsernameOrPasswordExcep
  *
  * @author Wojciech Niemiec
  */
-@ActionClass
-public class LoginAction {
+@ActionClass(name = "BristleSystemUserAuthentication")
+public class AuthenticatingAction {
 
   private UserDetailsService userDetailsService;
 
@@ -24,16 +24,14 @@ public class LoginAction {
   @Authenticator
   public UserDetails authenticate(String username, String password) {
     UserDetails userDetails = userDetailsService.getUserDetails(username);
-    if (userDetails == null) {
+    if (userDetails == null || !userDetails.getPassword().equals(password)) {
       throw new IncorrectUsernameOrPasswordException(username);
     }
     if (!userDetails.isAccountNonLocked() || !userDetails.isAccountNonExpired()
       || !userDetails.isEnabled() || !userDetails.isCredentialsNonExpired()) {
       throw new InactiveUserException();
     }
-    if (!userDetails.getPassword().equals(password)) {
-      throw new IncorrectUsernameOrPasswordException(username);
-    }
+
     return userDetails;
   }
 

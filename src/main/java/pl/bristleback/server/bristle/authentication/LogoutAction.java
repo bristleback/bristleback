@@ -1,7 +1,6 @@
 package pl.bristleback.server.bristle.authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
 import pl.bristleback.server.bristle.api.annotations.Intercept;
 
@@ -12,8 +11,7 @@ import pl.bristleback.server.bristle.api.annotations.Intercept;
  *
  * @author Wojciech Niemiec
  */
-@Controller
-@ActionClass(name = "BristlebackSystemLogoutUser")
+@ActionClass(name = "BristleSystemUserLogout")
 public class LogoutAction {
 
   @Autowired

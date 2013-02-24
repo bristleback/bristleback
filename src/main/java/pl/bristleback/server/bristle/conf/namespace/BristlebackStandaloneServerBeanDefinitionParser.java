@@ -3,7 +3,6 @@ package pl.bristleback.server.bristle.conf.namespace;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
 import pl.bristleback.server.bristle.app.StandaloneServerRunner;
@@ -16,7 +15,7 @@ import pl.bristleback.server.bristle.exceptions.BristleInitializationException;
  *
  * @author Wojciech Niemiec
  */
-public class BristlebackStandaloneServerBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
+public class BristlebackStandaloneServerBeanDefinitionParser extends BaseBristlebackBeanDefinitionParser {
 
   public static final String DEFAULT_STANDALONE_SERVER_NAME = "bristlebackStandaloneServer";
 
@@ -36,7 +35,6 @@ public class BristlebackStandaloneServerBeanDefinitionParser extends AbstractSin
 
     return DEFAULT_STANDALONE_SERVER_NAME;
   }
-
 
   @Override
   protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {

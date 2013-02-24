@@ -2,10 +2,8 @@ package pl.bristleback.server.bristle.conf.namespace;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.parsing.BeanComponentDefinition;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.w3c.dom.Element;
@@ -22,7 +20,7 @@ import java.util.Map;
  *
  * @author Wojciech Niemiec
  */
-public class BristlebackServletBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
+public class BristlebackServletBeanDefinitionParser extends BaseBristlebackBeanDefinitionParser {
 
   public static final String DEFAULT_HTTP_HANDLER_NAME = "bristlebackHttpHandler";
 
@@ -75,12 +73,6 @@ public class BristlebackServletBeanDefinitionParser extends AbstractSingleBeanDe
       .addPropertyValue("urlMap", mappings)
       .getBeanDefinition();
     registerBean(parserContext, defaultMappingsBean, DEFAULT_HANDLER_MAPPINGS_NAME);
-  }
-
-  private void registerBean(ParserContext parserContext, BeanDefinition beanDefinition, String beanName) {
-    BeanComponentDefinition component = new BeanComponentDefinition(beanDefinition, beanName);
-
-    parserContext.registerBeanComponent(component);
   }
 
 }

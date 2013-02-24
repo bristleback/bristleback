@@ -14,5 +14,6 @@ public class BristlebackNamespaceHandler extends NamespaceHandlerSupport {
     registerBeanDefinitionParser("serverMessages", new BristlebackServerMessagesBeanDefinitionParser());
     registerBeanDefinitionParser("standaloneServer", new BristlebackStandaloneServerBeanDefinitionParser());
     registerBeanDefinitionParser("servlet", new BristlebackServletBeanDefinitionParser());
+    registerBeanDefinitionParser("security", new BristlebackSecurityBeanDefinitionParser());
   }
 }

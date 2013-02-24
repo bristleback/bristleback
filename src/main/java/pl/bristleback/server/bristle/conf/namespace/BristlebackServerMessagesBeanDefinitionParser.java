@@ -6,10 +6,8 @@ import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.aop.support.annotation.AnnotationClassFilter;
 import org.springframework.aop.support.annotation.AnnotationMethodMatcher;
 import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.parsing.BeanComponentDefinition;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
 import pl.bristleback.server.bristle.action.client.ClientActionProxyInterceptor;
@@ -25,7 +23,7 @@ import pl.bristleback.server.bristle.message.ConditionObjectSender;
  *
  * @author Wojciech Niemiec
  */
-public class BristlebackServerMessagesBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
+public class BristlebackServerMessagesBeanDefinitionParser extends BaseBristlebackBeanDefinitionParser {
 
   protected Class getBeanClass(Element element) {
     return String.class;
@@ -87,16 +85,5 @@ public class BristlebackServerMessagesBeanDefinitionParser extends AbstractSingl
 
   private void registerConditionSenderBean(ParserContext parserContext) {
     registerRootBean(parserContext, ConditionObjectSender.class, "system.sender.condition", BeanDefinition.SCOPE_PROTOTYPE);
-  }
-
-  private BeanDefinition registerRootBean(ParserContext parserContext, Class<?> clazz, String beanName, String scope) {
-    BeanDefinition beanDefinition = BeanDefinitionBuilder.rootBeanDefinition(clazz).setScope(scope).getBeanDefinition();
-    registerBean(parserContext, beanDefinition, beanName);
-    return beanDefinition;
-  }
-
-  private void registerBean(ParserContext parserContext, BeanDefinition beanDefinition, String beanName) {
-    BeanComponentDefinition component = new BeanComponentDefinition(beanDefinition, beanName);
-    parserContext.registerBeanComponent(component);
   }
 }

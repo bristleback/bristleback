@@ -81,4 +81,23 @@
       </xsd:complexContent>
     </xsd:complexType>
   </xsd:element>
+
+  <xsd:element name="security">
+    <xsd:complexType>
+      <xsd:attribute name="userDetailsService" type="xsd:string" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="pl.bristleback.server.bristle.api.users.UserDetailsService"><![CDATA[
+        	              The bean name of the UserDetailsService used in default authentication action.
+        	              If not specified, custom authentication actions must be provided
+        	              (check pl.bristleback.server.bristle.api.annotations.Authenticator annotation).
+        							]]></xsd:documentation>
+          <xsd:appinfo>
+            <tool:annotation kind="ref">
+              <tool:expected-type type="pl.bristleback.server.bristle.api.users.UserDetailsService"/>
+            </tool:annotation>
+          </xsd:appinfo>
+        </xsd:annotation>
+      </xsd:attribute>
+    </xsd:complexType>
+  </xsd:element>
 </xsd:schema> 

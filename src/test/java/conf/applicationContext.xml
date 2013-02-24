@@ -16,6 +16,8 @@
 
   <bb:serverMessages/>
 
+  <bb:security userDetailsService="sampleUserDetailsService"/>
+
   <bean id="initPojoConfigResolver" class="pl.bristleback.server.bristle.conf.resolver.init.PojoConfigResolver">
     <!--<property name="serializationEngine" value="system.jacksonSerializer"/>-->
   </bean>
