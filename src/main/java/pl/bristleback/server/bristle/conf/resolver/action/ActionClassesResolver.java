@@ -40,7 +40,7 @@ public class ActionClassesResolver {
   public ActionsContainer resolve() {
     ActionsContainer actionsContainer = new ActionsContainer();
     Map<String, ActionClassInformation> actionClasses = new HashMap<String, ActionClassInformation>();
-    Map<String, Object> foundActions = springIntegration.getActualContext().getBeansWithAnnotation(ActionClass.class);
+    Map<String, Object> foundActions = springIntegration.getBeansWithAnnotation(ActionClass.class);
     for (Map.Entry<String, Object> actionClassEntry : foundActions.entrySet()) {
       String actionClassBeanName = actionClassEntry.getKey();
       Object actionClass = actionClassEntry.getValue();

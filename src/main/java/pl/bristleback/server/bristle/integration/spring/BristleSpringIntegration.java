@@ -18,6 +18,7 @@ package pl.bristleback.server.bristle.integration.spring;
 import org.springframework.context.ApplicationContext;
 import pl.bristleback.server.bristle.exceptions.BristleRuntimeException;
 
+import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -184,5 +185,11 @@ public final class BristleSpringIntegration {
       return actualContext.isSingleton(beanName);
     }
     return bristlebackFrameworkContext.isSingleton(beanName);
+  }
+
+  public Map<String, Object> getBeansWithAnnotation(Class<? extends Annotation> annotation) {
+    Map<String, Object> beans = actualContext.getBeansWithAnnotation(annotation);
+    beans.putAll(bristlebackFrameworkContext.getBeansWithAnnotation(annotation));
+    return beans;
   }
 }
