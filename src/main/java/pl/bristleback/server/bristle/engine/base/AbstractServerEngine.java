@@ -6,7 +6,7 @@ import pl.bristleback.server.bristle.api.ConnectionStateListener;
 import pl.bristleback.server.bristle.api.ServerEngine;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
-import pl.bristleback.server.bristle.authorisation.user.UsersContainer;
+import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.conf.EngineConfig;
 import pl.bristleback.server.bristle.listener.ConnectionStateListenerChain;
 

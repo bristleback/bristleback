@@ -1,6 +1,7 @@
-package pl.bristleback.server.bristle.authentication;
+package pl.bristleback.server.bristle.security.authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.engine.base.ConnectedUser;
 import pl.bristleback.server.bristle.exceptions.UserNotAuthenticatedException;
 
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * //@todo class description
+ * This class contains all information about currently open authentications.
  * <p/>
  * Created on: 18.02.13 19:12 <br/>
  *
@@ -51,12 +52,30 @@ public class AuthenticationsContainer {
   }
 
   public void logout(ConnectedUser user) {
-    String connectorId = user.getConnector().getConnectorId();
-    UserAuthentication authentication = connectorIdToAuthenticationMappings.get(connectorId);
-    if (authentication == null) {
-      throw new UserNotAuthenticatedException();
-    }
+    UserAuthentication authentication = getAuthentication(user);
     authentication.invalidate();
     concurrentAuthentications.remove(authentication.getAuthenticatedUser().getUsername());
+  }
+
+  /**
+   * Gets authentication representation for given connection.
+   *
+   * @param user connection representation.
+   * @return user authentication object.
+   * @throws UserNotAuthenticatedException if there is not authentication for given connection
+   *                                       or authentication is invalidated.
+   */
+  public UserAuthentication getAuthentication(ConnectedUser user) {
+    String connectorId = user.getConnector().getConnectorId();
+    UserAuthentication authentication = connectorIdToAuthenticationMappings.get(connectorId);
+    if (authentication == null || !authentication.isValid()) {
+      throw new UserNotAuthenticatedException();
+    }
+    return authentication;
+  }
+
+  public boolean hasValidAuthenticationForConnection(WebsocketConnector connector) {
+    UserAuthentication authentication = connectorIdToAuthenticationMappings.get(connector.getConnectorId());
+    return authentication != null && authentication.isValid();
   }
 }

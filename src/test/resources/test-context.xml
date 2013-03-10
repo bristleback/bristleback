@@ -10,6 +10,8 @@
 
   <bb:serverMessages/>
 
+  <bb:security userDetailsService="sampleUserDetailsService"/>
+
   <bean id="mockBeansFactory" class="pl.bristleback.server.mock.beans.SpringMockBeansFactory"/>
 
   <bean id="sampleActionBean" class="pl.bristleback.server.mock.action.SimpleActionClass"/>
@@ -45,5 +47,7 @@
     <property name="interceptor" ref="mockActionInterceptor"/>
     <property name="interceptorMatcher" ref="annotationMatcher"/>
   </bean>
+
+  <bean id="sampleUserDetailsService" class="sample.security.SampleUserDetailsService"/>
 
 </beans>

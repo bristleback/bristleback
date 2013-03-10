@@ -1,7 +1,7 @@
-package pl.bristleback.server.bristle.authentication;
+package pl.bristleback.server.bristle.security.authentication;
 
 /**
- * //@todo class description
+ * this context object is used in authentication operation.
  * <p/>
  * Created on: 18.02.13 20:13 <br/>
  *

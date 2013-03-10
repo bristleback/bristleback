@@ -6,12 +6,12 @@ import pl.bristleback.server.bristle.api.users.IdentifiedUser;
  * Basic filter interface, used to determine message recipients.
  * In most scenarios, application creators should define custom implementations of this interface,
  * however Bristleback provides few built in filters, mainly in
- * {@link pl.bristleback.server.bristle.authorisation.conditions.LogicalConditions} class.
+ * {@link pl.bristleback.server.bristle.security.authorisation.conditions.LogicalConditions} class.
  *
  * @author Pawel Machowski
  *         created at 01.05.12 14:12
- * @see pl.bristleback.server.bristle.authorisation.conditions.LogicalConditions Logical filters
- * @see pl.bristleback.server.bristle.authorisation.conditions.AllUsersCondition All users filter
+ * @see pl.bristleback.server.bristle.security.authorisation.conditions.LogicalConditions Logical filters
+ * @see pl.bristleback.server.bristle.security.authorisation.conditions.AllUsersCondition All users filter
  */
 public interface SendCondition<T extends IdentifiedUser> {
 

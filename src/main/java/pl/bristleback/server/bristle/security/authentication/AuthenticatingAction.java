@@ -1,4 +1,4 @@
-package pl.bristleback.server.bristle.authentication;
+package pl.bristleback.server.bristle.security.authentication;
 
 import pl.bristleback.server.bristle.api.annotations.Action;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
@@ -9,7 +9,11 @@ import pl.bristleback.server.bristle.exceptions.InactiveUserException;
 import pl.bristleback.server.bristle.exceptions.IncorrectUsernameOrPasswordException;
 
 /**
- * //@todo class description
+ * This is a system authentication action class, intercepted by {@link Authenticator}.
+ * This action relies on {@link UserDetailsService} implementation provided by application creator.
+ * Note that it is possible to create multiple authenticating action classes.
+ * To be usable by the authentication framework, their action must be annotated with {@link Authenticator}
+ * and their return type must be {@link UserDetails} implementation.
  * <p/>
  * Created on: 19.02.13 22:43 <br/>
  *
@@ -35,6 +39,11 @@ public class AuthenticatingAction {
     return userDetails;
   }
 
+  /**
+   * {@link UserDetailsService} implementation must be provided by application creator and will be injected into this action class.
+   *
+   * @param userDetailsService user details service implementation.
+   */
   public void setUserDetailsService(UserDetailsService userDetailsService) {
     this.userDetailsService = userDetailsService;
   }

@@ -3,7 +3,7 @@ package pl.bristleback.server.bristle.action.client;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
-import pl.bristleback.server.bristle.authorisation.user.UsersContainer;
+import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.conf.resolver.SpringConfigurationResolver;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;

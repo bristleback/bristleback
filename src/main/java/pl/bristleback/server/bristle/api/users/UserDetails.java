@@ -1,5 +1,7 @@
 package pl.bristleback.server.bristle.api.users;
 
+import java.util.Collection;
+
 /**
  * //@todo class description
  * <p/>
@@ -12,6 +14,8 @@ public interface UserDetails {
   String getUsername();
 
   String getPassword();
+
+  Collection<String> getAuthorities();
 
   boolean isLogged();
 

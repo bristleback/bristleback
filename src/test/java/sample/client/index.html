@@ -12,11 +12,11 @@
   <script type="text/javascript">
     var config = {
       //  serverUrl: "ws://localhost:8765/websocket",
-      OnOpen: function(event) {
+      OnOpen: function (event) {
         document.getElementById('status').innerHTML = "The WebSocket Connection Is Open.";
-       // $('#status').text("The WebSocket Connection Is Open.");
+        // $('#status').text("The WebSocket Connection Is Open.");
       },
-      OnClose: function(event) {
+      OnClose: function (event) {
         Bristleback.Console.disableConsole();
         document.getElementById('status').innerHTML = "The WebSocket Connection Is Closed.";
       }
@@ -26,42 +26,52 @@
     var sampleAction = dataController.getActionClass("sample");
 
     sampleAction.defineAction("hello")
-      .setResponseHandler(function(message) {
-      $('#status').text(message);
-    });
+      .setResponseHandler(function (message) {
+        $('#status').text(message);
+      });
 
-    sampleAction.exceptionHandler.setDefaultExceptionHandler(function() {
+    sampleAction.exceptionHandler.setDefaultExceptionHandler(function () {
       Bristleback.Console.log("[ERROR in SampleAction] Exception in hello action, this handler will return false and thus let default handlers run.");
       return false;
     });
     sampleAction.defineDefaultAction()
-      .setResponseHandler(function(message) {
-      $('#status').text("Default action response: " + message);
-    });
+      .setResponseHandler(function (message) {
+        $('#status').text("Default action response: " + message);
+      });
 
     sampleAction.defineAction("getFactorials")
       .renderOnResponse("factorials-template", "#status", "factorials")
       .renderOnDefaultException("factorials-error-template", "#status", false)
       .renderOnException("factorialInputException", "factorials-wrong-input-template", "#status");
 
-    dataController.exceptionHandler.setExceptionHandler("sample.NumberFormatException", function() {
+    dataController.exceptionHandler.setExceptionHandler("sample.NumberFormatException", function () {
       $('#age').css("border-color", "red");
       $('#status').text("Field age must be a number!");
       Bristleback.Console.log("Field age must be a number!");
       return true;
     });
 
-    sampleAction.defineAction("userDetails").setResponseHandler(function(user) {
+    sampleAction.defineAction("userDetails").setResponseHandler(function (user) {
       alert("Its normal serwer message sent before response, user details:" + user.firstName + ":" + user.age);
     });
 
+    var loginAction = dataController.getActionClass("BristleSystemUserAuthentication");
+    loginAction.defineAction("authenticate");
+
+    var logoutAction = dataController.getActionClass("BristleSystemUserLogout");
+    logoutAction.defineAction("logout");
+
+    var securedAction = dataController.getActionClass("SecuredAction");
+    securedAction.defineAction("runSecuredAction");
+    securedAction.defineAction("runAdminAction");
+
     var clientActionClass = {
-      sendCardsToUser: function(cards) {
+      sendCardsToUser: function (cards) {
         for (var index in cards) {
           alert("Card: " + cards[index]);
         }
       },
-      userDetails: function(user) {
+      userDetails: function (user) {
         alert("user data: \n" + Bristleback.utils.objectToString(user));
       }
     };
@@ -90,11 +100,11 @@
       var name = $('#fullName').val();
       var age = $('#age').val();
       $('#age').css("border-color", "");
-      var responseFunction = function(message) {
+      var responseFunction = function (message) {
         alert("Action was invoked succesfully, " + message);
       };
       var callback = new Bristleback.controller.ActionCallback(responseFunction);
-      callback.exceptionHandler.setDefaultExceptionHandler(function(actionMessage) {
+      callback.exceptionHandler.setDefaultExceptionHandler(function (actionMessage) {
         alert("exception callback");
         return true;
       });
@@ -105,6 +115,26 @@
       var age = $('#age').val();
       $('#age').css("border-color", "");
       sampleAction.getFactorials(age);
+    }
+
+    function loginAsNormalUser() {
+      loginAction.authenticate("normal", "normal_pass");
+    }
+
+    function loginAsAdmin() {
+      loginAction.authenticate("admin", "admin_pass");
+    }
+
+    function logout() {
+      logoutAction.logout();
+    }
+
+    function performAuthorizedAction() {
+      securedAction.runSecuredAction();
+    }
+
+    function performAuthorizedAdminAction() {
+      securedAction.runAdminAction();
     }
 
     function closeConnection() {
@@ -140,6 +170,27 @@
 </label>
 <label>
   <input type="button" onclick="getFactorials()" value="Get factorials">
+</label>
+
+<hr>
+<label>
+  <input type="button" onclick="loginAsNormalUser()" value="Log in as a normal user">
+</label>
+
+<label>
+  <input type="button" onclick="loginAsAdmin()" value="Log in as admin">
+</label>
+
+<label>
+  <input type="button" onclick="logout()" value="Log out">
+</label>
+
+<label>
+  <input type="button" onclick="performAuthorizedAction()" value="Perform authorized action">
+</label>
+
+<label>
+  <input type="button" onclick="performAuthorizedAdminAction()" value="Perform admin authorized action">
 </label>
 
 <textarea id="factorials-template" style="display:none;" rows="1" cols="1">

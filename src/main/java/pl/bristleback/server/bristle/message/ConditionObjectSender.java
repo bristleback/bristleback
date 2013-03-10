@@ -8,7 +8,7 @@ import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.WebsocketMessage;
 import pl.bristleback.server.bristle.api.action.SendCondition;
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
-import pl.bristleback.server.bristle.authorisation.user.UsersContainer;
+import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.conf.resolver.action.BristleMessageSerializationUtils;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
 

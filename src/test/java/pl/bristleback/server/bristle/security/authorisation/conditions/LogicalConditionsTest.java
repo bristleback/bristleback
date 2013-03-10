@@ -1,4 +1,4 @@
-package pl.bristleback.server.bristle.authorisation.conditions;
+package pl.bristleback.server.bristle.security.authorisation.conditions;
 
 import org.junit.Test;
 import pl.bristleback.server.bristle.api.action.SendCondition;
@@ -8,13 +8,6 @@ import pl.bristleback.server.bristle.engine.base.users.DefaultUserFactory;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-/**
- * //@todo class description
- * <p/>
- * Created on: 2012-09-14 10:40:11 <br/>
- *
- * @author Wojciech Niemiec
- */
 public class LogicalConditionsTest {
 
   private SendCondition<DefaultUser> createAcceptingCondition() {

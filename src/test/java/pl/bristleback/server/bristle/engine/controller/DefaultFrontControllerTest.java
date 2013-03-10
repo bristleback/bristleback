@@ -9,7 +9,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
-import pl.bristleback.server.bristle.authorisation.user.UsersContainer;
+import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.engine.WebsocketOperation;
 import pl.bristleback.server.bristle.engine.base.ConnectedUser;
 

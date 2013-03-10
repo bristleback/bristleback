@@ -5,13 +5,15 @@ import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
-import pl.bristleback.server.bristle.authentication.AuthenticatingAction;
-import pl.bristleback.server.bristle.authentication.AuthenticationConfiguration;
-import pl.bristleback.server.bristle.authentication.AuthenticationInterceptor;
-import pl.bristleback.server.bristle.authentication.AuthenticationInterceptorContextResolver;
-import pl.bristleback.server.bristle.authentication.AuthenticationsContainer;
-import pl.bristleback.server.bristle.authentication.LogoutAction;
-import pl.bristleback.server.bristle.authentication.LogoutInterceptor;
+import pl.bristleback.server.bristle.security.authentication.AuthenticatingAction;
+import pl.bristleback.server.bristle.security.authentication.AuthenticationConfiguration;
+import pl.bristleback.server.bristle.security.authentication.AuthenticationInterceptor;
+import pl.bristleback.server.bristle.security.authentication.AuthenticationInterceptorContextResolver;
+import pl.bristleback.server.bristle.security.authentication.AuthenticationsContainer;
+import pl.bristleback.server.bristle.security.authentication.LogoutAction;
+import pl.bristleback.server.bristle.security.authentication.LogoutInterceptor;
+import pl.bristleback.server.bristle.security.authorisation.interceptor.AuthorizationInterceptor;
+import pl.bristleback.server.bristle.security.authorisation.interceptor.AuthorizationInterceptorContextResolver;
 
 /**
  * Parser for Bristleback security tag.
@@ -33,6 +35,23 @@ public class BristlebackSecurityBeanDefinitionParser extends BaseBristlebackBean
   @Override
   protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
     addBasicBeans(parserContext);
+    addAuthenticationBeans(element, parserContext);
+    addAuthorizationBeans(element, parserContext);
+  }
+
+  private void addAuthorizationBeans(Element element, ParserContext parserContext) {
+    BeanDefinition authorizationInterceptor = BeanDefinitionBuilder
+      .rootBeanDefinition(AuthorizationInterceptor.class)
+      .getBeanDefinition();
+    registerBean(parserContext, authorizationInterceptor, "bristleAuthorizationInterceptor");
+
+    BeanDefinition authorizationInterceptorContextResolver = BeanDefinitionBuilder
+      .rootBeanDefinition(AuthorizationInterceptorContextResolver.class)
+      .getBeanDefinition();
+    registerBean(parserContext, authorizationInterceptorContextResolver, "bristleAuthorizationInterceptorContextResolver");
+  }
+
+  private void addAuthenticationBeans(Element element, ParserContext parserContext) {
     addInterceptorBeans(parserContext);
 
     boolean useDefaultAuthenticationAction = element.hasAttribute("userDetailsService");
@@ -69,9 +88,9 @@ public class BristlebackSecurityBeanDefinitionParser extends BaseBristlebackBean
     registerBean(parserContext, authenticationInterceptorContextResolver, "bristleAuthenticationInterceptorContextResolver");
 
     BeanDefinition logoutInterceptor = BeanDefinitionBuilder
-          .rootBeanDefinition(LogoutInterceptor.class)
-          .getBeanDefinition();
-        registerBean(parserContext, logoutInterceptor, "bristleLogoutInterceptor");
+      .rootBeanDefinition(LogoutInterceptor.class)
+      .getBeanDefinition();
+    registerBean(parserContext, logoutInterceptor, "bristleLogoutInterceptor");
 
   }
 

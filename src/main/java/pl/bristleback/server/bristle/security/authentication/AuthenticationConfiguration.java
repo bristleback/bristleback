@@ -1,7 +1,7 @@
-package pl.bristleback.server.bristle.authentication;
+package pl.bristleback.server.bristle.security.authentication;
 
 /**
- * //@todo class description
+ * This class contains configuration used by the system authentication framework.
  * <p/>
  * Created on: 18.02.13 19:14 <br/>
  *

@@ -1,7 +1,7 @@
 package pl.bristleback.server.bristle.engine;
 
 import pl.bristleback.server.bristle.api.WebsocketConnector;
-import pl.bristleback.server.bristle.authorisation.user.UsersContainer;
+import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.engine.base.ConnectedUser;
 
 /**

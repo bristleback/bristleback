@@ -1,4 +1,4 @@
-package pl.bristleback.server.bristle.authorisation.interceptor;
+package pl.bristleback.server.bristle.security.authorisation.interceptor;
 
 import java.util.List;
 

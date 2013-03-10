@@ -101,11 +101,11 @@
 
       <xsd:attribute name="useDefaultLogoutAction" type="xsd:boolean" use="optional" default="true">
         <xsd:annotation>
-          <xsd:documentation source="java.lang.Boolean"><![CDATA[
-              	              Indicates whether default pl.bristleback.server.bristle.authentication.LogoutAction
+          <xsd:documentation source="java.lang.Boolean"><![CDATA[<![CDATA[<![CDATA[
+              	              Indicates whether default pl.bristleback.server.bristle.security.authentication.LogoutAction
               	              action class should be created.
               	              If set to false, user must provide custom logout action,
-              	              intercepted by pl.bristleback.server.bristle.authentication.LogoutInterceptor.
+              	           pl.bristleback.server.bristle.security.authenticationtle.authentication.LogoutInterceptor.
               							]]></xsd:documentation>
         </xsd:annotation>
       </xsd:attribute>

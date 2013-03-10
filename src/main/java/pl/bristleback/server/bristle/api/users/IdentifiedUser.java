@@ -5,7 +5,7 @@ package pl.bristleback.server.bristle.api.users;
  * level WebSocket mechanism.
  * <p/>
  * For each WebSocket connection new instance of IdentifiedUser is created. All instances off currently connected users
- * are held in {@link pl.bristleback.server.bristle.authorisation.user.UsersContainer}. Framework user can create own
+ * are held in {@link pl.bristleback.server.bristle.security.UsersContainer}. Framework user can create own
  * implementation of this interface and create new {@link UserFactory} to handle application specific user behaviour.
  * <p/>
  * If there is no implementation of IdentifiedUser, instance of class {@link pl.bristleback.server.bristle.engine.base.users.DefaultUser}

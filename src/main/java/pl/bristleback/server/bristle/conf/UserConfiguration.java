@@ -2,7 +2,7 @@ package pl.bristleback.server.bristle.conf;
 
 import pl.bristleback.server.bristle.api.users.IdentifiedUser;
 import pl.bristleback.server.bristle.api.users.UserFactory;
-import pl.bristleback.server.bristle.authorisation.user.UsersContainer;
+import pl.bristleback.server.bristle.security.UsersContainer;
 
 /**
  * //@todo class description

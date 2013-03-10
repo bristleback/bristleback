@@ -1,6 +1,5 @@
-package pl.bristleback.server.bristle.authorisation.interceptor;
+package pl.bristleback.server.bristle.security.authorisation.interceptor;
 
-import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.api.action.ActionInterceptorContextResolver;
 import pl.bristleback.server.bristle.api.annotations.Authorized;
@@ -16,7 +15,6 @@ import java.util.List;
  *
  * @author Wojciech Niemiec
  */
-@Component
 public class AuthorizationInterceptorContextResolver implements ActionInterceptorContextResolver<RequiredRights> {
 
   @Override

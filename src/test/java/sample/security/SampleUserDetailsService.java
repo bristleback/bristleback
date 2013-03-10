@@ -13,7 +13,7 @@ public class SampleUserDetailsService implements UserDetailsService {
   private static final Map<String, UserDetails> USER_DETAILS_MAP = new HashMap<String, UserDetails>();
 
   static {
-    USER_DETAILS_MAP.put("admin", new SampleUserDetails("admin", "admin_pass"));
+    USER_DETAILS_MAP.put("admin", new SampleUserDetails("admin", "admin_pass", "admin"));
     USER_DETAILS_MAP.put("normal", new SampleUserDetails("normal", "normal_pass"));
   }
 

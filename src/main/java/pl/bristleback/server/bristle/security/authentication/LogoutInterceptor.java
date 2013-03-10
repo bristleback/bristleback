@@ -1,5 +1,6 @@
-package pl.bristleback.server.bristle.authentication;
+package pl.bristleback.server.bristle.security.authentication;
 
+import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
 import pl.bristleback.server.bristle.action.ActionInformation;
@@ -10,15 +11,17 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * //@todo class description
+ * Logout interceptor handles logout process, invalidates current authentication
+ * and removes it from concurrent authentications for this username.
  * <p/>
  * Created on: 18.02.13 20:57 <br/>
  *
  * @author Wojciech Niemiec
  */
-@Interceptor(stages = ActionExecutionStage.RESPONSE_CONSTRUCTION, contextResolver = AuthenticationInterceptorContextResolver.class)
+@Interceptor(stages = ActionExecutionStage.ACTION_EXECUTION, contextResolver = AuthenticationInterceptorContextResolver.class)
 public class LogoutInterceptor implements ActionInterceptor<AuthenticationOperationContext> {
 
+  private static Logger log = Logger.getLogger(LogoutInterceptor.class.getName());
 
   @Inject
   @Named("bristleAuthenticationsContainer")
@@ -26,6 +29,8 @@ public class LogoutInterceptor implements ActionInterceptor<AuthenticationOperat
 
   @Override
   public void intercept(ActionInformation actionInformation, ActionExecutionContext context, AuthenticationOperationContext interceptorContext) {
+    String username = authenticationsContainer.getAuthentication(context.getConnectedUser()).getAuthenticatedUser().getUsername();
     authenticationsContainer.logout(context.getConnectedUser());
+    log.debug("User \"" + username + "\" has been logged out.");
   }
 }

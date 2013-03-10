@@ -1,6 +1,6 @@
 package pl.bristleback.server.bristle.api.annotations;
 
-import pl.bristleback.server.bristle.authorisation.interceptor.AuthorizationInterceptor;
+import pl.bristleback.server.bristle.security.authorisation.interceptor.AuthorizationInterceptor;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -18,5 +18,5 @@ import java.lang.annotation.Target;
 @Intercept(AuthorizationInterceptor.class)
 public @interface Authorized {
 
-  String[] value();
+  String[] value() default {};
 }
