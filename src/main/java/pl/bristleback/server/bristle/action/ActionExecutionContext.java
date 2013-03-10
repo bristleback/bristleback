@@ -31,6 +31,8 @@ public class ActionExecutionContext {
 
   private Object response;
 
+  private boolean responseSendingCancelled;
+
   public ActionExecutionContext(ConnectedUser user) {
     stage = ActionExecutionStage.MESSAGE_DESERIALIZATION;
     this.user = user;
@@ -106,5 +108,13 @@ public class ActionExecutionContext {
 
   public void setResponse(Object response) {
     this.response = response;
+  }
+
+  public boolean isResponseSendingCancelled() {
+    return responseSendingCancelled;
+  }
+
+  public void cancelResponseSending() {
+    this.responseSendingCancelled = true;
   }
 }

@@ -45,7 +45,7 @@ public class AuthenticationInterceptor implements ActionInterceptor<Authenticati
     UserDetails userDetails = (UserDetails) context.getResponse();
     UserAuthentication userAuthentication = UserAuthentication.newValidAuthentication(context.getConnectedUser(), userDetails);
     authenticationsContainer.addAndInvalidatePreviousIfNecessary(userAuthentication);
-
+    context.cancelResponseSending();
     log.debug("User \"" + userDetails.getUsername() + "\" has been successfully authenticated.");
   }
 

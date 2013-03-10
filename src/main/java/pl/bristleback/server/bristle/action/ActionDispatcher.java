@@ -11,7 +11,16 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 /**
- * //@todo class description
+ * A main point for handling incoming messages in system action controller.
+ * Message that comes from action controller is partially deserialized,
+ * in form of full action name and serialized action parameters.
+ * Whole process of action execution is divided into few stages,
+ * each stage can be intercepted by one or more {@link pl.bristleback.server.bristle.api.action.ActionInterceptor}.
+ * Firstly, action class name and action name are extracted and {@link ActionInformation} object is being resolved.
+ * Next, action parameters are deserialized, with usage of {@link pl.bristleback.server.bristle.api.SerializationEngine}.
+ * Then action method is invoked with action parameters passed. If exception is thrown by action or by any other component
+ * user in action execution process, control is passed back to {@link ActionController}.
+ * In the end of process, action response (the object returned by the action method) is sent using {@link ResponseHelper} component.
  * <p/>
  * Created on: 2011-07-20 11:43:30 <br/>
  *
@@ -68,7 +77,7 @@ public class ActionDispatcher {
   private Object executeAction(ActionExecutionContext context, ActionInformation action, Object[] parameters) throws Exception {
     context.setStage(ActionExecutionStage.ACTION_EXECUTION);
     Object actionClassInstance = actionsContainer.getActionClassInstance(action.getActionClass(), springIntegration);
-    Object response= action.execute(actionClassInstance, parameters);
+    Object response = action.execute(actionClassInstance, parameters);
     context.setResponse(response);
     interceptorPolicyExecutor.executeInterceptorPolicy(action, context);
     return response;
@@ -78,8 +87,7 @@ public class ActionDispatcher {
     context.setStage(ActionExecutionStage.RESPONSE_CONSTRUCTION);
 
     if (!action.getResponseInformation().isVoidResponse()) {
-      Object serialization = action.getResponseInformation().getSerialization();
-      responseHelper.sendResponse(response, serialization, context);
+      responseHelper.sendResponse(response, context);
     }
   }
 

@@ -4,10 +4,10 @@ import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.annotations.ObjectSender;
-import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.conf.resolver.SpringConfigurationResolver;
 import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
+import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
 import pl.bristleback.server.bristle.utils.StringUtils;
 
@@ -17,7 +17,7 @@ import javax.inject.Named;
 import java.util.Collections;
 
 /**
- * //@todo class description
+ * This helper class is responsible for sending normal and exception action responses to client.
  * <p/>
  * Created on: 2012-02-05 14:34:55 <br/>
  *
@@ -45,11 +45,33 @@ public class ResponseHelper {
     conditionObjectSender.setLocalSerializations(new SerializationBundle());
   }
 
-  public void sendResponse(Object response, Object serialization, ActionExecutionContext context) throws Exception {
+  /**
+   * Sends normal response to client. This method creates new {@link BristleMessage} object,
+   * which is then serialized and sent using {@link ConditionObjectSender} component.
+   *
+   * @param response response object returned by action.
+   * @param context  currently invoked action context.
+   * @throws Exception if there is any problem with response serialization.
+   */
+  public void sendResponse(Object response, ActionExecutionContext context) throws Exception {
+    if (context.isResponseSendingCancelled()) {
+      return;
+    }
     BristleMessage<Object> responseMessage = prepareMessage(response, context);
+    Object serialization = context.getAction().getResponseInformation().getSerialization();
     conditionObjectSender.sendMessage(responseMessage, serialization, connectedUsers.getConnectorsByUsers(Collections.singletonList(context.getUser())));
   }
 
+  /**
+   * Sends exception response to client. This method creates new {@link BristleMessage} object,
+   * which is then serialized and sent using {@link ConditionObjectSender} component.
+   * Message name has additional <strong>:exc</strong> part,
+   * which is correctly parsed by Bristleback as the exception on the client side.
+   *
+   * @param exceptionResponse exception response thrown/returned by action.
+   * @param context           currently invoked action context.
+   * @throws Exception if there is any problem with response serialization.
+   */
   public void sendExceptionResponse(Object exceptionResponse, ActionExecutionContext context) throws Exception {
     if (exceptionResponse != null) {
       BristleMessage<Object> responseMessage = prepareMessage(exceptionResponse, context);
