@@ -4,6 +4,7 @@
 <head>
   <script type="text/javascript" src="js/jquery.js"></script>
   <script type="text/javascript" src="js/bristle-utils.js"></script>
+  <script type="text/javascript" src="js/bristle-template.js"></script>
   <script type="text/javascript" src="js/bristle-controller.js"></script>
   <script type="text/javascript" src="js/bristle-serialization.js"></script>
   <script type="text/javascript" src="js/bristle-core.js"></script>
@@ -23,6 +24,8 @@
     };
     var client = Bristleback.newClient(config);
     var dataController = client.dataController;
+    dataController.templateController.registerTemplateFramework(
+      Bristleback.templateFrameworks.trimpath);
     var sampleAction = dataController.getActionClass("sample");
 
     sampleAction.defineAction("hello")
@@ -42,7 +45,7 @@
     sampleAction.defineAction("getFactorials")
       .renderOnResponse("factorials-template", "#status", "factorials")
       .renderOnDefaultException("factorials-error-template", "#status", false)
-      .renderOnException("factorialInputException", "factorials-wrong-input-template", "#status");
+      .renderOnException("IllegalArgumentException", "factorials-wrong-input-template", "#status");
 
     dataController.exceptionHandler.setExceptionHandler("sample.NumberFormatException", function () {
       $('#age').css("border-color", "red");
@@ -145,7 +148,7 @@
   </script>
 
 
-  <title>Bristleback client version 0.2.0</title>
+  <title>Bristleback client version 0.3.0</title>
 </head>
 <body>
 <div id="status">Disconnected. Click connect button to start playing.</div>
@@ -206,7 +209,7 @@
 </textarea>
 
 <textarea id="factorials-wrong-input-template" style="display:none;" rows="1" cols="1">
-  Incorrect input ${exception.content}
+  Incorrect input
 </textarea>
 
 </body>

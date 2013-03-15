@@ -95,7 +95,7 @@ public class SampleAction implements DefaultAction<DefaultUser, Map<String, BigD
     @Property(name = "friend", skipped = true)
   })
   public List<User> getFactorials(@Bind(required = true) int size) {
-    if (size < 0 || size > 10) {
+    if (size < 0) {
       throw new RuntimeException();
     }
     if (size > 10) {

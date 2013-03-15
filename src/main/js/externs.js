@@ -2,12 +2,9 @@
 
 var TrimPath = {};
 
-var JSON = {};
+var Handlebars = {};
 
-var jQuery = {
-  parseJSON : function(json) {
-  }
-};
+var JSON = {};
 
 var $ = {
 

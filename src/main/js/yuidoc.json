@@ -1,7 +1,7 @@
 {
   "name": "Bristleback Client API",
   "description": "The Bristleback Client: JavaScript library, providing simple and powerful API to cooperate with the server side",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "url": "http://bristleback.pl/",
   "logo": "http://bristleback.pl/img/logo.png",
   "options": {

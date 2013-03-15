@@ -136,54 +136,6 @@ Bristleback.controller.ActionCallback.prototype.canHandleResponse = function() {
   return this.responseHandler != undefined;
 };
 
-//------------- TEMPLATE ENGINE
-
-Bristleback.controller.TemplateController = {
-  parsedTemplates : {},
-
-  constructTemplateInformation: function(templateName, containerDiv, rootObjectName) {
-    containerDiv = containerDiv ? containerDiv : "#" + templateName + "-div";
-
-    var templateInformation = {};
-    templateInformation.rootObjectName = rootObjectName;
-    templateInformation.containerDiv = containerDiv;
-    templateInformation.templateName = templateName;
-    return templateInformation;
-  },
-
-  containsTemplate: function(templateName) {
-    return this.parsedTemplates[templateName] != undefined;
-  },
-
-  getTemplate: function(templateName) {
-    if (!this.containsTemplate(templateName)) {
-      if (!document.getElementById(templateName)) {
-        var logMsg = "Cannot find template with id: " + templateName;
-        Bristleback.Console.log(logMsg);
-        throw new Error(logMsg);
-      }
-      this.parsedTemplates[templateName] = TrimPath.parseDOMTemplate(templateName);
-    }
-    return this.parsedTemplates[templateName];
-  },
-
-  render: function(templateInformation, object) {
-    if (templateInformation.rootObjectName) {
-      var data = {};
-      data[templateInformation.rootObjectName] = object;
-    } else {
-      data = object;
-    }
-
-    var parsedTemplate = this.getTemplate(templateInformation.templateName);
-    var result = parsedTemplate.process(data);
-    var idWithoutHash = templateInformation.containerDiv.substring(1);
-    var container = document.getElementById(idWithoutHash);
-    container.innerHTML = result;
-  }
-};
-
-
 //------------- ACTION CONTROLLER
 
 /**
@@ -279,6 +231,7 @@ Bristleback.controller.ActionController.prototype.registerClientActionClass = fu
   this.clientActionClasses[actionClassName] = new Bristleback.controller.ClientActionClass(actionClassName, actionClass);
 };
 
+Bristleback.controller.ActionController.prototype.templateController = new Bristleback.controller.TemplateController();
 //------------- ACTION CLASS
 
 /**
@@ -463,20 +416,20 @@ Bristleback.controller.Action.prototype.setResponseHandler = function(handler) {
 };
 
 Bristleback.controller.Action.prototype.renderOnResponse = function(templateName, containerDiv, rootObjectName) {
-  var templateInformation = Bristleback.controller.TemplateController.constructTemplateInformation(templateName, containerDiv, rootObjectName);
+  var templateInformation = this.templateController.constructTemplateInformation(templateName, containerDiv, rootObjectName);
 
   this.responseHandler = function(actionMessage) {
-    Bristleback.controller.TemplateController.render(templateInformation, actionMessage);
+    this.templateController.render(templateInformation, actionMessage);
   };
   return this;
 };
 
 Bristleback.controller.Action.prototype.renderOnException = function(exceptionType, templateName, containerDiv, abortExceptionProcessing) {
   abortExceptionProcessing = abortExceptionProcessing !== false;
-  var templateInformation = Bristleback.controller.TemplateController.constructTemplateInformation(templateName, containerDiv, "exception");
-
+  var templateInformation = this.templateController.constructTemplateInformation(templateName, containerDiv, "exception");
+  var actionInstance = this;
   this.exceptionHandler.setExceptionHandler(exceptionType, function(exceptionMessage) {
-    Bristleback.controller.TemplateController.render(templateInformation, exceptionMessage);
+    actionInstance.templateController.render(templateInformation, exceptionMessage);
     return abortExceptionProcessing;
   });
   return this;
@@ -484,10 +437,10 @@ Bristleback.controller.Action.prototype.renderOnException = function(exceptionTy
 
 Bristleback.controller.Action.prototype.renderOnDefaultException = function(templateName, containerDiv, abortExceptionProcessing) {
   abortExceptionProcessing = abortExceptionProcessing !== false;
-  var templateInformation = Bristleback.controller.TemplateController.constructTemplateInformation(templateName, containerDiv, "exception");
-
+  var templateInformation = this.templateController.constructTemplateInformation(templateName, containerDiv, "exception");
+  var actionInstance = this;
   this.exceptionHandler.setDefaultExceptionHandler(function(exceptionMessage) {
-    Bristleback.controller.TemplateController.render(templateInformation, exceptionMessage);
+    actionInstance.templateController.render(templateInformation, exceptionMessage);
     return abortExceptionProcessing;
   });
   return this;
@@ -505,6 +458,8 @@ Bristleback.controller.Action.prototype.defaultProtocolExceptionHandlerFunction 
   Bristleback.Console.log("[ERROR] " + exceptionMessageString);
   throw new Error(exceptionMessageString);
 };
+
+Bristleback.controller.Action.prototype.templateController = Bristleback.controller.ActionController.prototype.templateController;
 
 //------------- CLIENT ACTION CLASS
 
