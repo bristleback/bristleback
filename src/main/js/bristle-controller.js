@@ -11,6 +11,8 @@
  */
 Bristleback.controller.controllers = {};
 
+Bristleback.templateController = new Bristleback.controller.TemplateController();
+
 /**
  * Creates a new action message
  * @param {Object} controller data controller
@@ -56,7 +58,9 @@ Bristleback.controller.ActionMessage = function (controller, message) {
  */
 Bristleback.controller.ActionExceptionHandler = function ActionExceptionHandler() {
   this.defaultExceptionHandler = undefined;
+  this.defaultRenderingHandler = undefined;
   this.exceptionHandlers = {};
+  this.renderingHandlers = {};
 };
 
 /**
@@ -81,20 +85,52 @@ Bristleback.controller.ActionExceptionHandler.prototype.setExceptionHandler = fu
   return this;
 };
 
+Bristleback.controller.ActionExceptionHandler.prototype.renderOnException = function (exceptionType, templateName, containerDiv, abortExceptionProcessing) {
+  abortExceptionProcessing = abortExceptionProcessing !== false;
+  var templateInformation = Bristleback.templateController.constructTemplateInformation(templateName, containerDiv, "exception");
+  this.renderingHandlers[exceptionType] = function (exceptionMessage) {
+    Bristleback.templateController.render(templateInformation, exceptionMessage);
+    return abortExceptionProcessing;
+  };
+  return this;
+};
+
+Bristleback.controller.ActionExceptionHandler.prototype.renderOnDefaultException = function (templateName, containerDiv, abortExceptionProcessing) {
+  abortExceptionProcessing = abortExceptionProcessing !== false;
+  var templateInformation = Bristleback.templateController.constructTemplateInformation(templateName, containerDiv, "exception");
+  this.defaultRenderingHandler = function (exceptionMessage) {
+    Bristleback.templateController.render(templateInformation, exceptionMessage);
+    return abortExceptionProcessing;
+  };
+  return this;
+};
+
+
 Bristleback.controller.ActionExceptionHandler.prototype.handleException = function (exceptionMessage) {
   var chosenHandler = this.exceptionHandlers[exceptionMessage.exceptionType];
-  if (!chosenHandler) {
-    return this.handleDefault(exceptionMessage);
+  var chosenRenderingHandler = this.renderingHandlers[exceptionMessage.exceptionType];
+  var breakChain = false;
+  if (chosenHandler) {
+    breakChain = chosenHandler(exceptionMessage);
   }
-  var breakChain = chosenHandler(exceptionMessage);
+  if (chosenRenderingHandler) {
+    breakChain = true;
+    chosenRenderingHandler(exceptionMessage);
+  }
+
   return breakChain || this.handleDefault(exceptionMessage);
 };
 
 Bristleback.controller.ActionExceptionHandler.prototype.handleDefault = function (exceptionMessage) {
-  if (!this.defaultExceptionHandler) {
-    return false;
+  var breakChain = false;
+  if (this.defaultExceptionHandler) {
+    breakChain = this.defaultExceptionHandler(exceptionMessage);
   }
-  return this.defaultExceptionHandler(exceptionMessage);
+  if (this.defaultRenderingHandler) {
+    breakChain = true;
+    this.defaultRenderingHandler(exceptionMessage);
+  }
+  return breakChain;
 };
 
 
@@ -231,7 +267,6 @@ Bristleback.controller.ActionController.prototype.registerClientActionClass = fu
   this.clientActionClasses[actionClassName] = new Bristleback.controller.ClientActionClass(actionClassName, actionClass);
 };
 
-Bristleback.controller.ActionController.prototype.templateController = new Bristleback.controller.TemplateController();
 
 //------------- ACTION CLASS
 
@@ -419,34 +454,12 @@ Bristleback.controller.Action.prototype.setResponseHandler = function (handler) 
 };
 
 Bristleback.controller.Action.prototype.renderOnResponse = function (templateName, containerDiv, rootObjectName) {
-  var templateInformation = this.templateController.constructTemplateInformation(templateName, containerDiv, rootObjectName);
+  var templateInformation = Bristleback.templateController.constructTemplateInformation(templateName, containerDiv, rootObjectName);
 
   var actionInstance = this;
   this.renderingHandler = function (actionMessage) {
-    actionInstance.templateController.render(templateInformation, actionMessage);
+    Bristleback.templateController.render(templateInformation, actionMessage);
   };
-  return this;
-};
-
-Bristleback.controller.Action.prototype.renderOnException = function (exceptionType, templateName, containerDiv, abortExceptionProcessing) {
-  abortExceptionProcessing = abortExceptionProcessing !== false;
-  var templateInformation = this.templateController.constructTemplateInformation(templateName, containerDiv, "exception");
-  var actionInstance = this;
-  this.exceptionHandler.setExceptionHandler(exceptionType, function (exceptionMessage) {
-    actionInstance.templateController.render(templateInformation, exceptionMessage);
-    return abortExceptionProcessing;
-  });
-  return this;
-};
-
-Bristleback.controller.Action.prototype.renderOnDefaultException = function (templateName, containerDiv, abortExceptionProcessing) {
-  abortExceptionProcessing = abortExceptionProcessing !== false;
-  var templateInformation = this.templateController.constructTemplateInformation(templateName, containerDiv, "exception");
-  var actionInstance = this;
-  this.exceptionHandler.setDefaultExceptionHandler(function (exceptionMessage) {
-    actionInstance.templateController.render(templateInformation, exceptionMessage);
-    return abortExceptionProcessing;
-  });
   return this;
 };
 
@@ -462,8 +475,6 @@ Bristleback.controller.Action.prototype.defaultProtocolExceptionHandlerFunction 
   Bristleback.Console.log("[ERROR] " + exceptionMessageString);
   throw new Error(exceptionMessageString);
 };
-
-Bristleback.controller.Action.prototype.templateController = Bristleback.controller.ActionController.prototype.templateController;
 
 //------------- CLIENT ACTION CLASS
 
