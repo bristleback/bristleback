@@ -17,7 +17,7 @@ Bristleback.controller.controllers = {};
  * @param {Object} message message to sent
  * @private
  */
-Bristleback.controller.ActionMessage = function(controller, message) {
+Bristleback.controller.ActionMessage = function (controller, message) {
   var messageElements = message.name.split(":");
   var actionElements = messageElements[0].split(".");
   var actionClassName = actionElements[0];
@@ -65,7 +65,7 @@ Bristleback.controller.ActionExceptionHandler = function ActionExceptionHandler(
  * @method setDefaultExceptionHandler
  * @param {Function} handlerFunction exception handler function reference, containing one parameter, which is actual exception message.
  */
-Bristleback.controller.ActionExceptionHandler.prototype.setDefaultExceptionHandler = function(handlerFunction) {
+Bristleback.controller.ActionExceptionHandler.prototype.setDefaultExceptionHandler = function (handlerFunction) {
   this.defaultExceptionHandler = handlerFunction;
   return this;
 };
@@ -76,12 +76,12 @@ Bristleback.controller.ActionExceptionHandler.prototype.setDefaultExceptionHandl
  * @param {String} exceptionType exception type
  * @param {Function} handlerFunction exception handler function reference, containing one parameter, which is actual exception message.
  */
-Bristleback.controller.ActionExceptionHandler.prototype.setExceptionHandler = function(exceptionType, handlerFunction) {
+Bristleback.controller.ActionExceptionHandler.prototype.setExceptionHandler = function (exceptionType, handlerFunction) {
   this.exceptionHandlers[exceptionType] = handlerFunction;
   return this;
 };
 
-Bristleback.controller.ActionExceptionHandler.prototype.handleException = function(exceptionMessage) {
+Bristleback.controller.ActionExceptionHandler.prototype.handleException = function (exceptionMessage) {
   var chosenHandler = this.exceptionHandlers[exceptionMessage.exceptionType];
   if (!chosenHandler) {
     return this.handleDefault(exceptionMessage);
@@ -90,7 +90,7 @@ Bristleback.controller.ActionExceptionHandler.prototype.handleException = functi
   return breakChain || this.handleDefault(exceptionMessage);
 };
 
-Bristleback.controller.ActionExceptionHandler.prototype.handleDefault = function(exceptionMessage) {
+Bristleback.controller.ActionExceptionHandler.prototype.handleDefault = function (exceptionMessage) {
   if (!this.defaultExceptionHandler) {
     return false;
   }
@@ -109,7 +109,7 @@ Bristleback.controller.ActionExceptionHandler.prototype.handleDefault = function
  * @constructor
  * @param {Function} responseHandler handler function taking one parameter (actual response object from server).
  */
-Bristleback.controller.ActionCallback = function(responseHandler) {
+Bristleback.controller.ActionCallback = function (responseHandler) {
 
   /**
    * Handler function taking one parameter (actual response object from server).
@@ -128,11 +128,11 @@ Bristleback.controller.ActionCallback = function(responseHandler) {
   this.exceptionHandler = new Bristleback.controller.ActionExceptionHandler();
 };
 
-Bristleback.controller.ActionCallback.prototype.handleResponse = function(content) {
+Bristleback.controller.ActionCallback.prototype.handleResponse = function (content) {
   return this.responseHandler(content);
 };
 
-Bristleback.controller.ActionCallback.prototype.canHandleResponse = function() {
+Bristleback.controller.ActionCallback.prototype.canHandleResponse = function () {
   return this.responseHandler != undefined;
 };
 
@@ -166,7 +166,7 @@ Bristleback.controller.ActionController = function () {
   this.exceptionHandler.setDefaultExceptionHandler(this.defaultHandlerFunction);
 };
 
-Bristleback.controller.ActionController.prototype.onMessage = function(message) {
+Bristleback.controller.ActionController.prototype.onMessage = function (message) {
   var actionMessage = new Bristleback.controller.ActionMessage(this, message);
   if (actionMessage.exceptionType) {
     this.onExceptionMessage(actionMessage);
@@ -203,14 +203,14 @@ Bristleback.controller.ActionController.prototype.getActionClass = function (act
   return actionClass;
 };
 
-Bristleback.controller.ActionController.prototype.onExceptionMessage = function(exceptionMessage) {
+Bristleback.controller.ActionController.prototype.onExceptionMessage = function (exceptionMessage) {
   return (exceptionMessage.callback && exceptionMessage.callback.exceptionHandler.handleException(exceptionMessage)) ||
     exceptionMessage.action.exceptionHandler.handleException(exceptionMessage) ||
     exceptionMessage.actionClass.exceptionHandler.handleException(exceptionMessage) ||
     this.exceptionHandler.handleException(exceptionMessage);
 };
 
-Bristleback.controller.ActionController.prototype.defaultHandlerFunction = function(exceptionMessage) {
+Bristleback.controller.ActionController.prototype.defaultHandlerFunction = function (exceptionMessage) {
   var actionToString = "[" + (exceptionMessage.action.name ? "Action " + exceptionMessage.actionClass.name + "."
     + exceptionMessage.action.name + "()" : "Default action of class " + exceptionMessage.actionClass.name) + "]";
   var exceptionMessageString = actionToString
@@ -227,11 +227,12 @@ Bristleback.controller.ActionController.prototype.defaultHandlerFunction = funct
  * @param  {String} actionClassName name of client action class
  * @param {Object} actionClass client action class object.
  */
-Bristleback.controller.ActionController.prototype.registerClientActionClass = function(actionClassName, actionClass) {
+Bristleback.controller.ActionController.prototype.registerClientActionClass = function (actionClassName, actionClass) {
   this.clientActionClasses[actionClassName] = new Bristleback.controller.ClientActionClass(actionClassName, actionClass);
 };
 
 Bristleback.controller.ActionController.prototype.templateController = new Bristleback.controller.TemplateController();
+
 //------------- ACTION CLASS
 
 /**
@@ -250,7 +251,6 @@ Bristleback.controller.ActionClass = function (name, actionController) {
   this.actionController = actionController;
   this.name = name;
   this.actions = {};
-  this.incomingActionHandlers = {};
 
   /**
    * Exception handler object for specifying reaction for exception responses.
@@ -268,7 +268,7 @@ Bristleback.controller.ActionClass = function (name, actionController) {
  * To invoke default action on server, use {{#crossLink "Bristleback.controller.ActionClass/executeDefault"}}{{/crossLink}}
  * @method defineDefaultAction
  */
-Bristleback.controller.ActionClass.prototype.defineDefaultAction = function() {
+Bristleback.controller.ActionClass.prototype.defineDefaultAction = function () {
   return this.defineAction("");
 };
 
@@ -279,12 +279,12 @@ Bristleback.controller.ActionClass.prototype.defineDefaultAction = function() {
  * @method defineAction
  * @param {String} actionName name of action
  */
-Bristleback.controller.ActionClass.prototype.defineAction = function(actionName) {
+Bristleback.controller.ActionClass.prototype.defineAction = function (actionName) {
   if (this[actionName] != undefined) {
     throw new Error("Action " + actionName + " already defined for action class " + this.name);
   }
   this.actions[actionName] = new Bristleback.controller.Action(actionName);
-  this[actionName] = function() {
+  this[actionName] = function () {
     this.doSendMessage(this.actions[actionName], arguments);
   };
   return this.actions[actionName];
@@ -303,7 +303,7 @@ Bristleback.controller.ActionClass.prototype.defineAction = function(actionName)
  * {{#crossLink "Bristleback.CONNECTOR"}}{{/crossLink}} constant should be used.
  * @param {Object} payload payload object
  */
-Bristleback.controller.ActionClass.prototype.executeDefault = function(connector, payload) {
+Bristleback.controller.ActionClass.prototype.executeDefault = function (connector, payload) {
   var defaultAction = this.actions[""];
   this.doSendMessage(defaultAction, arguments);
 };
@@ -313,7 +313,7 @@ Bristleback.controller.ActionClass.prototype.executeDefault = function(connector
  * @method getAction
  * @param {String} actionName action name.
  */
-Bristleback.controller.ActionClass.prototype.getAction = function(actionName) {
+Bristleback.controller.ActionClass.prototype.getAction = function (actionName) {
   return this.actions[actionName];
 };
 
@@ -321,13 +321,14 @@ Bristleback.controller.ActionClass.prototype.getAction = function(actionName) {
  * Gets a default action definition.
  * @method getDefaultAction
  */
-Bristleback.controller.ActionClass.prototype.getDefaultAction = function() {
+Bristleback.controller.ActionClass.prototype.getDefaultAction = function () {
   return this.actions[""];
 };
 
-Bristleback.controller.ActionClass.prototype.doSendMessage = function(action, parameters) {
+Bristleback.controller.ActionClass.prototype.doSendMessage = function (action, parameters) {
   var correctParameters = [];
-  for (var i in parameters) {
+  var parametersLength = parameters.length;
+  for (var i = 0; i < parametersLength; i++) {
     correctParameters[i] = parameters[i];
   }
   var lastArgument = correctParameters.length == 0 ? undefined : correctParameters[correctParameters.length - 1];
@@ -345,7 +346,7 @@ Bristleback.controller.ActionClass.prototype.doSendMessage = function(action, pa
   }
 };
 
-Bristleback.controller.ActionClass.prototype.onMessage = function(actionMessage) {
+Bristleback.controller.ActionClass.prototype.onMessage = function (actionMessage) {
   if (actionMessage.callback != undefined) {
     this.actionController.callbacks[actionMessage.id] = undefined;
     if (actionMessage.callback.canHandleResponse()) {
@@ -353,23 +354,25 @@ Bristleback.controller.ActionClass.prototype.onMessage = function(actionMessage)
       return;
     }
   }
-  var handler = this.findHandler(actionMessage.action);
-  if (handler) {
-    handler(actionMessage.content);
-  }
+  this.runHandlers(actionMessage);
 };
 
-Bristleback.controller.ActionClass.prototype.findHandler = function(action) {
+Bristleback.controller.ActionClass.prototype.runHandlers = function (actionMessage) {
+  var action = actionMessage.action;
   if (action.responseHandler == undefined) {
     var actionToString = "[" + (action.name ? "Action " + this.name + "." + action.name + "()" : "Default action of " + this.name) + "]";
     var errorMsg = actionToString + " Cannot find response handler for incoming action";
     Bristleback.Console.log("[ERROR] " + errorMsg);
     throw new Error(errorMsg);
+  } else {
+    action.responseHandler(actionMessage.content);
   }
-  return action.responseHandler;
+  if (action.renderingHandler) {
+    action.renderingHandler(actionMessage.content)
+  }
 };
 
-Bristleback.controller.ActionClass.prototype.defaultProtocolExceptionHandlerFunction = function(exceptionMessage) {
+Bristleback.controller.ActionClass.prototype.defaultProtocolExceptionHandlerFunction = function (exceptionMessage) {
   var protocolViolationType = exceptionMessage.content;
   if (protocolViolationType == 'NO_ACTION_CLASS_FOUND') {
     var exceptionMessageString = "Cannot find action class with name \"" + exceptionMessage.actionClass.name + "\"";
@@ -410,43 +413,44 @@ Bristleback.controller.Action = function (name) {
  * @method setResponseHandler
  * @param {Function} handler handler function taking one parameter (actual response object from server).
  */
-Bristleback.controller.Action.prototype.setResponseHandler = function(handler) {
+Bristleback.controller.Action.prototype.setResponseHandler = function (handler) {
   this.responseHandler = handler;
   return this;
 };
 
-Bristleback.controller.Action.prototype.renderOnResponse = function(templateName, containerDiv, rootObjectName) {
+Bristleback.controller.Action.prototype.renderOnResponse = function (templateName, containerDiv, rootObjectName) {
   var templateInformation = this.templateController.constructTemplateInformation(templateName, containerDiv, rootObjectName);
 
-  this.responseHandler = function(actionMessage) {
-    this.templateController.render(templateInformation, actionMessage);
+  var actionInstance = this;
+  this.renderingHandler = function (actionMessage) {
+    actionInstance.templateController.render(templateInformation, actionMessage);
   };
   return this;
 };
 
-Bristleback.controller.Action.prototype.renderOnException = function(exceptionType, templateName, containerDiv, abortExceptionProcessing) {
+Bristleback.controller.Action.prototype.renderOnException = function (exceptionType, templateName, containerDiv, abortExceptionProcessing) {
   abortExceptionProcessing = abortExceptionProcessing !== false;
   var templateInformation = this.templateController.constructTemplateInformation(templateName, containerDiv, "exception");
   var actionInstance = this;
-  this.exceptionHandler.setExceptionHandler(exceptionType, function(exceptionMessage) {
+  this.exceptionHandler.setExceptionHandler(exceptionType, function (exceptionMessage) {
     actionInstance.templateController.render(templateInformation, exceptionMessage);
     return abortExceptionProcessing;
   });
   return this;
 };
 
-Bristleback.controller.Action.prototype.renderOnDefaultException = function(templateName, containerDiv, abortExceptionProcessing) {
+Bristleback.controller.Action.prototype.renderOnDefaultException = function (templateName, containerDiv, abortExceptionProcessing) {
   abortExceptionProcessing = abortExceptionProcessing !== false;
   var templateInformation = this.templateController.constructTemplateInformation(templateName, containerDiv, "exception");
   var actionInstance = this;
-  this.exceptionHandler.setDefaultExceptionHandler(function(exceptionMessage) {
+  this.exceptionHandler.setDefaultExceptionHandler(function (exceptionMessage) {
     actionInstance.templateController.render(templateInformation, exceptionMessage);
     return abortExceptionProcessing;
   });
   return this;
 };
 
-Bristleback.controller.Action.prototype.defaultProtocolExceptionHandlerFunction = function(exceptionMessage) {
+Bristleback.controller.Action.prototype.defaultProtocolExceptionHandlerFunction = function (exceptionMessage) {
   var protocolViolationType = exceptionMessage.content;
   if (protocolViolationType == 'NO_DEFAULT_ACTION_FOUND') {
     var exceptionMessageString = "Cannot find default action in action class with name \"" + exceptionMessage.actionClass.name + "\"";
@@ -473,12 +477,12 @@ Bristleback.controller.Action.prototype.templateController = Bristleback.control
  * @param {String} name name of this client action class
  * @param {Object} actionClass real client action class instance.
  */
-Bristleback.controller.ClientActionClass = function(name, actionClass) {
+Bristleback.controller.ClientActionClass = function (name, actionClass) {
   this.name = name;
   this.actions = actionClass;
 };
 
-Bristleback.controller.ClientActionClass.prototype.onMessage = function(actionMessage) {
+Bristleback.controller.ClientActionClass.prototype.onMessage = function (actionMessage) {
   var parameters = [];
   var hasMoreParams = true;
   var currentIndex = 0;

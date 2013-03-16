@@ -24,8 +24,7 @@
     };
     var client = Bristleback.newClient(config);
     var dataController = client.dataController;
-    dataController.templateController.registerTemplateFramework(
-      Bristleback.templateFrameworks.trimpath);
+    dataController.templateController.registerTemplateFramework(Bristleback.templateFrameworks.trimpath);
     var sampleAction = dataController.getActionClass("sample");
 
     sampleAction.defineAction("hello")
@@ -44,6 +43,9 @@
 
     sampleAction.defineAction("getFactorials")
       .renderOnResponse("factorials-template", "#status", "factorials")
+      .setResponseHandler(function(factorials){
+        alert(Bristleback.utils.objectToString(factorials));
+      })
       .renderOnDefaultException("factorials-error-template", "#status", false)
       .renderOnException("IllegalArgumentException", "factorials-wrong-input-template", "#status");
 
