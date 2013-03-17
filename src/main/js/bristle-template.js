@@ -8,6 +8,7 @@
 
 /**
  * Template controller is responsible for registering template frameworks and storing, caching and rendering templates.
+ * Before using template controller, template framework implementation must be registered via registerTemplateFramework() method.
  * @class TemplateController
  * @namespace Bristleback.template
  * @constructor
@@ -27,12 +28,24 @@ Bristleback.template.TemplateController.prototype.constructTemplateInformation =
   return templateInformation;
 };
 
+/**
+ * Checks if there is template with name given as parameter.
+ * @method containsTemplate
+ * @param templateName
+ * @return {Boolean}
+ */
 Bristleback.template.TemplateController.prototype.containsTemplate = function (templateName) {
   return this.parsedTemplates[templateName] != undefined;
 };
 
+/**
+ * Resolves template with name given as parameter.
+ * If there is no parsed template cached in templates container, template framework is used to parse template.
+ * @method getTemplate
+ * @param {String} templateName
+ * @return {Object} parsed template.
+ */
 Bristleback.template.TemplateController.prototype.getTemplate = function (templateName) {
-
   if (!this.containsTemplate(templateName)) {
     this.parsedTemplates[templateName] =
       this.templateFramework.parseTemplate(templateName);
@@ -40,6 +53,12 @@ Bristleback.template.TemplateController.prototype.getTemplate = function (templa
   return this.parsedTemplates[templateName];
 };
 
+/**
+ * Renders template using template information object.
+ * @method render
+ * @param {Object} templateInformation information about template.
+ * @param {Object} object data used by template.
+ */
 Bristleback.template.TemplateController.prototype.render = function (templateInformation, object) {
   if (templateInformation.rootObjectName) {
     var data = {};
@@ -55,6 +74,17 @@ Bristleback.template.TemplateController.prototype.render = function (templateInf
   container.innerHTML = result;
 };
 
+/**
+ * Registers template framework that will be used by template controller.
+ * Template framework must provide 2 methods:
+ * <ul>
+ *   <li>parseTemplate(templateName)</li>
+ *   <li>processTemplate(parsedTemplate, data)</li>
+ * </ul>
+ * Several template frameworks can be found in Bristleback.templateFrameworks object.
+ * @method registerTemplateFramework
+ * @param {Object} templateFramework
+ */
 Bristleback.template.TemplateController.prototype.registerTemplateFramework = function (templateFramework) {
   this.templateFramework = templateFramework;
 };
