@@ -14,7 +14,7 @@
  * @namespace Bristleback
  * @param config configuration object.
  */
-Bristleback.Client = function(config) {
+Bristleback.Client = function (config) {
   this.connection = undefined;
 
   config = config || {};
@@ -30,18 +30,18 @@ Bristleback.Client = function(config) {
 
   this.serializationEngine = new Bristleback.serialization.serializationEngines[config.serializationEngine]();
 
-  config.OnOpen = config.OnOpen || function() {
+  config.OnOpen = config.OnOpen || function () {
     Bristleback.Console.log("Connected to " + config.serverUrl);
     alert("connected");
   };
 
-  config.OnClose = config.OnClose || function() {
+  config.OnClose = config.OnClose || function () {
     Bristleback.Console.log("Disconnected from " + config.serverUrl);
     alert("disconnected");
   };
 
   var thisClient = this;
-  config.OnMessage = config.OnMessage || function(event) {
+  config.OnMessage = config.OnMessage || function (event) {
     var deserializedEvent = thisClient.serializationEngine.deserialize(event.data);
     thisClient.dataController.onMessage(deserializedEvent);
   };
@@ -58,7 +58,7 @@ Bristleback.Client = function(config) {
  *  * WebSocket.CLOSED
  *  @method getConnectionState
  */
-Bristleback.Client.prototype.getConnectionState = function() {
+Bristleback.Client.prototype.getConnectionState = function () {
   if (!this.connection) {
     return WebSocket.CLOSED;
   }
@@ -69,7 +69,7 @@ Bristleback.Client.prototype.getConnectionState = function() {
  * Checks whether this client is connected (has connection state equals to WebSocket.OPEN).
  * @method isConnected
  */
-Bristleback.Client.prototype.isConnected = function() {
+Bristleback.Client.prototype.isConnected = function () {
   return this.getConnectionState() == WebSocket.OPEN;
 };
 
@@ -77,7 +77,7 @@ Bristleback.Client.prototype.isConnected = function() {
  * Checks whether this client is disconnected (has connection state equals to WebSocket.CLOSED).
  * @method isDisconnected
  */
-Bristleback.Client.prototype.isDisconnected = function() {
+Bristleback.Client.prototype.isDisconnected = function () {
   return this.getConnectionState() == WebSocket.CLOSED;
 };
 
@@ -86,7 +86,7 @@ Bristleback.Client.prototype.isDisconnected = function() {
  * If connection is not closed in the moment of connection, exception is thrown.
  * @method connect
  */
-Bristleback.Client.prototype.connect = function() {
+Bristleback.Client.prototype.connect = function () {
   if (!this.isDisconnected()) {
     var msg = "Connection is not closed, cannot establish another connection.";
     Bristleback.Console.log(msg);
@@ -104,7 +104,7 @@ Bristleback.Client.prototype.connect = function() {
  * @method sendMessage
  * @param message message object to send.
  */
-Bristleback.Client.prototype.sendMessage = function(message) {
+Bristleback.Client.prototype.sendMessage = function (message) {
   if (!this.isConnected()) {
     var msg = "Cannot send a message, connection is not open.";
     Bristleback.Console.log(msg);
@@ -117,8 +117,9 @@ Bristleback.Client.prototype.sendMessage = function(message) {
 /**
  * Disconnects client from remote server.
  * If connection is not open, exception is thrown.
+ * @method disconnect
  */
-Bristleback.Client.prototype.disconnect = function() {
+Bristleback.Client.prototype.disconnect = function () {
   if (!this.isConnected()) {
     var msg = "Connection is not open, it may be already closed or in closing state. Actual state: " + this.getConnectionState();
     Bristleback.Console.log(msg);
@@ -133,6 +134,6 @@ Bristleback.Client.prototype.disconnect = function() {
  * @static
  * @param config
  */
-Bristleback.newClient = function(config) {
+Bristleback.newClient = function (config) {
   return new Bristleback.Client(config);
 };

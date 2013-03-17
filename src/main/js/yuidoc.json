@@ -6,5 +6,6 @@
   "logo": "http://bristleback.pl/img/logo.png",
   "options": {
     "outdir": "../../../target/js-doc"
-  }
+  },
+  "exclude":"trimpath-template-1.0.38.js"
 }

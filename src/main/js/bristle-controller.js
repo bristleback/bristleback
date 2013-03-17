@@ -7,16 +7,21 @@
  **/
 
 /**
- * Controllers container
+ * Controllers container map.
+ * @static
+ * @class controllers
+ * @namespace Bristleback.controller
+ * @type Object
  */
 Bristleback.controller.controllers = {};
-
-Bristleback.templateController = new Bristleback.controller.TemplateController();
 
 /**
  * Creates a new action message
  * @param {Object} controller data controller
  * @param {Object} message message to sent
+ * @class ActionMessage
+ * @namespace Bristleback.controller
+ * @constructor
  * @private
  */
 Bristleback.controller.ActionMessage = function (controller, message) {
@@ -67,6 +72,7 @@ Bristleback.controller.ActionExceptionHandler = function ActionExceptionHandler(
  * Sets a default exception handler function that will be invoked when exception handler for given exception type
  * cannot be found or it has been found and returned "false".
  * @method setDefaultExceptionHandler
+ * @chainable
  * @param {Function} handlerFunction exception handler function reference, containing one parameter, which is actual exception message.
  */
 Bristleback.controller.ActionExceptionHandler.prototype.setDefaultExceptionHandler = function (handlerFunction) {
@@ -77,6 +83,7 @@ Bristleback.controller.ActionExceptionHandler.prototype.setDefaultExceptionHandl
 /**
  * Sets exception handler function applicable for exception type given as first parameter.
  * @method setExceptionHandler
+ * @chainable
  * @param {String} exceptionType exception type
  * @param {Function} handlerFunction exception handler function reference, containing one parameter, which is actual exception message.
  */
@@ -85,22 +92,40 @@ Bristleback.controller.ActionExceptionHandler.prototype.setExceptionHandler = fu
   return this;
 };
 
-Bristleback.controller.ActionExceptionHandler.prototype.renderOnException = function (exceptionType, templateName, containerDiv, abortExceptionProcessing) {
-  abortExceptionProcessing = abortExceptionProcessing !== false;
+/**
+ * Adds rendering handler to be used when given exception type occurs.
+ * Before using rendering functionality, templating framework implementation should be provided by calling
+ * Bristleback.templateController.registerTemplateFramework() method.
+ * Rendering handlers ALWAYS break exception processing cycle.
+ * @method renderOnException
+ * @chainable
+ * @param {String} exceptionType exception type to handle.
+ * @param {String} templateName template name that should be used.
+ * @param {String} containerDiv id of the parent container for rendered template.
+ */
+Bristleback.controller.ActionExceptionHandler.prototype.renderOnException = function (exceptionType, templateName, containerDiv) {
   var templateInformation = Bristleback.templateController.constructTemplateInformation(templateName, containerDiv, "exception");
   this.renderingHandlers[exceptionType] = function (exceptionMessage) {
     Bristleback.templateController.render(templateInformation, exceptionMessage);
-    return abortExceptionProcessing;
   };
   return this;
 };
 
-Bristleback.controller.ActionExceptionHandler.prototype.renderOnDefaultException = function (templateName, containerDiv, abortExceptionProcessing) {
-  abortExceptionProcessing = abortExceptionProcessing !== false;
+/**
+ * Adds default rendering handler to be used when exception occurs.
+ * Before using rendering functionality, templating framework implementation should be provided by calling
+ * Bristleback.templateController.registerTemplateFramework() method.
+ * Rendering handlers ALWAYS break exception processing cycle.
+ * @method renderOnDefaultException
+ * @chainable
+ * @param templateName
+ * @param containerDiv
+ * @return {*}
+ */
+Bristleback.controller.ActionExceptionHandler.prototype.renderOnDefaultException = function (templateName, containerDiv) {
   var templateInformation = Bristleback.templateController.constructTemplateInformation(templateName, containerDiv, "exception");
   this.defaultRenderingHandler = function (exceptionMessage) {
     Bristleback.templateController.render(templateInformation, exceptionMessage);
-    return abortExceptionProcessing;
   };
   return this;
 };
@@ -446,6 +471,7 @@ Bristleback.controller.Action = function (name) {
 /**
  * Sets a response handler function for this action.
  * @method setResponseHandler
+ * @chainable
  * @param {Function} handler handler function taking one parameter (actual response object from server).
  */
 Bristleback.controller.Action.prototype.setResponseHandler = function (handler) {
@@ -453,10 +479,21 @@ Bristleback.controller.Action.prototype.setResponseHandler = function (handler) 
   return this;
 };
 
+/**
+ * Sets a rendering response handler function for this action.
+ * If there is another response handler defined for this action (by invoking setResponseHandler() method),
+ * rendering handler function runs after that response handler, so normal handler can modify or prepare action response.
+ * @method renderOnResponse
+ * @chainable
+ * @param {String} templateName template name that should be used.
+ * @param {String} containerDiv id of the parent container for rendered template.
+ * @param {String} rootObjectName if specified,
+ * template controller will prepare literal object containing property with name given by this parameter
+ * and value returned by server.
+ */
 Bristleback.controller.Action.prototype.renderOnResponse = function (templateName, containerDiv, rootObjectName) {
   var templateInformation = Bristleback.templateController.constructTemplateInformation(templateName, containerDiv, rootObjectName);
 
-  var actionInstance = this;
   this.renderingHandler = function (actionMessage) {
     Bristleback.templateController.render(templateInformation, actionMessage);
   };

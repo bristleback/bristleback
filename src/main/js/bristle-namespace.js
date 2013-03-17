@@ -9,3 +9,5 @@ Bristleback.controller = {};
 
 Bristleback.serialization = {};
 
+Bristleback.template = {};
+

@@ -1,9 +1,23 @@
-Bristleback.controller.TemplateController = function(){
-  this.parsedTemplates= {}
+/**
+ Template module
+
+ @module Bristleback
+ @submodule template
+ @main Bristleback
+ **/
+
+/**
+ * Template controller is responsible for registering template frameworks and storing, caching and rendering templates.
+ * @class TemplateController
+ * @namespace Bristleback.template
+ * @constructor
+ */
+Bristleback.template.TemplateController = function () {
+  this.parsedTemplates = {}
 
 };
 
-Bristleback.controller.TemplateController.prototype.constructTemplateInformation = function (templateName, containerDiv, rootObjectName) {
+Bristleback.template.TemplateController.prototype.constructTemplateInformation = function (templateName, containerDiv, rootObjectName) {
   containerDiv = containerDiv ? containerDiv : "#" + templateName + "-div";
 
   var templateInformation = {};
@@ -13,20 +27,20 @@ Bristleback.controller.TemplateController.prototype.constructTemplateInformation
   return templateInformation;
 };
 
-Bristleback.controller.TemplateController.prototype.containsTemplate = function (templateName) {
+Bristleback.template.TemplateController.prototype.containsTemplate = function (templateName) {
   return this.parsedTemplates[templateName] != undefined;
 };
 
-Bristleback.controller.TemplateController.prototype.getTemplate = function (templateName) {
+Bristleback.template.TemplateController.prototype.getTemplate = function (templateName) {
 
   if (!this.containsTemplate(templateName)) {
     this.parsedTemplates[templateName] =
-      Bristleback.controller.TemplateController.templateFramework.parseTemplate(templateName);
+      this.templateFramework.parseTemplate(templateName);
   }
   return this.parsedTemplates[templateName];
 };
 
-Bristleback.controller.TemplateController.prototype.render = function (templateInformation, object) {
+Bristleback.template.TemplateController.prototype.render = function (templateInformation, object) {
   if (templateInformation.rootObjectName) {
     var data = {};
     data[templateInformation.rootObjectName] = object;
@@ -35,14 +49,14 @@ Bristleback.controller.TemplateController.prototype.render = function (templateI
   }
 
   var parsedTemplate = this.getTemplate(templateInformation.templateName);
-  var result = Bristleback.controller.TemplateController.templateFramework.processTemplate(parsedTemplate, data);
+  var result = this.templateFramework.processTemplate(parsedTemplate, data);
   var idWithoutHash = templateInformation.containerDiv.substring(1);
   var container = document.getElementById(idWithoutHash);
   container.innerHTML = result;
 };
 
-Bristleback.controller.TemplateController.prototype.registerTemplateFramework = function (templateFramework) {
-  Bristleback.controller.TemplateController.templateFramework = templateFramework;
+Bristleback.template.TemplateController.prototype.registerTemplateFramework = function (templateFramework) {
+  this.templateFramework = templateFramework;
 };
 
 Bristleback.templateFrameworks = {
@@ -78,5 +92,7 @@ Bristleback.templateFrameworks = {
   }
 
 };
+
+Bristleback.templateController = new Bristleback.template.TemplateController();
 
 
