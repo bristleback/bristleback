@@ -27,11 +27,16 @@ public class LogoutInterceptor implements ActionInterceptor<AuthenticationOperat
   @Named("bristleAuthenticationsContainer")
   private AuthenticationsContainer authenticationsContainer;
 
+  @Inject
+  @Named("bristleAuthenticationInformer")
+  private AuthenticationInformer authenticationInformer;
+
   @Override
   public void intercept(ActionInformation actionInformation, ActionExecutionContext context, AuthenticationOperationContext interceptorContext) {
     String connectionId = context.getUserContext().getId();
     String username = authenticationsContainer.getAuthentication(connectionId).getAuthenticatedUser().getUsername();
     authenticationsContainer.logout(connectionId);
+    authenticationInformer.sendLogoutInformation(context.getUserContext());
     log.debug("User \"" + username + "\" has been logged out.");
   }
 }

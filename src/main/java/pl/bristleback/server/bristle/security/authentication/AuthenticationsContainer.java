@@ -1,11 +1,13 @@
 package pl.bristleback.server.bristle.security.authentication;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import pl.bristleback.server.bristle.exceptions.UserNotAuthenticatedException;
 
-import java.util.ArrayList;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,8 +24,12 @@ public class AuthenticationsContainer {
 
   private Map<String, List<UserAuthentication>> concurrentAuthentications;
 
-  @Autowired
+  @Inject
   private AuthenticationConfiguration authenticationConfiguration;
+
+  @Inject
+  @Named("bristleAuthenticationInformer")
+  private AuthenticationInformer authenticationInformer;
 
   public AuthenticationsContainer() {
     concurrentAuthentications = Collections.synchronizedMap(new HashMap<String, List<UserAuthentication>>());
@@ -34,7 +40,8 @@ public class AuthenticationsContainer {
     String username = userAuthentication.getAuthenticatedUser().getUsername();
     if (isLimitReached(username)) {
       UserAuthentication authenticationToBeInvalidated = concurrentAuthentications.get(username).get(0);
-      authenticationToBeInvalidated.invalidate();
+      logout(authenticationToBeInvalidated.getUserContext().getId());
+      authenticationInformer.sendLogoutInformation(authenticationToBeInvalidated.getUserContext());
     }
     concurrentAuthentications.get(username).add(userAuthentication);
 
@@ -44,7 +51,7 @@ public class AuthenticationsContainer {
   private boolean isLimitReached(String username) {
     int concurrentUsersLimit = authenticationConfiguration.getMaximumAuthenticationsPerUsername();
     if (!concurrentAuthentications.containsKey(username)) {
-      concurrentAuthentications.put(username, new ArrayList<UserAuthentication>());
+      concurrentAuthentications.put(username, new LinkedList<UserAuthentication>());
     }
     return concurrentAuthentications.get(username).size() >= concurrentUsersLimit;
   }
@@ -52,7 +59,14 @@ public class AuthenticationsContainer {
   public void logout(String connectionId) {
     UserAuthentication authentication = getAuthentication(connectionId);
     authentication.invalidate();
-    concurrentAuthentications.remove(authentication.getAuthenticatedUser().getUsername());
+    List<UserAuthentication> userAuthenticationsForUsername = concurrentAuthentications.get(authentication.getAuthenticatedUser().getUsername());
+    Iterator<UserAuthentication> it = userAuthenticationsForUsername.iterator();
+    while (it.hasNext()) {
+      UserAuthentication userAuthentication = it.next();
+      if (userAuthentication.getUserContext().getId().equals(connectionId)) {
+        it.remove();
+      }
+    }
   }
 
   /**

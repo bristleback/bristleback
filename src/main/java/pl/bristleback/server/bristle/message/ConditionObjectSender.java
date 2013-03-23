@@ -141,8 +141,13 @@ public class ConditionObjectSender {
 
   @SuppressWarnings("unchecked")
   private void doSendUsingSerialization(BristleMessage message, List<WebsocketConnector> connectors) throws Exception {
-    Class payloadType = message.getPayload().getClass();
     Object serialization;
+    Class payloadType;
+    if (message.getPayload() != null) {
+      payloadType = message.getPayload().getClass();
+    } else {
+      payloadType = String.class;
+    }
     if (localSerializations.isSerializationForPayloadTypeExist(payloadType)) {
       serialization = localSerializations.getSerialization(payloadType);
     } else if (globalDefaultSerializations.isSerializationForPayloadTypeExist(payloadType)) {

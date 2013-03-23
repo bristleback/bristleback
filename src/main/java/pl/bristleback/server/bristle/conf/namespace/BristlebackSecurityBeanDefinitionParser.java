@@ -7,6 +7,7 @@ import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
 import pl.bristleback.server.bristle.security.authentication.AuthenticatingAction;
 import pl.bristleback.server.bristle.security.authentication.AuthenticationConfiguration;
+import pl.bristleback.server.bristle.security.authentication.AuthenticationInformer;
 import pl.bristleback.server.bristle.security.authentication.AuthenticationInterceptor;
 import pl.bristleback.server.bristle.security.authentication.AuthenticationInterceptorContextResolver;
 import pl.bristleback.server.bristle.security.authentication.AuthenticationsContainer;
@@ -63,8 +64,16 @@ public class BristlebackSecurityBeanDefinitionParser extends BaseBristlebackBean
     if (useDefaultLogoutAction) {
       registerLogoutAction(parserContext);
     }
+    registerAuthenticationInformer(parserContext);
 
     registerUserDisconnectionListener(parserContext);
+  }
+
+  private void registerAuthenticationInformer(ParserContext parserContext) {
+    BeanDefinition disconnectionListener = BeanDefinitionBuilder
+      .rootBeanDefinition(AuthenticationInformer.class)
+      .getBeanDefinition();
+    registerBean(parserContext, disconnectionListener, "bristleAuthenticationInformer");
   }
 
   private void registerUserDisconnectionListener(ParserContext parserContext) {
