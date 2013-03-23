@@ -1,8 +1,8 @@
 package pl.bristleback.server.bristle.engine;
 
 import pl.bristleback.server.bristle.api.WebsocketConnector;
+import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.security.UsersContainer;
-import pl.bristleback.server.bristle.engine.base.ConnectedUser;
 
 /**
  * //@todo class description
@@ -15,15 +15,15 @@ public enum WebsocketOperation {
 
   TEXT_FRAME(OperationCodes.TEXT_FRAME_CODE) {
     public void performOperation(WebsocketConnector connector, UsersContainer usersContainer, Object data) {
-      ConnectedUser user = usersContainer.getConnectedUser(connector);
-      connector.getDataController().processTextData((String) data, user);
+      UserContext userContext = usersContainer.getUserContext(connector);
+      connector.getDataController().processTextData((String) data, userContext);
     }
   },
 
   BINARY_FRAME(OperationCodes.BINARY_FRAME_CODE) {
     public void performOperation(WebsocketConnector connector, UsersContainer usersContainer, Object data) {
-      ConnectedUser user = usersContainer.getConnectedUser(connector);
-      connector.getDataController().processBinaryData((byte[]) data, user);
+      UserContext userContext = usersContainer.getUserContext(connector);
+      connector.getDataController().processBinaryData((byte[]) data, userContext);
     }
   },
 

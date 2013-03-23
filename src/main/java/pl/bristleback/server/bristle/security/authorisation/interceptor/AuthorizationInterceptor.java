@@ -29,7 +29,7 @@ public class AuthorizationInterceptor implements ActionInterceptor<RequiredRight
 
   @Override
   public void intercept(ActionInformation actionInformation, ActionExecutionContext context, RequiredRights requiredRights) {
-    UserAuthentication authentication = authenticationsContainer.getAuthentication(context.getUser().getId());
+    UserAuthentication authentication = authenticationsContainer.getAuthentication(context.getUserContext().getId());
     for (String requiredRight : requiredRights.getRequiredRights()) {
       if (!authentication.getAuthenticatedUser().getAuthorities().contains(requiredRight)) {
         throw new UserNotAuthorizedException(requiredRight);

@@ -7,8 +7,8 @@ import pl.bristleback.server.bristle.action.exception.handler.ActionExceptionHan
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.SerializationEngine;
+import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.conf.resolver.action.BristleMessageSerializationUtils;
-import pl.bristleback.server.bristle.engine.base.ConnectedUser;
 import pl.bristleback.server.bristle.message.BristleMessage;
 
 import javax.inject.Inject;
@@ -48,8 +48,8 @@ public class ActionController implements DataController {
 
   @Override
   @SuppressWarnings("unchecked")
-  public void processTextData(String textData, ConnectedUser user) {
-    ActionExecutionContext context = new ActionExecutionContext(user);
+  public void processTextData(String textData, UserContext userContext) {
+    ActionExecutionContext context = new ActionExecutionContext(userContext);
     try {
       log.debug("Incoming message: " + textData);
       BristleMessage<String[]> actionMessage = (BristleMessage<String[]>) serializationEngine.deserialize(textData, messageSerialization);
@@ -62,7 +62,7 @@ public class ActionController implements DataController {
   }
 
   @Override
-  public void processBinaryData(byte[] binaryData, ConnectedUser user) {
-    processTextData(new String(binaryData), user);
+  public void processBinaryData(byte[] binaryData, UserContext userContext) {
+    processTextData(new String(binaryData), userContext);
   }
 }

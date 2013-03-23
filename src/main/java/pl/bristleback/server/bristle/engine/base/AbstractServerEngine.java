@@ -54,7 +54,7 @@ public abstract class AbstractServerEngine implements ServerEngine {
 
   @Override
   public void onConnectionClose(WebsocketConnector connector) {
-    UserContext user = usersContainer.getUserByConnector(connector);
+    UserContext user = usersContainer.getUserContext(connector);
     usersContainer.removeUser(connector);
 
     List<ConnectionStateListener> listeners = configuration.getListenersContainer().getConnectionStateListeners();

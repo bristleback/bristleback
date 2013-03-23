@@ -29,7 +29,7 @@ public class LogoutInterceptor implements ActionInterceptor<AuthenticationOperat
 
   @Override
   public void intercept(ActionInformation actionInformation, ActionExecutionContext context, AuthenticationOperationContext interceptorContext) {
-    String connectionId = context.getUser().getId();
+    String connectionId = context.getUserContext().getId();
     String username = authenticationsContainer.getAuthentication(connectionId).getAuthenticatedUser().getUsername();
     authenticationsContainer.logout(connectionId);
     log.debug("User \"" + username + "\" has been logged out.");

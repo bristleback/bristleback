@@ -1,6 +1,6 @@
 package pl.bristleback.server.bristle.api;
 
-import pl.bristleback.server.bristle.engine.base.ConnectedUser;
+import pl.bristleback.server.bristle.api.users.UserContext;
 
 /**
  * Data controller processes incoming text and binary data.
@@ -17,16 +17,16 @@ public interface DataController extends ConfigurationAware {
   /**
    * Processes incoming, serialized text data, sent by given user.
    *
-   * @param textData text data.
-   * @param user     user that sent the message.
+   * @param textData    text data.
+   * @param userContext user that sent the message.
    */
-  void processTextData(String textData, ConnectedUser user);
+  void processTextData(String textData, UserContext userContext);
 
   /**
    * Processes incoming, serialized binary data, sent by given user.
    *
-   * @param binaryData binary data.
-   * @param user       user that sent the message.
+   * @param binaryData  binary data.
+   * @param userContext user that sent the message.
    */
-  void processBinaryData(byte[] binaryData, ConnectedUser user);
+  void processBinaryData(byte[] binaryData, UserContext userContext);
 } 

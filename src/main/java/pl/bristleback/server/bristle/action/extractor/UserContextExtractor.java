@@ -19,7 +19,7 @@ public class UserContextExtractor implements ActionParameterExtractor<UserContex
 
   @Override
   public UserContext fromTextContent(String text, ActionParameterInformation parameterInformation, ActionExecutionContext context) throws Exception {
-    return context.getUser();
+    return context.getUserContext();
   }
 
   @Override

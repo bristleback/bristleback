@@ -59,7 +59,7 @@ public class ResponseHelper {
     }
     BristleMessage<Object> responseMessage = prepareMessage(response, context);
     Object serialization = context.getAction().getResponseInformation().getSerialization();
-    conditionObjectSender.sendMessage(responseMessage, serialization, connectedUsers.getConnectorsByUsers(Collections.singletonList(context.getUser())));
+    conditionObjectSender.sendMessage(responseMessage, serialization, connectedUsers.getConnectorsByUsers(Collections.singletonList(context.getUserContext())));
   }
 
   /**
@@ -75,7 +75,7 @@ public class ResponseHelper {
   public void sendExceptionResponse(Object exceptionResponse, ActionExecutionContext context) throws Exception {
     if (exceptionResponse != null) {
       BristleMessage<Object> responseMessage = prepareMessage(exceptionResponse, context);
-      conditionObjectSender.sendMessage(responseMessage, Collections.singletonList(context.getUser()));
+      conditionObjectSender.sendMessage(responseMessage, Collections.singletonList(context.getUserContext()));
     }
   }
 
