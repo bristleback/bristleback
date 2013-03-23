@@ -29,8 +29,10 @@ public class UserDisconnectedListener implements ConnectionStateListener<UserCon
 
   @Override
   public void userDisconnected(UserContext user) {
-    String username = authenticationsContainer.getAuthentication(user.getId()).getAuthenticatedUser().getUsername();
-    authenticationsContainer.logout(user.getId());
-    log.debug("User \"" + username + "\" has been logged out.");
+    if (authenticationsContainer.hasValidAuthenticationForConnection(user.getId())) {
+      String username = authenticationsContainer.getAuthentication(user.getId()).getAuthenticatedUser().getUsername();
+      authenticationsContainer.logout(user.getId());
+      log.debug("User \"" + username + "\" has been logged out.");
+    }
   }
 }
