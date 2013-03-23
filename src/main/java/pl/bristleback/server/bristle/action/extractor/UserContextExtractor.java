@@ -5,7 +5,7 @@ import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionParameterInformation;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.bristle.api.users.UserContext;
 
 /**
  * //@todo class description
@@ -15,10 +15,10 @@ import pl.bristleback.server.bristle.api.users.IdentifiedUser;
  * @author Wojciech Niemiec
  */
 @Component
-public class IdentifiedUserExtractor implements ActionParameterExtractor<IdentifiedUser> {
+public class UserContextExtractor implements ActionParameterExtractor<UserContext> {
 
   @Override
-  public IdentifiedUser fromTextContent(String text, ActionParameterInformation parameterInformation, ActionExecutionContext context) throws Exception {
+  public UserContext fromTextContent(String text, ActionParameterInformation parameterInformation, ActionExecutionContext context) throws Exception {
     return context.getUser();
   }
 

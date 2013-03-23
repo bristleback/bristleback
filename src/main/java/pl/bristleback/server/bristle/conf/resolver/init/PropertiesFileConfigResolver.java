@@ -73,7 +73,7 @@ import java.util.Set;
  * bristle.user.factory
  * </td>
  * <td>
- * {@link pl.bristleback.server.bristle.api.users.UserFactory}
+ * {@link pl.bristleback.server.bristle.api.users.UserContextFactory}
  * </td>
  * <td>
  * DefaultUserFactory

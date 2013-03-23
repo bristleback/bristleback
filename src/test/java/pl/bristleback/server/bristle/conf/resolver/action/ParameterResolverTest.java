@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pl.bristleback.server.bristle.action.ActionParameterInformation;
-import pl.bristleback.server.bristle.engine.base.users.DefaultUser;
+import pl.bristleback.server.bristle.engine.user.BaseUserContext;
 import pl.bristleback.server.mock.action.SimpleActionClass;
 import pl.bristleback.server.mock.beans.SpringMockBeansFactory;
 
@@ -35,7 +35,7 @@ public class ParameterResolverTest {
   @Test
   public void testDefault() throws NoSuchMethodException {
     //given
-    Method defaultAction = SimpleActionClass.class.getMethod("executeDefault", DefaultUser.class, String.class);
+    Method defaultAction = SimpleActionClass.class.getMethod("executeDefault", BaseUserContext.class, String.class);
     Type[] parameters = defaultAction.getGenericParameterTypes();
     Type userParameter = parameters[0];
     Annotation[] userParameterAnnotations = defaultAction.getParameterAnnotations()[0];

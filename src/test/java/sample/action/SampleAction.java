@@ -7,8 +7,8 @@ import pl.bristleback.server.bristle.api.annotations.Action;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
 import pl.bristleback.server.bristle.api.annotations.Intercept;
 import pl.bristleback.server.bristle.api.annotations.ObjectSender;
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
-import pl.bristleback.server.bristle.engine.base.users.DefaultUser;
+import pl.bristleback.server.bristle.api.users.UserContext;
+import pl.bristleback.server.bristle.engine.user.BaseUserContext;
 import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
@@ -38,7 +38,7 @@ import java.util.Map;
 @ActionClass(name = "sample")
 @Component
 @Intercept(SampleInterceptor.class)
-public class SampleAction implements DefaultAction<DefaultUser, Map<String, BigDecimal>> {
+public class SampleAction implements DefaultAction<BaseUserContext, Map<String, BigDecimal>> {
 
   private static Logger log = Logger.getLogger(SampleAction.class.getName());
 
@@ -73,19 +73,19 @@ public class SampleAction implements DefaultAction<DefaultUser, Map<String, BigD
   }
 
   @Action(name = "hello")
-  public void sayHello(@Bind(required = true) String name, int age, DefaultUser user) throws Exception {
+  public void sayHello(@Bind(required = true) String name, int age, BaseUserContext user) throws Exception {
     BristleMessage<User> message = new BristleMessage<User>();
     User userData = new User();
     userData.setAge(age);
     userData.setFirstName(name);
     message.withName("SampleClientActionClass.userDetails").withPayload(userData);
-    sender.sendMessage(message, Collections.<IdentifiedUser>singletonList(user));
+    sender.sendMessage(message, Collections.<UserContext>singletonList(user));
   }
 
   @Action
-  public String executeDefault(DefaultUser user, Map<String, BigDecimal> message) {
+  public String executeDefault(BaseUserContext userContext, Map<String, BigDecimal> message) {
     String helloWorld = helloServiceBean.sayHello(message.get("mapField"));
-    clientActionClass.sendCardsToUser(Card.values(), user);
+    clientActionClass.sendCardsToUser(Card.values(), userContext);
     clientActionClass.notification(true, 1, "df");
     return helloWorld;
   }

@@ -5,7 +5,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.action.SendCondition;
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.security.UsersContainer;
 
 import java.util.ArrayList;
@@ -24,7 +24,9 @@ import static org.mockito.Mockito.when;
 public class UsersContainerTest {
 
   private UsersContainer usersContainer;
+
   private MockUser mockUserA;
+
   private MockUser mockUserB;
 
   @Before
@@ -71,7 +73,7 @@ public class UsersContainerTest {
   @Test
   public void shouldReturnNoConnectors() throws Exception {
     //given 2 users subset
-    List<IdentifiedUser> users = new ArrayList<IdentifiedUser>();
+    List<UserContext> users = new ArrayList<UserContext>();
     users.add(mockUserA);
     users.add(mockUserB);
 
@@ -86,7 +88,7 @@ public class UsersContainerTest {
   @Test
   public void shouldReturnConnectorFromSubSet() throws Exception {
     //given 2 users subset
-    List<IdentifiedUser> users = new ArrayList<IdentifiedUser>();
+    List<UserContext> users = new ArrayList<UserContext>();
     users.add(mockUserA);
     users.add(mockUserB);
 
@@ -122,21 +124,23 @@ class UserNameCondition implements SendCondition<MockUser> {
   }
 
   @Override
-  public boolean isApplicable(MockUser user) {
-    return user.getName().equals(userName);
+  public boolean isApplicable(MockUser userContext) {
+    return userContext.getName().equals(userName);
   }
 }
 
-class AllUsersCondition implements SendCondition<IdentifiedUser> {
+class AllUsersCondition implements SendCondition<UserContext> {
+
   @Override
-  public boolean isApplicable(IdentifiedUser user) {
+  public boolean isApplicable(UserContext userContext) {
     return true;
   }
 }
 
-class NoneCondition implements SendCondition<IdentifiedUser> {
+class NoneCondition implements SendCondition<UserContext> {
+
   @Override
-  public boolean isApplicable(IdentifiedUser user) {
+  public boolean isApplicable(UserContext userContext) {
     return false;
   }
 }

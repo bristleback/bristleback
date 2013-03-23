@@ -1,7 +1,7 @@
 package pl.bristleback.server.bristle.security.authentication;
 
+import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.api.users.UserDetails;
-import pl.bristleback.server.bristle.engine.base.ConnectedUser;
 
 /**
  * Abstraction for single user authentication. Binds connection with user details.
@@ -12,14 +12,15 @@ import pl.bristleback.server.bristle.engine.base.ConnectedUser;
  */
 public final class UserAuthentication {
 
-  private final ConnectedUser user;
+
+  private final UserContext userContext;
 
   private final UserDetails authenticatedUser;
 
   private boolean valid;
 
-  private UserAuthentication(ConnectedUser user, UserDetails authenticatedUser) {
-    this.user = user;
+  private UserAuthentication(UserContext userContext, UserDetails authenticatedUser) {
+    this.userContext = userContext;
     this.authenticatedUser = authenticatedUser;
     valid = true;
   }
@@ -27,24 +28,24 @@ public final class UserAuthentication {
   /**
    * Creates new valid authentication.
    *
-   * @param user        connection representation.
+   * @param userContext user context object.
    * @param userDetails details of logged user.
    * @return valid authentication.
    */
-  public static UserAuthentication newValidAuthentication(ConnectedUser user, UserDetails userDetails) {
-    return new UserAuthentication(user, userDetails);
+  public static UserAuthentication newValidAuthentication(UserContext userContext, UserDetails userDetails) {
+    return new UserAuthentication(userContext, userDetails);
   }
 
   public boolean isValid() {
     return valid;
   }
 
-  public ConnectedUser getUser() {
-    return user;
-  }
-
   public UserDetails getAuthenticatedUser() {
     return authenticatedUser;
+  }
+
+  public UserContext getUserContext() {
+    return userContext;
   }
 
   /**

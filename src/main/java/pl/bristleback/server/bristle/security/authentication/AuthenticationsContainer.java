@@ -1,8 +1,6 @@
 package pl.bristleback.server.bristle.security.authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import pl.bristleback.server.bristle.api.WebsocketConnector;
-import pl.bristleback.server.bristle.engine.base.ConnectedUser;
 import pl.bristleback.server.bristle.exceptions.UserNotAuthenticatedException;
 
 import java.util.ArrayList;
@@ -40,7 +38,7 @@ public class AuthenticationsContainer {
     }
     concurrentAuthentications.get(username).add(userAuthentication);
 
-    connectorIdToAuthenticationMappings.put(userAuthentication.getUser().getConnector().getConnectorId(), userAuthentication);
+    connectorIdToAuthenticationMappings.put(userAuthentication.getUserContext().getId(), userAuthentication);
   }
 
   private boolean isLimitReached(String username) {
@@ -51,8 +49,8 @@ public class AuthenticationsContainer {
     return concurrentAuthentications.get(username).size() >= concurrentUsersLimit;
   }
 
-  public void logout(ConnectedUser user) {
-    UserAuthentication authentication = getAuthentication(user);
+  public void logout(String connectionId) {
+    UserAuthentication authentication = getAuthentication(connectionId);
     authentication.invalidate();
     concurrentAuthentications.remove(authentication.getAuthenticatedUser().getUsername());
   }
@@ -60,22 +58,21 @@ public class AuthenticationsContainer {
   /**
    * Gets authentication representation for given connection.
    *
-   * @param user connection representation.
+   * @param connectionId connection identification.
    * @return user authentication object.
    * @throws UserNotAuthenticatedException if there is not authentication for given connection
    *                                       or authentication is invalidated.
    */
-  public UserAuthentication getAuthentication(ConnectedUser user) {
-    String connectorId = user.getConnector().getConnectorId();
-    UserAuthentication authentication = connectorIdToAuthenticationMappings.get(connectorId);
+  public UserAuthentication getAuthentication(String connectionId) {
+    UserAuthentication authentication = connectorIdToAuthenticationMappings.get(connectionId);
     if (authentication == null || !authentication.isValid()) {
       throw new UserNotAuthenticatedException();
     }
     return authentication;
   }
 
-  public boolean hasValidAuthenticationForConnection(WebsocketConnector connector) {
-    UserAuthentication authentication = connectorIdToAuthenticationMappings.get(connector.getConnectorId());
+  public boolean hasValidAuthenticationForConnection(String connectionId) {
+    UserAuthentication authentication = connectorIdToAuthenticationMappings.get(connectionId);
     return authentication != null && authentication.isValid();
   }
 }

@@ -1,7 +1,7 @@
 package pl.bristleback.server.bristle.security.authorisation.conditions;
 
 import pl.bristleback.server.bristle.api.action.SendCondition;
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.bristle.api.users.UserContext;
 
 /**
  * Pack of general purpose logical conditions.
@@ -24,11 +24,11 @@ public final class LogicalConditions {
    * @param <T>    type of user implementation.
    * @return "AND" condition object.
    */
-  public static <T extends IdentifiedUser> SendCondition<T> and(final SendCondition<T> first, final SendCondition<T> second) {
+  public static <T extends UserContext> SendCondition<T> and(final SendCondition<T> first, final SendCondition<T> second) {
     return new SendCondition<T>() {
       @Override
-      public boolean isApplicable(T user) {
-        return first.isApplicable(user) && second.isApplicable(user);
+      public boolean isApplicable(T userContext) {
+        return first.isApplicable(userContext) && second.isApplicable(userContext);
       }
     };
   }
@@ -40,12 +40,12 @@ public final class LogicalConditions {
    * @param <T>        type of user implementation.
    * @return "AND" condition object.
    */
-  public static <T extends IdentifiedUser> SendCondition<T> and(final SendCondition<T>... conditions) {
+  public static <T extends UserContext> SendCondition<T> and(final SendCondition<T>... conditions) {
     return new SendCondition<T>() {
       @Override
-      public boolean isApplicable(T user) {
+      public boolean isApplicable(T userContext) {
         for (SendCondition<T> condition : conditions) {
-          if (!condition.isApplicable(user)) {
+          if (!condition.isApplicable(userContext)) {
             return false;
           }
         }
@@ -62,11 +62,11 @@ public final class LogicalConditions {
    * @param <T>    type of user implementation.
    * @return "OR" condition object.
    */
-  public static <T extends IdentifiedUser> SendCondition<T> or(final SendCondition<T> first, final SendCondition<T> second) {
+  public static <T extends UserContext> SendCondition<T> or(final SendCondition<T> first, final SendCondition<T> second) {
     return new SendCondition<T>() {
       @Override
-      public boolean isApplicable(T user) {
-        return first.isApplicable(user) || second.isApplicable(user);
+      public boolean isApplicable(T userContext) {
+        return first.isApplicable(userContext) || second.isApplicable(userContext);
       }
     };
   }
@@ -78,12 +78,12 @@ public final class LogicalConditions {
    * @param <T>        type of user implementation.
    * @return "OR" condition object.
    */
-  public static <T extends IdentifiedUser> SendCondition<T> or(final SendCondition<T>... conditions) {
+  public static <T extends UserContext> SendCondition<T> or(final SendCondition<T>... conditions) {
     return new SendCondition<T>() {
       @Override
-      public boolean isApplicable(T user) {
+      public boolean isApplicable(T userContext) {
         for (SendCondition<T> condition : conditions) {
-          if (condition.isApplicable(user)) {
+          if (condition.isApplicable(userContext)) {
             return true;
           }
         }
@@ -99,11 +99,11 @@ public final class LogicalConditions {
    * @param <T>       type of user implementation.
    * @return "NOT" condition object.
    */
-  public static <T extends IdentifiedUser> SendCondition<T> not(final SendCondition<T> condition) {
+  public static <T extends UserContext> SendCondition<T> not(final SendCondition<T> condition) {
     return new SendCondition<T>() {
       @Override
-      public boolean isApplicable(T user) {
-        return !condition.isApplicable(user);
+      public boolean isApplicable(T userContext) {
+        return !condition.isApplicable(userContext);
       }
     };
   }

@@ -27,7 +27,7 @@
         factory-bean="mockBeansFactory"
         factory-method="mockServerInstance"/>
 
-  <bean id="mockUserFactory" class="pl.bristleback.server.mock.MockUserFactory"/>
+  <bean id="mockUserFactory" class="pl.bristleback.server.mock.MockUserContextFactory"/>
 
   <bean id="mockClientActionClass" class="pl.bristleback.server.mock.action.client.MockClientActionClass"/>
 

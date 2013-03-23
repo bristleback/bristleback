@@ -1,7 +1,7 @@
 package pl.bristleback.server.bristle.listener;
 
 import pl.bristleback.server.bristle.api.ConnectionStateListener;
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.bristle.api.users.UserContext;
 
 import java.util.Iterator;
 import java.util.List;
@@ -24,7 +24,7 @@ public class ConnectionStateListenerChain {
   }
 
   @SuppressWarnings("unchecked")
-  public void connectorStarted(IdentifiedUser user) {
+  public void connectorStarted(UserContext user) {
     processListeners = true;
     Iterator<ConnectionStateListener> it = listeners.iterator();
     while (processListeners && it.hasNext()) {
@@ -33,7 +33,7 @@ public class ConnectionStateListenerChain {
   }
 
   @SuppressWarnings("unchecked")
-  public void connectorStopped(IdentifiedUser user) {
+  public void connectorStopped(UserContext user) {
     processListeners = true;
     Iterator<ConnectionStateListener> it = listeners.iterator();
     while (processListeners && it.hasNext()) {

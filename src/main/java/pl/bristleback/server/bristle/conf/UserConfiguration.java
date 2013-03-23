@@ -1,7 +1,7 @@
 package pl.bristleback.server.bristle.conf;
 
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
-import pl.bristleback.server.bristle.api.users.UserFactory;
+import pl.bristleback.server.bristle.api.users.UserContext;
+import pl.bristleback.server.bristle.api.users.UserContextFactory;
 import pl.bristleback.server.bristle.security.UsersContainer;
 
 /**
@@ -13,25 +13,25 @@ import pl.bristleback.server.bristle.security.UsersContainer;
  */
 public class UserConfiguration {
 
-  private Class<? extends IdentifiedUser> userClass;
+  private Class<? extends UserContext> userContextClass;
 
-  private UserFactory userFactory;
+  private UserContextFactory userContextFactory;
 
   private UsersContainer usersContainer;
 
 
-  public UserConfiguration(UserFactory userFactory, Class<? extends IdentifiedUser> userClass, UsersContainer usersContainer) {
-    this.userFactory = userFactory;
-    this.userClass = userClass;
+  public UserConfiguration(UserContextFactory userContextFactory, Class<? extends UserContext> userContextClass, UsersContainer usersContainer) {
+    this.userContextFactory = userContextFactory;
+    this.userContextClass = userContextClass;
     this.usersContainer = usersContainer;
   }
 
-  public Class<? extends IdentifiedUser> getUserClass() {
-    return userClass;
+  public Class<? extends UserContext> getUserContextClass() {
+    return userContextClass;
   }
 
-  public UserFactory getUserFactory() {
-    return userFactory;
+  public UserContextFactory getUserContextFactory() {
+    return userContextFactory;
   }
 
   public UsersContainer getUsersContainer() {

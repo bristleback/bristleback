@@ -1,6 +1,6 @@
 package pl.bristleback.server.bristle.api.action;
 
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.bristle.api.users.UserContext;
 
 /**
  * Basic filter interface, used to determine message recipients.
@@ -13,14 +13,14 @@ import pl.bristleback.server.bristle.api.users.IdentifiedUser;
  * @see pl.bristleback.server.bristle.security.authorisation.conditions.LogicalConditions Logical filters
  * @see pl.bristleback.server.bristle.security.authorisation.conditions.AllUsersCondition All users filter
  */
-public interface SendCondition<T extends IdentifiedUser> {
+public interface SendCondition<T extends UserContext> {
 
   /**
    * Checks if message should be sent to given user
    * Used in message senders
    *
-   * @param user The examined user.
+   * @param userContext The examined user.
    * @return true if message should be sent, false otherwise.
    */
-  boolean isApplicable(T user);
+  boolean isApplicable(T userContext);
 }

@@ -5,7 +5,7 @@ import org.junit.Test;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
 import pl.bristleback.server.bristle.api.action.ActionExceptionHandler;
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.exceptions.BristleRuntimeException;
 import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
 import pl.bristleback.server.mock.action.client.MockClientActionClass;
@@ -70,7 +70,7 @@ public class ReflectionUtilsTest {
   public void shouldFindIdenticalAnnotation() throws NoSuchMethodException {
     //given
     Method method = MockClientActionClass.class.getMethod(MockClientActionClass.SIMPLE_ACTION_NAME,
-      String.class, VerySimpleMockBean.class, IdentifiedUser.class);
+      String.class, VerySimpleMockBean.class, UserContext.class);
     Annotation[] annotations = method.getParameterAnnotations()[1];
 
     Class<Bind> bindClass = Bind.class;
@@ -86,7 +86,7 @@ public class ReflectionUtilsTest {
   public void shouldNotFindIdenticalAnnotation() throws NoSuchMethodException {
     //given
     Method method = MockClientActionClass.class.getMethod(MockClientActionClass.SIMPLE_ACTION_NAME,
-      String.class, VerySimpleMockBean.class, IdentifiedUser.class);
+      String.class, VerySimpleMockBean.class, UserContext.class);
     Annotation[] annotations = method.getParameterAnnotations()[2];
 
     Class<Bind> bindClass = Bind.class;

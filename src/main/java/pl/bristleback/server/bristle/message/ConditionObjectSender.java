@@ -7,9 +7,9 @@ import pl.bristleback.server.bristle.api.SerializationResolver;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.WebsocketMessage;
 import pl.bristleback.server.bristle.api.action.SendCondition;
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
-import pl.bristleback.server.bristle.security.UsersContainer;
+import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.conf.resolver.action.BristleMessageSerializationUtils;
+import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
 
 import java.lang.reflect.Field;
@@ -82,7 +82,7 @@ public class ConditionObjectSender {
    * @param recipients list of recipients.
    * @throws Exception serialization exceptions.
    */
-  public void sendMessage(BristleMessage message, List<IdentifiedUser> recipients) throws Exception {
+  public void sendMessage(BristleMessage message, List<UserContext> recipients) throws Exception {
     List<WebsocketConnector> connectors = connectedUsers().getConnectorsByUsers(recipients);
     doSendUsingSerialization(message, connectors);
   }
@@ -98,7 +98,7 @@ public class ConditionObjectSender {
    * @param recipients    initial pool of recipients, for further processing by condition object.
    * @throws Exception serialization exceptions.
    */
-  public void sendMessage(BristleMessage message, SendCondition sendCondition, List<IdentifiedUser> recipients) throws Exception {
+  public void sendMessage(BristleMessage message, SendCondition sendCondition, List<UserContext> recipients) throws Exception {
     List<WebsocketConnector> connectors = connectedUsers().getConnectorsByCondition(recipients, sendCondition);
     doSendUsingSerialization(message, connectors);
   }
@@ -108,7 +108,7 @@ public class ConditionObjectSender {
    *
    * @param user user to which the connection should be closed.
    */
-  public void closeConnection(IdentifiedUser user) {
+  public void closeConnection(UserContext user) {
     List<WebsocketConnector> connectors = connectedUsers().getConnectorsByUsers(Collections.singletonList(user));
     closeConnectionsInServerEngine(connectors);
   }
@@ -128,7 +128,7 @@ public class ConditionObjectSender {
    *
    * @param users users to which the connection should be closed.
    */
-  public void closeConnections(List<IdentifiedUser> users) {
+  public void closeConnections(List<UserContext> users) {
     List<WebsocketConnector> connectors = connectedUsers().getConnectorsByUsers(users);
     closeConnectionsInServerEngine(connectors);
   }

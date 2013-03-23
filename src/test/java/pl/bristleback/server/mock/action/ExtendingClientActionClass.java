@@ -2,7 +2,7 @@ package pl.bristleback.server.mock.action;
 
 import pl.bristleback.server.bristle.api.annotations.ClientAction;
 import pl.bristleback.server.bristle.api.annotations.ClientActionClass;
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.bristle.api.users.UserContext;
 
 /**
  * //@todo class description
@@ -21,12 +21,12 @@ public class ExtendingClientActionClass extends NonStandardClientActionClass {
    * @return user
    */
   @ClientAction
-  public IdentifiedUser someAction(IdentifiedUser user) {
+  public UserContext someAction(UserContext user) {
     return user;
   }
 
   @ClientAction
-  public IdentifiedUser additionalAction(IdentifiedUser user) {
+  public UserContext additionalAction(UserContext user) {
     return user;
   }
 }

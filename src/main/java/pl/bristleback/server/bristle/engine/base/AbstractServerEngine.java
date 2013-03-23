@@ -5,7 +5,7 @@ import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.ConnectionStateListener;
 import pl.bristleback.server.bristle.api.ServerEngine;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.conf.EngineConfig;
 import pl.bristleback.server.bristle.listener.ConnectionStateListenerChain;
@@ -44,7 +44,7 @@ public abstract class AbstractServerEngine implements ServerEngine {
 
   @Override
   public void onConnectionOpened(WebsocketConnector connector) {
-    IdentifiedUser user = usersContainer.newUser(connector);
+    UserContext user = usersContainer.newUser(connector);
 
     List<ConnectionStateListener> listeners = configuration.getListenersContainer().getConnectionStateListeners();
     ConnectionStateListenerChain chain = new ConnectionStateListenerChain(listeners);
@@ -54,7 +54,7 @@ public abstract class AbstractServerEngine implements ServerEngine {
 
   @Override
   public void onConnectionClose(WebsocketConnector connector) {
-    IdentifiedUser user = usersContainer.getUserByConnector(connector);
+    UserContext user = usersContainer.getUserByConnector(connector);
     usersContainer.removeUser(connector);
 
     List<ConnectionStateListener> listeners = configuration.getListenersContainer().getConnectionStateListeners();

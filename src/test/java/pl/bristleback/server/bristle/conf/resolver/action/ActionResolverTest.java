@@ -8,7 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.action.response.ActionResponseInformation;
-import pl.bristleback.server.bristle.engine.base.users.DefaultUser;
+import pl.bristleback.server.bristle.engine.user.BaseUserContext;
 import pl.bristleback.server.mock.action.SimpleActionClass;
 import pl.bristleback.server.mock.beans.SpringMockBeansFactory;
 
@@ -47,7 +47,7 @@ public class ActionResolverTest {
   public void testDefaultAction() throws NoSuchMethodException {
     //given
     Class<SimpleActionClass> simpleActionClass = SimpleActionClass.class;
-    Method defaultAction = simpleActionClass.getMethod("executeDefault", DefaultUser.class, String.class);
+    Method defaultAction = simpleActionClass.getMethod("executeDefault", BaseUserContext.class, String.class);
 
     //when
     ActionInformation actionInformation = actionResolver.prepareActionInformation(simpleActionClass, defaultAction);

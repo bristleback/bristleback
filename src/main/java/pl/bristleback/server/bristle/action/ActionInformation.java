@@ -4,7 +4,7 @@ import org.apache.commons.collections.CollectionUtils;
 import pl.bristleback.server.bristle.action.interceptor.ActionInterceptors;
 import pl.bristleback.server.bristle.action.response.ActionResponseInformation;
 import pl.bristleback.server.bristle.api.action.DefaultAction;
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.bristle.api.users.UserContext;
 
 import java.lang.reflect.Method;
 import java.util.Iterator;
@@ -47,7 +47,7 @@ public class ActionInformation {
   public Object execute(Object actionInstance, Object[] parameterValues) throws Exception {
     if (defaultAction) {
       return ((DefaultAction) actionInstance)
-        .executeDefault((IdentifiedUser) parameterValues[CONNECTOR_ACTION_PARAMETER],
+        .executeDefault((UserContext) parameterValues[CONNECTOR_ACTION_PARAMETER],
           parameterValues[SECOND_ACTION_PARAMETER]);
     }
     return method.invoke(actionInstance, parameterValues);

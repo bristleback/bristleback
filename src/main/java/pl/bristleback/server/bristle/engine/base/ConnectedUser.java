@@ -1,10 +1,10 @@
 package pl.bristleback.server.bristle.engine.base;
 
 import pl.bristleback.server.bristle.api.WebsocketConnector;
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.bristle.api.users.UserContext;
 
 /**
- * Class used to manage connection between {@link IdentifiedUser} and {@link WebsocketConnector}.
+ * Class used to manage connection between {@link UserContext} and {@link WebsocketConnector}.
  * Represents single user connected to BristleBack server.
  * <p/>
  * Pawel Machowski
@@ -12,16 +12,17 @@ import pl.bristleback.server.bristle.api.users.IdentifiedUser;
  */
 public class ConnectedUser {
 
-  private IdentifiedUser user;
+  private UserContext userContext;
+
   private WebsocketConnector connector;
 
-  public ConnectedUser(IdentifiedUser userObject, WebsocketConnector connector) {
-    this.user = userObject;
+  public ConnectedUser(UserContext userContext, WebsocketConnector connector) {
+    this.userContext = userContext;
     this.connector = connector;
   }
 
-  public IdentifiedUser getUser() {
-    return user;
+  public UserContext getUserContext() {
+    return userContext;
   }
 
   public WebsocketConnector getConnector() {

@@ -3,13 +3,12 @@ package sample.outgoing;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.action.SendCondition;
-import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
 import pl.bristleback.server.bristle.api.annotations.ClientAction;
 import pl.bristleback.server.bristle.api.annotations.ClientActionClass;
 import pl.bristleback.server.bristle.api.annotations.Ignore;
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.security.authorisation.conditions.AllUsersCondition;
-import pl.bristleback.server.bristle.engine.base.users.DefaultUser;
+import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
 import sample.Card;
 
 /**
@@ -22,20 +21,21 @@ import sample.Card;
 @ClientActionClass
 @Component
 public class SampleClientActionClass {
+
   private static Logger log = Logger.getLogger(SampleClientActionClass.class.getName());
 
   @ClientAction("sendGame")
   public SendCondition sendGameToAll(String gameName, int actualConnectionsNumber) {
     return new SendCondition() {
       @Override
-      public boolean isApplicable(IdentifiedUser user) {
+      public boolean isApplicable(UserContext user) {
         return true;
       }
     };
   }
 
   @ClientAction("sendCardsToUser")
-  public IdentifiedUser sendCardsToUser(@Bind Card[] cards, @Ignore DefaultUser user) {
+  public UserContext sendCardsToUser(@Bind Card[] cards, @Ignore UserContext user) {
     return user;
   }
 

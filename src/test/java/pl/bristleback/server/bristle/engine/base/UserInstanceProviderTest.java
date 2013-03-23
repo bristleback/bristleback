@@ -4,8 +4,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import pl.bristleback.server.bristle.api.users.UserFactory;
-import pl.bristleback.server.mock.MockUserFactory;
+import pl.bristleback.server.bristle.api.users.UserContextFactory;
+import pl.bristleback.server.mock.MockUserContextFactory;
 import pl.bristleback.server.mock.beans.SpringMockBeansFactory;
 
 import javax.inject.Inject;
@@ -28,24 +28,24 @@ public class UserInstanceProviderTest {
 /*  @Test
   public void shouldCreateUserWhenUserFactoryNotFound() throws Exception {
     UserFactory defaultUserFactory = getUserFactory();
-    assertThat(defaultUserFactory.createNewUser(), notNullValue());
+    assertThat(defaultUserFactory.createNewUserContext(), notNullValue());
   }
 
   @Test
   public void shouldCreateDefaultUserWhenUserFactoryNotFound() throws Exception {
     UserFactory defaultUserFactory = getUserFactory();
-    assertThat(defaultUserFactory.createNewUser(), instanceOf(DefaultUser.class));
+    assertThat(defaultUserFactory.createNewUserContext(), instanceOf(DefaultUser.class));
   }*/
 
   @Test
   public void shouldCreateUserWhenUserFactoryFound() throws Exception {
-    UserFactory userFactory = getUserFactory();
-    assertThat(userFactory.createNewUser().getId(), is(MockUserFactory.MockUser.MOCK_USER_ID));
+    UserContextFactory userContextFactory = getUserFactory();
+    assertThat(userContextFactory.createNewUserContext().getId(), is(MockUserContextFactory.MockUserContext.MOCK_USER_ID));
   }
 
 
-  private UserFactory getUserFactory() {
-    return mockBeansFactory.getFrameworkBean("userFactory", UserFactory.class);
+  private UserContextFactory getUserFactory() {
+    return mockBeansFactory.getFrameworkBean("userFactory", UserContextFactory.class);
   }
 
 }

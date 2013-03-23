@@ -141,7 +141,7 @@ public class PojoConfigResolver implements InitialConfigurationResolver {
 
   /**
    * Sets the name of user factory bean that will be used to resolve {@link pl.bristleback.server.bristle.api.users.IdentifiedUser IdentifiedUser}
-   * implementations on connection start. User factory must implement {@link pl.bristleback.server.bristle.api.users.UserFactory} interface.
+   * implementations on connection start. User factory must implement {@link pl.bristleback.server.bristle.api.users.UserContextFactory} interface.
    *
    * @param userFactory user factory.
    */

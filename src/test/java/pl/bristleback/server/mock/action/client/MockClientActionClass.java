@@ -3,7 +3,7 @@ package pl.bristleback.server.mock.action.client;
 import pl.bristleback.server.bristle.api.annotations.ClientAction;
 import pl.bristleback.server.bristle.api.annotations.ClientActionClass;
 import pl.bristleback.server.bristle.api.annotations.Ignore;
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
 import pl.bristleback.server.mock.beans.VerySimpleMockBean;
 
@@ -26,17 +26,17 @@ public class MockClientActionClass {
   public static final String SINGLE_PARAM_ACTION_NAME = "nonDefaultName";
 
   @ClientAction
-  public IdentifiedUser simpleClientAction(String param1, @Bind() VerySimpleMockBean simpleMockBean, @Ignore IdentifiedUser ignoredParam) {
+  public UserContext simpleClientAction(String param1, @Bind() VerySimpleMockBean simpleMockBean, @Ignore UserContext ignoredParam) {
     return ignoredParam;
   }
 
   @ClientAction()
-  public IdentifiedUser multipleParamsOneSerialized(@Ignore String param1, String param2, @Ignore IdentifiedUser ignoredParam) {
+  public UserContext multipleParamsOneSerialized(@Ignore String param1, String param2, @Ignore UserContext ignoredParam) {
     return ignoredParam;
   }
 
   @ClientAction("nonDefaultName")
-  public IdentifiedUser singleParam(IdentifiedUser identifiedUser) {
+  public UserContext singleParam(UserContext identifiedUser) {
     return identifiedUser;
   }
 }

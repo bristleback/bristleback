@@ -8,7 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pl.bristleback.server.bristle.action.extractor.ActionExtractorsContainer;
 import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
-import pl.bristleback.server.bristle.engine.base.users.DefaultUser;
+import pl.bristleback.server.bristle.engine.user.BaseUserContext;
 import pl.bristleback.server.mock.beans.NonDefaultSerializedMockBean;
 import pl.bristleback.server.mock.beans.SpringMockBeansFactory;
 import pl.bristleback.server.mock.resolver.SimpleMockParameterExtractor;
@@ -29,6 +29,7 @@ import static junit.framework.Assert.assertTrue;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/test-context.xml"})
 public class ActionExtractorsResolverTest {
+
   private static Logger log = Logger.getLogger(ActionExtractorsResolverTest.class.getName());
 
   @Inject
@@ -53,7 +54,7 @@ public class ActionExtractorsResolverTest {
     assertNotNull(defaultObjectExtractor);
     assertTrue(defaultObjectExtractor.isDeserializationRequired());
 
-    ActionParameterExtractor connectorExtractor = extractorsContainer.getParameterExtractor(DefaultUser.class);
+    ActionParameterExtractor connectorExtractor = extractorsContainer.getParameterExtractor(BaseUserContext.class);
     assertNotNull(connectorExtractor);
     assertFalse(connectorExtractor.isDeserializationRequired());
   }

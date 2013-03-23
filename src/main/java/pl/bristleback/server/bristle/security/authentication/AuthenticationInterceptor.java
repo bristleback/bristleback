@@ -39,11 +39,11 @@ public class AuthenticationInterceptor implements ActionInterceptor<Authenticati
 
   @Override
   public void intercept(ActionInformation actionInformation, ActionExecutionContext context, AuthenticationOperationContext interceptorContext) {
-    if (authenticationsContainer.hasValidAuthenticationForConnection(context.getConnectedUser().getConnector())) {
+    if (authenticationsContainer.hasValidAuthenticationForConnection(context.getUser().getId())) {
       throw new UserAlreadyAuthenticatedException();
     }
     UserDetails userDetails = (UserDetails) context.getResponse();
-    UserAuthentication userAuthentication = UserAuthentication.newValidAuthentication(context.getConnectedUser(), userDetails);
+    UserAuthentication userAuthentication = UserAuthentication.newValidAuthentication(context.getUser(), userDetails);
     authenticationsContainer.addAndInvalidatePreviousIfNecessary(userAuthentication);
     context.cancelResponseSending();
     log.debug("User \"" + userDetails.getUsername() + "\" has been successfully authenticated.");

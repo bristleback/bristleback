@@ -3,7 +3,7 @@ package pl.bristleback.server.bristle.action.client.strategy;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.client.ClientActionInformation;
 import pl.bristleback.server.bristle.api.action.ClientActionSender;
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
@@ -19,13 +19,13 @@ import java.util.List;
  * @author Wojciech Niemiec
  */
 @Component
-public class UserCollectionSenderStrategy implements ClientActionSender<List<IdentifiedUser>> {
+public class UserCollectionSenderStrategy implements ClientActionSender<List<UserContext>> {
 
   @Inject
   private UsersContainer connectedUsers;
 
   @Override
-  public void sendClientAction(List<IdentifiedUser> users, BristleMessage message,
+  public void sendClientAction(List<UserContext> users, BristleMessage message,
                                ConditionObjectSender objectSender, ClientActionInformation actionInformation) throws Exception {
 
     objectSender.sendMessage(message, actionInformation.getSerialization(), connectedUsers.getConnectorsByUsers(users));

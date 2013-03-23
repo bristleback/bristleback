@@ -1,12 +1,12 @@
 package pl.bristleback.server.bristle.api;
 
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.bristle.api.users.UserContext;
 
 /**
  * This interface is meant to be implemented by application creator to handle user connection and disconnection events.
  * There can be multiple connection state listeners defined, they are run by {@link pl.bristleback.server.bristle.listener.ConnectionStateListenerChain ConnectionStateListenerChain}.
- * Listener methods are parametrized with base type of {@link pl.bristleback.server.bristle.api.users.IdentifiedUser}.
- * In all cases, actual user implementation (according to {@link pl.bristleback.server.bristle.api.users.UserFactory UserFactory}
+ * Listener methods are parametrized with base type of {@link pl.bristleback.server.bristle.api.users.UserContext}.
+ * In all cases, actual user context implementation (according to {@link pl.bristleback.server.bristle.api.users.UserContextFactory UserFactory}
  * used in application) is passed, listeners may be parametrized with custom user implementations so they won't be forced to use casting.
  * Currently, the order of connection state listeners execution cannot be determined
  * (which is subject to change in next Bristleback version).
@@ -15,7 +15,7 @@ import pl.bristleback.server.bristle.api.users.IdentifiedUser;
  *
  * @author Wojciech Niemiec
  */
-public interface ConnectionStateListener<T extends IdentifiedUser> {
+public interface ConnectionStateListener<T extends UserContext> {
 
   /**
    * Method invoked after connection with given user is established.

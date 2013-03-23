@@ -2,7 +2,7 @@ package pl.bristleback.server.mock.action;
 
 import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.action.DefaultAction;
-import pl.bristleback.server.bristle.engine.base.users.DefaultUser;
+import pl.bristleback.server.bristle.engine.user.BaseUserContext;
 
 /**
  * //@todo class description
@@ -11,12 +11,12 @@ import pl.bristleback.server.bristle.engine.base.users.DefaultUser;
  *
  * @author Wojciech Niemiec
  */
-public class NotAnnotatedActionClass implements DefaultAction<DefaultUser, Integer> {
+public class NotAnnotatedActionClass implements DefaultAction<BaseUserContext, Integer> {
 
   private static Logger log = Logger.getLogger(NotAnnotatedActionClass.class.getName());
 
   @Override
-  public Integer executeDefault(DefaultUser user, Integer message) {
+  public Integer executeDefault(BaseUserContext userContext, Integer message) {
     return -1;
   }
 }

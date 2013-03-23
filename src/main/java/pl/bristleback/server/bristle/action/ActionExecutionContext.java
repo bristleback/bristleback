@@ -1,6 +1,6 @@
 package pl.bristleback.server.bristle.action;
 
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.engine.base.ConnectedUser;
 import pl.bristleback.server.bristle.exceptions.BrokenActionProtocolException;
 import pl.bristleback.server.bristle.message.BristleMessage;
@@ -78,12 +78,8 @@ public class ActionExecutionContext {
     this.message = message;
   }
 
-  public ConnectedUser getConnectedUser() {
-    return user;
-  }
-
-  public IdentifiedUser getUser() {
-    return user.getUser();
+  public UserContext getUser() {
+    return user.getUserContext();
   }
 
   public ActionInformation getAction() {

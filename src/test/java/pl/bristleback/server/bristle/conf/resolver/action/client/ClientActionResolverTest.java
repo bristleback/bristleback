@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pl.bristleback.server.bristle.action.client.ClientActionInformation;
-import pl.bristleback.server.bristle.api.users.IdentifiedUser;
+import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.serialization.system.PropertyType;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
@@ -47,7 +47,7 @@ public class ClientActionResolverTest {
   public void shouldResolveActionInformationProperly() throws NoSuchMethodException {
     //given
     Method method = MockClientActionClass.class.getMethod(MockClientActionClass.SIMPLE_ACTION_NAME,
-      String.class, VerySimpleMockBean.class, IdentifiedUser.class);
+      String.class, VerySimpleMockBean.class, UserContext.class);
 
     String actionClassName = MockClientActionClass.class.getSimpleName();
 
@@ -67,7 +67,7 @@ public class ClientActionResolverTest {
   public void shouldResolveActionInformationProperlyMultipleParamsSerialized() throws NoSuchMethodException {
     //given
     Method method = MockClientActionClass.class.getMethod(MockClientActionClass.SIMPLE_ACTION_NAME,
-      String.class, VerySimpleMockBean.class, IdentifiedUser.class);
+      String.class, VerySimpleMockBean.class, UserContext.class);
 
     String actionClassName = MockClientActionClass.class.getSimpleName();
 
@@ -88,7 +88,7 @@ public class ClientActionResolverTest {
   public void shouldResolveActionInformationProperlyMultipleParamsButOneSerialized() throws NoSuchMethodException {
     //given
     Method method = MockClientActionClass.class.getMethod(MockClientActionClass.MULTIPLE_PARAMS_ONE_SERIALIZED_ACTION_NAME,
-      String.class, String.class, IdentifiedUser.class);
+      String.class, String.class, UserContext.class);
 
     String actionClassName = MockClientActionClass.class.getSimpleName();
 
@@ -105,7 +105,7 @@ public class ClientActionResolverTest {
   @Test
   public void shouldResolveActionInformationProperlySingleParam() throws NoSuchMethodException {
     //given
-    Method method = MockClientActionClass.class.getMethod(MockClientActionClass.SINGLE_PARAM_ACTION_METHOD_NAME, IdentifiedUser.class);
+    Method method = MockClientActionClass.class.getMethod(MockClientActionClass.SINGLE_PARAM_ACTION_METHOD_NAME, UserContext.class);
 
     String actionClassName = MockClientActionClass.class.getSimpleName();
 
