@@ -3,12 +3,14 @@
 <html>
 <head>
   <script type="text/javascript" src="js/jquery.js"></script>
-  <!--<script type="text/javascript" src="js/bristle-utils.js"></script>
+  <!--<script type="text/javascript" src="js/bristle-namespace.js"></script>
+  <script type="text/javascript" src="js/bristle-utils.js"></script>
   <script type="text/javascript" src="js/bristle-template.js"></script>
+  <script type="text/javascript" src="js/bristle-auth.js"></script>
   <script type="text/javascript" src="js/bristle-controller.js"></script>
   <script type="text/javascript" src="js/bristle-serialization.js"></script>
   <script type="text/javascript" src="js/bristle-core.js"></script>-->
-  <script type="text/javascript"  src="js/bristleback-0.3.0.js"></script>
+  <script type="text/javascript" src="js/bristleback-0.3.0.js"></script>
   <script type="text/javascript" src="js/trimpath-template-1.0.38.js"></script>
 
   <script type="text/javascript">
@@ -64,12 +66,6 @@
     sampleAction.defineAction("userDetails").setResponseHandler(function (user) {
       alert("Its normal serwer message sent before response, user details:" + user.firstName + ":" + user.age);
     });
-
-    var loginAction = dataController.getActionClass("BristleSystemUserAuthentication");
-    loginAction.defineAction("authenticate");
-
-    var logoutAction = dataController.getActionClass("BristleSystemUserLogout");
-    logoutAction.defineAction("logout");
 
     var securedAction = dataController.getActionClass("SecuredAction");
     securedAction.defineAction("runSecuredAction");
@@ -128,15 +124,15 @@
     }
 
     function loginAsNormalUser() {
-      loginAction.authenticate("normal", "normal_pass");
+      dataController.authentication.authenticate("normal", "normal_pass");
     }
 
     function loginAsAdmin() {
-      loginAction.authenticate("admin", "admin_pass");
+      dataController.authentication.authenticate("admin", "admin_pass");
     }
 
     function logout() {
-      logoutAction.logout();
+      dataController.authentication.logout();
     }
 
     function performAuthorizedAction() {

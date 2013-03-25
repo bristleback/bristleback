@@ -62,6 +62,7 @@
         <file name="bristle-namespace.js"/>
         <file name="bristle-utils.js"/>
         <file name="bristle-template.js"/>
+        <file name="bristle-auth.js"/>
         <file name="bristle-controller.js"/>
         <file name="bristle-serialization.js"/>
         <file name="bristle-core.js"/>

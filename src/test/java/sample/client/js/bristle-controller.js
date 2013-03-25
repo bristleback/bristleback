@@ -225,6 +225,8 @@ Bristleback.controller.ActionController = function () {
   this.exceptionHandler = new Bristleback.controller.ActionExceptionHandler();
 
   this.exceptionHandler.setDefaultExceptionHandler(this.defaultHandlerFunction);
+
+  this.authentication = new Bristleback.auth.SystemAuthentication(this);
 };
 
 Bristleback.controller.ActionController.prototype.onMessage = function (message) {
@@ -343,7 +345,7 @@ Bristleback.controller.ActionClass.prototype.defineAction = function (actionName
   if (this[actionName] != undefined) {
     throw new Error("Action " + actionName + " already defined for action class " + this.name);
   }
-  this.actions[actionName] = new Bristleback.controller.Action(actionName);
+  this.actions[actionName] = new Bristleback.controller.Action(actionName, this);
   this[actionName] = function () {
     this.doSendMessage(this.actions[actionName], arguments);
   };
@@ -454,9 +456,11 @@ Bristleback.controller.ActionClass.prototype.defaultProtocolExceptionHandlerFunc
  * @class Action
  * @namespace Bristleback.controller
  * @param name name of this action
+ * @param actionClass action class containing this action
  */
-Bristleback.controller.Action = function (name) {
+Bristleback.controller.Action = function (name, actionClass) {
   this.name = name;
+  this.actionClass = actionClass;
 
   /**
    * Exception handler object for specifying reaction for exception responses.
