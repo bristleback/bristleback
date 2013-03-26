@@ -5,18 +5,18 @@ body {
 }
 
 header {
-  background-color: #333333;
+  background-color: #222222;
   padding: 0;
   margin: 0;
   width: 100%;
 }
 
 .classicLink {
-  color: #333333;
+  color: #222222;
 }
 
 .classicLinkBold {
-  color: #333333;
+  color: #222222;
   font-weight: bold;
 }
 
@@ -92,7 +92,7 @@ header {
 }
 
 .menuButton {
-  color: #333333;
+  color: #222222;
   display: inline-block;
   float: right;
   padding-left: 8px;
@@ -148,13 +148,13 @@ header {
   font-weight: bold;
   padding-left: 20px;
   padding-bottom: 15px;
-  color: #333333;
+  color: #222222;
 }
 
 .classicHorizontalLine {
   float: left;
   width: 80%;
-  color: #333333;
+  color: #222222;
   margin: 15px 10% 20px;
 }
 
@@ -186,7 +186,7 @@ header {
   padding-right: 20px;
   line-height: 25px;
   font-size: 15px;
-  color: #333333;
+  color: #222222;
 }
 
 footer {
@@ -206,7 +206,7 @@ footer {
   padding-right: 20px;
   line-height: 25px;
   font-size: 15px;
-  color: #333333;
+  color: #222222;
 }
 
 #gitHubProfile {
@@ -295,7 +295,7 @@ and (max-width : 899px) {
 
   #menuDiv {
     width: 100%;
-    background-color: #333333;
+    background-color: #222222;
     margin: 0;
     float: right;
   }
