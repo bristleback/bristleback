@@ -7,11 +7,18 @@ Bristleback.auth.SystemAuthentication = function (dataController) {
 
   var authentication = this;
   var systemAuthClientActionClass = {
-    logout: function () {
-      if (authentication.logoutCallback) {
-        authentication.logoutCallback();
+    authenticationSuccess: function (username) {
+      if (authentication.authenticationSuccessCallback) {
+        authentication.authenticationSuccessCallback(username);
       } else {
-        Bristleback.Console.log("User has been logged out.")
+        Bristleback.Console.log("User " + username + " has been successfully authenticated.")
+      }
+    },
+    logout: function (logoutReason) {
+      if (authentication.logoutCallback) {
+        authentication.logoutCallback(logoutReason);
+      } else {
+        Bristleback.Console.log("User has been logged out (logout reason: " + logoutReason + ").")
       }
     }
   };
@@ -41,6 +48,10 @@ Bristleback.auth.SystemAuthentication.prototype.setAsDefaultAuthenticationAction
 
 Bristleback.auth.SystemAuthentication.prototype.setAsDefaultLogoutAction = function (action) {
   this.defaultLogoutAction = action;
+};
+
+Bristleback.auth.SystemAuthentication.prototype.setAuthenticationSuccessCallback = function (authenticationSuccessCallback) {
+  this.authenticationSuccessCallback = authenticationSuccessCallback;
 };
 
 Bristleback.auth.SystemAuthentication.prototype.setLogoutCallback = function (logoutCallback) {

@@ -33,6 +33,10 @@ public class AuthenticationInterceptor implements ActionInterceptor<Authenticati
   @Named("bristleAuthenticationsContainer")
   private AuthenticationsContainer authenticationsContainer;
 
+  @Inject
+  @Named("bristleAuthenticationInformer")
+  private AuthenticationInformer authenticationInformer;
+
   @Override
   public void init(BristlebackConfig configuration) {
   }
@@ -46,6 +50,7 @@ public class AuthenticationInterceptor implements ActionInterceptor<Authenticati
     UserAuthentication userAuthentication = UserAuthentication.newValidAuthentication(context.getUserContext(), userDetails);
     authenticationsContainer.addAndInvalidatePreviousIfNecessary(userAuthentication);
     context.cancelResponseSending();
+    authenticationInformer.sendAuthenticationSuccessInformation(context.getUserContext(), userDetails);
     log.debug("User \"" + userDetails.getUsername() + "\" has been successfully authenticated.");
   }
 
