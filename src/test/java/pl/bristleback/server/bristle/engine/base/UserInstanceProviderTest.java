@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pl.bristleback.server.bristle.api.users.UserContextFactory;
-import pl.bristleback.server.mock.MockUserContextFactory;
+import pl.bristleback.server.mock.MockUserContext;
 import pl.bristleback.server.mock.beans.SpringMockBeansFactory;
 
 import javax.inject.Inject;
@@ -40,12 +40,11 @@ public class UserInstanceProviderTest {
   @Test
   public void shouldCreateUserWhenUserFactoryFound() throws Exception {
     UserContextFactory userContextFactory = getUserFactory();
-    assertThat(userContextFactory.createNewUserContext().getId(), is(MockUserContextFactory.MockUserContext.MOCK_USER_ID));
+    assertThat(userContextFactory.createNewUserContext().getId(), is(MockUserContext.MOCK_USER_ID));
   }
 
-
   private UserContextFactory getUserFactory() {
-    return mockBeansFactory.getFrameworkBean("userFactory", UserContextFactory.class);
+    return mockBeansFactory.getFrameworkBean("userContextFactory", UserContextFactory.class);
   }
 
 }

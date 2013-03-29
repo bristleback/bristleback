@@ -157,9 +157,9 @@ public class SpringConfigurationResolver {
   @Bean
   public UserConfiguration userConfiguration() {
 
-    UserContextFactory userContextFactory = userFactory();
+    UserContextFactory userContextFactory = userContextFactory();
     Class<? extends UserContext> userContextClass =
-      (Class<? extends UserContext>) ReflectionUtils.getParameterTypes(userFactory().getClass(), UserContextFactory.class)[0];
+      (Class<? extends UserContext>) ReflectionUtils.getParameterTypes(userContextFactory().getClass(), UserContextFactory.class)[0];
 
     UsersContainer usersContainer = springIntegration().getBean(UsersContainer.class);
 
@@ -167,26 +167,26 @@ public class SpringConfigurationResolver {
   }
 
   @Bean
-  public UserContextFactory userFactory() {
-    String userFactorySpecifiedByInApplication = initialConfiguration.getUserContextFactory();
+  public UserContextFactory userContextFactory() {
+    String customUserContextFactoryName = initialConfiguration.getUserContextFactory();
 
-    if (StringUtils.isNotBlank(userFactorySpecifiedByInApplication)) {
-      return springIntegration.getApplicationBean(userFactorySpecifiedByInApplication, UserContextFactory.class);
+    if (StringUtils.isNotBlank(customUserContextFactoryName)) {
+      return springIntegration.getApplicationBean(customUserContextFactoryName, UserContextFactory.class);
     }
-    Map<String, UserContextFactory> userFactoryBeans = springIntegration.getApplicationBeansOfType(UserContextFactory.class);
-    if (userFactoryBeans.size() == 0) { //no beans found
-      return userFactoryUsingContextClass();
+    Map<String, UserContextFactory> userContextFactoryBeans = springIntegration.getApplicationBeansOfType(UserContextFactory.class);
+    if (userContextFactoryBeans.size() == 0) { //no beans found
+      return userContextFactoryUsingContextClass();
     }
-    if (userFactoryBeans.size() == 1) { //one bean found in application configuration
+    if (userContextFactoryBeans.size() == 1) { //one bean found in application configuration
       return springIntegration.getApplicationBean(UserContextFactory.class);
     } else { //more than one bean found in application configuration (initial configuration doesn't contain property which one to choose
       throw new BristleInitializationException("Found more than one implementation of class"
         + UserContextFactory.class.getName() + ". "
-        + "Please specify in in initial configuration which one should be used");
+        + "Please specify in initial configuration which one should be used");
     }
   }
 
-  private UserContextFactory userFactoryUsingContextClass() {
+  private UserContextFactory userContextFactoryUsingContextClass() {
     Class<? extends UserContext> userContextClass = initialConfiguration.getUserContextClass();
     if (userContextClass == null) {
       userContextClass = BaseUserContext.class;
