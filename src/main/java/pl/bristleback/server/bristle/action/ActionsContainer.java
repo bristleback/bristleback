@@ -1,6 +1,6 @@
 package pl.bristleback.server.bristle.action;
 
-import pl.bristleback.server.bristle.exceptions.BrokenActionProtocolException;
+import pl.bristleback.server.bristle.action.exception.BrokenActionProtocolException;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 
 import java.util.Map;

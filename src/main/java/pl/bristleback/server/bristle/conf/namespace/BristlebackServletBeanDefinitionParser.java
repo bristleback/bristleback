@@ -8,7 +8,7 @@ import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.w3c.dom.Element;
 import pl.bristleback.server.bristle.engine.servlet.BristlebackHttpHandler;
-import pl.bristleback.server.bristle.exceptions.BristleInitializationException;
+import pl.bristleback.server.bristle.conf.BristleInitializationException;
 
 import java.util.HashMap;
 import java.util.Map;

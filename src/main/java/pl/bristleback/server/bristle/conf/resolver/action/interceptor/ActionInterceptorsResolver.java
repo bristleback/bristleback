@@ -11,7 +11,7 @@ import pl.bristleback.server.bristle.api.action.ActionInterceptor;
 import pl.bristleback.server.bristle.api.action.ActionInterceptorContextResolver;
 import pl.bristleback.server.bristle.api.annotations.Intercept;
 import pl.bristleback.server.bristle.api.annotations.Interceptor;
-import pl.bristleback.server.bristle.exceptions.BristleInitializationException;
+import pl.bristleback.server.bristle.conf.BristleInitializationException;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.utils.AnnotationUtils;
 

@@ -1,4 +1,4 @@
-package pl.bristleback.server.bristle.exceptions;
+package pl.bristleback.server.bristle.security.exception;
 
 /**
  * This exception is thrown when single connection tries to authenticate

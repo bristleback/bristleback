@@ -5,7 +5,7 @@ import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.action.interceptor.ActionInterceptorInformation;
 import pl.bristleback.server.bristle.action.interceptor.InterceptionProcessContext;
 import pl.bristleback.server.bristle.api.action.ActionInterceptor;
-import pl.bristleback.server.bristle.exceptions.BristleInitializationException;
+import pl.bristleback.server.bristle.conf.BristleInitializationException;
 import pl.bristleback.server.bristle.utils.ReflectionUtils;
 
 import java.util.ArrayList;

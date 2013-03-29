@@ -1,4 +1,6 @@
-package pl.bristleback.server.bristle.exceptions;
+package pl.bristleback.server.bristle.serialization;
+
+import pl.bristleback.server.bristle.BristleRuntimeException;
 
 /**
  * //@todo class description

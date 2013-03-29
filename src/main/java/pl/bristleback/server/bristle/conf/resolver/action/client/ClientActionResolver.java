@@ -9,7 +9,7 @@ import pl.bristleback.server.bristle.api.SerializationResolver;
 import pl.bristleback.server.bristle.api.action.ClientActionSender;
 import pl.bristleback.server.bristle.conf.resolver.action.ActionResolvingUtils;
 import pl.bristleback.server.bristle.conf.resolver.action.BristleMessageSerializationUtils;
-import pl.bristleback.server.bristle.exceptions.SerializationResolvingException;
+import pl.bristleback.server.bristle.serialization.SerializationResolvingException;
 
 import javax.inject.Inject;
 import javax.inject.Named;

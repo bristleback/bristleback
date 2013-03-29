@@ -9,7 +9,7 @@ import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.FrontController;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.engine.base.AbstractServerEngine;
-import pl.bristleback.server.bristle.exceptions.BristleInitializationException;
+import pl.bristleback.server.bristle.conf.BristleInitializationException;
 
 import javax.inject.Inject;
 import javax.inject.Named;

@@ -9,7 +9,7 @@ import pl.bristleback.server.bristle.api.ConfigurationAware;
 import pl.bristleback.server.bristle.api.action.ActionInterceptor;
 import pl.bristleback.server.bristle.api.annotations.Interceptor;
 import pl.bristleback.server.bristle.api.users.UserDetails;
-import pl.bristleback.server.bristle.exceptions.UserAlreadyAuthenticatedException;
+import pl.bristleback.server.bristle.security.exception.UserAlreadyAuthenticatedException;
 
 import javax.inject.Inject;
 import javax.inject.Named;

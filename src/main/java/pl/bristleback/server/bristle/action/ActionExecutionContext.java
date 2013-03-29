@@ -1,7 +1,7 @@
 package pl.bristleback.server.bristle.action;
 
 import pl.bristleback.server.bristle.api.users.UserContext;
-import pl.bristleback.server.bristle.exceptions.BrokenActionProtocolException;
+import pl.bristleback.server.bristle.action.exception.BrokenActionProtocolException;
 import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.utils.StringUtils;
 

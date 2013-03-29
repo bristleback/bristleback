@@ -1,6 +1,6 @@
 package pl.bristleback.server.bristle.security.authentication;
 
-import pl.bristleback.server.bristle.exceptions.UserNotAuthenticatedException;
+import pl.bristleback.server.bristle.security.exception.UserNotAuthenticatedException;
 
 import javax.inject.Inject;
 import javax.inject.Named;

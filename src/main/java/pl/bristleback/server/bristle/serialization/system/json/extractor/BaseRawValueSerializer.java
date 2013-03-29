@@ -1,7 +1,7 @@
 package pl.bristleback.server.bristle.serialization.system.json.extractor;
 
 import pl.bristleback.server.bristle.api.BristlebackConfig;
-import pl.bristleback.server.bristle.exceptions.BristleRuntimeException;
+import pl.bristleback.server.bristle.BristleRuntimeException;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
 import pl.bristleback.server.bristle.serialization.system.json.converter.JsonTokenType;
 import pl.bristleback.server.bristle.serialization.system.json.converter.JsonTokenizer;

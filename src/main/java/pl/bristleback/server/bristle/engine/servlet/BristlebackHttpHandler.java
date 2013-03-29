@@ -9,7 +9,7 @@ import pl.bristleback.server.bristle.api.ServerEngine;
 import pl.bristleback.server.bristle.api.ServletServerEngine;
 import pl.bristleback.server.bristle.app.BristlebackServerInstance;
 import pl.bristleback.server.bristle.conf.runner.ServerInstanceResolver;
-import pl.bristleback.server.bristle.exceptions.BristleInitializationException;
+import pl.bristleback.server.bristle.conf.BristleInitializationException;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;

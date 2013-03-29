@@ -2,7 +2,7 @@ package pl.bristleback.server.bristle.engine.user;
 
 import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.api.users.UserContextFactory;
-import pl.bristleback.server.bristle.exceptions.BristleInitializationException;
+import pl.bristleback.server.bristle.conf.BristleInitializationException;
 
 /**
  * Provides user object for framework

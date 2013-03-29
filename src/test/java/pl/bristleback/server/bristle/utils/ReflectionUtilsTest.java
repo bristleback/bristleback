@@ -6,7 +6,7 @@ import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
 import pl.bristleback.server.bristle.api.action.ActionExceptionHandler;
 import pl.bristleback.server.bristle.api.users.UserContext;
-import pl.bristleback.server.bristle.exceptions.BristleRuntimeException;
+import pl.bristleback.server.bristle.BristleRuntimeException;
 import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
 import pl.bristleback.server.mock.action.client.MockClientActionClass;
 import pl.bristleback.server.mock.beans.VerySimpleMockBean;

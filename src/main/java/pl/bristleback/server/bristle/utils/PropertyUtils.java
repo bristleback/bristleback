@@ -1,7 +1,7 @@
 package pl.bristleback.server.bristle.utils;
 
 import org.apache.commons.lang.StringUtils;
-import pl.bristleback.server.bristle.exceptions.BristleInitializationException;
+import pl.bristleback.server.bristle.conf.BristleInitializationException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

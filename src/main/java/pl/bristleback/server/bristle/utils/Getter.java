@@ -1,6 +1,6 @@
 package pl.bristleback.server.bristle.utils;
 
-import pl.bristleback.server.bristle.exceptions.BristleRuntimeException;
+import pl.bristleback.server.bristle.BristleRuntimeException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

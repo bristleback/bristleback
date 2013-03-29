@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.annotations.ClientActionClass;
 import pl.bristleback.server.bristle.conf.resolver.action.client.ClientActionClassesResolver;
-import pl.bristleback.server.bristle.exceptions.ClientActionException;
+import pl.bristleback.server.bristle.action.exception.ClientActionException;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;

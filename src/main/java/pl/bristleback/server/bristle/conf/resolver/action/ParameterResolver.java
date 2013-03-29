@@ -6,7 +6,7 @@ import pl.bristleback.server.bristle.action.extractor.ActionExtractorsContainer;
 import pl.bristleback.server.bristle.api.SerializationEngine;
 import pl.bristleback.server.bristle.api.SerializationResolver;
 import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
-import pl.bristleback.server.bristle.exceptions.SerializationResolvingException;
+import pl.bristleback.server.bristle.serialization.SerializationResolvingException;
 import pl.bristleback.server.bristle.utils.ReflectionUtils;
 
 import javax.annotation.PostConstruct;

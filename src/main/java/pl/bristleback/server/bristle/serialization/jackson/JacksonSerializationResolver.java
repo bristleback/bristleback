@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.SerializationResolver;
-import pl.bristleback.server.bristle.exceptions.SerializationResolvingException;
+import pl.bristleback.server.bristle.serialization.SerializationResolvingException;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
 import pl.bristleback.server.bristle.serialization.system.SerializationInput;
 import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;

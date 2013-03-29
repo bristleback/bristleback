@@ -5,7 +5,7 @@ import pl.bristleback.server.bristle.action.extractor.ActionExtractorsContainer;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
 import pl.bristleback.server.bristle.conf.resolver.SpringConfigurationResolver;
-import pl.bristleback.server.bristle.exceptions.BristleRuntimeException;
+import pl.bristleback.server.bristle.BristleRuntimeException;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.utils.ReflectionUtils;
 

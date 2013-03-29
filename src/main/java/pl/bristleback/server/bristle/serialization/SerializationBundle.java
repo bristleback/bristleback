@@ -1,7 +1,5 @@
 package pl.bristleback.server.bristle.serialization;
 
-import pl.bristleback.server.bristle.exceptions.SerializationResolvingException;
-
 import java.util.HashMap;
 import java.util.Map;
 

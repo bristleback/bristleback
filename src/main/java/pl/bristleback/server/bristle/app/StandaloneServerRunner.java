@@ -4,8 +4,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import pl.bristleback.server.bristle.api.InitialConfigurationResolver;
 import pl.bristleback.server.bristle.conf.runner.ServerInstanceResolver;
-import pl.bristleback.server.bristle.exceptions.BristleInitializationException;
-import pl.bristleback.server.bristle.exceptions.BristleRuntimeException;
+import pl.bristleback.server.bristle.conf.BristleInitializationException;
+import pl.bristleback.server.bristle.BristleRuntimeException;
 
 /**
  * //@todo class description

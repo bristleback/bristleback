@@ -1,7 +1,7 @@
 package pl.bristleback.server.bristle.action.client;
 
 import pl.bristleback.server.bristle.conf.resolver.action.ActionResolvingUtils;
-import pl.bristleback.server.bristle.exceptions.ClientActionException;
+import pl.bristleback.server.bristle.action.exception.ClientActionException;
 
 import java.lang.reflect.Method;
 import java.util.Map;

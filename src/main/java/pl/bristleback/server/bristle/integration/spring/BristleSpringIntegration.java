@@ -16,7 +16,7 @@
 package pl.bristleback.server.bristle.integration.spring;
 
 import org.springframework.context.ApplicationContext;
-import pl.bristleback.server.bristle.exceptions.BristleRuntimeException;
+import pl.bristleback.server.bristle.BristleRuntimeException;
 
 import java.lang.annotation.Annotation;
 import java.util.HashMap;

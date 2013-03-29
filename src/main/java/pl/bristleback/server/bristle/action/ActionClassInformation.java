@@ -1,7 +1,7 @@
 package pl.bristleback.server.bristle.action;
 
 import org.apache.commons.lang.StringUtils;
-import pl.bristleback.server.bristle.exceptions.BrokenActionProtocolException;
+import pl.bristleback.server.bristle.action.exception.BrokenActionProtocolException;
 
 import java.util.HashMap;
 import java.util.Map;

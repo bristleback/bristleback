@@ -5,7 +5,7 @@ import pl.bristleback.server.bristle.action.ActionExecutionStage;
 import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.api.action.ActionInterceptor;
 import pl.bristleback.server.bristle.api.annotations.Interceptor;
-import pl.bristleback.server.bristle.exceptions.UserNotAuthorizedException;
+import pl.bristleback.server.bristle.security.exception.UserNotAuthorizedException;
 import pl.bristleback.server.bristle.security.authentication.AuthenticationsContainer;
 import pl.bristleback.server.bristle.security.authentication.UserAuthentication;
 

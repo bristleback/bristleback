@@ -5,7 +5,7 @@ import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
 import pl.bristleback.server.bristle.action.response.ExceptionResponse;
 import pl.bristleback.server.bristle.api.action.ActionExceptionHandler;
-import pl.bristleback.server.bristle.exceptions.BrokenActionProtocolException;
+import pl.bristleback.server.bristle.action.exception.BrokenActionProtocolException;
 
 /**
  * //@todo class description

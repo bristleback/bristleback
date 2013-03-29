@@ -5,8 +5,8 @@ import pl.bristleback.server.bristle.api.annotations.ActionClass;
 import pl.bristleback.server.bristle.api.annotations.Authenticator;
 import pl.bristleback.server.bristle.api.users.UserDetails;
 import pl.bristleback.server.bristle.api.users.UserDetailsService;
-import pl.bristleback.server.bristle.exceptions.InactiveUserException;
-import pl.bristleback.server.bristle.exceptions.IncorrectUsernameOrPasswordException;
+import pl.bristleback.server.bristle.security.exception.InactiveUserException;
+import pl.bristleback.server.bristle.security.exception.IncorrectUsernameOrPasswordException;
 
 /**
  * This is a system authentication action class, intercepted by {@link Authenticator}.

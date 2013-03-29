@@ -2,7 +2,7 @@ package pl.bristleback.server.bristle.conf;
 
 import org.apache.commons.lang.StringUtils;
 import pl.bristleback.server.bristle.api.DataController;
-import pl.bristleback.server.bristle.exceptions.BristleRuntimeException;
+import pl.bristleback.server.bristle.BristleRuntimeException;
 
 import java.util.Map;
 

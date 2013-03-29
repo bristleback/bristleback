@@ -1,7 +1,7 @@
 package pl.bristleback.server.bristle.utils;
 
-import pl.bristleback.server.bristle.exceptions.BristleInitializationException;
-import pl.bristleback.server.bristle.exceptions.SerializationResolvingException;
+import pl.bristleback.server.bristle.conf.BristleInitializationException;
+import pl.bristleback.server.bristle.serialization.SerializationResolvingException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
