@@ -3,6 +3,7 @@ package pl.bristleback.server.bristle.security.authorisation.conditions;
 import org.junit.Test;
 import pl.bristleback.server.bristle.api.action.SendCondition;
 import pl.bristleback.server.bristle.api.users.UserContext;
+import pl.bristleback.server.bristle.engine.user.BaseUserContext;
 import pl.bristleback.server.bristle.engine.user.DefaultUserContextFactory;
 
 import static junit.framework.Assert.assertFalse;
@@ -31,13 +32,17 @@ public class LogicalConditionsTest {
 
     SendCondition<UserContext> andCondition = LogicalConditions.and(acceptingCondition1, acceptingCondition2);
 
-    UserContext user = new DefaultUserContextFactory().createNewUserContext();
+    UserContext user = createUserContextObject();
 
     //when
     boolean isApplicable = andCondition.isApplicable(user);
 
     //then
     assertTrue(isApplicable);
+  }
+
+  private UserContext createUserContextObject() {
+    return new DefaultUserContextFactory(BaseUserContext.class).createNewUserContext();
   }
 
   @Test
@@ -48,7 +53,7 @@ public class LogicalConditionsTest {
 
     SendCondition<UserContext> andCondition = LogicalConditions.and(acceptingCondition, refusingCondition);
 
-    UserContext user = new DefaultUserContextFactory().createNewUserContext();
+    UserContext user = createUserContextObject();
 
     //when
     boolean isApplicable = andCondition.isApplicable(user);
@@ -66,7 +71,7 @@ public class LogicalConditionsTest {
 
     SendCondition<UserContext> andCondition = LogicalConditions.and(acceptingCondition1, acceptingCondition2, acceptingCondition3);
 
-    UserContext user = new DefaultUserContextFactory().createNewUserContext();
+    UserContext user = createUserContextObject();
 
     //when
     boolean isApplicable = andCondition.isApplicable(user);
@@ -83,7 +88,7 @@ public class LogicalConditionsTest {
 
     SendCondition<UserContext> orCondition = LogicalConditions.or(acceptingCondition, refusingCondition);
 
-    UserContext user = (UserContext) new DefaultUserContextFactory().createNewUserContext();
+    UserContext user = createUserContextObject();
 
     //when
     boolean isApplicable = orCondition.isApplicable(user);
@@ -100,7 +105,7 @@ public class LogicalConditionsTest {
 
     SendCondition<UserContext> orCondition = LogicalConditions.or(refusingCondition1, refusingCondition2);
 
-    UserContext user = (UserContext) new DefaultUserContextFactory().createNewUserContext();
+    UserContext user = createUserContextObject();
 
     //when
     boolean isApplicable = orCondition.isApplicable(user);
@@ -118,7 +123,7 @@ public class LogicalConditionsTest {
 
     SendCondition<UserContext> orCondition = LogicalConditions.or(acceptingCondition1, refusingCondition, acceptingCondition2);
 
-    UserContext user = (UserContext) new DefaultUserContextFactory().createNewUserContext();
+    UserContext user = createUserContextObject();
 
     //when
     boolean isApplicable = orCondition.isApplicable(user);
@@ -134,7 +139,7 @@ public class LogicalConditionsTest {
 
     SendCondition<UserContext> orCondition = LogicalConditions.not(acceptingCondition);
 
-    UserContext user = (UserContext) new DefaultUserContextFactory().createNewUserContext();
+    UserContext user = createUserContextObject();
 
     //when
     boolean isApplicable = orCondition.isApplicable(user);
@@ -150,7 +155,7 @@ public class LogicalConditionsTest {
 
     SendCondition<UserContext> orCondition = LogicalConditions.not(refusingCondition);
 
-    UserContext user = (UserContext) new DefaultUserContextFactory().createNewUserContext();
+    UserContext user = createUserContextObject();
 
     //when
     boolean isApplicable = orCondition.isApplicable(user);

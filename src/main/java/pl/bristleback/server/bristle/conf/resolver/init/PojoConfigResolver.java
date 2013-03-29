@@ -3,6 +3,7 @@ package pl.bristleback.server.bristle.conf.resolver.init;
 import org.apache.log4j.Level;
 import org.springframework.util.Assert;
 import pl.bristleback.server.bristle.api.InitialConfigurationResolver;
+import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.conf.EngineConfig;
 import pl.bristleback.server.bristle.conf.InitialConfiguration;
 
@@ -139,14 +140,18 @@ public class PojoConfigResolver implements InitialConfigurationResolver {
     engineConfig.setMaxBufferSize(bufferSize);
   }
 
+  public void setUserContextClass(Class<? extends UserContext> userContextClass) {
+    initialConfiguration.setUserContextClass(userContextClass);
+  }
+
   /**
-   * Sets the name of user factory bean that will be used to resolve {@link pl.bristleback.server.bristle.api.users.IdentifiedUser IdentifiedUser}
-   * implementations on connection start. User factory must implement {@link pl.bristleback.server.bristle.api.users.UserContextFactory} interface.
+   * Sets the name of user factory bean that will be used to resolve {@link pl.bristleback.server.bristle.api.users.UserContext UserContext}
+   * implementations on connection start. User context factory must implement {@link pl.bristleback.server.bristle.api.users.UserContextFactory} interface.
    *
-   * @param userFactory user factory.
+   * @param userContextFactory user context factory.
    */
-  public void setUserFactory(String userFactory) {
-    initialConfiguration.setUserFactory(userFactory);
+  public void setUserContextFactory(String userContextFactory) {
+    initialConfiguration.setUserContextFactory(userContextFactory);
   }
 
   private void assertThatArrayIsNotEmpty(String... parameters) {

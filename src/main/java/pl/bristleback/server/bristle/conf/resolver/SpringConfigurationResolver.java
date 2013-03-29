@@ -19,6 +19,7 @@ import pl.bristleback.server.bristle.conf.MessageConfiguration;
 import pl.bristleback.server.bristle.conf.UserConfiguration;
 import pl.bristleback.server.bristle.conf.resolver.message.ObjectSenderInitializer;
 import pl.bristleback.server.bristle.conf.resolver.message.ObjectSenderInjector;
+import pl.bristleback.server.bristle.engine.user.BaseUserContext;
 import pl.bristleback.server.bristle.engine.user.DefaultUserContextFactory;
 import pl.bristleback.server.bristle.exceptions.BristleInitializationException;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
@@ -167,26 +168,30 @@ public class SpringConfigurationResolver {
 
   @Bean
   public UserContextFactory userFactory() {
-    String userFactorySpecifiedByInApplication = initialConfiguration.getUserFactory();
-    if (StringUtils.isBlank(userFactorySpecifiedByInApplication)) {
-      Map<String, UserContextFactory> userFactoryBeans = springIntegration.getApplicationBeansOfType(UserContextFactory.class);
-      if (userFactoryBeans.size() == 0) { //no beans found
-        return new DefaultUserContextFactory();
-      }
-      if (userFactoryBeans.size() == 1) { //one bean found in application configuration
-        return springIntegration.getApplicationBean(UserContextFactory.class);
-      }
-      if (userFactoryBeans.size() > 1) { //more than one bean found in application configuration (initial configuration doesn't contain property which one to choose
-        throw new BristleInitializationException("Found more than one implementation of class"
-          + UserContextFactory.class.getName() + ". "
-          + "Please specify in in initial configuration which one should be used");
-      }
-    } else {
+    String userFactorySpecifiedByInApplication = initialConfiguration.getUserContextFactory();
+
+    if (StringUtils.isNotBlank(userFactorySpecifiedByInApplication)) {
       return springIntegration.getApplicationBean(userFactorySpecifiedByInApplication, UserContextFactory.class);
     }
-    throw new BristleInitializationException("Could not find implementation of "
-      + UserContextFactory.class.getName() + "."
-      + "Please specify one in initial configuration");
+    Map<String, UserContextFactory> userFactoryBeans = springIntegration.getApplicationBeansOfType(UserContextFactory.class);
+    if (userFactoryBeans.size() == 0) { //no beans found
+      return userFactoryUsingContextClass();
+    }
+    if (userFactoryBeans.size() == 1) { //one bean found in application configuration
+      return springIntegration.getApplicationBean(UserContextFactory.class);
+    } else { //more than one bean found in application configuration (initial configuration doesn't contain property which one to choose
+      throw new BristleInitializationException("Found more than one implementation of class"
+        + UserContextFactory.class.getName() + ". "
+        + "Please specify in in initial configuration which one should be used");
+    }
+  }
+
+  private UserContextFactory userFactoryUsingContextClass() {
+    Class<? extends UserContext> userContextClass = initialConfiguration.getUserContextClass();
+    if (userContextClass == null) {
+      userContextClass = BaseUserContext.class;
+    }
+    return new DefaultUserContextFactory(userContextClass);
   }
 
   public void setSpringIntegration(BristleSpringIntegration springIntegration) {

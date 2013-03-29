@@ -67,16 +67,30 @@ import java.util.Set;
  * </tr>
  * <tr>
  * <td>
- * User factory
+ * User context object class
  * </td>
  * <td>
- * bristle.user.factory
+ * bristle.user.context.class
+ * </td>
+ * <td>
+ * {@link pl.bristleback.server.bristle.api.users.UserContext}
+ * </td>
+ * <td>
+ * {@link pl.bristleback.server.bristle.engine.user.BaseUserContext}
+ * </td>
+ * </tr>
+ * <tr>
+ * <td>
+ * User context object factory
+ * </td>
+ * <td>
+ * bristle.user.context.factory
  * </td>
  * <td>
  * {@link pl.bristleback.server.bristle.api.users.UserContextFactory}
  * </td>
  * <td>
- * DefaultUserFactory
+ * {@link pl.bristleback.server.bristle.engine.user.DefaultUserContextFactory}
  * </td>
  * </tr>
  * <tr>
@@ -187,21 +201,34 @@ import java.util.Set;
  */
 public class PropertiesFileConfigResolver implements InitialConfigurationResolver {
 
+  public static final String ACCEPTED_CONTROLLERS = "bristle.websocket.controller";
+
+  public static final String ENGINE_NAME_PROPERTY = "bristle.engine.name";
+
+  public static final String ENGINE_PORT_PROPERTY = "bristle.engine.port";
+
+  public static final String ENGINE_MAX_BUFFER_SIZE_PROPERTY = "bristle.engine.max.buffer.size";
+
+  public static final String ENGINE_MAX_MESSAGE_SIZE_PROPERTY = "bristle.engine.max.message.size";
+
+  public static final String ENGINE_TIMEOUT_PROPERTY = "bristle.engine.timeout";
+
+  public static final String ENGINE_REJECTED_DOMAINS_PROPERTY = "bristle.engine.rejected.domains";
+
+  public static final String LOGGING_LEVEL_PROPERTY = "bristle.logging.level";
+
+  public static final String SERIALIZATION_ENGINE_PROPERTY = "bristle.serialization.engine";
+
+  public static final String MESSAGE_DISPATCHER_PROPERTY = "bristle.message.dispatcher";
+
+  public static final String USER_CONTEXT_PROPERTY = "bristle.user.context.class";
+
+  public static final String USER_CONTEXT_FACTORY_PROPERTY = "bristle.user.context.factory";
+
   private static final String DEFAULT_CONFIG_FILE_LOCATION = "conf/bristleback.properties";
 
-  public static final String ACCEPTED_CONTROLLERS = "bristle.websocket.controller";
-  public static final String ENGINE_NAME_PROPERTY = "bristle.engine.name";
-  public static final String ENGINE_PORT_PROPERTY = "bristle.engine.port";
-  public static final String ENGINE_MAX_BUFFER_SIZE_PROPERTY = "bristle.engine.max.buffer.size";
-  public static final String ENGINE_MAX_MESSAGE_SIZE_PROPERTY = "bristle.engine.max.message.size";
-  public static final String ENGINE_TIMEOUT_PROPERTY = "bristle.engine.timeout";
-  public static final String ENGINE_REJECTED_DOMAINS_PROPERTY = "bristle.engine.rejected.domains";
-  public static final String LOGGING_LEVEL_PROPERTY = "bristle.logging.level";
-  public static final String SERIALIZATION_ENGINE_PROPERTY = "bristle.serialization.engine";
-  public static final String MESSAGE_DISPATCHER_PROPERTY = "bristle.message.dispatcher";
-  public static final String USER_FACTORY_PROPERTY = "bristle.user.factory";
-
   private String configurationPath;
+
   private PropertiesConfiguration propertiesConfiguration;
 
   @Override
@@ -216,12 +243,17 @@ public class PropertiesFileConfigResolver implements InitialConfigurationResolve
     resolveMessageDispatcher(initialConfiguration);
     resolveSerializationEngine(initialConfiguration);
     resolveEngineConfiguration(initialConfiguration);
-    resolveUserFactory(initialConfiguration);
+    resolveUserContext(initialConfiguration);
+    resolveUserContextFactory(initialConfiguration);
     return initialConfiguration;
   }
 
-  private void resolveUserFactory(InitialConfiguration initialConfiguration) {
-    initialConfiguration.setUserFactory(propertiesConfiguration.getString(USER_FACTORY_PROPERTY));
+  private void resolveUserContext(InitialConfiguration initialConfiguration) {
+    initialConfiguration.setUserContextFactory(propertiesConfiguration.getString(USER_CONTEXT_PROPERTY));
+  }
+
+  private void resolveUserContextFactory(InitialConfiguration initialConfiguration) {
+    initialConfiguration.setUserContextFactory(propertiesConfiguration.getString(USER_CONTEXT_FACTORY_PROPERTY));
   }
 
   private void getPropertiesFromFileName() {
@@ -252,7 +284,6 @@ public class PropertiesFileConfigResolver implements InitialConfigurationResolve
     Set<String> acceptedControllerNames = new HashSet<String>(controllersList);
     configuration.setAcceptedControllerNames(acceptedControllerNames);
   }
-
 
   private void resolveMessageDispatcher(InitialConfiguration initialConfiguration) {
     String messageDispatcher = propertiesConfiguration.getString(MESSAGE_DISPATCHER_PROPERTY, InitialConfiguration.DEFAULT_MESSAGE_DISPATCHER);

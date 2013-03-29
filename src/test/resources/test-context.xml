@@ -19,7 +19,7 @@
   <bean id="notAnnotatedAction" class="pl.bristleback.server.mock.action.NotAnnotatedActionClass"/>
 
   <bean id="initPojoConfigResolver" class="pl.bristleback.server.bristle.conf.resolver.init.PojoConfigResolver">
-    <property name="userFactory" value="mockUserFactory"/>
+    <property name="userContextFactory" value="mockUserFactory"/>
     <!--<property name="serializationEngine" value="jackson-json"/>-->
   </bean>
 
