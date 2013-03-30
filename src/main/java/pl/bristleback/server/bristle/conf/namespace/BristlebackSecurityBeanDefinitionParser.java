@@ -16,6 +16,7 @@ import pl.bristleback.server.bristle.security.authentication.LogoutInterceptor;
 import pl.bristleback.server.bristle.security.authentication.UserDisconnectedListener;
 import pl.bristleback.server.bristle.security.authorisation.interceptor.AuthorizationInterceptor;
 import pl.bristleback.server.bristle.security.authorisation.interceptor.AuthorizationInterceptorContextResolver;
+import pl.bristleback.server.bristle.security.exception.handler.AuthorizationExceptionHandler;
 import pl.bristleback.server.bristle.security.exception.handler.BristleSecurityExceptionHandler;
 
 /**
@@ -52,6 +53,11 @@ public class BristlebackSecurityBeanDefinitionParser extends BaseBristlebackBean
       .rootBeanDefinition(AuthorizationInterceptorContextResolver.class)
       .getBeanDefinition();
     registerBean(parserContext, authorizationInterceptorContextResolver, "bristleAuthorizationInterceptorContextResolver");
+
+    BeanDefinition authorizationExceptionHandler = BeanDefinitionBuilder
+      .rootBeanDefinition(AuthorizationExceptionHandler.class)
+      .getBeanDefinition();
+    registerBean(parserContext, authorizationExceptionHandler, "bristleAuthorizationExceptionHandler");
   }
 
   private void addAuthenticationBeans(Element element, ParserContext parserContext) {

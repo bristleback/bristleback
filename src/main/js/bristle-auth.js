@@ -23,6 +23,32 @@ Bristleback.auth.SystemAuthentication = function (dataController) {
     }
   };
   dataController.registerClientActionClass("SystemAuth", systemAuthClientActionClass);
+
+
+  dataController.exceptionHandler.setExceptionHandler("BristleSecurityException", this.defaultSecurityExceptionHandler);
+  dataController.exceptionHandler.setExceptionHandler("IncorrectUsernameOrPasswordException", this.defaultIncorrectPasswordHandler);
+  dataController.exceptionHandler.setExceptionHandler("InactiveUserException", this.defaultSecurityExceptionHandler);
+  dataController.exceptionHandler.setExceptionHandler("UserAlreadyAuthenticatedException", this.defaultSecurityExceptionHandler);
+  dataController.exceptionHandler.setExceptionHandler("UserNotAuthenticatedException", this.defaultSecurityExceptionHandler);
+  dataController.exceptionHandler.setExceptionHandler("AuthorizationException", this.defaultAuthorizationExceptionHandler);
+};
+
+Bristleback.auth.SystemAuthentication.prototype.defaultSecurityExceptionHandler = function (exception) {
+  var exceptionMessage = "Unexpected " + exception.exceptionType + " exception occurred for user \"" + exception.content.username + "\".";
+  Bristleback.Console.log("[ERROR] " + exceptionMessage);
+  throw new Error(exceptionMessage);
+};
+
+Bristleback.auth.SystemAuthentication.prototype.defaultIncorrectPasswordHandler = function (exception) {
+  var exceptionMessage = "Incorrect username or password, username provided: \"" + exception.content.username + "\".";
+  Bristleback.Console.log("[ERROR] " + exceptionMessage);
+  throw new Error(exceptionMessage);
+};
+
+Bristleback.auth.SystemAuthentication.prototype.defaultAuthorizationExceptionHandler = function (exception) {
+  var exceptionMessage = "User \"" + exception.content.username + "\" tried to invoke action without required authority: \"" + exception.content.authority + "\".";
+  Bristleback.Console.log("[ERROR] " + exceptionMessage);
+  throw new Error(exceptionMessage);
 };
 
 Bristleback.auth.SystemAuthentication.prototype.authenticate = function () {
