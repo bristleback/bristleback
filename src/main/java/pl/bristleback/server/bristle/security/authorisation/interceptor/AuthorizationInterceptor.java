@@ -5,9 +5,9 @@ import pl.bristleback.server.bristle.action.ActionExecutionStage;
 import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.api.action.ActionInterceptor;
 import pl.bristleback.server.bristle.api.annotations.Interceptor;
-import pl.bristleback.server.bristle.security.exception.UserNotAuthorizedException;
 import pl.bristleback.server.bristle.security.authentication.AuthenticationsContainer;
 import pl.bristleback.server.bristle.security.authentication.UserAuthentication;
+import pl.bristleback.server.bristle.security.exception.UserNotAuthorizedException;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -32,7 +32,7 @@ public class AuthorizationInterceptor implements ActionInterceptor<RequiredRight
     UserAuthentication authentication = authenticationsContainer.getAuthentication(context.getUserContext().getId());
     for (String requiredRight : requiredRights.getRequiredRights()) {
       if (!authentication.getAuthenticatedUser().getAuthorities().contains(requiredRight)) {
-        throw new UserNotAuthorizedException(requiredRight);
+        throw new UserNotAuthorizedException(authentication.getAuthenticatedUser().getUsername(), requiredRight);
       }
     }
   }

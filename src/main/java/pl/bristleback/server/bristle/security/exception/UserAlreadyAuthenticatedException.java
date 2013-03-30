@@ -8,6 +8,9 @@ package pl.bristleback.server.bristle.security.exception;
  *
  * @author Wojciech Niemiec
  */
-public class UserAlreadyAuthenticatedException extends RuntimeException {
+public class UserAlreadyAuthenticatedException extends BristleSecurityException {
 
+  public UserAlreadyAuthenticatedException(String username) {
+    super(username);
+  }
 }

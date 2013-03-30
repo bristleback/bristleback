@@ -33,7 +33,7 @@ public class AuthenticatingAction {
     }
     if (!userDetails.isAccountNonLocked() || !userDetails.isAccountNonExpired()
       || !userDetails.isEnabled() || !userDetails.isCredentialsNonExpired()) {
-      throw new InactiveUserException();
+      throw new InactiveUserException(username);
     }
 
     return userDetails;
