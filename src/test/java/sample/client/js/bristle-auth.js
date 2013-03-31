@@ -34,7 +34,8 @@ Bristleback.auth.SystemAuthentication = function (dataController) {
 };
 
 Bristleback.auth.SystemAuthentication.prototype.defaultSecurityExceptionHandler = function (exception) {
-  var exceptionMessage = "Unexpected " + exception.exceptionType + " exception occurred for user \"" + exception.content.username + "\".";
+  var usernameMessageSuffix = exception.content.username ? " for user \"" + exception.content.username + "\"." : ".";
+  var exceptionMessage = "Unexpected " + exception.exceptionType + " security exception occurred" + usernameMessageSuffix;
   Bristleback.Console.log("[ERROR] " + exceptionMessage);
   throw new Error(exceptionMessage);
 };

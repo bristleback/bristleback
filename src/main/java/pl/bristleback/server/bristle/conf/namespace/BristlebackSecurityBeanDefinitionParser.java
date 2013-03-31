@@ -38,12 +38,12 @@ public class BristlebackSecurityBeanDefinitionParser extends BaseBristlebackBean
 
   @Override
   protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
-    addBasicBeans(parserContext);
+    addBasicBeans(element, parserContext);
     addAuthenticationBeans(element, parserContext);
-    addAuthorizationBeans(element, parserContext);
+    addAuthorizationBeans(parserContext);
   }
 
-  private void addAuthorizationBeans(Element element, ParserContext parserContext) {
+  private void addAuthorizationBeans(ParserContext parserContext) {
     BeanDefinition authorizationInterceptor = BeanDefinitionBuilder
       .rootBeanDefinition(AuthorizationInterceptor.class)
       .getBeanDefinition();
@@ -90,11 +90,8 @@ public class BristlebackSecurityBeanDefinitionParser extends BaseBristlebackBean
     registerBean(parserContext, disconnectionListener, "bristleAuthenticationUserDisconnectedListener");
   }
 
-  private void addBasicBeans(ParserContext parserContext) {
-    BeanDefinition authenticationConfiguration = BeanDefinitionBuilder
-      .rootBeanDefinition(AuthenticationConfiguration.class)
-      .getBeanDefinition();
-    registerBean(parserContext, authenticationConfiguration, "bristleAuthenticationConfiguration");
+  private void addBasicBeans(Element element, ParserContext parserContext) {
+    registerSecurityConfigurationBean(element, parserContext);
 
     BeanDefinition authenticationsContainer = BeanDefinitionBuilder
       .rootBeanDefinition(AuthenticationsContainer.class)
@@ -105,6 +102,15 @@ public class BristlebackSecurityBeanDefinitionParser extends BaseBristlebackBean
       .rootBeanDefinition(BristleSecurityExceptionHandler.class)
       .getBeanDefinition();
     registerBean(parserContext, securityExceptionHandler, "bristleSecurityExceptionHandler");
+  }
+
+  private void registerSecurityConfigurationBean(Element element, ParserContext parserContext) {
+    Integer maxConcurrentConnectionsPerUsername = Integer.parseInt(element.getAttribute("maxConcurrentPerUsername"));
+    BeanDefinition authenticationConfiguration = BeanDefinitionBuilder
+      .rootBeanDefinition(AuthenticationConfiguration.class)
+      .addPropertyValue("maximumAuthenticationsPerUsername", maxConcurrentConnectionsPerUsername)
+      .getBeanDefinition();
+    registerBean(parserContext, authenticationConfiguration, "bristleAuthenticationConfiguration");
   }
 
   private void addInterceptorBeans(ParserContext parserContext) {

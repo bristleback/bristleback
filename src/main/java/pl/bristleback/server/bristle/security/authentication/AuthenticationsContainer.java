@@ -54,7 +54,7 @@ public class AuthenticationsContainer {
     if (!concurrentAuthentications.containsKey(username)) {
       concurrentAuthentications.put(username, new LinkedList<UserAuthentication>());
     }
-    return concurrentAuthentications.get(username).size() >= concurrentUsersLimit;
+    return concurrentUsersLimit > 0 && concurrentAuthentications.get(username).size() >= concurrentUsersLimit;
   }
 
   public void logout(String connectionId) {
