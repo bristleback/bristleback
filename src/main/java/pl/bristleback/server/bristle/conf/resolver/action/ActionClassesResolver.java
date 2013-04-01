@@ -1,14 +1,15 @@
 package pl.bristleback.server.bristle.conf.resolver.action;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.aop.TargetClassAware;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionClassInformation;
 import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.action.ActionsContainer;
+import pl.bristleback.server.bristle.action.exception.ActionInitializationException;
 import pl.bristleback.server.bristle.api.annotations.Action;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
 import pl.bristleback.server.bristle.conf.resolver.action.interceptor.ActionInterceptorsResolver;
-import pl.bristleback.server.bristle.action.exception.ActionInitializationException;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.utils.PropertyUtils;
 
@@ -53,18 +54,20 @@ public class ActionClassesResolver {
   }
 
   private ActionClassInformation prepareActionClassInformation(Object actionClass, String actionClassBeanName) {
-    ActionClassInformation actionClassInformation = prepareActionClass(actionClass, actionClassBeanName);
-    prepareActions(actionClass, actionClassInformation);
+    Class<?> actionClassType = getActionClassType(actionClass);
+    ActionClassInformation actionClassInformation = prepareActionClass(actionClass, actionClassType, actionClassBeanName);
+    prepareActions(actionClassType, actionClassInformation);
     return actionClassInformation;
   }
 
-  private ActionClassInformation prepareActionClass(Object actionClass, String actionClassBeanName) {
+  private ActionClassInformation prepareActionClass(Object actionClass, Class<?> actionClassType, String actionClassBeanName) {
     ActionClassInformation actionClassInformation = new ActionClassInformation();
-    ActionClass actionClassAnnotation = actionClass.getClass().getAnnotation(ActionClass.class);
-    String actionClassName = resolveActionClassName(actionClass, actionClassAnnotation);
+
+    ActionClass actionClassAnnotation = actionClassType.getAnnotation(ActionClass.class);
+    String actionClassName = resolveActionClassName(actionClassType, actionClassAnnotation);
     actionClassInformation.setName(actionClassName);
     actionClassInformation.setSpringBeanName(actionClassBeanName);
-    actionClassInformation.setType(actionClass.getClass());
+    actionClassInformation.setType(actionClassType);
     actionClassInformation.setSingleton(springIntegration.isSingleton(actionClassBeanName));
 
     if (actionClassInformation.isSingleton()) {
@@ -73,18 +76,25 @@ public class ActionClassesResolver {
     return actionClassInformation;
   }
 
-  private String resolveActionClassName(Object actionClass, ActionClass actionClassAnnotation) {
+  private Class<?> getActionClassType(Object actionClass) {
+    if (actionClass instanceof TargetClassAware) {
+      return ((TargetClassAware) actionClass).getTargetClass();
+    }
+    return actionClass.getClass();
+  }
+
+  private String resolveActionClassName(Class<?> actionClassType, ActionClass actionClassAnnotation) {
     String actionClassName = actionClassAnnotation.name();
     if (StringUtils.isBlank(actionClassName)) {
-      actionClassName = actionClass.getClass().getSimpleName();
+      actionClassName = actionClassType.getSimpleName();
     }
     return actionClassName;
   }
 
-  private void prepareActions(Object actionClass, ActionClassInformation actionClassInformation) {
-    List<Method> actions = PropertyUtils.getMethodsAnnotatedWith(actionClass.getClass(), Action.class, true);
+  private void prepareActions(Class<?> actionClassType, ActionClassInformation actionClassInformation) {
+    List<Method> actions = PropertyUtils.getMethodsAnnotatedWith(actionClassType, Action.class, true);
     for (Method action : actions) {
-      ActionInformation actionInformation = actionResolver.prepareActionInformation(actionClass.getClass(), action);
+      ActionInformation actionInformation = actionResolver.prepareActionInformation(actionClassType, action);
       addCreatedAction(actionClassInformation, actionInformation);
     }
   }
