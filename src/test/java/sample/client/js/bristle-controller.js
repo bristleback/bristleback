@@ -101,10 +101,12 @@ Bristleback.controller.ActionExceptionHandler.prototype.setExceptionHandler = fu
  * @chainable
  * @param {String} exceptionType exception type to handle.
  * @param {String} templateName template name that should be used.
- * @param {String} containerDiv id of the parent container for rendered template.
+ * @param {String} containerId id of the parent container for rendered template.
+ * @param {String} renderingMode name of rendering mode, one of the specified in
+ * <strong>Bristleback.templateController.renderingModes</strong> map. By default, "replace" mode is used.
  */
-Bristleback.controller.ActionExceptionHandler.prototype.renderOnException = function (exceptionType, templateName, containerDiv) {
-  var templateInformation = Bristleback.templateController.constructTemplateInformation(templateName, containerDiv, "exception");
+Bristleback.controller.ActionExceptionHandler.prototype.renderOnException = function (exceptionType, templateName, containerId, renderingMode) {
+  var templateInformation = Bristleback.templateController.constructTemplateInformation(templateName, containerId, "exception", renderingMode);
   this.renderingHandlers[exceptionType] = function (exceptionMessage) {
     Bristleback.templateController.render(templateInformation, exceptionMessage);
   };
@@ -118,12 +120,13 @@ Bristleback.controller.ActionExceptionHandler.prototype.renderOnException = func
  * Rendering handlers ALWAYS break exception processing cycle.
  * @method renderOnDefaultException
  * @chainable
- * @param templateName
- * @param containerDiv
- * @return {*}
+ * @param templateName template name that should be used.
+ * @param containerId id of the parent container for rendered template.
+ * @param {String} renderingMode name of rendering mode, one of the specified in
+ * <strong>Bristleback.templateController.renderingModes</strong> map. By default, "replace" mode is used.
  */
-Bristleback.controller.ActionExceptionHandler.prototype.renderOnDefaultException = function (templateName, containerDiv) {
-  var templateInformation = Bristleback.templateController.constructTemplateInformation(templateName, containerDiv, "exception");
+Bristleback.controller.ActionExceptionHandler.prototype.renderOnDefaultException = function (templateName, containerId, renderingMode) {
+  var templateInformation = Bristleback.templateController.constructTemplateInformation(templateName, containerId, "exception", renderingMode);
   this.defaultRenderingHandler = function (exceptionMessage) {
     Bristleback.templateController.render(templateInformation, exceptionMessage);
   };
@@ -490,13 +493,15 @@ Bristleback.controller.Action.prototype.setResponseHandler = function (handler) 
  * @method renderOnResponse
  * @chainable
  * @param {String} templateName template name that should be used.
- * @param {String} containerDiv id of the parent container for rendered template.
+ * @param {String} containerId id of the parent container for rendered template.
  * @param {String} rootObjectName if specified,
  * template controller will prepare literal object containing property with name given by this parameter
  * and value returned by server.
+ * @param {String} renderingMode name of rendering mode, one of the specified in
+ * <strong>Bristleback.templateController.renderingModes</strong> map. By default, "replace" mode is used.
  */
-Bristleback.controller.Action.prototype.renderOnResponse = function (templateName, containerDiv, rootObjectName) {
-  var templateInformation = Bristleback.templateController.constructTemplateInformation(templateName, containerDiv, rootObjectName);
+Bristleback.controller.Action.prototype.renderOnResponse = function (templateName, containerId, rootObjectName, renderingMode) {
+  var templateInformation = Bristleback.templateController.constructTemplateInformation(templateName, containerId, rootObjectName, renderingMode);
 
   this.renderingHandler = function (actionMessage) {
     Bristleback.templateController.render(templateInformation, actionMessage);

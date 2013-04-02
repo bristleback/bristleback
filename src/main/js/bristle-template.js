@@ -14,17 +14,32 @@
  * @constructor
  */
 Bristleback.template.TemplateController = function () {
-  this.parsedTemplates = {}
+  this.parsedTemplates = {};
 
+  /**
+   Rendering modes, by default there are 3 modes available: "replace", "prepend" and "append".
+   By default, "replace" mode is being applied. Replacing mode sets inner html content of the container.
+
+   @property renderingModes
+   @type Object
+   **/
+  this.renderingModes = Bristleback.template.builtInRenderingModes;
 };
 
-Bristleback.template.TemplateController.prototype.constructTemplateInformation = function (templateName, containerDiv, rootObjectName) {
-  containerDiv = containerDiv ? containerDiv : "#" + templateName + "-div";
+Bristleback.template.TemplateController.prototype.constructTemplateInformation = function (templateName, containerId, rootObjectName, renderingMode) {
+  containerId = containerId ? containerId : "#" + templateName + "-div";
+  renderingMode = renderingMode ? renderingMode : "replace";
+  if (!this.renderingModes[renderingMode]) {
+    var logMsg = "Cannot find rendering mode with name: " + renderingMode;
+    Bristleback.Console.log(logMsg);
+    throw new Error(logMsg);
+  }
 
   var templateInformation = {};
   templateInformation.rootObjectName = rootObjectName;
-  templateInformation.containerDiv = containerDiv;
+  templateInformation.containerId = containerId;
   templateInformation.templateName = templateName;
+  templateInformation.displayTemplate = this.renderingModes[renderingMode];
   return templateInformation;
 };
 
@@ -69,9 +84,7 @@ Bristleback.template.TemplateController.prototype.render = function (templateInf
 
   var parsedTemplate = this.getTemplate(templateInformation.templateName);
   var result = this.templateFramework.processTemplate(parsedTemplate, data);
-  var idWithoutHash = templateInformation.containerDiv.substring(1);
-  var container = document.getElementById(idWithoutHash);
-  container.innerHTML = result;
+  templateInformation.displayTemplate(result, templateInformation);
 };
 
 /**
@@ -87,6 +100,25 @@ Bristleback.template.TemplateController.prototype.render = function (templateInf
  */
 Bristleback.template.TemplateController.prototype.registerTemplateFramework = function (templateFramework) {
   this.templateFramework = templateFramework;
+};
+
+
+Bristleback.template.builtInRenderingModes = {
+  replace: function (result, templateInformation) {
+    var idWithoutHash = templateInformation.containerId.substring(1);
+    var container = document.getElementById(idWithoutHash);
+    container.innerHTML = result;
+  },
+  append: function (result, templateInformation) {
+    var idWithoutHash = templateInformation.containerId.substring(1);
+    var container = document.getElementById(idWithoutHash);
+    container.innerHTML = container.innerHTML + result;
+  },
+  prepend: function (result, templateInformation) {
+    var idWithoutHash = templateInformation.containerId.substring(1);
+    var container = document.getElementById(idWithoutHash);
+    container.innerHTML = result + container.innerHTML;
+  }
 };
 
 Bristleback.templateFrameworks = {
