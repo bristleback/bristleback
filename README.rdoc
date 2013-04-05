@@ -20,7 +20,7 @@ Check our wiki pages for tutorials.
 
 Few samples are available at https://github.com/bristleback/bristleback-samples
 
-=== You can also test Bristleback by performing just few steps: ===
+=== You can also test Bristleback by performing just few steps:
 
 1. Go to directory where your new Bristleback Project will be created and type:
 
