@@ -43,6 +43,24 @@ header {
   list-style-image: url("../img/arrow.png");
 }
 
+.overflowCodeSnippet {
+  font-size: 0.9em;
+  text-align: left;
+  overflow-x: auto;
+  display: block;
+  white-space: nowrap;
+  width: 100%;
+  padding: 10px;
+  color: #6aa84f;
+  background-color: #222222;
+}
+
+.biggerSpaceholder {
+  height: 10px;
+  margin: 0;
+  padding: 0;
+}
+
 #logoLink {
   border: none;
 }

@@ -83,11 +83,42 @@ layout: default
   </div>
 
   <div class="bristlebackContentHeaderDiv">
+    Start using Bristleback in just three steps:
+  </div>
+
+  <div class="bristlebackleftSideContentDiv">
+    1. Type following command in your console: <br>
+
+    <code class="overflowCodeSnippet">
+      mvn archetype:generate -DarchetypeCatalog=http://bristleback.pl/archetype/archetype-catalog.xml -DarchetypeGroupId=pl.bristleback -DarchetypeArtifactId=webapp-archetype -DarchetypeVersion=0.2.1
+    </code>
+
+    and enter additional information about the project.
+    <p class="biggerSpaceholder"></p>
+
+    2. Navigate to the project directory and type: <br>
+
+    <code class="overflowCodeSnippet">
+          mvn jetty:run
+        </code>
+
+    your first Bristleback Server with Jetty as Server Engine is starting!
+    <p class="biggerSpaceholder"></p>
+
+    3. Open your browser and type http://localhost:8080.
+    <p class="biggerSpaceholder"></p>
+
+    Have fun!
+  </div>
+
+  <br>
+
+  <div class="bristlebackContentHeaderDiv">
     Bristleback is already on Maven repository:
   </div>
 
   <div class="bristlebackleftSideContentDiv">
-    <code>
+    <code class="overflowCodeSnippet">
       &lt;dependency> <br>
       &nbsp;&nbsp; &lt;groupId>pl.bristleback&lt;/groupid> <br>
       &nbsp;&nbsp; &lt;artifactId>bristleServer&lt;/artifactid> <br>
