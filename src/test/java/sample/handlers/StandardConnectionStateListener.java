@@ -19,12 +19,12 @@ public class StandardConnectionStateListener implements ConnectionStateListener<
   private static Logger log = Logger.getLogger(BristlebackServerInstance.class.getName());
 
   @Override
-  public void userConnected(UserContext user) {
-    log.info("listener says that new user was added - id: " + user.getId());
+  public void userConnected(UserContext userContext) {
+    log.info("listener says that new user was added - id: " + userContext.getId());
   }
 
   @Override
-  public void userDisconnected(UserContext user) {
-    log.info("listener says that the user has disconnected - id: " + user.getId());
+  public void userDisconnected(UserContext userContext) {
+    log.info("listener says that the user has disconnected - id: " + userContext.getId());
   }
 }

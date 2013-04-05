@@ -20,15 +20,15 @@ public interface ConnectionStateListener<T extends UserContext> {
   /**
    * Method invoked after connection with given user is established.
    *
-   * @param identifiedUser connected user.
+   * @param userContext connected user.
    */
-  void userConnected(T identifiedUser);
+  void userConnected(T userContext);
 
   /**
    * Method invoked <strong>after</strong> connection with given user is closed.
    * In addition, user doesn't exists in users container and cannot receive any further messages.
    *
-   * @param identifiedUser disconnected user.
+   * @param userContext disconnected user.
    */
-  void userDisconnected(T identifiedUser);
+  void userDisconnected(T userContext);
 }

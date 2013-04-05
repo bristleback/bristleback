@@ -23,15 +23,15 @@ public class UserDisconnectedListener implements ConnectionStateListener<UserCon
   private AuthenticationsContainer authenticationsContainer;
 
   @Override
-  public void userConnected(UserContext user) {
+  public void userConnected(UserContext userContext) {
 
   }
 
   @Override
-  public void userDisconnected(UserContext user) {
-    if (authenticationsContainer.hasValidAuthenticationForConnection(user.getId())) {
-      String username = authenticationsContainer.getAuthentication(user.getId()).getAuthenticatedUser().getUsername();
-      authenticationsContainer.logout(user.getId());
+  public void userDisconnected(UserContext userContext) {
+    if (authenticationsContainer.hasValidAuthenticationForConnection(userContext.getId())) {
+      String username = authenticationsContainer.getAuthentication(userContext.getId()).getAuthenticatedUser().getUsername();
+      authenticationsContainer.logout(userContext.getId());
       log.debug("User \"" + username + "\" has been logged out.");
     }
   }

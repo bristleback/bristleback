@@ -4,34 +4,22 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
-import pl.bristleback.server.bristle.api.ConnectionStateListener;
-import pl.bristleback.server.bristle.api.DataController;
-import pl.bristleback.server.bristle.api.MessageDispatcher;
-import pl.bristleback.server.bristle.api.SerializationEngine;
-import pl.bristleback.server.bristle.api.ServerEngine;
+import org.springframework.core.annotation.Order;
+import pl.bristleback.server.bristle.api.*;
 import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.api.users.UserContextFactory;
-import pl.bristleback.server.bristle.conf.BristleConfig;
-import pl.bristleback.server.bristle.conf.DataControllers;
-import pl.bristleback.server.bristle.conf.EngineConfig;
-import pl.bristleback.server.bristle.conf.InitialConfiguration;
-import pl.bristleback.server.bristle.conf.MessageConfiguration;
-import pl.bristleback.server.bristle.conf.UserConfiguration;
+import pl.bristleback.server.bristle.conf.*;
 import pl.bristleback.server.bristle.conf.resolver.message.ObjectSenderInitializer;
 import pl.bristleback.server.bristle.conf.resolver.message.ObjectSenderInjector;
 import pl.bristleback.server.bristle.engine.user.BaseUserContext;
 import pl.bristleback.server.bristle.engine.user.DefaultUserContextFactory;
-import pl.bristleback.server.bristle.conf.BristleInitializationException;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.listener.ListenersContainer;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.utils.ReflectionUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * //@todo class description
@@ -122,8 +110,32 @@ public class SpringConfigurationResolver {
     Map<String, ConnectionStateListener> customHandlers = springIntegration.getApplicationBeansOfType(ConnectionStateListener.class);
     List<ConnectionStateListener> connectionStateListeners = new ArrayList<ConnectionStateListener>(frameworkHandlers.values());
     connectionStateListeners.addAll(customHandlers.values());
+    sortInIncreasingOrder(connectionStateListeners);
     return new ListenersContainer(connectionStateListeners);
   }
+
+  private void sortInIncreasingOrder(List<ConnectionStateListener> connectionStateListeners) {
+    Comparator<ConnectionStateListener> comparator = new Comparator<ConnectionStateListener>() {
+      @Override
+      public int compare(ConnectionStateListener listener1, ConnectionStateListener listener2) {
+        Order annotation1 = getAnnotation(listener1.getClass());
+        Order annotation2 = getAnnotation(listener2.getClass());
+        if(annotation1 == null) {
+          return 1;
+        }
+        if(annotation2 == null) {
+          return -1;
+        }
+        return annotation1.value() >= annotation2.value() ? 1 : -1;
+      }
+
+      private Order getAnnotation(Class<? extends ConnectionStateListener> listenerClass) {
+        return listenerClass.getAnnotation(Order.class);
+      }
+    };
+    Collections.sort(connectionStateListeners, comparator);
+  }
+
 
   @Bean
   public MessageConfiguration messageConfiguration() {
@@ -159,7 +171,7 @@ public class SpringConfigurationResolver {
 
     UserContextFactory userContextFactory = userContextFactory();
     Class<? extends UserContext> userContextClass =
-      (Class<? extends UserContext>) ReflectionUtils.getParameterTypes(userContextFactory().getClass(), UserContextFactory.class)[0];
+            (Class<? extends UserContext>) ReflectionUtils.getParameterTypes(userContextFactory().getClass(), UserContextFactory.class)[0];
 
     UsersContainer usersContainer = springIntegration().getBean(UsersContainer.class);
 
@@ -181,8 +193,8 @@ public class SpringConfigurationResolver {
       return springIntegration.getApplicationBean(UserContextFactory.class);
     } else { //more than one bean found in application configuration (initial configuration doesn't contain property which one to choose
       throw new BristleInitializationException("Found more than one implementation of class"
-        + UserContextFactory.class.getName() + ". "
-        + "Please specify in initial configuration which one should be used");
+              + UserContextFactory.class.getName() + ". "
+              + "Please specify in initial configuration which one should be used");
     }
   }
 
