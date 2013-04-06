@@ -55,9 +55,9 @@ public class SpringConfigurationResolverTest {
 
     List<ConnectionStateListener> connectionStateListeners = listenersContainer.getConnectionStateListeners();
     assertThat(connectionStateListeners)
-            .isNotNull()
-            .hasSize(connectionListeners.size())
-            .containsSequence(order1, order2, withoutOrder, withoutAnnotation);
+      .isNotNull()
+      .hasSize(connectionListeners.size())
+      .containsSequence(order1, order2, withoutOrder, withoutAnnotation);
   }
 
   @Test
@@ -78,9 +78,9 @@ public class SpringConfigurationResolverTest {
 
     List<ConnectionStateListener> connectionStateListeners = listenersContainer.getConnectionStateListeners();
     assertThat(connectionStateListeners)
-            .isNotNull()
-            .hasSize(connectionListeners.size())
-            .containsSequence(order1, order2, withoutOrder, withoutAnnotation);
+      .isNotNull()
+      .hasSize(connectionListeners.size())
+      .containsSequence(order1, order2, withoutOrder, withoutAnnotation);
   }
 
   @Test
@@ -101,9 +101,9 @@ public class SpringConfigurationResolverTest {
 
     List<ConnectionStateListener> connectionStateListeners = listenersContainer.getConnectionStateListeners();
     assertThat(connectionStateListeners)
-            .isNotNull()
-            .hasSize(connectionListeners.size())
-            .containsSequence(order1, order2, withoutOrder, withoutAnnotation);
+      .isNotNull()
+      .hasSize(connectionListeners.size())
+      .containsSequence(order1, order2, withoutOrder, withoutAnnotation);
   }
 
   @Test
@@ -124,13 +124,13 @@ public class SpringConfigurationResolverTest {
 
     List<ConnectionStateListener> connectionStateListeners = listenersContainer.getConnectionStateListeners();
     assertThat(connectionStateListeners)
-            .isNotNull()
-            .hasSize(connectionListeners.size())
-            .containsSequence(order1, order2, withoutOrder, withoutAnnotation);
+      .isNotNull()
+      .hasSize(connectionListeners.size())
+      .containsSequence(order1, order2, withoutOrder, withoutAnnotation);
   }
 
   @Order(1)
-  private class ConnectionStateListenerOrder1 implements ConnectionStateListener{
+  private class ConnectionStateListenerOrder1 implements ConnectionStateListener {
     @Override
     public void userConnected(UserContext userContext) {
     }
@@ -141,7 +141,7 @@ public class SpringConfigurationResolverTest {
   }
 
   @Order(2)
-  private class ConnectionStateListenerOrder2 implements ConnectionStateListener{
+  private class ConnectionStateListenerOrder2 implements ConnectionStateListener {
     @Override
     public void userConnected(UserContext userContext) {
     }
@@ -151,7 +151,7 @@ public class SpringConfigurationResolverTest {
     }
   }
 
-  private class ConnectionStateListenerWithoutOrder implements ConnectionStateListener{
+  private class ConnectionStateListenerWithoutOrder implements ConnectionStateListener {
     @Override
     public void userConnected(UserContext userContext) {
     }

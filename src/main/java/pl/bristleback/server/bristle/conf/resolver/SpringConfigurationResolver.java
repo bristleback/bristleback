@@ -120,10 +120,10 @@ public class SpringConfigurationResolver {
       public int compare(ConnectionStateListener listener1, ConnectionStateListener listener2) {
         Order annotation1 = getAnnotation(listener1.getClass());
         Order annotation2 = getAnnotation(listener2.getClass());
-        if(annotation1 == null) {
+        if (annotation1 == null) {
           return 1;
         }
-        if(annotation2 == null) {
+        if (annotation2 == null) {
           return -1;
         }
         return annotation1.value() >= annotation2.value() ? 1 : -1;
