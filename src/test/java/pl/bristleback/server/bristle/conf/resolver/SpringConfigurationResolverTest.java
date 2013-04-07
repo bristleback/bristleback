@@ -3,13 +3,14 @@ package pl.bristleback.server.bristle.conf.resolver;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import pl.bristleback.server.bristle.api.ConnectionStateListener;
 import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.listener.ListenersContainer;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,8 +21,11 @@ import static org.mockito.Mockito.when;
 public class SpringConfigurationResolverTest {
 
   private ConnectionStateListener withoutAnnotation = new ConnectionStateListenerWithoutOrder();
+
   private ConnectionStateListener withoutOrder = new ConnectionStateListenerWithoutOrder();
+
   private ConnectionStateListener order1 = new ConnectionStateListenerOrder1();
+
   private ConnectionStateListener order2 = new ConnectionStateListenerOrder2();
 
   private ApplicationContext bristlebackFrameworkContextMock;
@@ -40,7 +44,7 @@ public class SpringConfigurationResolverTest {
   @Test
   public void shouldShouldSortInIncreasingOrder() {
     // given
-    Map<String, ConnectionStateListener> connectionListeners = new HashMap<String, ConnectionStateListener>();
+    Map<String, ConnectionStateListener> connectionListeners = new LinkedHashMap<String, ConnectionStateListener>();
     connectionListeners.put("one", withoutOrder);
     connectionListeners.put("two", order1);
     connectionListeners.put("three", order2);
@@ -63,7 +67,7 @@ public class SpringConfigurationResolverTest {
   @Test
   public void shouldShouldSortInIncreasingOrder2() {
     // given
-    Map<String, ConnectionStateListener> connectionListeners = new HashMap<String, ConnectionStateListener>();
+    Map<String, ConnectionStateListener> connectionListeners = new LinkedHashMap<String, ConnectionStateListener>();
     connectionListeners.put("one", order1);
     connectionListeners.put("two", withoutOrder);
     connectionListeners.put("three", order2);
@@ -86,7 +90,7 @@ public class SpringConfigurationResolverTest {
   @Test
   public void shouldShouldSortInIncreasingOrder3() {
     // given
-    Map<String, ConnectionStateListener> connectionListeners = new HashMap<String, ConnectionStateListener>();
+    Map<String, ConnectionStateListener> connectionListeners = new LinkedHashMap<String, ConnectionStateListener>();
     connectionListeners.put("one", order1);
     connectionListeners.put("two", withoutOrder);
     connectionListeners.put("three", withoutAnnotation);
@@ -109,7 +113,7 @@ public class SpringConfigurationResolverTest {
   @Test
   public void shouldShouldSortInIncreasingOrder4() {
     // given
-    Map<String, ConnectionStateListener> connectionListeners = new HashMap<String, ConnectionStateListener>();
+    Map<String, ConnectionStateListener> connectionListeners = new LinkedHashMap<String, ConnectionStateListener>();
     connectionListeners.put("one", order1);
     connectionListeners.put("two", order2);
     connectionListeners.put("three", withoutOrder);
@@ -131,6 +135,7 @@ public class SpringConfigurationResolverTest {
 
   @Order(1)
   private class ConnectionStateListenerOrder1 implements ConnectionStateListener {
+
     @Override
     public void userConnected(UserContext userContext) {
     }
@@ -142,6 +147,7 @@ public class SpringConfigurationResolverTest {
 
   @Order(2)
   private class ConnectionStateListenerOrder2 implements ConnectionStateListener {
+
     @Override
     public void userConnected(UserContext userContext) {
     }
@@ -152,6 +158,7 @@ public class SpringConfigurationResolverTest {
   }
 
   private class ConnectionStateListenerWithoutOrder implements ConnectionStateListener {
+
     @Override
     public void userConnected(UserContext userContext) {
     }
