@@ -5,10 +5,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.annotation.Order;
-import pl.bristleback.server.bristle.api.*;
+import pl.bristleback.server.bristle.api.ConnectionStateListener;
+import pl.bristleback.server.bristle.api.DataController;
+import pl.bristleback.server.bristle.api.MessageDispatcher;
+import pl.bristleback.server.bristle.api.SerializationEngine;
+import pl.bristleback.server.bristle.api.ServerEngine;
 import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.api.users.UserContextFactory;
-import pl.bristleback.server.bristle.conf.*;
+import pl.bristleback.server.bristle.conf.BristleConfig;
+import pl.bristleback.server.bristle.conf.BristleInitializationException;
+import pl.bristleback.server.bristle.conf.DataControllers;
+import pl.bristleback.server.bristle.conf.EngineConfig;
+import pl.bristleback.server.bristle.conf.InitialConfiguration;
+import pl.bristleback.server.bristle.conf.MessageConfiguration;
+import pl.bristleback.server.bristle.conf.UserConfiguration;
 import pl.bristleback.server.bristle.conf.resolver.message.ObjectSenderInitializer;
 import pl.bristleback.server.bristle.conf.resolver.message.ObjectSenderInjector;
 import pl.bristleback.server.bristle.engine.user.BaseUserContext;
@@ -19,7 +29,12 @@ import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.utils.ReflectionUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * //@todo class description
@@ -126,7 +141,10 @@ public class SpringConfigurationResolver {
         if (annotation2 == null) {
           return -1;
         }
-        return annotation1.value() >= annotation2.value() ? 1 : -1;
+        if (annotation1.value() >= annotation2.value()) {
+          return 1;
+        }
+        return -1;
       }
 
       private Order getAnnotation(Class<? extends ConnectionStateListener> listenerClass) {
@@ -135,7 +153,6 @@ public class SpringConfigurationResolver {
     };
     Collections.sort(connectionStateListeners, comparator);
   }
-
 
   @Bean
   public MessageConfiguration messageConfiguration() {
@@ -171,7 +188,7 @@ public class SpringConfigurationResolver {
 
     UserContextFactory userContextFactory = userContextFactory();
     Class<? extends UserContext> userContextClass =
-            (Class<? extends UserContext>) ReflectionUtils.getParameterTypes(userContextFactory().getClass(), UserContextFactory.class)[0];
+      (Class<? extends UserContext>) ReflectionUtils.getParameterTypes(userContextFactory().getClass(), UserContextFactory.class)[0];
 
     UsersContainer usersContainer = springIntegration().getBean(UsersContainer.class);
 
@@ -193,8 +210,8 @@ public class SpringConfigurationResolver {
       return springIntegration.getApplicationBean(UserContextFactory.class);
     } else { //more than one bean found in application configuration (initial configuration doesn't contain property which one to choose
       throw new BristleInitializationException("Found more than one implementation of class"
-              + UserContextFactory.class.getName() + ". "
-              + "Please specify in initial configuration which one should be used");
+        + UserContextFactory.class.getName() + ". "
+        + "Please specify in initial configuration which one should be used");
     }
   }
 
