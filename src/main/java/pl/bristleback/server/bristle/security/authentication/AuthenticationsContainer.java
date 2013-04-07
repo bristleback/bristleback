@@ -41,7 +41,7 @@ public class AuthenticationsContainer {
     if (isLimitReached(username)) {
       UserAuthentication authenticationToBeInvalidated = concurrentAuthentications.get(username).get(0);
       logout(authenticationToBeInvalidated.getUserContext().getId());
-      authenticationInformer.sendLogoutInformation(authenticationToBeInvalidated.getUserContext(),
+      authenticationInformer.sendLogoutInformation(authenticationToBeInvalidated.getUserContext(), username,
         LogoutReason.TOO_MANY_AUTHENTICATIONS);
     }
     concurrentAuthentications.get(username).add(userAuthentication);

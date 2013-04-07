@@ -3,7 +3,7 @@
   "description": "The Bristleback Client: JavaScript library, providing simple and powerful API to cooperate with the server side",
   "version": "0.3.0",
   "url": "http://bristleback.pl/",
-  "logo": "http://bristleback.pl/img/logo.png",
+  "logo": "http://bristleback.pl/img/bristleback-logo-green.png",
   "options": {
     "outdir": "../../../target/js-doc"
   },

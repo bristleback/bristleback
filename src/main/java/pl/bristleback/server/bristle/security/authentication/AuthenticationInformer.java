@@ -35,10 +35,10 @@ public class AuthenticationInformer {
     sendMessage(message, userContext);
   }
 
-  public void sendLogoutInformation(UserContext userContext, LogoutReason logoutReason) {
-    BristleMessage<LogoutReason> message = new BristleMessage<LogoutReason>()
+  public void sendLogoutInformation(UserContext userContext, String username, LogoutReason logoutReason) {
+    BristleMessage<LogoutMessagePayload> message = new BristleMessage<LogoutMessagePayload>()
       .withName(LOGOUT_MESSAGE_NAME)
-      .withPayload(logoutReason);
+      .withPayload(new LogoutMessagePayload(username, logoutReason));
 
     sendMessage(message, userContext);
   }

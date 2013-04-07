@@ -36,7 +36,7 @@ public class LogoutInterceptor implements ActionInterceptor<AuthenticationOperat
     String connectionId = context.getUserContext().getId();
     String username = authenticationsContainer.getAuthentication(connectionId).getAuthenticatedUser().getUsername();
     authenticationsContainer.logout(connectionId);
-    authenticationInformer.sendLogoutInformation(context.getUserContext(), LogoutReason.REQUESTED_BY_CLIENT);
+    authenticationInformer.sendLogoutInformation(context.getUserContext(), username, LogoutReason.REQUESTED_BY_CLIENT);
     log.debug("User \"" + username + "\" has been logged out.");
   }
 }
