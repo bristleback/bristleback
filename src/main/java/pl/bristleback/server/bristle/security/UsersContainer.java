@@ -19,8 +19,8 @@ import java.util.Map;
 
 /**
  * Class holding references to all currently connected users. Manages connection between frameworks based abstraction of
- * user context ({@link pl.bristleback.server.bristle.api.users.UserContext}) and WebSocket internal implementation ({@link WebsocketConnector}). Provides convenient
- * methods for transforming user context to WebSocket connector and vice-versa.
+ * user context ({@link pl.bristleback.server.bristle.api.users.UserContext}) and WebSocket internal implementation ({@link WebsocketConnector}).
+ * Provides convenient methods for transforming user context to WebSocket connector and vice-versa.
  *
  * @author Pawel Machowski created at 01.05.12 14:04
  */

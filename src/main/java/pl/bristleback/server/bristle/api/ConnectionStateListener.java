@@ -8,7 +8,7 @@ import pl.bristleback.server.bristle.api.users.UserContext;
  * Listener methods are parametrized with base type of {@link pl.bristleback.server.bristle.api.users.UserContext}.
  * In all cases, actual user context implementation (according to {@link pl.bristleback.server.bristle.api.users.UserContextFactory UserFactory}
  * used in application) is passed, listeners may be parametrized with custom user implementations so they won't be forced to use casting.
- * Currently, the order of connection state listeners execution cannot be determined
+ * The order of connection state listeners execution can be set using Spring Framework {@link org.springframework.core.annotation.Order} annotation.
  * (which is subject to change in next Bristleback version).
  * <p/>
  * Created on: 2011-11-20 14:47:18 <br/>
