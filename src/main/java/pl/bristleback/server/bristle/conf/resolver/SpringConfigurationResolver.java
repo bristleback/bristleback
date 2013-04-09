@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.annotation.Order;
 import pl.bristleback.server.bristle.api.ConnectionStateListener;
 import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.MessageDispatcher;
@@ -12,6 +13,7 @@ import pl.bristleback.server.bristle.api.ServerEngine;
 import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.api.users.UserContextFactory;
 import pl.bristleback.server.bristle.conf.BristleConfig;
+import pl.bristleback.server.bristle.conf.BristleInitializationException;
 import pl.bristleback.server.bristle.conf.DataControllers;
 import pl.bristleback.server.bristle.conf.EngineConfig;
 import pl.bristleback.server.bristle.conf.InitialConfiguration;
@@ -21,7 +23,6 @@ import pl.bristleback.server.bristle.conf.resolver.message.ObjectSenderInitializ
 import pl.bristleback.server.bristle.conf.resolver.message.ObjectSenderInjector;
 import pl.bristleback.server.bristle.engine.user.BaseUserContext;
 import pl.bristleback.server.bristle.engine.user.DefaultUserContextFactory;
-import pl.bristleback.server.bristle.conf.BristleInitializationException;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.listener.ListenersContainer;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
@@ -29,6 +30,8 @@ import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.utils.ReflectionUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -122,7 +125,33 @@ public class SpringConfigurationResolver {
     Map<String, ConnectionStateListener> customHandlers = springIntegration.getApplicationBeansOfType(ConnectionStateListener.class);
     List<ConnectionStateListener> connectionStateListeners = new ArrayList<ConnectionStateListener>(frameworkHandlers.values());
     connectionStateListeners.addAll(customHandlers.values());
+    sortInIncreasingOrder(connectionStateListeners);
     return new ListenersContainer(connectionStateListeners);
+  }
+
+  private void sortInIncreasingOrder(List<ConnectionStateListener> connectionStateListeners) {
+    Comparator<ConnectionStateListener> comparator = new Comparator<ConnectionStateListener>() {
+      @Override
+      public int compare(ConnectionStateListener listener1, ConnectionStateListener listener2) {
+        Order annotation1 = getAnnotation(listener1.getClass());
+        Order annotation2 = getAnnotation(listener2.getClass());
+        if (annotation2 == null) {
+          return -1;
+        }
+        if (annotation1 == null) {
+          return 1;
+        }
+        if (annotation1.value() > annotation2.value()) {
+          return 1;
+        }
+        return -1;
+      }
+
+      private Order getAnnotation(Class<? extends ConnectionStateListener> listenerClass) {
+        return listenerClass.getAnnotation(Order.class);
+      }
+    };
+    Collections.sort(connectionStateListeners, comparator);
   }
 
   @Bean

@@ -7,7 +7,9 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * //@todo class description
+ * Objects of this class are created whenever new connection is established or connection is closed.
+ * It iterates over all connection state listeners found at server start.
+ * Every listener can cancel whole listeners execution chain using {@link ConnectionStateListenerChain#cancelChain()} method.
  * <p/>
  * Created on: 2011-11-20 18:00:20 <br/>
  *
@@ -28,7 +30,8 @@ public class ConnectionStateListenerChain {
     processListeners = true;
     Iterator<ConnectionStateListener> it = listeners.iterator();
     while (processListeners && it.hasNext()) {
-      it.next().userConnected(user);
+      ConnectionStateListener listener = it.next();
+      listener.userConnected(user, this);
     }
   }
 
@@ -37,7 +40,7 @@ public class ConnectionStateListenerChain {
     processListeners = true;
     Iterator<ConnectionStateListener> it = listeners.iterator();
     while (processListeners && it.hasNext()) {
-      it.next().userDisconnected(user);
+      it.next().userDisconnected(user, this);
     }
   }
 

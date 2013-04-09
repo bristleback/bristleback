@@ -5,7 +5,7 @@ import pl.bristleback.server.bristle.api.ConnectionStateListener;
 import java.util.List;
 
 /**
- * //@todo class description
+ * Objects of this class gather all {@link ConnectionStateListener connection state listeners}.
  * <p/>
  * Created on: 2011-11-20 17:16:28 <br/>
  *
