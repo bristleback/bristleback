@@ -3,11 +3,11 @@ package pl.bristleback.server.bristle.conf.resolver;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import pl.bristleback.server.bristle.api.ConnectionStateListener;
 import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
+import pl.bristleback.server.bristle.listener.ConnectionStateListenerChain;
 import pl.bristleback.server.bristle.listener.ListenersContainer;
 
 import java.util.LinkedHashMap;
@@ -61,7 +61,7 @@ public class SpringConfigurationResolverTest {
     assertThat(connectionStateListeners)
       .isNotNull()
       .hasSize(connectionListeners.size())
-      .containsSequence(order1, order2, withoutOrder, withoutAnnotation);
+      .containsSequence(order1, order2);
   }
 
   @Test
@@ -84,7 +84,7 @@ public class SpringConfigurationResolverTest {
     assertThat(connectionStateListeners)
       .isNotNull()
       .hasSize(connectionListeners.size())
-      .containsSequence(order1, order2, withoutOrder, withoutAnnotation);
+      .containsSequence(order1, order2);
   }
 
   @Test
@@ -107,7 +107,7 @@ public class SpringConfigurationResolverTest {
     assertThat(connectionStateListeners)
       .isNotNull()
       .hasSize(connectionListeners.size())
-      .containsSequence(order1, order2, withoutOrder, withoutAnnotation);
+      .containsSequence(order1, order2);
   }
 
   @Test
@@ -130,18 +130,18 @@ public class SpringConfigurationResolverTest {
     assertThat(connectionStateListeners)
       .isNotNull()
       .hasSize(connectionListeners.size())
-      .containsSequence(order1, order2, withoutOrder, withoutAnnotation);
+      .containsSequence(order1, order2);
   }
 
   @Order(1)
   private class ConnectionStateListenerOrder1 implements ConnectionStateListener {
 
     @Override
-    public void userConnected(UserContext userContext) {
+    public void userConnected(UserContext userContext, ConnectionStateListenerChain connectionStateListenerChain) {
     }
 
     @Override
-    public void userDisconnected(UserContext userContext) {
+    public void userDisconnected(UserContext userContext, ConnectionStateListenerChain connectionStateListenerChain) {
     }
   }
 
@@ -149,22 +149,22 @@ public class SpringConfigurationResolverTest {
   private class ConnectionStateListenerOrder2 implements ConnectionStateListener {
 
     @Override
-    public void userConnected(UserContext userContext) {
+    public void userConnected(UserContext userContext, ConnectionStateListenerChain connectionStateListenerChain) {
     }
 
     @Override
-    public void userDisconnected(UserContext userContext) {
+    public void userDisconnected(UserContext userContext, ConnectionStateListenerChain connectionStateListenerChain) {
     }
   }
 
   private class ConnectionStateListenerWithoutOrder implements ConnectionStateListener {
 
     @Override
-    public void userConnected(UserContext userContext) {
+    public void userConnected(UserContext userContext, ConnectionStateListenerChain connectionStateListenerChain) {
     }
 
     @Override
-    public void userDisconnected(UserContext userContext) {
+    public void userDisconnected(UserContext userContext, ConnectionStateListenerChain connectionStateListenerChain) {
     }
   }
 }

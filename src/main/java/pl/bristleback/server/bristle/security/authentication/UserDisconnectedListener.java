@@ -3,6 +3,7 @@ package pl.bristleback.server.bristle.security.authentication;
 import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.ConnectionStateListener;
 import pl.bristleback.server.bristle.api.users.UserContext;
+import pl.bristleback.server.bristle.listener.ConnectionStateListenerChain;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,12 +24,12 @@ public class UserDisconnectedListener implements ConnectionStateListener<UserCon
   private AuthenticationsContainer authenticationsContainer;
 
   @Override
-  public void userConnected(UserContext userContext) {
+  public void userConnected(UserContext userContext, ConnectionStateListenerChain connectionStateListenerChain) {
 
   }
 
   @Override
-  public void userDisconnected(UserContext userContext) {
+  public void userDisconnected(UserContext userContext, ConnectionStateListenerChain connectionStateListenerChain) {
     if (authenticationsContainer.hasValidAuthenticationForConnection(userContext.getId())) {
       String username = authenticationsContainer.getAuthentication(userContext.getId()).getAuthenticatedUser().getUsername();
       authenticationsContainer.logout(userContext.getId());

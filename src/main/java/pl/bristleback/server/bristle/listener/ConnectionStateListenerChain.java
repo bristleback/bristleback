@@ -31,7 +31,7 @@ public class ConnectionStateListenerChain {
     Iterator<ConnectionStateListener> it = listeners.iterator();
     while (processListeners && it.hasNext()) {
       ConnectionStateListener listener = it.next();
-      listener.userConnected(user);
+      listener.userConnected(user, this);
     }
   }
 
@@ -40,7 +40,7 @@ public class ConnectionStateListenerChain {
     processListeners = true;
     Iterator<ConnectionStateListener> it = listeners.iterator();
     while (processListeners && it.hasNext()) {
-      it.next().userDisconnected(user);
+      it.next().userDisconnected(user, this);
     }
   }
 

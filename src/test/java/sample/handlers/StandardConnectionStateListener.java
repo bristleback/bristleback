@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.ConnectionStateListener;
 import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.app.BristlebackServerInstance;
+import pl.bristleback.server.bristle.listener.ConnectionStateListenerChain;
 
 /**
  * //@todo class description
@@ -19,12 +20,12 @@ public class StandardConnectionStateListener implements ConnectionStateListener<
   private static Logger log = Logger.getLogger(BristlebackServerInstance.class.getName());
 
   @Override
-  public void userConnected(UserContext userContext) {
+  public void userConnected(UserContext userContext, ConnectionStateListenerChain connectionStateListenerChain) {
     log.info("listener says that new user was added - id: " + userContext.getId());
   }
 
   @Override
-  public void userDisconnected(UserContext userContext) {
+  public void userDisconnected(UserContext userContext, ConnectionStateListenerChain connectionStateListenerChain) {
     log.info("listener says that the user has disconnected - id: " + userContext.getId());
   }
 }
