@@ -13,7 +13,7 @@ import java.util.Scanner;
 public final class App {
 
   private static final String[] CONFIG_FILES =
-    {"conf\\applicationContext.xml"};
+    {"applicationContext.xml"};
 
   private App() {
   }

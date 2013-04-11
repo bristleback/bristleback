@@ -184,13 +184,6 @@
       <scope>provided</scope>
     </dependency>
 
-    <dependency>
-      <groupId>pl.bristleback</groupId>
-      <artifactId>websocket-engine-jetty</artifactId>
-      <version>0.3.0</version>
-      <scope>provided</scope>
-    </dependency>
-
     <!--TEST DEPENDENCIES-->
 
     <dependency>

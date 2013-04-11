@@ -51,6 +51,6 @@
     <property name="interceptorMatcher" ref="annotationMatcher"/>
   </bean>
 
-  <bean id="sampleUserDetailsService" class="sample.security.SampleUserDetailsService"/>
+  <bean id="sampleUserDetailsService" class="pl.bristleback.server.mock.security.SampleUserDetailsService"/>
 
 </beans>

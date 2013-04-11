@@ -1,21 +1,20 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>5</version>
+  </parent>
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>pl.bristleback</groupId>
-  <artifactId>bristleback-parent</artifactId>
+  <artifactId>sample-app</artifactId>
   <version>0.3.0</version>
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
 
-  <modules>
-    <module>bristleback-core</module>
-    <module>websocket-engine-jetty</module>
-    <module>websocket-engine-tomcat</module>
-    <module>websocket-engine-netty</module>
-    <module>sample-app</module>
-  </modules>
-
-  <name>Bristleback Framework parent module</name>
+  <name>Bristleback Sample testing app</name>
   <url>http://bristleback.pl</url>
   <description>High level, Spring integrated WebSocket Framework</description>
   <licenses>
@@ -48,19 +47,19 @@
     </developer>
   </developers>
 
-  <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <configuration>
-            <source>1.6</source>
-            <target>1.6</target>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
+  <dependencies>
+    <dependency>
+      <groupId>pl.bristleback</groupId>
+      <artifactId>bristleback-core</artifactId>
+      <version>0.3.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>pl.bristleback</groupId>
+      <artifactId>websocket-engine-jetty</artifactId>
+      <version>0.3.0</version>
+    </dependency>
+  </dependencies>
+
 
 </project>
