@@ -27,14 +27,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-/**
- * //@todo class description
- * <p/>
- * Created on: 2011-07-21 15:33:23 <br/>
- *
- * @author Wojciech Niemiec
- */
-
 @ActionClass(name = "sample")
 @Component
 @Intercept(SampleInterceptor.class)

@@ -11,13 +11,6 @@ import pl.bristleback.server.bristle.security.authorisation.conditions.AllUsersC
 import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
 import sample.Card;
 
-/**
- * //@todo class description
- * <p/>
- * Created on: 2012-05-28 21:16:46 <br/>
- *
- * @author Wojciech Niemiec
- */
 @ClientActionClass
 @Component
 public class SampleClientActionClass {

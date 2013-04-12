@@ -8,13 +8,6 @@ import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.api.action.ActionInterceptor;
 import pl.bristleback.server.bristle.api.annotations.Interceptor;
 
-/**
- * //@todo class description
- * <p/>
- * Created on: 24.01.13 21:23 <br/>
- *
- * @author Wojciech Niemiec
- */
 @Interceptor(stages = ActionExecutionStage.ACTION_EXTRACTION, contextResolver = SampleInterceptorContextResolver.class)
 @Component
 public class SampleInterceptor implements ActionInterceptor<ActionInterceptorContextObject> {

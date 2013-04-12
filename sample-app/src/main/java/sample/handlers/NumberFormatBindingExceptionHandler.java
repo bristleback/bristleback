@@ -7,13 +7,6 @@ import pl.bristleback.server.bristle.action.ActionExecutionStage;
 import pl.bristleback.server.bristle.action.response.ExceptionResponse;
 import pl.bristleback.server.bristle.api.action.ActionExceptionHandler;
 
-/**
- * //@todo class description
- * <p/>
- * Created on: 2012-02-05 22:06:14 <br/>
- *
- * @author Wojciech Niemiec
- */
 @Component
 public class NumberFormatBindingExceptionHandler implements ActionExceptionHandler<NumberFormatException> {
   private static Logger log = Logger.getLogger(NumberFormatBindingExceptionHandler.class.getName());

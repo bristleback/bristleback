@@ -2,13 +2,6 @@ package sample;
 
 import org.apache.log4j.Logger;
 
-/**
- * //@todo class description
- * <p/>
- * Created on: 2011-09-02 15:22:34 <br/>
- *
- * @author Wojciech Niemiec
- */
 public class User {
   private static Logger log = Logger.getLogger(User.class.getName());
 

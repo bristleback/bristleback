@@ -7,13 +7,6 @@ import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.app.BristlebackServerInstance;
 import pl.bristleback.server.bristle.listener.ConnectionStateListenerChain;
 
-/**
- * //@todo class description
- * <p/>
- * Created on: 2011-11-20 17:55:09 <br/>
- *
- * @author Wojciech Niemiec
- */
 @Component
 public class StandardConnectionStateListener implements ConnectionStateListener<UserContext> {
 
