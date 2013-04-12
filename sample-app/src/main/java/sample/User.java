@@ -1,6 +1,5 @@
 package sample;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.log4j.Logger;
 
 /**
@@ -14,7 +13,6 @@ public class User {
   private static Logger log = Logger.getLogger(User.class.getName());
 
   private String firstName;
-  @JsonIgnore
   private String lastName;
   private int age;
 
