@@ -18,10 +18,10 @@ import java.lang.annotation.Target;
  * {@link pl.bristleback.server.bristle.api.action.SendCondition SendCondition} implementation.
  * </li>
  * <li>
- * {@link pl.bristleback.server.bristle.api.users.IdentifiedUser IdentifiedUser} implementation.
+ * {@link pl.bristleback.server.bristle.api.users.UserContext UserContext} implementation.
  * </li>
  * <li>
- * List of {@link pl.bristleback.server.bristle.api.users.IdentifiedUser IdentifiedUser} implementations.
+ * List of {@link pl.bristleback.server.bristle.api.users.UserContext UserContext} implementations.
  * </li>
  * </ul>
  * List of recipients is determined using returned object.

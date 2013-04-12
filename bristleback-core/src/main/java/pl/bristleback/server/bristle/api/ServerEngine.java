@@ -35,7 +35,7 @@ import pl.bristleback.server.bristle.conf.EngineConfig;
  * system.engine.jetty
  * </td>
  * <td>
- * {@link pl.bristleback.server.bristle.engine.jetty.JettyWebsocketEngine}
+ * pl.bristleback.server.bristle.engine.jetty.JettyWebsocketEngine
  * </td>
  * </tr>
  * <tr>
@@ -43,7 +43,7 @@ import pl.bristleback.server.bristle.conf.EngineConfig;
  * system.engine.netty
  * </td>
  * <td>
- * {@link pl.bristleback.server.bristle.engine.netty.NettyServerEngine}
+ * pl.bristleback.server.bristle.engine.netty.NettyServerEngine
  * </td>
  * </tr>
  * <tr>
@@ -51,7 +51,7 @@ import pl.bristleback.server.bristle.conf.EngineConfig;
  * system.engine.jetty.servlet
  * </td>
  * <td>
- * {@link pl.bristleback.server.bristle.engine.jetty.servlet.JettyServletWebsocketEngine}
+ * pl.bristleback.server.bristle.engine.jetty.servlet.JettyServletWebsocketEngine
  * </td>
  * </tr>
  * <tr>
@@ -59,7 +59,7 @@ import pl.bristleback.server.bristle.conf.EngineConfig;
  * system.engine.tomcat.servlet
  * </td>
  * <td>
- * {@link pl.bristleback.server.bristle.engine.tomcat.servlet.TomcatServletWebsocketEngine}
+ * pl.bristleback.server.bristle.engine.tomcat.servlet.TomcatServletWebsocketEngine
  * </td>
  * </tr>
  * </tbody>
@@ -99,7 +99,7 @@ public interface ServerEngine extends ConfigurationAware {
   /**
    * When a new connection is established, a newly created connector invokes this callback method to signal server engine.
    * Engine should always run
-   * {@link pl.bristleback.server.bristle.listener.ConnectionStateListenerChain#connectorStarted(pl.bristleback.server.bristle.api.users.IdentifiedUser) ConnectionStateListenerChain.connectorStarted()} method.
+   * {@link pl.bristleback.server.bristle.listener.ConnectionStateListenerChain#connectorStarted(pl.bristleback.server.bristle.api.users.UserContext) ConnectionStateListenerChain.connectorStarted()} method.
    *
    * @param connector newly created connector representing established client connection.
    */
@@ -119,7 +119,7 @@ public interface ServerEngine extends ConfigurationAware {
    * </li>
    * </ul>
    * Engine should always run
-   * {@link pl.bristleback.server.bristle.listener.ConnectionStateListenerChain#connectorStopped(pl.bristleback.server.bristle.api.users.IdentifiedUser) ConnectionStateListenerChain.connectorStopped()} method.
+   * {@link pl.bristleback.server.bristle.listener.ConnectionStateListenerChain#connectorStopped(pl.bristleback.server.bristle.api.users.UserContext) ConnectionStateListenerChain.connectorStopped()} method.
    *
    * @param connector object representing connection with client.
    */
