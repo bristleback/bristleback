@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
-<project basedir="../" default="compile.js">
+<project basedir="." default="compile.js">
 
-  <property file="/config/${user.name}/build.properties"/>
-  <property file="/config/build.properties"/>
+  <property file="${basedir}/config/${user.name}/build.properties"/>
+  <property file="${basedir}/config/build.properties"/>
 
   <property name="maven.bin.dir" value="${maven.home.dir}/bin"/>
 
-  <filter filtersfile="/config/build.properties"/>
-  <filter filtersfile="/config/${user.name}/build.properties"/>
+  <filter filtersfile="${basedir}/config/build.properties"/>
+  <filter filtersfile="${basedir}/config/${user.name}/build.properties"/>
 
   <property name="bristleback.version" value="0.3.0"/>
 
@@ -54,11 +54,11 @@
     <jscomp compilationLevel="SIMPLE" warning="verbose"
             debug="false" output="target/${bristleback.js.filename}">
 
-      <externs dir="/src/main/js">
+      <externs dir="${basedir}/src/main/js">
         <file name="externs.js"/>
       </externs>
 
-      <sources dir="/src/main/js">
+      <sources dir="${basedir}/src/main/js">
         <file name="bristle-namespace.js"/>
         <file name="bristle-utils.js"/>
         <file name="bristle-template.js"/>
