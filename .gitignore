@@ -1,0 +1,14 @@
+# intellij project files #
+##########################
+*.iml
+*.ipr
+*.iws
+target/*
+
+# eclipse project files #
+#########################
+.project
+.settings
+.classpath
+.springBeans
+.externalToolBuilders
