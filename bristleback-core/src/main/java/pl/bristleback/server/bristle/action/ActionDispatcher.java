@@ -95,7 +95,7 @@ public class ActionDispatcher {
     Object[] parameters = new Object[actionInformation.getParameters().size()];
     BristleMessage<String[]> message = context.getMessage();
     for (int i = 0; i < actionInformation.getParameters().size(); i++) {
-      ActionParameterInformation parameterInfo = (ActionParameterInformation) actionInformation.getParameters().get(i);
+      ActionParameterInformation parameterInfo = actionInformation.getParameters().get(i);
       parameters[i] = parameterInfo.resolveParameter(message.getPayload()[i], context);
     }
     return parameters;

@@ -93,13 +93,13 @@
       var name = $('#fullName').val();
       var age = $('#age').val();
       $('#age').css("border-color", "");
-      sampleAction.hello(name, age, Bristleback.CONNECTOR);
+      sampleAction.hello(name, age, Bristleback.USER_CONTEXT);
     }
 
     function sendDefault() {
       var age = $('#age').val();
       $('#age').css("border-color", "");
-      sampleAction.executeDefault(Bristleback.CONNECTOR, {mapField: age});
+      sampleAction.executeDefault(Bristleback.USER_CONTEXT, {mapField: age});
     }
 
     function sayHelloWithCallback() {
@@ -114,7 +114,7 @@
         alert("exception callback");
         return true;
       });
-      sampleAction.hello(name, age, Bristleback.CONNECTOR, callback);
+      sampleAction.hello(name, age, Bristleback.USER_CONTEXT, callback);
     }
 
     function getFactorials() {
@@ -136,7 +136,7 @@
     }
 
     function performAuthorizedAction() {
-      securedAction.runSecuredAction();
+      securedAction.runSecuredAction(Bristleback.USER_DETAILS);
     }
 
     function performAuthorizedAdminAction() {

@@ -13,7 +13,7 @@ Bristleback.Console = {};
 
 Bristleback.LOCAL_HOSTNAME = "ws://" + ( self.location.hostname ? self.location.hostname : "127.0.0.1" ) + ":8765/websocket";
 
-Bristleback.CONNECTOR = "cn";
+Bristleback.USER_CONTEXT = "uc";
 
 //------------- UTILITY FUNCTIONS
 

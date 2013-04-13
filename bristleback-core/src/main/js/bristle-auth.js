@@ -7,6 +7,17 @@
  **/
 
 /**
+ * User Details action parameter placeholder
+ *
+ * @class USER_DETAILS
+ * @namespace Bristleback
+ * @type String
+ * @final
+ * @default "ud"
+ **/
+Bristleback.USER_DETAILS = "ud";
+
+/**
  * Creates a new instance of System Authentication controller, which is a part of Action controller.
  * Authentication controller provides methods for logging in and logging out.
  * It also allow user to handle various events and authentication/authorization exceptions.

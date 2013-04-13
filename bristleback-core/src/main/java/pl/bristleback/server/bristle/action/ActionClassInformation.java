@@ -38,16 +38,22 @@ public class ActionClassInformation {
   }
 
   public ActionInformation getActionToExecute(ActionExecutionContext context) {
-    if (StringUtils.isEmpty(context.getActionName())) {
+    String actionName = context.getActionName();
+    if (StringUtils.isEmpty(actionName)) {
       if (!hasDefaultAction()) {
         throw new BrokenActionProtocolException(BrokenActionProtocolException.ReasonType.NO_DEFAULT_ACTION_FOUND, "Action class " + name + " does not have default action, specify action to execute");
       }
       return defaultAction;
     }
-    String actionName = context.getActionName();
+
     ActionInformation actionToExecute = actions.get(actionName);
     if (actionToExecute == null) {
       throw new BrokenActionProtocolException(BrokenActionProtocolException.ReasonType.NO_ACTION_FOUND, "Action class \"" + name + "\" does not have action \"" + actionName + "\".");
+    }
+    if (actionToExecute.getParameters().size() > context.getMessage().getPayload().length) {
+      throw new BrokenActionProtocolException(BrokenActionProtocolException.ReasonType.TOO_FEW_ACTION_PARAMETERS,
+        "Action " + context.getMessage().getName() + " takes " + actionToExecute.getParameters().size() + " parameter(s),"
+          + " found: " + context.getMessage().getPayload().length + ".");
     }
     return actionToExecute;
   }

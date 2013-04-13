@@ -362,10 +362,10 @@ Bristleback.controller.ActionClass.prototype.defineAction = function (actionName
  * {{#crossLink "Bristleback.controller.Action"}}{{/crossLink}} object
  * or by adding additional parameter at the end of parameters list.
  * Such additional parameter can be function (which will be used when normal, non exceptional response arrives)
- * or {{#crossLink "Bristleback.CONNECTOR"}}{{/crossLink}} object.
+ * or {{#crossLink "Bristleback.USER_CONTEXT"}}{{/crossLink}} object.
  * @method executeDefault
  * @param {String} connector user connection placeholder,
- * {{#crossLink "Bristleback.CONNECTOR"}}{{/crossLink}} constant should be used.
+ * {{#crossLink "Bristleback.USER_CONTEXT"}}{{/crossLink}} constant should be used.
  * @param {Object} payload payload object
  */
 Bristleback.controller.ActionClass.prototype.executeDefault = function (connector, payload) {

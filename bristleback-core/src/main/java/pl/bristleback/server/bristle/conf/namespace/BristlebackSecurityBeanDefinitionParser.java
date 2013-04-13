@@ -5,6 +5,7 @@ import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
+import pl.bristleback.server.bristle.security.UserDetailsParameterExtractor;
 import pl.bristleback.server.bristle.security.authentication.AuthenticatingAction;
 import pl.bristleback.server.bristle.security.authentication.AuthenticationConfiguration;
 import pl.bristleback.server.bristle.security.authentication.AuthenticationInformer;
@@ -102,6 +103,11 @@ public class BristlebackSecurityBeanDefinitionParser extends BaseBristlebackBean
       .rootBeanDefinition(BristleSecurityExceptionHandler.class)
       .getBeanDefinition();
     registerBean(parserContext, securityExceptionHandler, "bristleSecurityExceptionHandler");
+
+    BeanDefinition userDetailsParameterExtractor = BeanDefinitionBuilder
+      .rootBeanDefinition(UserDetailsParameterExtractor.class)
+      .getBeanDefinition();
+    registerBean(parserContext, userDetailsParameterExtractor, "bristleUserDetailsParameterExtractor");
   }
 
   private void registerSecurityConfigurationBean(Element element, ParserContext parserContext) {

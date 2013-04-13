@@ -19,15 +19,15 @@
 Bristleback.LOCAL_HOSTNAME = "ws://" + ( self.location.hostname ? self.location.hostname : "127.0.0.1" ) + ":8765/websocket";
 
 /**
- * Bristleback connection placeholder
+ * Bristleback User Context action parameter placeholder
  *
- * @class CONNECTOR
+ * @class USER_CONTEXT
  * @namespace Bristleback
  * @type String
  * @final
- * @default "cn"
+ * @default "uc"
  **/
-Bristleback.CONNECTOR = "cn";
+Bristleback.USER_CONTEXT = "uc";
 
 /**
  * @class utils

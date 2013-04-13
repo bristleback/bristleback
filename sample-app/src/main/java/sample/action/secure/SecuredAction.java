@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.annotations.Action;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
 import pl.bristleback.server.bristle.api.annotations.Authorized;
+import sample.security.SampleUserDetails;
 
 @ActionClass
 @Component
@@ -14,8 +15,8 @@ public class SecuredAction {
   private static Logger log = Logger.getLogger(SecuredAction.class.getName());
 
   @Action
-  public void runSecuredAction() {
-    log.debug("running secured action");
+  public void runSecuredAction(SampleUserDetails userDetails) {
+    log.debug("running secured action invoked for " + userDetails.getUsername());
   }
 
   @Action
