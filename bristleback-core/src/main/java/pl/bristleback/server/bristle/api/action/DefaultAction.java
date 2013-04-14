@@ -23,8 +23,8 @@ public interface DefaultAction<U extends UserContext, T> {
   /**
    * Executes default action of implementing action class.
    *
-   * @param userContext    current user context implementation.
-   * @param payload custom type payload object.
+   * @param userContext current user context implementation.
+   * @param payload     custom type payload object.
    * @return response.
    * @throws Exception if any exception while action invocation occurs.
    *                   All exceptions are handled by the Action Controller.

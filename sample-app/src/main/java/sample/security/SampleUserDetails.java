@@ -36,11 +36,6 @@ public class SampleUserDetails implements UserDetails {
   }
 
   @Override
-  public boolean isLogged() {
-    return true;
-  }
-
-  @Override
   public boolean isAccountNonExpired() {
     return true;
   }

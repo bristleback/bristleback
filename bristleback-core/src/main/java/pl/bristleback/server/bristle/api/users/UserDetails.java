@@ -3,7 +3,7 @@ package pl.bristleback.server.bristle.api.users;
 import java.util.Collection;
 
 /**
- * //@todo class description
+ * This interface describes details of users secured by the Bristleback security system.
  * <p/>
  * Created on: 18.02.13 19:09 <br/>
  *
@@ -16,8 +16,6 @@ public interface UserDetails {
   String getPassword();
 
   Collection<String> getAuthorities();
-
-  boolean isLogged();
 
   boolean isAccountNonExpired();
 

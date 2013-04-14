@@ -14,4 +14,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.PARAMETER})
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
 public @interface Ignore {
+
 }
