@@ -10,7 +10,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.users.UserContext;
-import pl.bristleback.server.bristle.engine.WebsocketOperation;
 import pl.bristleback.server.bristle.security.UsersContainer;
 
 import static org.mockito.Matchers.eq;

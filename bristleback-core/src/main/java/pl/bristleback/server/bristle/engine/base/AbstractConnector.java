@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * //@todo class description
+ * This class contains basic fields used by most connector implementations.
  * <p/>
  * Created on: 2011-07-18 10:00:25 <br/>
  *
@@ -17,9 +17,13 @@ import java.util.Map;
 public abstract class AbstractConnector implements WebsocketConnector {
 
   private String connectorId;
+
   private ServerEngine engine;
+
   private DataController dataController;
+
   private String websocketVersion;
+
   private Map<String, Object> variables;
 
   public AbstractConnector(ServerEngine engine, DataController controller) {

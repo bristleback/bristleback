@@ -6,24 +6,28 @@ import pl.bristleback.server.bristle.api.ConnectionStateListener;
 import pl.bristleback.server.bristle.api.ServerEngine;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.users.UserContext;
-import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.conf.EngineConfig;
 import pl.bristleback.server.bristle.listener.ConnectionStateListenerChain;
+import pl.bristleback.server.bristle.security.UsersContainer;
 
 import javax.inject.Inject;
 import java.util.List;
 
 /**
- * //@todo class description
+ * This class is intended to be extended by more specific Websocket Engine implementations.
+ * It provides an access to Websocket Engine configuration as well as Bristleback configuration.
+ * It also fully implements connection open/close events, which are sent by the connectors.
  * <p/>
  * Created on: 2011-07-09 16:13:41 <br/>
  *
  * @author Wojciech Niemiec
  */
 public abstract class AbstractServerEngine implements ServerEngine {
+
   private static Logger log = Logger.getLogger(AbstractServerEngine.class.getName());
 
   private EngineConfig engineConfig;
+
   private BristlebackConfig configuration;
 
   @Inject

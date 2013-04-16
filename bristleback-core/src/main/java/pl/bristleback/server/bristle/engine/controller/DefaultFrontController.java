@@ -5,14 +5,19 @@ import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.FrontController;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.security.UsersContainer;
-import pl.bristleback.server.bristle.engine.WebsocketOperation;
 
 import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * //@todo class description
+ * This implementation of front controller can handle three kinds of messages:
+ * <ul>
+ * <li>Text message</li>
+ * <li>Binary message</li>
+ * <li>Close connection message</li>
+ * </ul>
+ * Future version should bring possibility to handle ping/pong messages.
  * <p/>
  * Created on: 2011-11-21 18:35:01 <br/>
  *
@@ -20,6 +25,7 @@ import java.util.Map;
  */
 @Component("defaultFrontController")
 public class DefaultFrontController implements FrontController {
+
   private static Logger log = Logger.getLogger(DefaultFrontController.class.getName());
 
   private Map<Integer, WebsocketOperation> operations;

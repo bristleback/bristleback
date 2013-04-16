@@ -1,7 +1,8 @@
-package pl.bristleback.server.bristle.engine;
+package pl.bristleback.server.bristle.engine.controller;
 
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.users.UserContext;
+import pl.bristleback.server.bristle.engine.OperationCodes;
 import pl.bristleback.server.bristle.security.UsersContainer;
 
 /**
