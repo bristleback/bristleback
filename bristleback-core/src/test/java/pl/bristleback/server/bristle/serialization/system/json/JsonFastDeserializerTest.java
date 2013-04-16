@@ -36,13 +36,6 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
-/**
- * //@todo class description
- * <p/>
- * Created on: 2012-01-15 20:14:54 <br/>
- *
- * @author Wojciech Niemiec
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/test-context.xml"})
 public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {

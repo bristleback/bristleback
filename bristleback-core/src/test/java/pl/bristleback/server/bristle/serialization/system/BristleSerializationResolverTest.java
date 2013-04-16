@@ -37,13 +37,6 @@ import static junit.framework.Assert.assertSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-/**
- * //@todo class description
- * <p/>
- * Created on: 2012-01-08 17:03:14 <br/>
- *
- * @author Wojciech Niemiec
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/test-context.xml"})
 public class BristleSerializationResolverTest extends AbstractJUnit4SpringContextTests {

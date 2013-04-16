@@ -19,13 +19,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 
-/**
- * //@todo class description
- * <p/>
- * Created on: 2012-02-05 19:01:49 <br/>
- *
- * @author Wojciech Niemiec
- */
 public class ReflectionUtilsTest {
 
   private static Logger log = Logger.getLogger(ReflectionUtilsTest.class.getName());

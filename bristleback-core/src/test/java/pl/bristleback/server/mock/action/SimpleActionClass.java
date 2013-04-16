@@ -15,13 +15,6 @@ import pl.bristleback.server.bristle.serialization.system.annotation.SerializeBu
 import pl.bristleback.server.mock.beans.MockBean;
 import pl.bristleback.server.mock.beans.SimpleMockBean;
 
-/**
- * //@todo class description
- * <p/>
- * Created on: 2012-05-04 10:36:46 <br/>
- *
- * @author Wojciech Niemiec
- */
 @ActionClass(name = SimpleActionClass.NAME)
 @Authorized("test")
 public class SimpleActionClass implements DefaultAction<BaseUserContext, String> {

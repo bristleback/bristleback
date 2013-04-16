@@ -12,13 +12,6 @@ import java.util.HashSet;
 
 import static org.mockito.Mockito.mock;
 
-/**
- * //@todo class description
- * <p/>
- * Created on: 2011-10-08 16:31:44 <br/>
- *
- * @author Wojciech Niemiec
- */
 public class ConfigurationMockFactory {
 
   private static Logger log = Logger.getLogger(ConfigurationMockFactory.class.getName());

@@ -8,13 +8,6 @@ import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
 import pl.bristleback.server.mock.beans.NonDefaultSerializedMockBean;
 
-/**
- * //@todo class description
- * <p/>
- * Created on: 2012-05-13 15:23:34 <br/>
- *
- * @author Wojciech Niemiec
- */
 @Component
 public class SimpleMockParameterExtractor implements ActionParameterExtractor<NonDefaultSerializedMockBean> {
 

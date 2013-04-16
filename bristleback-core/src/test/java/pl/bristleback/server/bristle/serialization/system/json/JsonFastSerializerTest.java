@@ -29,13 +29,6 @@ import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
 
-/**
- * //@todo class description
- * <p/>
- * Created on: 2011-10-08 16:27:17 <br/>
- *
- * @author Wojciech Niemiec
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/test-context.xml"})
 public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {

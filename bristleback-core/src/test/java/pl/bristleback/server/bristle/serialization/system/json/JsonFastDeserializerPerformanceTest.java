@@ -23,13 +23,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-/**
- * //@todo class description
- * <p/>
- * Created on: 05.01.13 20:25 <br/>
- *
- * @author Wojciech Niemiec
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/test-context.xml"})
 @Ignore

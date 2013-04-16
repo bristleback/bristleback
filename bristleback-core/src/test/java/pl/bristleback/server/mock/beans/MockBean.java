@@ -5,13 +5,6 @@ import org.apache.log4j.Logger;
 import java.util.List;
 import java.util.Map;
 
-/**
- * //@todo class description
- * <p/>
- * Created on: 2011-10-08 18:59:29 <br/>
- *
- * @author Wojciech Niemiec
- */
 public class MockBean {
 
   private static Logger log = Logger.getLogger(MockBean.class.getName());

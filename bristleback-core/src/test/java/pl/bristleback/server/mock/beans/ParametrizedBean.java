@@ -5,13 +5,6 @@ import org.apache.log4j.Logger;
 import java.util.List;
 import java.util.Map;
 
-/**
- * //@todo class description
- * <p/>
- * Created on: 2012-06-03 10:39:34 <br/>
- *
- * @author Wojciech Niemiec
- */
 public class ParametrizedBean<T> {
 
   private static Logger log = Logger.getLogger(ParametrizedBean.class.getName());

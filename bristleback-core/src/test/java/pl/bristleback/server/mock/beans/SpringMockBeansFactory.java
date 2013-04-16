@@ -8,13 +8,6 @@ import pl.bristleback.server.bristle.conf.runner.ServerInstanceResolver;
 
 import javax.inject.Inject;
 
-/**
- * //@todo class description
- * <p/>
- * Created on: 2012-05-03 17:20:23 <br/>
- *
- * @author Wojciech Niemiec
- */
 public class SpringMockBeansFactory {
 
   private static Logger log = Logger.getLogger(SpringMockBeansFactory.class.getName());

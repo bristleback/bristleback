@@ -7,13 +7,6 @@ import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
 import pl.bristleback.server.mock.beans.VerySimpleMockBean;
 
-/**
- * //@todo class description
- * <p/>
- * Created on: 2012-07-21 17:47:21 <br/>
- *
- * @author Wojciech Niemiec
- */
 @ClientActionClass
 public class MockClientActionClass {
 
