@@ -1,6 +1,5 @@
 package sample.action;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.action.DefaultAction;
 import pl.bristleback.server.bristle.api.annotations.Action;
@@ -31,8 +30,6 @@ import java.util.Map;
 @Component
 @Intercept(SampleInterceptor.class)
 public class SampleAction implements DefaultAction<BaseUserContext, Map<String, BigDecimal>> {
-
-  private static Logger log = Logger.getLogger(SampleAction.class.getName());
 
   @ObjectSender
   @Serialize(target = User.class, properties = {

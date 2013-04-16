@@ -1,6 +1,5 @@
 package sample.outgoing;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.action.SendCondition;
 import pl.bristleback.server.bristle.api.annotations.ClientAction;
@@ -14,8 +13,6 @@ import sample.Card;
 @ClientActionClass
 @Component
 public class SampleClientActionClass {
-
-  private static Logger log = Logger.getLogger(SampleClientActionClass.class.getName());
 
   @ClientAction("sendGame")
   public SendCondition sendGameToAll(String gameName, int actualConnectionsNumber) {

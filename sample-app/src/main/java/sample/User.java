@@ -1,12 +1,11 @@
 package sample;
 
-import org.apache.log4j.Logger;
-
 public class User {
-  private static Logger log = Logger.getLogger(User.class.getName());
 
   private String firstName;
+
   private String lastName;
+
   private int age;
 
   private User friend;

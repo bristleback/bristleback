@@ -19,18 +19,27 @@ import java.util.Map;
 public class PropertySerialization {
 
   public static final String CONTAINER_ELEMENT_PROPERTY_NAME = "element";
+
   private PropertySerializationConstraints constraints = new PropertySerializationConstraints();
+
   private PropertyType propertyType;
+
   private Class propertyClass;
+
   private Type genericType;
+
   private List<ClassTypeParameter> typeParameters;
+
   private ValueSerializer valueSerializer;
+
   private Map<String, PropertySerialization> propertiesInformation = new HashMap<String, PropertySerialization>();
+
   private Map<String, PropertyAccess> readableProperties;
+
   private Map<String, PropertyAccess> writableProperties;
 
   public boolean isParametrized() {
-    return genericType != null && genericType instanceof ParameterizedType;
+    return genericType instanceof ParameterizedType;
   }
 
   @Override
