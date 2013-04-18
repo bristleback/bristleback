@@ -1,7 +1,7 @@
 package pl.bristleback.server.bristle.conf;
 
 /**
- * //@todo class description
+ * This exception is thrown during server initialization.
  * <p/>
  * Created on: 2011-07-03 23:51:08 <br/>
  *

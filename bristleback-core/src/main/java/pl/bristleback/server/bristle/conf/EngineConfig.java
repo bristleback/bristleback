@@ -5,7 +5,10 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * //@todo class description
+ * Configuration of the Websocket engine, used by {@link pl.bristleback.server.bristle.api.ServerEngine} implementations.
+ * Note that each field usage may be dependent on websocket engine implementations.
+ * For example, <code>port</code> configuration property is not used in web server implementations
+ * (engines implementing {@link pl.bristleback.server.bristle.api.ServletServerEngine} interface).
  * <p/>
  * Created on: 2011-07-03 23:36:15 <br/>
  *
@@ -16,8 +19,11 @@ public class EngineConfig {
   private String name;
 
   private int port;
+
   private int maxFrameSize;
+
   private int maxBufferSize;
+
   private int timeout;
 
   private List<String> rejectedDomains;

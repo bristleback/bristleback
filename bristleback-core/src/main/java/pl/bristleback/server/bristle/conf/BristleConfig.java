@@ -9,7 +9,8 @@ import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration
 import pl.bristleback.server.bristle.listener.ListenersContainer;
 
 /**
- * //@todo class description
+ * Basic implementation of Bristleback configuration interface,
+ * providing simple POJO class for all necessary Bristleback components.
  * <p/>
  * Created on: 2011-07-03 23:25:51 <br/>
  *

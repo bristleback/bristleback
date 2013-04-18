@@ -1,13 +1,13 @@
 package pl.bristleback.server.bristle.conf;
 
 import org.apache.commons.lang.StringUtils;
-import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.BristleRuntimeException;
+import pl.bristleback.server.bristle.api.DataController;
 
 import java.util.Map;
 
 /**
- * //@todo class description
+ * Container of data controllers.
  * <p/>
  * Created on: 2012-04-23 22:17:19 <br/>
  *
@@ -16,6 +16,7 @@ import java.util.Map;
 public class DataControllers {
 
   private Map<String, DataController> dataControllers;
+
   private DataController defaultController;
 
   public DataControllers(Map<String, DataController> dataControllers, DataController defaultController) {
