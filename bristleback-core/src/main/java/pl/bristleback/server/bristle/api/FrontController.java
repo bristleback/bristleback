@@ -16,9 +16,9 @@ public interface FrontController {
    *
    * @param connector     low level, server engine dependent abstraction of client-server connection.
    * @param operationCode code of requested operation. List of available operation code is specified by WebSockets protocol
-   *                      and also can be found in {@link pl.bristleback.server.bristle.engine.OperationCodes OperationCodes} enumeration.
+   *                      and also can be found in {@link pl.bristleback.server.bristle.engine.OperationCode OperationCode} enumeration.
    * @param data          data sent by client.
-   * @see pl.bristleback.server.bristle.engine.OperationCodes Operation codes
+   * @see pl.bristleback.server.bristle.engine.OperationCode Operation code
    */
   void processCommand(WebsocketConnector connector, int operationCode, Object data);
 }

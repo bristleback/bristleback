@@ -7,7 +7,7 @@ import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.FrontController;
 import pl.bristleback.server.bristle.api.ServerEngine;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
-import pl.bristleback.server.bristle.engine.OperationCodes;
+import pl.bristleback.server.bristle.engine.OperationCode;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -70,12 +70,12 @@ public class TomcatConnector extends MessageInbound implements WebsocketConnecto
 
   @Override
   protected void onBinaryMessage(ByteBuffer data) throws IOException {
-    frontController.processCommand(this, OperationCodes.BINARY_FRAME_CODE.getCode(), data.array());
+    frontController.processCommand(this, OperationCode.BINARY_FRAME_CODE.getCode(), data.array());
   }
 
   @Override
   protected void onTextMessage(CharBuffer data) throws IOException {
-    frontController.processCommand(this, OperationCodes.TEXT_FRAME_CODE.getCode(), new String(data.array()));
+    frontController.processCommand(this, OperationCode.TEXT_FRAME_CODE.getCode(), new String(data.array()));
   }
 
   @Override

@@ -5,7 +5,9 @@ import pl.bristleback.server.bristle.api.MessageDispatcher;
 import pl.bristleback.server.bristle.api.ServerEngine;
 
 /**
- * //@todo class description
+ * Representation of single Bristleback Websocket server instance.
+ * It is used by both {@link StandaloneServerRunner} and
+ * {@link pl.bristleback.server.bristle.engine.servlet.BristlebackHttpHandler}.
  * <p/>
  * Created on: 2012-01-22 22:00:29 <br/>
  *
@@ -16,7 +18,9 @@ public class BristlebackServerInstance {
   private boolean running;
 
   private ServerEngine engine;
+
   private MessageDispatcher messageDispatcher;
+
   private BristlebackConfig configuration;
 
   public BristlebackServerInstance(BristlebackConfig configuration) {

@@ -6,7 +6,7 @@ import pl.bristleback.server.bristle.api.WebsocketMessage;
 import java.util.List;
 
 /**
- * //@todo class description
+ * Traditional Websocket message containing type of message, content and list of recipients.
  * <p/>
  * Created on: 2011-07-19 14:51:07 <br/>
  *
@@ -15,9 +15,10 @@ import java.util.List;
 public class BaseMessage<T> implements WebsocketMessage<T> {
 
   private List<WebsocketConnector> recipients;
-  private MessageType messageType;
-  private T content;
 
+  private MessageType messageType;
+
+  private T content;
 
   public BaseMessage(MessageType messageType) {
     this.messageType = messageType;

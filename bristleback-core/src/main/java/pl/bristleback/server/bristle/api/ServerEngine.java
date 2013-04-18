@@ -132,7 +132,7 @@ public interface ServerEngine extends ConfigurationAware {
    * @param connector       recipient of the message.
    * @param contentAsString text message content.
    * @throws Exception if any exception while sending message occurs.
-   * @see pl.bristleback.server.bristle.engine.OperationCodes OperationCodes
+   * @see pl.bristleback.server.bristle.engine.OperationCode OperationCode
    */
   void sendMessage(WebsocketConnector connector, String contentAsString) throws Exception;
 

@@ -5,7 +5,7 @@ import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.FrontController;
 import pl.bristleback.server.bristle.api.ServerEngine;
 import pl.bristleback.server.bristle.conf.EngineConfig;
-import pl.bristleback.server.bristle.engine.OperationCodes;
+import pl.bristleback.server.bristle.engine.OperationCode;
 import pl.bristleback.server.bristle.engine.base.AbstractConnector;
 
 public class JettyConnector extends AbstractConnector implements WebSocket, WebSocket.OnTextMessage, WebSocket.OnBinaryMessage, WebSocket.OnControl {
@@ -40,12 +40,12 @@ public class JettyConnector extends AbstractConnector implements WebSocket, WebS
   }
 
   public void onMessage(String data) {
-    frontController.processCommand(this, OperationCodes.TEXT_FRAME_CODE.getCode(), data);
+    frontController.processCommand(this, OperationCode.TEXT_FRAME_CODE.getCode(), data);
   }
 
   @Override
   public void onMessage(byte[] data, int offset, int length) {
-    frontController.processCommand(this, OperationCodes.BINARY_FRAME_CODE.getCode(), data);
+    frontController.processCommand(this, OperationCode.BINARY_FRAME_CODE.getCode(), data);
   }
 
   @Override

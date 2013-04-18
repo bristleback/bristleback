@@ -7,7 +7,7 @@ package pl.bristleback.server.bristle.engine;
  *
  * @author Wojciech Niemiec
  */
-public enum OperationCodes {
+public enum OperationCode {
 
   TEXT_FRAME_CODE(0x01),
   BINARY_FRAME_CODE(0x02),
@@ -17,7 +17,7 @@ public enum OperationCodes {
 
   private int code;
 
-  OperationCodes(int code) {
+  OperationCode(int code) {
     this.code = code;
   }
 

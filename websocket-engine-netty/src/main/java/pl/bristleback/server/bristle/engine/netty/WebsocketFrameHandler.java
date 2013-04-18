@@ -8,7 +8,7 @@ import org.jboss.netty.handler.codec.http.websocketx.WebSocketFrame;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.FrontController;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
-import pl.bristleback.server.bristle.engine.OperationCodes;
+import pl.bristleback.server.bristle.engine.OperationCode;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -34,11 +34,11 @@ public class WebsocketFrameHandler {
     int operationCode = 0;
 
     if (frame instanceof TextWebSocketFrame) {
-      operationCode = OperationCodes.TEXT_FRAME_CODE.getCode();
+      operationCode = OperationCode.TEXT_FRAME_CODE.getCode();
     } else if (frame instanceof BinaryWebSocketFrame) {
-      operationCode = OperationCodes.BINARY_FRAME_CODE.getCode();
+      operationCode = OperationCode.BINARY_FRAME_CODE.getCode();
     } else if (frame instanceof CloseWebSocketFrame) {
-      operationCode = OperationCodes.CLOSE_FRAME_CODE.getCode();
+      operationCode = OperationCode.CLOSE_FRAME_CODE.getCode();
     }
     frontController.processCommand(connector, operationCode, getData(frame));
   }
