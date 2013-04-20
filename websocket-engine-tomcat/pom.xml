@@ -50,6 +50,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <tomcat.version>7.0.32</tomcat.version>
+    <org.springframework.version>[3.1.1.RELEASE, )</org.springframework.version>
   </properties>
 
   <dependencies>
@@ -57,6 +58,13 @@
       <groupId>pl.bristleback</groupId>
       <artifactId>bristleback-core</artifactId>
       <version>0.3.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${org.springframework.version}</version>
       <scope>provided</scope>
     </dependency>
 

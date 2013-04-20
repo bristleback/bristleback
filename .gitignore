@@ -5,3 +5,4 @@
 *.iws
 target/*
 .idea/*
+*/target/*
