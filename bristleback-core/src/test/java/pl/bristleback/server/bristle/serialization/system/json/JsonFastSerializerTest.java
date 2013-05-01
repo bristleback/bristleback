@@ -11,6 +11,9 @@ import pl.bristleback.server.bristle.serialization.system.BristleSerializationRe
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
 import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;
 import pl.bristleback.server.bristle.utils.PropertyUtils;
+import pl.bristleback.server.mock.beans.AbstractBean;
+import pl.bristleback.server.mock.beans.ImplementationBean;
+import pl.bristleback.server.mock.beans.InterfaceForBean;
 import pl.bristleback.server.mock.beans.SpringMockBeansFactory;
 import pl.bristleback.server.mock.beans.VerySimpleMockBean;
 
@@ -32,12 +35,14 @@ import static junit.framework.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/test-context.xml"})
 public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
+
   private static Logger log = Logger.getLogger(JsonFastSerializerTest.class.getName());
 
   @Inject
   private SpringMockBeansFactory mockBeansFactory;
 
   private JsonFastSerializer fastSerializer;
+
   private BristleSerializationResolver serializationResolver;
 
   @Serialize(format = "yyyy-MM-dd HH:mm")
@@ -67,12 +72,18 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
   private Long rawLong;
 
   private double[] rawArray;
+
   private VerySimpleMockBean[] beanArray;
 
   private List<Integer> sampleList;
+
   private List<VerySimpleMockBean> beanList;
 
   private Map<String, BigDecimal> rawMap;
+
+  private InterfaceForBean<VerySimpleMockBean> interfaceForBean;
+
+  private AbstractBean<VerySimpleMockBean> abstractBean;
 
   @Before
   public void setUp() {
@@ -313,6 +324,36 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
     String expectedResult = "{\"1s\":1,\"2s\":2}";
     assertEquals(expectedResult, result);
   }
+
+  @Test
+  public void serializeInterfaceImplementation() throws Exception {
+    ImplementationBean implementationBean = new ImplementationBean();
+    VerySimpleMockBean beanToSerialize = new VerySimpleMockBean();
+    beanToSerialize.setSimpleField(2);
+    implementationBean.setObject(beanToSerialize);
+    implementationBean.setAdditionalField("someValue");
+
+    Type listType = PropertyUtils.getDeclaredFieldType(JsonFastSerializerTest.class, "interfaceForBean");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(listType);
+    String result = fastSerializer.serializeObject(implementationBean, serialization);
+    String expectedResult = "{\"additionalField\":\"someValue\",\"object\":{\"simpleField\":2}}";
+    assertEquals(expectedResult, result);
+  }
+
+  @Test
+    public void serializeAbstractBeanImplementation() throws Exception {
+      ImplementationBean implementationBean = new ImplementationBean();
+      VerySimpleMockBean beanToSerialize = new VerySimpleMockBean();
+      beanToSerialize.setSimpleField(2);
+      implementationBean.setObject(beanToSerialize);
+      implementationBean.setAdditionalField("someValue");
+
+      Type listType = PropertyUtils.getDeclaredFieldType(JsonFastSerializerTest.class, "abstractBean");
+      PropertySerialization serialization = serializationResolver.resolveSerialization(listType);
+      String result = fastSerializer.serializeObject(implementationBean, serialization);
+      String expectedResult = "{\"additionalField\":\"someValue\",\"object\":{\"simpleField\":2}}";
+      assertEquals(expectedResult, result);
+    }
 
   private Annotation[] getFieldsAnnotations(String fieldName) throws NoSuchFieldException {
     return getClass().getDeclaredField(fieldName).getAnnotations();

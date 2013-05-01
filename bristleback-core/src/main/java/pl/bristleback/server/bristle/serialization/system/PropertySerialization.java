@@ -38,6 +38,12 @@ public class PropertySerialization {
 
   private Map<String, PropertyAccess> writableProperties;
 
+  private boolean usesImplementations;
+
+  private Map<Class, PropertySerialization> implementationSerializations = new HashMap<Class, PropertySerialization>();
+
+  private SerializationInput serializationInput;
+
   public boolean isParametrized() {
     return genericType instanceof ParameterizedType;
   }
@@ -140,5 +146,25 @@ public class PropertySerialization {
 
   public void setTypeParameters(List<ClassTypeParameter> typeParameters) {
     this.typeParameters = typeParameters;
+  }
+
+  public boolean isUsingImplementations() {
+    return usesImplementations;
+  }
+
+  public Map<Class, PropertySerialization> getImplementationSerializations() {
+    return implementationSerializations;
+  }
+
+  public void setUsingImplementations() {
+    this.usesImplementations = true;
+  }
+
+  public SerializationInput getSerializationInput() {
+    return serializationInput;
+  }
+
+  public void setSerializationInput(SerializationInput serializationInput) {
+    this.serializationInput = serializationInput;
   }
 }

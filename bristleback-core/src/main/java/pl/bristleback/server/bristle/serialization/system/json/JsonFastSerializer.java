@@ -1,6 +1,7 @@
 package pl.bristleback.server.bristle.serialization.system.json;
 
 import org.springframework.stereotype.Component;
+import pl.bristleback.server.bristle.serialization.system.BristleSerializationResolver;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
 import pl.bristleback.server.bristle.serialization.system.PropertyType;
 import pl.bristleback.server.bristle.serialization.system.json.converter.JsonTokenizer;
@@ -8,6 +9,8 @@ import pl.bristleback.server.bristle.utils.Getter;
 import pl.bristleback.server.bristle.utils.PropertyAccess;
 import pl.bristleback.server.bristle.utils.StringUtils;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,6 +26,10 @@ import java.util.Map;
  */
 @Component("jsonSerializer.fastSerializer")
 public class JsonFastSerializer {
+
+  @Inject
+  @Named("system.serializationResolver")
+  private BristleSerializationResolver serializationResolver;
 
   private static final String EMPTY_JSON_ARRAY = StringUtils.LEFT_BRACKET + "" + StringUtils.RIGHT_BRACKET;
   private static final String EMPTY_JSON_OBJECT = StringUtils.LEFT_CURLY + "" + StringUtils.RIGHT_CURLY;
@@ -77,13 +84,22 @@ public class JsonFastSerializer {
   private class BeanSerializer implements TypeSerializer {
     @Override
     public String serialize(Object value, PropertySerialization information) throws Exception {
+      PropertySerialization serializationUsed;
+      if(information.isUsingImplementations()) {
+        serializationUsed = information.getImplementationSerializations().get(value.getClass());
+        if(serializationUsed == null) {
+          serializationUsed = serializationResolver.resolveImplementationSerialization(value.getClass(), information);
+        }
+      } else {
+        serializationUsed = information;
+      }
       StringBuilder jsonObjectBuilder = new StringBuilder();
       jsonObjectBuilder.append(StringUtils.LEFT_CURLY);
-      Iterator<PropertyAccess> it = information.getReadableProperties().values().iterator();
+      Iterator<PropertyAccess> it = serializationUsed.getReadableProperties().values().iterator();
       while (it.hasNext()) {
         Getter childGetter = it.next().getPropertyGetter();
         jsonObjectBuilder.append(JsonTokenizer.quotePropertyName(childGetter.getFieldName())).append(StringUtils.COLON);
-        PropertySerialization childInformation = information.getPropertySerialization(childGetter.getFieldName());
+        PropertySerialization childInformation = serializationUsed.getPropertySerialization(childGetter.getFieldName());
         Object childValue = childGetter.invokeWithoutCheck(value);
         jsonObjectBuilder.append(serializeObject(childValue, childInformation));
         if (it.hasNext()) {
