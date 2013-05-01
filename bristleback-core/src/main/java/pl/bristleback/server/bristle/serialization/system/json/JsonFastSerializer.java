@@ -175,7 +175,7 @@ public class JsonFastSerializer {
       while (it.hasNext()) {
         Map.Entry<?, ?> entry = it.next();
         jsonObjectBuilder.append(JsonTokenizer.quotePropertyName(entry.getKey().toString())).append(StringUtils.COLON);
-        PropertySerialization elementSerialization = getMapElementSerialization((String) entry.getKey(), information, defaultElementInformation);
+        PropertySerialization elementSerialization = getMapElementSerialization(entry.getKey().toString(), information, defaultElementInformation);
         String serializedEntryValue = serializeObject(entry.getValue(), elementSerialization);
         jsonObjectBuilder.append(serializedEntryValue);
         if (it.hasNext()) {

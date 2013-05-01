@@ -81,6 +81,8 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
 
   private Map<String, BigDecimal> rawMap;
 
+  private Map<Integer, BigDecimal> rawIntMap;
+
   private InterfaceForBean<VerySimpleMockBean> interfaceForBean;
 
   private AbstractBean<VerySimpleMockBean> abstractBean;
@@ -318,10 +320,24 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
     for (int i = 1; i <= size; i++) {
       rawMap.put(i + "s", new BigDecimal(i));
     }
-    Type listType = PropertyUtils.getDeclaredFieldType(JsonFastSerializerTest.class, "rawMap");
-    PropertySerialization serialization = serializationResolver.resolveSerialization(listType);
+    Type mapType = PropertyUtils.getDeclaredFieldType(JsonFastSerializerTest.class, "rawMap");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(mapType);
     String result = fastSerializer.serializeObject(rawMap, serialization);
     String expectedResult = "{\"1s\":1,\"2s\":2}";
+    assertEquals(expectedResult, result);
+  }
+
+  @Test
+  public void serializeRawIntegerKeyMap() throws Exception {
+    int size = 2;
+    rawIntMap = new LinkedHashMap<Integer, BigDecimal>();
+    for (int i = 1; i <= size; i++) {
+      rawIntMap.put(i, new BigDecimal(i));
+    }
+    Type mapType = PropertyUtils.getDeclaredFieldType(JsonFastSerializerTest.class, "rawIntMap");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(mapType);
+    String result = fastSerializer.serializeObject(rawIntMap, serialization);
+    String expectedResult = "{\"1\":1,\"2\":2}";
     assertEquals(expectedResult, result);
   }
 
@@ -341,19 +357,19 @@ public class JsonFastSerializerTest extends AbstractJUnit4SpringContextTests {
   }
 
   @Test
-    public void serializeAbstractBeanImplementation() throws Exception {
-      ImplementationBean implementationBean = new ImplementationBean();
-      VerySimpleMockBean beanToSerialize = new VerySimpleMockBean();
-      beanToSerialize.setSimpleField(2);
-      implementationBean.setObject(beanToSerialize);
-      implementationBean.setAdditionalField("someValue");
+  public void serializeAbstractBeanImplementation() throws Exception {
+    ImplementationBean implementationBean = new ImplementationBean();
+    VerySimpleMockBean beanToSerialize = new VerySimpleMockBean();
+    beanToSerialize.setSimpleField(2);
+    implementationBean.setObject(beanToSerialize);
+    implementationBean.setAdditionalField("someValue");
 
-      Type listType = PropertyUtils.getDeclaredFieldType(JsonFastSerializerTest.class, "abstractBean");
-      PropertySerialization serialization = serializationResolver.resolveSerialization(listType);
-      String result = fastSerializer.serializeObject(implementationBean, serialization);
-      String expectedResult = "{\"additionalField\":\"someValue\",\"object\":{\"simpleField\":2}}";
-      assertEquals(expectedResult, result);
-    }
+    Type listType = PropertyUtils.getDeclaredFieldType(JsonFastSerializerTest.class, "abstractBean");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(listType);
+    String result = fastSerializer.serializeObject(implementationBean, serialization);
+    String expectedResult = "{\"additionalField\":\"someValue\",\"object\":{\"simpleField\":2}}";
+    assertEquals(expectedResult, result);
+  }
 
   private Annotation[] getFieldsAnnotations(String fieldName) throws NoSuchFieldException {
     return getClass().getDeclaredField(fieldName).getAnnotations();
