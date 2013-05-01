@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
 import pl.bristleback.server.bristle.action.interceptor.ActionInterceptors;
 import pl.bristleback.server.bristle.action.interceptor.InterceptionProcessContext;
+import pl.bristleback.server.bristle.conf.resolver.action.IncreasingOrderSorter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,6 +59,22 @@ public class ActionInterceptorsSorter {
         }
       }
     }
+    sortInIncreasingOrder(interceptorsForStage);
     return interceptorsForStage;
+  }
+
+  private void sortInIncreasingOrder(List<InterceptionProcessContext> interceptorsForStage) {
+    IncreasingOrderSorter<InterceptionProcessContext> sorter = createIncreasingOrderSorter();
+    sorter.sort(interceptorsForStage);
+  }
+
+  private IncreasingOrderSorter<InterceptionProcessContext> createIncreasingOrderSorter() {
+    return new IncreasingOrderSorter<InterceptionProcessContext>() {
+
+      @Override
+      public Class<?> getSortedClass(InterceptionProcessContext object) {
+        return object.getInterceptorInformation().getInterceptorInstance().getClass();
+      }
+    };
   }
 }
