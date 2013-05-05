@@ -27,13 +27,16 @@ import java.util.Map;
 @Component("jsonSerializer.fastSerializer")
 public class JsonFastSerializer {
 
+  private static final String EMPTY_JSON_ARRAY = StringUtils.LEFT_BRACKET + "" + StringUtils.RIGHT_BRACKET;
+
+  private static final String EMPTY_JSON_OBJECT = StringUtils.LEFT_CURLY + "" + StringUtils.RIGHT_CURLY;
+
+  private static final String NULL_OBJECT = "null";
+
   @Inject
   @Named("system.serializationResolver")
   private BristleSerializationResolver serializationResolver;
 
-  private static final String EMPTY_JSON_ARRAY = StringUtils.LEFT_BRACKET + "" + StringUtils.RIGHT_BRACKET;
-  private static final String EMPTY_JSON_OBJECT = StringUtils.LEFT_CURLY + "" + StringUtils.RIGHT_CURLY;
-  private static final String NULL_OBJECT = "null";
   private Map<PropertyType, TypeSerializer> serializationMap;
 
   public JsonFastSerializer() {
@@ -54,10 +57,12 @@ public class JsonFastSerializer {
   }
 
   interface TypeSerializer {
+
     String serialize(Object value, PropertySerialization information) throws Exception;
   }
 
   private class CollectionSerializer implements TypeSerializer {
+
     @Override
     public String serialize(Object value, PropertySerialization information) throws Exception {
       Collection valueAsCollection = (Collection) value;
@@ -82,12 +87,13 @@ public class JsonFastSerializer {
   }
 
   private class BeanSerializer implements TypeSerializer {
+
     @Override
     public String serialize(Object value, PropertySerialization information) throws Exception {
       PropertySerialization serializationUsed;
-      if(information.isUsingImplementations()) {
+      if (information.isUsingImplementations()) {
         serializationUsed = information.getImplementationSerializations().get(value.getClass());
-        if(serializationUsed == null) {
+        if (serializationUsed == null) {
           serializationUsed = serializationResolver.resolveImplementationSerialization(value.getClass(), information);
         }
       } else {
@@ -162,6 +168,7 @@ public class JsonFastSerializer {
   }
 
   private class MapSerializer implements TypeSerializer {
+
     @Override
     public String serialize(Object value, PropertySerialization information) throws Exception {
       Map<?, ?> valueAsMap = (Map) value;
@@ -198,6 +205,7 @@ public class JsonFastSerializer {
   }
 
   private class SimpleSerializer implements TypeSerializer {
+
     @Override
     public String serialize(Object value, PropertySerialization information) throws Exception {
       return information.getValueSerializer().toText(value, information);

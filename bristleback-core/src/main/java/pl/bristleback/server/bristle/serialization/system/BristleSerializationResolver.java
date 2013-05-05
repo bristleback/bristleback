@@ -407,10 +407,10 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
     return !input.containsNonDefaultProperties() && extractorsContainer.containsPropertySerialization(objectType);
   }
 
-  public PropertySerialization resolveImplementationSerialization(Class<?> implementationClass, PropertySerialization abstractInformation) {
-    PropertySerialization implementationSerialization = doResolveSerialization(abstractInformation, implementationClass, abstractInformation.getSerializationInput());
-    abstractInformation.getImplementationSerializations().put(implementationClass, implementationSerialization);
+  public synchronized PropertySerialization resolveImplementationSerialization(Class<?> implementationClass, PropertySerialization abstractInformation) {
+      PropertySerialization implementationSerialization = doResolveSerialization(abstractInformation, implementationClass, abstractInformation.getSerializationInput());
+      abstractInformation.addImplementationSerialization(implementationClass, implementationSerialization);
 
-    return implementationSerialization;
+      return implementationSerialization;
   }
 }
