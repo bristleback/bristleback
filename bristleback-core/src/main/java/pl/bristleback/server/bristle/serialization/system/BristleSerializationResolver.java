@@ -410,7 +410,6 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
   public synchronized PropertySerialization resolveImplementationSerialization(Class<?> implementationClass, PropertySerialization abstractInformation) {
       PropertySerialization implementationSerialization = doResolveSerialization(abstractInformation, implementationClass, abstractInformation.getSerializationInput());
       abstractInformation.addImplementationSerialization(implementationClass, implementationSerialization);
-
       return implementationSerialization;
   }
 }

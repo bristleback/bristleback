@@ -8,6 +8,8 @@ import pl.bristleback.server.bristle.action.ActionInformation;
  * beans must be annotated with {@link pl.bristleback.server.bristle.api.annotations.Interceptor}.
  * Interception context object is resolved by the {@link ActionInterceptorContextResolver},
  * defined in {@link pl.bristleback.server.bristle.api.annotations.Intercept} annotation.
+ * Additionally, each interceptor can be annotated by the spring annotation {@link org.springframework.core.annotation.Order}
+ * to control order of their invocations.
  * <p/>
  * Created on: 20.01.13 11:52 <br/>
  *
