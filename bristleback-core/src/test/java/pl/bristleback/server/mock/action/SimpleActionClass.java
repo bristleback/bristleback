@@ -1,11 +1,10 @@
 package pl.bristleback.server.mock.action;
 
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.action.DefaultAction;
 import pl.bristleback.server.bristle.api.annotations.Action;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
-import pl.bristleback.server.bristle.api.annotations.ObjectSender;
 import pl.bristleback.server.bristle.api.annotations.Authorized;
+import pl.bristleback.server.bristle.api.annotations.ObjectSender;
 import pl.bristleback.server.bristle.engine.user.BaseUserContext;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
@@ -19,8 +18,6 @@ import pl.bristleback.server.mock.beans.SimpleMockBean;
 @Authorized("test")
 public class SimpleActionClass implements DefaultAction<BaseUserContext, String> {
 
-  private static Logger log = Logger.getLogger(SimpleActionClass.class.getName());
-
   public static final String RESPONSE_TEXT = "response";
 
   public static final String NAME = "sampleAction";
@@ -28,7 +25,7 @@ public class SimpleActionClass implements DefaultAction<BaseUserContext, String>
   @ObjectSender
   @SerializeBundle({
     @Serialize(target = MockBean.class),
-    @Serialize(target = SimpleMockBean.class, serializationName = "nonDefaultSerialization")
+    @Serialize(target = SimpleMockBean.class)
   })
   private ConditionObjectSender conditionObjectSender;
 
