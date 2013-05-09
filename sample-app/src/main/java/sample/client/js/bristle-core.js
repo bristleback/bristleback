@@ -30,18 +30,18 @@ Bristleback.Client = function (config) {
 
   this.serializationEngine = new Bristleback.serialization.serializationEngines[config.serializationEngine]();
 
-  config.OnOpen = config.OnOpen || function () {
+  config.onOpen = config.onOpen || function () {
     Bristleback.Console.log("Connected to " + config.serverUrl);
     alert("connected");
   };
 
-  config.OnClose = config.OnClose || function () {
+  config.onClose = config.onClose || function () {
     Bristleback.Console.log("Disconnected from " + config.serverUrl);
     alert("disconnected");
   };
 
   var thisClient = this;
-  config.OnMessage = config.OnMessage || function (event) {
+  config.onMessage = config.onMessage || function (event) {
     var deserializedEvent = thisClient.serializationEngine.deserialize(event.data);
     thisClient.dataController.onMessage(deserializedEvent);
   };
@@ -93,9 +93,9 @@ Bristleback.Client.prototype.connect = function () {
     throw new Error(msg);
   }
   this.connection = new WebSocket(this.configuration.serverUrl, this.configuration.dataController);
-  this.connection.onopen = this.configuration.OnOpen;
-  this.connection.onmessage = this.configuration.OnMessage;
-  this.connection.onclose = this.configuration.OnClose;
+  this.connection.onopen = this.configuration.onOpen;
+  this.connection.onmessage = this.configuration.onMessage;
+  this.connection.onclose = this.configuration.onClose;
 };
 
 /**
