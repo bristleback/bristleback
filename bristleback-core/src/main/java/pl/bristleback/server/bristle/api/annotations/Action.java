@@ -5,7 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * This annotation marks method as action method. Both default and non default actions must annotated to be processed by the controller.
+ * This annotation marks method as action method.
+ * Both default and non default actions must be annotated to be processed by the action controller.
  * <p/>
  * Created on: 2011-10-02 14:26:59 <br/>
  *

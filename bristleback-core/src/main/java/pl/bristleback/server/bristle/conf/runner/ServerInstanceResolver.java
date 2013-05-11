@@ -1,6 +1,7 @@
 package pl.bristleback.server.bristle.conf.runner;
 
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -21,6 +22,7 @@ import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration
 public class ServerInstanceResolver {
 
   private InitialConfigurationResolver initialConfigurationResolver;
+
   private ApplicationContext actualApplicationContext;
 
   public ServerInstanceResolver(InitialConfigurationResolver initialConfigurationResolver, ApplicationContext actualApplicationContext) {
@@ -47,10 +49,13 @@ public class ServerInstanceResolver {
     return new BristlebackServerInstance(configuration);
   }
 
-
   private void startLogger(InitialConfiguration initialConfiguration) {
     BasicConfigurator.configure();
     Logger.getRootLogger().setLevel(initialConfiguration.getLoggingLevel());
     Logger.getLogger("org.apache").setLevel(initialConfiguration.getLoggingLevel());
+    Logger.getLogger("org.springframework.beans.factory").setLevel(Level.WARN);
+    Logger.getLogger("org.springframework.context.support").setLevel(Level.WARN);
+    Logger.getLogger("org.springframework.context.annotation").setLevel(Level.WARN);
+    Logger.getLogger("org.springframework.core.io.support").setLevel(Level.WARN);
   }
 }

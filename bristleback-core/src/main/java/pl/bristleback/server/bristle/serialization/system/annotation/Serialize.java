@@ -6,10 +6,8 @@ import java.lang.annotation.Target;
 
 /**
  * This annotation allows to define non default serialization operations, for example, by providing validation.
- * Multiple non default serialization operations may be defined per each target type. If operation name is specified,
- * one of <code>sendNamedMessage()</code> methods from {@link pl.bristleback.server.bristle.message.ConditionObjectSender ConditionObjectSender} class
- * must be used. If operation name is empty, such non default serialization definition is considered as default for given target type
- * and every object of that type serialized by annotated object sender will be serialized using information from this annotation.
+ * It can be used both with {@link pl.bristleback.server.bristle.message.ConditionObjectSender} definitions and
+ * above server action methods.
  * It is possible to define serialization of generic containers (maps, collections and arrays) by specifying {@link Serialize#containerElementClass()}.
  * Unfortunately, containers of parametrized types cannot be defined.
  * <p/>
@@ -20,14 +18,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
 public @interface Serialize {
-
-  /**
-   * Name of this serialization definition.
-   * May remain empty, then all objects of type equal to this definition target type will be serialization using this definition.
-   *
-   * @return name of the serialization definition.
-   */
-  String serializationName() default "";
 
   /**
    * Type of object covered by this serialization definition.
@@ -58,5 +48,13 @@ public @interface Serialize {
    */
   boolean required() default false;
 
+  /**
+   * Specifies format in which objects of type specified in {@link pl.bristleback.server.bristle.serialization.system.annotation.Serialize#target()} property
+   * will be serialized. Note that there must be
+   * {@link pl.bristleback.server.bristle.serialization.system.json.extractor.FormattingValueSerializer} bean registered
+   * for type that wants to be serialized using specified format.
+   *
+   * @return format format in which objects of the specified type will be serialized.
+   */
   String format() default "";
 }

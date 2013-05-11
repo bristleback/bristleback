@@ -16,11 +16,11 @@
   <script type="text/javascript">
     var config = {
       //  serverUrl: "ws://localhost:8765/websocket",
-      OnOpen: function (event) {
+      onOpen: function (event) {
         document.getElementById('status').innerHTML = "The WebSocket Connection Is Open.";
         // $('#status').text("The WebSocket Connection Is Open.");
       },
-      OnClose: function (event) {
+      onClose: function (event) {
         Bristleback.Console.disableConsole();
         document.getElementById('status').innerHTML = "The WebSocket Connection Is Closed.";
       }

@@ -8,7 +8,7 @@ package pl.bristleback.server.bristle.api.users;
  * are held in {@link pl.bristleback.server.bristle.security.UsersContainer}. Framework user can create own
  * implementation of this interface and create new {@link UserContextFactory} to handle application specific user behaviour.
  * <p/>
- * If there is no implementation of IdentifiedUser, instance of class {@link pl.bristleback.server.bristle.engine.user.BaseUserContext}
+ * If there is no implementation of this interface defined by application creator, instance of class {@link pl.bristleback.server.bristle.engine.user.BaseUserContext}
  * will be created.
  *
  * @author Pawel Machowski created at 01.05.12 14:00

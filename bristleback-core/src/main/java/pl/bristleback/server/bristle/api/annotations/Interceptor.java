@@ -12,6 +12,8 @@ import java.lang.annotation.Target;
  * This annotation defines action execution stages, to which marked interceptor applies
  * and the class that prepares interception execution context.
  * Interceptor will be invoked <strong>AFTER</strong> execution stages listed in <code>stages</code> annotation property.
+ * For an execution stage it is possible to control order of interceptors invocations by using the spring annotation
+ * {@link org.springframework.core.annotation.Order}
  * Following stages can be intercepted:
  * <ul>
  * <li>After {@link ActionExecutionStage#ACTION_EXTRACTION}</li>

@@ -1,5 +1,6 @@
 package pl.bristleback.server.bristle.app;
 
+import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.MessageDispatcher;
 import pl.bristleback.server.bristle.api.ServerEngine;
@@ -14,6 +15,12 @@ import pl.bristleback.server.bristle.api.ServerEngine;
  * @author Wojciech Niemiec
  */
 public class BristlebackServerInstance {
+
+  public static final String BRISTLEBACK_VERSION = "0.3.0";
+
+  public static final String BRISTLEBACK_HOMEPAGE = "http://bristleback.pl";
+
+  private static Logger log = Logger.getLogger(BristlebackServerInstance.class.getName());
 
   private boolean running;
 
@@ -33,12 +40,26 @@ public class BristlebackServerInstance {
     running = true;
     engine.startServer();
     messageDispatcher.startDispatching();
+
+    log.debug("\n\n"
+      + "--------------------------------------------------------\n"
+      + "--- BRISTLEBACK FRAMEWORK, version " + BRISTLEBACK_VERSION + "             ---\n"
+      + "--- " + BRISTLEBACK_HOMEPAGE + "                            ---\n"
+      + "--- BRISTLEBACK FRAMEWORK STARTED                    ---\n"
+      + "--------------------------------------------------------\n\n");
   }
 
   public void stopServer() {
     running = false;
     messageDispatcher.stopDispatching();
     engine.stopServer();
+
+    log.debug("\n\n"
+      + "--------------------------------------------------------\n"
+      + "--- BRISTLEBACK FRAMEWORK, version " + BRISTLEBACK_VERSION + "             ---\n"
+      + "--- " + BRISTLEBACK_HOMEPAGE + "                            ---\n"
+      + "--- BRISTLEBACK FRAMEWORK STOPPED                    ---\n"
+      + "--------------------------------------------------------\n\n");
   }
 
   public boolean isRunning() {

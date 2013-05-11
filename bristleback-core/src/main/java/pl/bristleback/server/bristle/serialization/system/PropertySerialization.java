@@ -10,7 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * //@todo class description
+ * Objects of this class contains meta information about single serialization operation definition.
+ * Serialization operation may come from server/client action resolvers or just from
+ * {@link pl.bristleback.server.bristle.message.ConditionObjectSender}.
+ * Used by system serialization engines,
+ * like {@link pl.bristleback.server.bristle.serialization.system.json.JsonSerializationEngine}.
  * <p/>
  * Created on: 2011-09-04 16:36:29 <br/>
  *
@@ -19,6 +23,8 @@ import java.util.Map;
 public class PropertySerialization {
 
   public static final String CONTAINER_ELEMENT_PROPERTY_NAME = "element";
+
+  private final Map<Class, PropertySerialization> implementationSerializations = new HashMap<Class, PropertySerialization>();
 
   private PropertySerializationConstraints constraints = new PropertySerializationConstraints();
 
@@ -37,6 +43,10 @@ public class PropertySerialization {
   private Map<String, PropertyAccess> readableProperties;
 
   private Map<String, PropertyAccess> writableProperties;
+
+  private boolean usesImplementations;
+
+  private SerializationInput serializationInput;
 
   public boolean isParametrized() {
     return genericType instanceof ParameterizedType;
@@ -140,5 +150,31 @@ public class PropertySerialization {
 
   public void setTypeParameters(List<ClassTypeParameter> typeParameters) {
     this.typeParameters = typeParameters;
+  }
+
+  public boolean isUsingImplementations() {
+    return usesImplementations;
+  }
+
+  public Map<Class, PropertySerialization> getImplementationSerializations() {
+    return implementationSerializations;
+  }
+
+  public void setUsingImplementations() {
+    this.usesImplementations = true;
+  }
+
+  public SerializationInput getSerializationInput() {
+    return serializationInput;
+  }
+
+  public void setSerializationInput(SerializationInput serializationInput) {
+    this.serializationInput = serializationInput;
+  }
+
+  public void addImplementationSerialization(Class<?> implementationClass, PropertySerialization implementationSerialization) {
+    synchronized (implementationSerializations) {
+      implementationSerializations.put(implementationClass, implementationSerialization);
+    }
   }
 }

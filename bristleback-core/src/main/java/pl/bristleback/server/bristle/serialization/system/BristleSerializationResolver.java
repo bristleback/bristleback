@@ -26,6 +26,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -138,6 +139,7 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
     }
 
     PropertySerialization serialization = resolveBasicInformation(parentSerialization, objectType);
+    serialization.setSerializationInput(input);
     if (serialization.isParametrized()) {
       setTypeVariableParameters(parentSerialization, serialization);
     }
@@ -260,6 +262,10 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
 
   private PropertySerialization createBeanObjectSerialization(PropertySerialization propertySerialization, SerializationInput input) {
     propertySerialization.setPropertyType(PropertyType.BEAN);
+    if (propertyCannotBeInstantiated(propertySerialization)) {
+      propertySerialization.setUsingImplementations();
+      return propertySerialization;
+    }
     List<PropertyAccess> properties = setChildrenProperties(propertySerialization);
 
     int requiredChildren = 0;
@@ -279,6 +285,10 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
     }
     propertySerialization.getConstraints().setRequiredChildren(requiredChildren);
     return propertySerialization;
+  }
+
+  private boolean propertyCannotBeInstantiated(PropertySerialization propertySerialization) {
+    return propertySerialization.getPropertyClass().isInterface() || Modifier.isAbstract(propertySerialization.getPropertyClass().getModifiers());
   }
 
   private List<PropertyAccess> setChildrenProperties(PropertySerialization propertySerialization) {
@@ -395,5 +405,11 @@ public class BristleSerializationResolver implements SerializationResolver<Prope
 
   private boolean isDefaultSerializationInContainer(Type objectType, SerializationInput input) {
     return !input.containsNonDefaultProperties() && extractorsContainer.containsPropertySerialization(objectType);
+  }
+
+  public synchronized PropertySerialization resolveImplementationSerialization(Class<?> implementationClass, PropertySerialization abstractInformation) {
+      PropertySerialization implementationSerialization = doResolveSerialization(abstractInformation, implementationClass, abstractInformation.getSerializationInput());
+      abstractInformation.addImplementationSerialization(implementationClass, implementationSerialization);
+      return implementationSerialization;
   }
 }

@@ -88,8 +88,7 @@ public class ActionInterceptorsResolver {
       List<Class<? extends ActionInterceptor>> interceptorClasses = getInterceptorsUsed(actionInformation);
       List<ActionInterceptorInformation> interceptorsInformationForAction = resolveInterceptorsInformation(interceptorClasses);
       interceptorsInformationForAction.addAll(interceptorsInformationForClass);
-      List<InterceptionProcessContext> interceptorContexts = actionInterceptorContextsResolver
-        .resolveContexts(interceptorsInformationForAction, actionInformation);
+      List<InterceptionProcessContext> interceptorContexts = actionInterceptorContextsResolver.resolveContexts(interceptorsInformationForAction, actionInformation);
       ActionInterceptors sortedInterceptors = actionInterceptorsSorter.sortInterceptors(interceptorContexts);
       actionInformation.setActionInterceptors(sortedInterceptors);
     }

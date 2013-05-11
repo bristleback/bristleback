@@ -80,7 +80,7 @@ public class SampleAction implements DefaultAction<BaseUserContext, Map<String, 
   }
 
   @Action
-  @Serialize(serializationName = "factorials", containerElementClass = User.class, properties = {
+  @Serialize(containerElementClass = User.class, properties = {
     @Property(name = "friend", skipped = true)
   })
   public List<User> getFactorials(@Bind(required = true) int size) {

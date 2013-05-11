@@ -6,7 +6,7 @@ import java.lang.annotation.Target;
 
 /**
  * This annotation can be placed before each action parameter to provide validation.
- * Currently only required and skipped flags are supported. Formats and other validations will be provided in next versions.
+ * Currently only format, required and skipped flags are supported. Other validations will be provided in next versions.
  * <p/>
  * Created on: 2011-07-26 12:34:56 <br/>
  *
@@ -33,5 +33,12 @@ public @interface Bind {
    */
   boolean detailedErrors() default false;
 
+  /**
+   * Specifies format in which annotated objects will be serialized/deserialized. Note that there must be
+   * {@link pl.bristleback.server.bristle.serialization.system.json.extractor.FormattingValueSerializer} bean registered
+   * for the type that wants to be serialized/deserialized using specified format.
+   *
+   * @return format format in which objects of the specified type will be serialized/deserialized.
+   */
   String format() default "";
 }
