@@ -17,9 +17,6 @@ package pl.bristleback.server.bristle.message.akka;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
-import akka.actor.Props;
-import akka.actor.UntypedActor;
-import akka.actor.UntypedActorFactory;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
@@ -61,11 +58,7 @@ public class MultiThreadedMessageDispatcher extends AbstractMessageDispatcher {
     }
     log.info("Starting multi threaded message dispatcher");
     akkaSystem = ActorSystem.create("BristlebackSystem");
-    sendMessageActor = akkaSystem.actorOf(new Props(new UntypedActorFactory() {
-      public UntypedActor create() {
-        return new SendMessageActor(getServer());
-      }
-    }), "MessageDispatcherActor");
+    this.sendMessageActor = akkaSystem.actorOf(ActorFactory.defaultSendMessageActor(getServer()), "MessageDispatcherActor");
     setDispatcherRunning(true);
   }
 
