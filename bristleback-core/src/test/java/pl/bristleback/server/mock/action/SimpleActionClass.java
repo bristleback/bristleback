@@ -45,9 +45,8 @@ public class SimpleActionClass implements DefaultAction<BaseUserContext, String>
   }
 
   @Action(name = "unusualActionNameWithBind")
-  public String nonDefaultActionWithBind(@Bind(required = true, properties = {
-    @Property(name = "property1", required = true)
-  }) SimpleMockBean param1) {
+  public String nonDefaultActionWithBind(@Bind(properties = {
+    @Property(name = "property1", required = true)}) SimpleMockBean param1) {
     return "response";
   }
 }
