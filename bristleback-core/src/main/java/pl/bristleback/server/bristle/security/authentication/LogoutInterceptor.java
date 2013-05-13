@@ -20,6 +20,7 @@ import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
 import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.api.action.ActionInterceptor;
+import pl.bristleback.server.bristle.api.action.ActionInterceptorContextResolver;
 import pl.bristleback.server.bristle.api.annotations.Interceptor;
 
 import javax.inject.Inject;
@@ -33,7 +34,7 @@ import javax.inject.Named;
  *
  * @author Wojciech Niemiec
  */
-@Interceptor(stages = ActionExecutionStage.ACTION_EXECUTION, contextResolver = AuthenticationInterceptorContextResolver.class)
+@Interceptor(stages = ActionExecutionStage.ACTION_EXECUTION)
 public class LogoutInterceptor implements ActionInterceptor<AuthenticationOperationContext> {
 
   private static Logger log = Logger.getLogger(LogoutInterceptor.class.getName());
@@ -46,6 +47,9 @@ public class LogoutInterceptor implements ActionInterceptor<AuthenticationOperat
   @Named("bristleAuthenticationInformer")
   private AuthenticationInformer authenticationInformer;
 
+  @Inject
+  private AuthenticationInterceptorContextResolver authenticationInterceptorContextResolver;
+
   @Override
   public void intercept(ActionInformation actionInformation, ActionExecutionContext context, AuthenticationOperationContext interceptorContext) {
     String connectionId = context.getUserContext().getId();
@@ -53,5 +57,10 @@ public class LogoutInterceptor implements ActionInterceptor<AuthenticationOperat
     authenticationsContainer.logout(connectionId);
     authenticationInformer.sendLogoutInformation(context.getUserContext(), username, LogoutReason.REQUESTED_BY_CLIENT);
     log.debug("User \"" + username + "\" has been logged out.");
+  }
+
+  @Override
+  public ActionInterceptorContextResolver<AuthenticationOperationContext> getContextResolver() {
+    return authenticationInterceptorContextResolver;
   }
 }

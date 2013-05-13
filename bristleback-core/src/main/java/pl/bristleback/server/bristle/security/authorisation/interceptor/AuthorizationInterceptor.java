@@ -19,6 +19,7 @@ import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
 import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.api.action.ActionInterceptor;
+import pl.bristleback.server.bristle.api.action.ActionInterceptorContextResolver;
 import pl.bristleback.server.bristle.api.annotations.Interceptor;
 import pl.bristleback.server.bristle.security.authentication.AuthenticationsContainer;
 import pl.bristleback.server.bristle.security.authentication.UserAuthentication;
@@ -35,12 +36,15 @@ import javax.inject.Named;
  *
  * @author Wojciech Niemiec
  */
-@Interceptor(stages = ActionExecutionStage.ACTION_EXTRACTION, contextResolver = AuthorizationInterceptorContextResolver.class)
+@Interceptor(stages = ActionExecutionStage.ACTION_EXTRACTION)
 public class AuthorizationInterceptor implements ActionInterceptor<RequiredRights> {
 
   @Inject
   @Named("bristleAuthenticationsContainer")
   private AuthenticationsContainer authenticationsContainer;
+
+  @Inject
+  private AuthorizationInterceptorContextResolver authorizationInterceptorContextResolver;
 
   @Override
   public void intercept(ActionInformation actionInformation, ActionExecutionContext context, RequiredRights requiredRights) {
@@ -50,5 +54,10 @@ public class AuthorizationInterceptor implements ActionInterceptor<RequiredRight
         throw new AuthorizationException(authentication.getAuthenticatedUser().getUsername(), requiredRight);
       }
     }
+  }
+
+  @Override
+  public ActionInterceptorContextResolver<RequiredRights> getContextResolver() {
+    return authorizationInterceptorContextResolver;
   }
 }

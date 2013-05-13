@@ -10,6 +10,7 @@ import pl.bristleback.server.bristle.action.interceptor.ActionInterceptorInforma
 import pl.bristleback.server.bristle.action.interceptor.ActionInterceptors;
 import pl.bristleback.server.bristle.action.interceptor.InterceptionProcessContext;
 import pl.bristleback.server.bristle.api.action.ActionInterceptor;
+import pl.bristleback.server.bristle.api.action.ActionInterceptorContextResolver;
 
 import java.util.Arrays;
 import java.util.List;
@@ -71,9 +72,15 @@ public class ActionInterceptorsSorterTest {
 
   @Order(1)
   private class FirstActionInterceptor implements ActionInterceptor<String> {
+
     @Override
     public void intercept(ActionInformation actionInformation, ActionExecutionContext context, String interceptorContext) {
 
+    }
+
+    @Override
+    public ActionInterceptorContextResolver<String> getContextResolver() {
+      return null;
     }
   }
 
@@ -84,6 +91,11 @@ public class ActionInterceptorsSorterTest {
     public void intercept(ActionInformation actionInformation, ActionExecutionContext context, String interceptorContext) {
 
     }
+
+    @Override
+    public ActionInterceptorContextResolver<String> getContextResolver() {
+      return null;
+    }
   }
 
   private class OtherActionInterceptor implements ActionInterceptor<String> {
@@ -91,6 +103,11 @@ public class ActionInterceptorsSorterTest {
     @Override
     public void intercept(ActionInformation actionInformation, ActionExecutionContext context, String interceptorContext) {
 
+    }
+
+    @Override
+    public ActionInterceptorContextResolver<String> getContextResolver() {
+      return null;
     }
   }
 }

@@ -6,16 +6,27 @@ import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
 import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.api.action.ActionInterceptor;
+import pl.bristleback.server.bristle.api.action.ActionInterceptorContextResolver;
 import pl.bristleback.server.bristle.api.annotations.Interceptor;
 
-@Interceptor(stages = ActionExecutionStage.ACTION_EXTRACTION, contextResolver = SampleInterceptorContextResolver.class)
+import javax.inject.Inject;
+
+@Interceptor(stages = ActionExecutionStage.ACTION_EXTRACTION)
 @Component
 public class SampleInterceptor implements ActionInterceptor<ActionInterceptorContextObject> {
 
   private static Logger log = Logger.getLogger(SampleInterceptor.class.getName());
 
+  @Inject
+  private SampleInterceptorContextResolver sampleInterceptorContextResolver;
+
   @Override
   public void intercept(ActionInformation actionInformation, ActionExecutionContext context, ActionInterceptorContextObject interceptorContext) {
     log.debug("interceptor works");
+  }
+
+  @Override
+  public ActionInterceptorContextResolver<ActionInterceptorContextObject> getContextResolver() {
+    return sampleInterceptorContextResolver;
   }
 }

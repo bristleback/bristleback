@@ -38,7 +38,11 @@
 
   <bean id="extendingClientActionClass" class="pl.bristleback.server.mock.action.ExtendingClientActionClass"/>
 
-  <bean id="mockActionInterceptor" class="pl.bristleback.server.mock.action.MockActionInterceptor"/>
+  <bean id="mockActionInterceptor" class="pl.bristleback.server.mock.action.MockActionInterceptor">
+    <property name="mockActionInterceptorResolver" ref="mockActionInterceptorResolver"/>
+  </bean>
+
+  <bean id="mockActionInterceptorResolver" class="pl.bristleback.server.mock.action.MockActionInterceptorResolver"/>
 
   <bean id="annotationMatcher"
         class="pl.bristleback.server.bristle.action.interceptor.matcher.AnnotationCheckingActionMatcher">

@@ -23,7 +23,6 @@ import pl.bristleback.server.bristle.action.interceptor.ActionInterceptorMapping
 import pl.bristleback.server.bristle.action.interceptor.ActionInterceptors;
 import pl.bristleback.server.bristle.action.interceptor.InterceptionProcessContext;
 import pl.bristleback.server.bristle.api.action.ActionInterceptor;
-import pl.bristleback.server.bristle.api.action.ActionInterceptorContextResolver;
 import pl.bristleback.server.bristle.api.annotations.Intercept;
 import pl.bristleback.server.bristle.api.annotations.Interceptor;
 import pl.bristleback.server.bristle.conf.BristleInitializationException;
@@ -93,8 +92,7 @@ public class ActionInterceptorsResolver {
       throw new BristleInitializationException("Interceptor classes must be annotated with " + Interceptor.class);
     }
     Interceptor interceptorAnnotation = interceptorClass.getAnnotation(Interceptor.class);
-    ActionInterceptorContextResolver interceptorContextResolver = springIntegration.getBean(interceptorAnnotation.contextResolver());
-    return new ActionInterceptorInformation(actionInterceptor, interceptorContextResolver, interceptorAnnotation.stages());
+    return new ActionInterceptorInformation(actionInterceptor, actionInterceptor.getContextResolver(), interceptorAnnotation.stages());
   }
 
   public void resolveInterceptors(ActionClassInformation actionClassInformation) {

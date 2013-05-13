@@ -22,6 +22,7 @@ import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.ConfigurationAware;
 import pl.bristleback.server.bristle.api.action.ActionInterceptor;
+import pl.bristleback.server.bristle.api.action.ActionInterceptorContextResolver;
 import pl.bristleback.server.bristle.api.annotations.Interceptor;
 import pl.bristleback.server.bristle.api.users.UserDetails;
 import pl.bristleback.server.bristle.security.exception.UserAlreadyAuthenticatedException;
@@ -39,7 +40,7 @@ import javax.inject.Named;
  *
  * @author Wojciech Niemiec
  */
-@Interceptor(stages = ActionExecutionStage.ACTION_EXECUTION, contextResolver = AuthenticationInterceptorContextResolver.class)
+@Interceptor(stages = ActionExecutionStage.ACTION_EXECUTION)
 public class AuthenticationInterceptor implements ActionInterceptor<AuthenticationOperationContext>, ConfigurationAware {
 
   private static Logger log = Logger.getLogger(AuthenticationInterceptor.class.getName());
@@ -51,6 +52,9 @@ public class AuthenticationInterceptor implements ActionInterceptor<Authenticati
   @Inject
   @Named("bristleAuthenticationInformer")
   private AuthenticationInformer authenticationInformer;
+
+  @Inject
+  private AuthenticationInterceptorContextResolver authenticationInterceptorContextResolver;
 
   @Override
   public void init(BristlebackConfig configuration) {
@@ -69,4 +73,8 @@ public class AuthenticationInterceptor implements ActionInterceptor<Authenticati
     log.debug("User \"" + userDetails.getUsername() + "\" has been successfully authenticated.");
   }
 
+  @Override
+  public ActionInterceptorContextResolver<AuthenticationOperationContext> getContextResolver() {
+    return authenticationInterceptorContextResolver;
+  }
 }

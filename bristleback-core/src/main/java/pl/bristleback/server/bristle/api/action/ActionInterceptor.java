@@ -42,4 +42,6 @@ public interface ActionInterceptor<T> {
    * @param interceptorContext interception execution context, created for each interception operation.
    */
   void intercept(ActionInformation actionInformation, ActionExecutionContext context, T interceptorContext);
+
+  ActionInterceptorContextResolver<T> getContextResolver();
 }
