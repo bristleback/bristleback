@@ -20,9 +20,9 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Level;
 import pl.bristleback.server.bristle.api.InitialConfigurationResolver;
+import pl.bristleback.server.bristle.conf.BristleInitializationException;
 import pl.bristleback.server.bristle.conf.EngineConfig;
 import pl.bristleback.server.bristle.conf.InitialConfiguration;
-import pl.bristleback.server.bristle.conf.BristleInitializationException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -147,7 +147,7 @@ import java.util.Set;
  * {@link org.apache.log4j.Level}
  * </td>
  * <td>
- * DEBUG
+ * Inherited from application logging
  * </td>
  * </tr>
  * <tr>
@@ -289,7 +289,9 @@ public class PropertiesFileConfigResolver implements InitialConfigurationResolve
 
   private void setLoggingLevel(InitialConfiguration initialConfiguration) {
     String loggingLevel = propertiesConfiguration.getString(LOGGING_LEVEL_PROPERTY, InitialConfiguration.DEFAULT_LOGGING_LEVEL);
-    initialConfiguration.setLoggingLevel(Level.toLevel(loggingLevel));
+    if (StringUtils.isNotBlank(loggingLevel)) {
+      initialConfiguration.setLoggingLevel(Level.toLevel(loggingLevel));
+    }
   }
 
   @SuppressWarnings("unchecked")

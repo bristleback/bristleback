@@ -15,7 +15,6 @@
 
 package pl.bristleback.server.bristle.conf.resolver.init;
 
-import org.apache.log4j.Level;
 import pl.bristleback.server.bristle.api.InitialConfigurationResolver;
 import pl.bristleback.server.bristle.conf.EngineConfig;
 import pl.bristleback.server.bristle.conf.InitialConfiguration;
@@ -40,7 +39,6 @@ public class DefaultConfigurationResolver implements InitialConfigurationResolve
     InitialConfiguration initialConfiguration = new InitialConfiguration();
     initialConfiguration.setAcceptedControllerNames(prepareSet(InitialConfiguration.DEFAULT_DATA_CONTROLLER));
     initialConfiguration.setDefaultControllerName(InitialConfiguration.DEFAULT_DATA_CONTROLLER);
-    initialConfiguration.setLoggingLevel(Level.toLevel(InitialConfiguration.DEFAULT_LOGGING_LEVEL));
     initialConfiguration.setSerializationEngine(InitialConfiguration.DEFAULT_SERIALIZATION_ENGINE);
     initialConfiguration.setMessageDispatcher(InitialConfiguration.DEFAULT_MESSAGE_DISPATCHER);
     prepareEngineConfiguration(initialConfiguration);

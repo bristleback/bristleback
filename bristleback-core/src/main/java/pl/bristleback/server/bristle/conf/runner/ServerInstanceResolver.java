@@ -28,13 +28,16 @@ import pl.bristleback.server.bristle.conf.resolver.SpringConfigurationResolver;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 
 /**
- * //@todo class description
+ * This component resolves Bristleback Server instance and initializes internal Bristleback Spring context.
+ *
  * <p/>
  * Created on: 2012-05-01 16:47:44 <br/>
  *
  * @author Wojciech Niemiec
  */
 public class ServerInstanceResolver {
+
+  private static Logger log = Logger.getLogger(ServerInstanceResolver.class.getName());
 
   private InitialConfigurationResolver initialConfigurationResolver;
 
@@ -65,12 +68,16 @@ public class ServerInstanceResolver {
   }
 
   private void startLogger(InitialConfiguration initialConfiguration) {
-    BasicConfigurator.configure();
-    Logger.getRootLogger().setLevel(initialConfiguration.getLoggingLevel());
-    Logger.getLogger("org.apache").setLevel(initialConfiguration.getLoggingLevel());
-    Logger.getLogger("org.springframework.beans.factory").setLevel(Level.WARN);
-    Logger.getLogger("org.springframework.context.support").setLevel(Level.WARN);
-    Logger.getLogger("org.springframework.context.annotation").setLevel(Level.WARN);
-    Logger.getLogger("org.springframework.core.io.support").setLevel(Level.WARN);
+    if (initialConfiguration.getLoggingLevel() != null) {
+      BasicConfigurator.configure();
+      Logger.getRootLogger().setLevel(initialConfiguration.getLoggingLevel());
+      Logger.getLogger("org.apache").setLevel(initialConfiguration.getLoggingLevel());
+      if (log.isInfoEnabled()) {
+        Logger.getLogger("org.springframework.beans.factory").setLevel(Level.WARN);
+        Logger.getLogger("org.springframework.context.support").setLevel(Level.WARN);
+        Logger.getLogger("org.springframework.context.annotation").setLevel(Level.WARN);
+        Logger.getLogger("org.springframework.core.io.support").setLevel(Level.WARN);
+      }
+    }
   }
 }

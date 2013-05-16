@@ -56,9 +56,9 @@ public class BristlebackServerInstance {
     engine.startServer();
     messageDispatcher.startDispatching();
 
-    log.debug("\n\n"
+    System.out.println("\n\n"
       + "--------------------------------------------------------\n"
-      + "--- BRISTLEBACK FRAMEWORK, version " + BRISTLEBACK_VERSION + "             ---\n"
+      + "--- BRISTLEBACK FRAMEWORK, version " + BRISTLEBACK_VERSION + " ---\n"
       + "--- " + BRISTLEBACK_HOMEPAGE + "                            ---\n"
       + "--- BRISTLEBACK FRAMEWORK STARTED                    ---\n"
       + "--------------------------------------------------------\n\n");
@@ -69,9 +69,9 @@ public class BristlebackServerInstance {
     messageDispatcher.stopDispatching();
     engine.stopServer();
 
-    log.debug("\n\n"
+    System.out.println("\n\n"
       + "--------------------------------------------------------\n"
-      + "--- BRISTLEBACK FRAMEWORK, version " + BRISTLEBACK_VERSION + "             ---\n"
+      + "--- BRISTLEBACK FRAMEWORK, version " + BRISTLEBACK_VERSION + " ---\n"
       + "--- " + BRISTLEBACK_HOMEPAGE + "                            ---\n"
       + "--- BRISTLEBACK FRAMEWORK STOPPED                    ---\n"
       + "--------------------------------------------------------\n\n");

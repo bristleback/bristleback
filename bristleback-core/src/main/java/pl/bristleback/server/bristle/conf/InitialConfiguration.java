@@ -18,6 +18,7 @@ package pl.bristleback.server.bristle.conf;
 import org.apache.log4j.Level;
 import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
+import pl.bristleback.server.bristle.utils.StringUtils;
 
 import java.util.Set;
 
@@ -30,7 +31,7 @@ import java.util.Set;
  */
 public class InitialConfiguration {
 
-  public static final String DEFAULT_LOGGING_LEVEL = "DEBUG";
+  public static final String DEFAULT_LOGGING_LEVEL = StringUtils.EMPTY;
 
   public static final String DEFAULT_ENGINE_NAME = "system.engine.jetty";
 
