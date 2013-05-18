@@ -4,7 +4,7 @@ Welcome,
 Bristleback server has got a new homepage http://bristleback.pl.
 Several samples and tutorials can be found there.
 
-If you like our project, please star or follow us!
+If you like our project, please star or fork the project!
 
 Latest Bristleback version: 0.3.0
 
@@ -14,7 +14,7 @@ Check our wiki pages for tutorials.
 
     <dependency>
       <groupId>pl.bristleback</groupId>
-      <artifactId>bristleServer</artifactId>
+      <artifactId>bristleback-core</artifactId>
       <version>0.3.0</version>
     </dependency>
 
