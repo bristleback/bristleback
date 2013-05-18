@@ -2,3 +2,91 @@
 isDownloadActive: menuButtonActive
 layout: default
 ---
+
+<div class="leftSideIndexContent">
+
+  <div class="bristlebackContentHeaderDiv">
+    Server components
+  </div>
+
+  <div class="bristlebackContentDiv">
+    Bristleback Framework consists of one core module and several engine modules.
+    Each of them is a separate jar and can be found in Maven repository:
+
+    <h4>
+      Core module:
+    </h4>
+    {% highlight xml %}
+<dependency>
+  <groupId>pl.bristleback</groupId>
+  <artifactId>bristleback-core</artifactId>
+  <version>0.3.0</version>
+</dependency>
+    {% endhighlight %}
+
+    <h4>
+      Jetty server engine module:
+    </h4>
+    {% highlight xml %}
+<dependency>
+  <groupId>pl.bristleback</groupid>
+  <artifactId>websocket-engine-jetty</artifactid>
+  <version>0.3.0</version>
+</dependency>
+    {% endhighlight %}
+
+    <h4>
+      Apache Tomcat server engine module:
+    </h4>
+    {% highlight xml %}
+<dependency>
+  <groupId>pl.bristleback</groupid>
+  <artifactId>websocket-engine-tomcat</artifactid>
+  <version>0.3.0</version>
+</dependency>
+    {% endhighlight %}
+
+    <h4>
+      Netty server engine module:
+    </h4>
+    {% highlight xml %}
+<dependency>
+  <groupId>pl.bristleback</groupid>
+  <artifactId>websocket-engine-netty</artifactid>
+  <version>0.3.0</version>
+</dependency>
+    {% endhighlight %}
+
+  </div>
+
+</div>
+
+<div class="rightSideIndexContent">
+
+  <div class="bristlebackContentHeaderDiv">
+    JavaScript client
+  </div>
+
+  <div class="bristlebackContentDiv">
+    Bristleback provides a special JavaScript client library, only one file needs to be included:
+
+    <p>
+      <a href="/download/bristleback-0.3.0.js" class="classicLinkBold">Download the compressed version</a>
+    </p>
+  </div>
+
+  <hr class="classicHorizontalLine"/>
+
+  <div class="bristlebackContentHeaderDiv">
+    License information
+  </div>
+
+  <div class="bristlebackContentDiv">
+    Bristleback Framework is licensed under the <a href="http://www.gnu.org/licenses/lgpl-3.0.html"
+                                                   class="classicLinkBold">
+    GNU Lesser General Public License</a>, Version 3 (GNU LGPLv3).
+
+    <img src="img/lgplv3-147x51.png" alt="License image" id="licenseImage">
+  </div>
+
+</div>

@@ -35,6 +35,12 @@ header {
   margin-bottom: 15px;
 }
 
+#licenseImage {
+  display: block;
+  margin-left: auto;
+  margin-right: auto
+}
+
 .bordered {
   border: 1px black solid;
 }
