@@ -28,7 +28,7 @@ Few samples are available at https://github.com/bristleback/bristleback-samples
       -DarchetypeCatalog=http://bristleback.pl/archetype/archetype-catalog.xml
       -DarchetypeGroupId=pl.bristleback
       -DarchetypeArtifactId=webapp-archetype
-      -DarchetypeVersion=0.2.1
+      -DarchetypeVersion=0.3.0
 
 2. Enter additional information about the project.
 
