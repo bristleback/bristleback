@@ -9,7 +9,7 @@
   <filter filtersfile="${basedir}/config/build.properties"/>
   <filter filtersfile="${basedir}/config/${user.name}/build.properties"/>
 
-  <property name="bristleback.version" value="0.2.1"/>
+  <property name="bristleback.version" value="0.3.0"/>
 
   <property name="bristleback.zip.filename" value="bristleback-client-${bristleback.version}.zip"/>
   <property name="bristleback.js.filename" value="bristleback-${bristleback.version}.js"/>
@@ -43,24 +43,26 @@
   </target>
 
   <target name="info">
-    <echo message="Possible tasks clean, rebuild.all, compile.js assembly"/>
+    <echo message="Possible tasks clean, compile.js, install, deploy.all"/>
   </target>
 
 
   <taskdef name="jscomp" classname="com.google.javascript.jscomp.ant.CompileTask"
-           classpath="lib/js/compiler.jar"/>
+           classpath="client-javascript/lib/compiler.jar"/>
 
   <target name="compile.js">
     <jscomp compilationLevel="SIMPLE" warning="verbose"
             debug="false" output="target/${bristleback.js.filename}">
 
-      <externs dir="${basedir}/src/main/js">
+      <externs dir="${basedir}/client-javascript/src">
         <file name="externs.js"/>
       </externs>
 
-      <sources dir="${basedir}/src/main/js">
+      <sources dir="${basedir}/client-javascript/src">
         <file name="bristle-namespace.js"/>
         <file name="bristle-utils.js"/>
+        <file name="bristle-template.js"/>
+        <file name="bristle-auth.js"/>
         <file name="bristle-controller.js"/>
         <file name="bristle-serialization.js"/>
         <file name="bristle-core.js"/>
@@ -79,17 +81,8 @@
     <maven goal="clean"/>
   </target>
 
-  <target name="rebuild.all" depends="maven.setup">
-    <ant target="clean"/>
-    <maven goal="package"/>
-    <ant target="compile.js"/>
+  <target name="install" depends="maven.setup,clean">
+    <maven goal="install"/>
   </target>
 
-  <target name="assembly" depends="maven.setup"
-          description="builds project, compile with javadocs and sources, compiles javascript, runs assembly">
-    <ant target="clean"/>
-    <maven goal="package" parameters="-Pjavadoc"/>
-    <ant target="compile.js"/>
-    <maven goal="assembly:assembly"/>
-  </target>
 </project>
