@@ -58,7 +58,7 @@ public class BristlebackServerInstance {
 
     System.out.println("\n\n"
       + "--------------------------------------------------------\n"
-      + "--- BRISTLEBACK FRAMEWORK, version " + BRISTLEBACK_VERSION + " ---\n"
+      + "--- BRISTLEBACK FRAMEWORK, version " + BRISTLEBACK_VERSION + "             ---\n"
       + "--- " + BRISTLEBACK_HOMEPAGE + "                            ---\n"
       + "--- BRISTLEBACK FRAMEWORK STARTED                    ---\n"
       + "--------------------------------------------------------\n\n");
@@ -71,7 +71,7 @@ public class BristlebackServerInstance {
 
     System.out.println("\n\n"
       + "--------------------------------------------------------\n"
-      + "--- BRISTLEBACK FRAMEWORK, version " + BRISTLEBACK_VERSION + " ---\n"
+      + "--- BRISTLEBACK FRAMEWORK, version " + BRISTLEBACK_VERSION + "             ---\n"
       + "--- " + BRISTLEBACK_HOMEPAGE + "                            ---\n"
       + "--- BRISTLEBACK FRAMEWORK STOPPED                    ---\n"
       + "--------------------------------------------------------\n\n");
