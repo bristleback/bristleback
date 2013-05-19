@@ -15,11 +15,11 @@
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
             
-                <h1><img src="http:&#x2F;&#x2F;bristleback.pl&#x2F;img&#x2F;logo.png" title="Bristleback Client API"></h1>
+                <h1><img src="http:&#x2F;&#x2F;bristleback.pl&#x2F;img&#x2F;bristleback-logo-green.png" title="Bristleback Client API"></h1>
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.2.1</em>
+            <em>API Docs for: 0.3.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,9 +41,9 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="..&#x2F;classes/Bristleback.Client.html">Bristleback.Client</a></li>
+                <li><a href="..&#x2F;classes/Bristleback.auth.SystemAuthentication.html">Bristleback.auth.SystemAuthentication</a></li>
             
-                <li><a href="..&#x2F;classes/Bristleback.CONNECTOR.html">Bristleback.CONNECTOR</a></li>
+                <li><a href="..&#x2F;classes/Bristleback.Client.html">Bristleback.Client</a></li>
             
                 <li><a href="..&#x2F;classes/Bristleback.Console.html">Bristleback.Console</a></li>
             
@@ -57,15 +57,27 @@
             
                 <li><a href="..&#x2F;classes/Bristleback.controller.ActionExceptionHandler.html">Bristleback.controller.ActionExceptionHandler</a></li>
             
+                <li><a href="..&#x2F;classes/Bristleback.controller.ActionMessage.html">Bristleback.controller.ActionMessage</a></li>
+            
                 <li><a href="..&#x2F;classes/Bristleback.controller.ClientActionClass.html">Bristleback.controller.ClientActionClass</a></li>
             
+                <li><a href="..&#x2F;classes/Bristleback.controller.controllers.html">Bristleback.controller.controllers</a></li>
+            
                 <li><a href="..&#x2F;classes/Bristleback.LOCAL_HOSTNAME.html">Bristleback.LOCAL_HOSTNAME</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.template.TemplateController.html">Bristleback.template.TemplateController</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.USER_CONTEXT.html">Bristleback.USER_CONTEXT</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.USER_DETAILS.html">Bristleback.USER_DETAILS</a></li>
             
                 <li><a href="..&#x2F;classes/Bristleback.utils.html">Bristleback.utils</a></li>
             
             </ul>
 
             <ul id="api-modules" class="apis modules">
+            
+                <li><a href="..&#x2F;modules/auth.html">auth</a></li>
             
                 <li><a href="..&#x2F;modules/Bristleback.html">Bristleback</a></li>
             
@@ -74,6 +86,8 @@
                 <li><a href="..&#x2F;modules/core.html">core</a></li>
             
                 <li><a href="..&#x2F;modules/serialization.html">serialization</a></li>
+            
+                <li><a href="..&#x2F;modules/template.html">template</a></li>
             
                 <li><a href="..&#x2F;modules/utils.html">utils</a></li>
             
@@ -168,6 +182,13 @@ Single Client object represents a single client-server connection. There can be 
                         
                             <li class="index-item method">
                                 <a href="#method_connect">connect</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_disconnect">disconnect</a>
 
                                 
                                 
@@ -271,6 +292,61 @@ Single Client object represents a single client-server connection. There can be 
     <div class="description">
         <p>Connects to remote server using configuration passed as constructor parameter.
 If connection is not closed in the moment of connection, exception is thrown.</p>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_disconnect" class="method item">
+    <h3 class="name"><code>disconnect</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;bristle-core.js.html#l117"><code>bristle-core.js:117</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Disconnects client from remote server.
+If connection is not open, exception is thrown.</p>
     </div>
 
     
@@ -494,7 +570,7 @@ If connection is not closed in the moment of connection, exception is thrown.</p
             
         
         
-        <a href="..&#x2F;files&#x2F;bristle-core.js.html#l130"><code>bristle-core.js:130</code></a>
+        <a href="..&#x2F;files&#x2F;bristle-core.js.html#l131"><code>bristle-core.js:131</code></a>
         
         </p>
 
