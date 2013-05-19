@@ -8,6 +8,9 @@ If you like our project, please star or fork the project!
 
 Latest Bristleback version: 0.3.0
 
+Download section is no longer valid on GitHub.
+To download JavaScript client, visit http://bristleback.pl/download.html
+
 Check our wiki pages for tutorials.
 
 0.3.0 is now available in central Maven repository:
