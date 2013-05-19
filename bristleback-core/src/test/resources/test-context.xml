@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:bb="http://www.bristleback.pl/schema/bristleback"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.bristleback.pl/schema/bristleback
+              http://www.bristleback.pl/schema/bristleback/bristleback.xsd">
+
+
+  <bb:serverMessages/>
+
+  <bb:security userDetailsService="sampleUserDetailsService"/>
+
+  <bean id="mockBeansFactory" class="pl.bristleback.server.mock.beans.SpringMockBeansFactory"/>
+
+  <bean id="sampleActionBean" class="pl.bristleback.server.mock.action.SimpleActionClass"/>
+
+  <bean id="notAnnotatedAction" class="pl.bristleback.server.mock.action.NotAnnotatedActionClass"/>
+
+  <bean id="mockServerEngine" class="pl.bristleback.server.mock.MockServerEngine"/>
+
+  <bean id="initPojoConfigResolver" class="pl.bristleback.server.bristle.conf.resolver.init.PojoConfigResolver">
+    <property name="engineName" value="mockServerEngine"/>
+    <property name="userContextClass" value="pl.bristleback.server.mock.MockUserContext"/>
+    <!--<property name="serializationEngine" value="jackson-json"/>-->
+  </bean>
+
+  <bean id="testServerInstance" class="pl.bristleback.server.bristle.app.BristlebackServerInstance"
+        factory-bean="mockBeansFactory"
+        factory-method="mockServerInstance"/>
+
+  <bean id="mockUserFactory" class="pl.bristleback.server.mock.MockUserContextFactory"/>
+
+  <bean id="mockClientActionClass" class="pl.bristleback.server.mock.action.client.MockClientActionClass"/>
+
+  <bean id="nonStandardClientActionClass" class="pl.bristleback.server.mock.action.NonStandardClientActionClass"/>
+
+  <bean id="extendingClientActionClass" class="pl.bristleback.server.mock.action.ExtendingClientActionClass"/>
+
+  <bean id="mockActionInterceptor" class="pl.bristleback.server.mock.action.MockActionInterceptor">
+    <property name="mockActionInterceptorResolver" ref="mockActionInterceptorResolver"/>
+  </bean>
+
+  <bean id="mockActionInterceptorResolver" class="pl.bristleback.server.mock.action.MockActionInterceptorResolver"/>
+
+  <bean id="annotationMatcher"
+        class="pl.bristleback.server.bristle.action.interceptor.matcher.AnnotationCheckingActionMatcher">
+    <constructor-arg index="0" value="pl.bristleback.server.bristle.api.annotations.Action"/>
+  </bean>
+
+  <bean id="annotationInterceptorMapping"
+        class="pl.bristleback.server.bristle.action.interceptor.ActionInterceptorMapping">
+    <property name="interceptor" ref="mockActionInterceptor"/>
+    <property name="interceptorMatcher" ref="annotationMatcher"/>
+  </bean>
+
+  <bean id="sampleUserDetailsService" class="pl.bristleback.server.mock.security.SampleUserDetailsService"/>
+
+</beans>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.bristleback.pl/schema/bristleback"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:beans="http://www.springframework.org/schema/beans"
+            xmlns:tool="http://www.springframework.org/schema/tool"
+            targetNamespace="http://www.bristleback.pl/schema/bristleback"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+  <xsd:import namespace="http://www.springframework.org/schema/beans"/>
+  <xsd:import namespace="http://www.springframework.org/schema/tool"/>
+
+  <xsd:element name="serverMessages">
+    <xsd:complexType>
+
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="standaloneServer">
+    <xsd:complexType>
+      <xsd:complexContent>
+        <xsd:extension base="beans:identifiedType">
+          <xsd:attribute name="startAfterInit" type="xsd:boolean" default="true">
+            <xsd:annotation>
+              <xsd:documentation><![CDATA[
+	              Set to true if the server should start immediately after initialization.
+	              Set to false if the server will be started manually.
+							]]></xsd:documentation>
+            </xsd:annotation>
+          </xsd:attribute>
+          <xsd:attribute name="configurationResolver" type="xsd:string" use="required">
+            <xsd:annotation>
+              <xsd:documentation source="pl.bristleback.server.bristle.api.InitialConfigurationResolver"><![CDATA[
+	              The bean name of the InitialConfigurationResolver used
+	              to resolve Bristleback Server configuration from various sources.
+							]]></xsd:documentation>
+              <xsd:appinfo>
+                <tool:annotation kind="ref">
+                  <tool:expected-type type="pl.bristleback.server.bristle.api.InitialConfigurationResolver"/>
+                </tool:annotation>
+              </xsd:appinfo>
+            </xsd:annotation>
+          </xsd:attribute>
+        </xsd:extension>
+      </xsd:complexContent>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="servlet">
+    <xsd:complexType>
+      <xsd:complexContent>
+        <xsd:extension base="beans:identifiedType">
+          <xsd:attribute name="configurationResolver" type="xsd:string" use="required">
+            <xsd:annotation>
+              <xsd:documentation source="pl.bristleback.server.bristle.api.InitialConfigurationResolver"><![CDATA[
+	              The bean name of the InitialConfigurationResolver used
+	              to resolve Bristleback Server configuration from various sources.
+							]]></xsd:documentation>
+              <xsd:appinfo>
+                <tool:annotation kind="ref">
+                  <tool:expected-type type="pl.bristleback.server.bristle.api.InitialConfigurationResolver"/>
+                </tool:annotation>
+              </xsd:appinfo>
+            </xsd:annotation>
+          </xsd:attribute>
+
+          <xsd:attribute name="handlerMappings" type="xsd:string" use="optional">
+            <xsd:annotation>
+              <xsd:documentation source="org.springframework.web.servlet.HandlerMapping"><![CDATA[
+	              The bean name of the HandlerMapping interface implementation.
+	              If the parameter is not passed, BristlebackHttpHandler handler will be mapped with **/* path expression
+	              (every request processed by the DispatcherServlet will go through Bristleback handler).
+							]]></xsd:documentation>
+              <xsd:appinfo>
+                <tool:annotation kind="ref">
+                  <tool:expected-type type="org.springframework.web.servlet.HandlerMapping"/>
+                </tool:annotation>
+              </xsd:appinfo>
+            </xsd:annotation>
+          </xsd:attribute>
+        </xsd:extension>
+      </xsd:complexContent>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="security">
+    <xsd:complexType>
+      <xsd:attribute name="userDetailsService" type="xsd:string" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="pl.bristleback.server.bristle.api.users.UserDetailsService"><![CDATA[
+              	              The bean name of the UserDetailsService used in default authentication action.
+              	              If not specified, custom authentication actions must be provided
+              	              (check pl.bristleback.server.bristle.api.annotations.Authenticator annotation).
+              							]]></xsd:documentation>
+          <xsd:appinfo>
+            <tool:annotation kind="ref">
+              <tool:expected-type type="pl.bristleback.server.bristle.api.users.UserDetailsService"/>
+            </tool:annotation>
+          </xsd:appinfo>
+        </xsd:annotation>
+      </xsd:attribute>
+
+      <xsd:attribute name="useDefaultLogoutAction" type="xsd:boolean" use="optional" default="true">
+        <xsd:annotation>
+          <xsd:documentation source="java.lang.Boolean"><![CDATA[
+              	              Indicates whether default pl.bristleback.server.bristle.security.authentication.LogoutAction
+              	              action class should be created.
+              	              If set to false, user must provide custom logout action,
+              	           pl.bristleback.server.bristle.security.authenticationtle.authentication.LogoutInterceptor.
+              							]]></xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+
+      <xsd:attribute name="maxConcurrentPerUsername" type="xsd:integer" use="optional" default="0">
+        <xsd:annotation>
+          <xsd:documentation source="java.lang.Integer"><![CDATA[
+                    	              Sets maximum concurrent authentications registered for each username.
+                    	              If specified value is set to 0,
+                    	              then no limit of concurrent valid authentications is applied.
+                    							]]></xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema> 

@@ -1,21 +1,21 @@
-== Bristleback Framework version 0.2.1
+== Bristleback Framework version 0.3.0
 Welcome,
 
 Bristleback Framework has got a new homepage http://bristleback.pl.
 Several samples and tutorials can be found there.
 
-If you like our project, please star or follow us!
+If you like our project, please star or fork the project!
 
-Latest Bristleback version: 0.2.1, version 0.3.0 is under development on separate branch.
+Latest Bristleback version: 0.3.0
 
 Check our wiki pages for tutorials.
 
-0.2.1 is now available in central Maven repository:
+0.3.0 is now available in central Maven repository:
 
     <dependency>
       <groupId>pl.bristleback</groupId>
-      <artifactId>bristleServer</artifactId>
-      <version>0.2.1</version>
+      <artifactId>bristleback-core</artifactId>
+      <version>0.3.0</version>
     </dependency>
 
 Few samples are available at https://github.com/bristleback/bristleback-samples
@@ -28,7 +28,7 @@ Few samples are available at https://github.com/bristleback/bristleback-samples
       -DarchetypeCatalog=http://bristleback.pl/archetype/archetype-catalog.xml
       -DarchetypeGroupId=pl.bristleback
       -DarchetypeArtifactId=webapp-archetype
-      -DarchetypeVersion=0.2.1
+      -DarchetypeVersion=0.3.0
 
 2. Enter additional information about the project.
 
