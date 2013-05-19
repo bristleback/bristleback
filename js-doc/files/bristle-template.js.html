@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>bristle-template.js - Bristleback Client API</title>
+    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.7.0&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="..&#x2F;assets/favicon.png">
+    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.7.0&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="http:&#x2F;&#x2F;bristleback.pl&#x2F;img&#x2F;bristleback-logo-green.png" title="Bristleback Client API"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.3.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="..&#x2F;classes/Bristleback.auth.SystemAuthentication.html">Bristleback.auth.SystemAuthentication</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.Client.html">Bristleback.Client</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.Console.html">Bristleback.Console</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.controller.Action.html">Bristleback.controller.Action</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.controller.ActionCallback.html">Bristleback.controller.ActionCallback</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.controller.ActionClass.html">Bristleback.controller.ActionClass</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.controller.ActionController.html">Bristleback.controller.ActionController</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.controller.ActionExceptionHandler.html">Bristleback.controller.ActionExceptionHandler</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.controller.ActionMessage.html">Bristleback.controller.ActionMessage</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.controller.ClientActionClass.html">Bristleback.controller.ClientActionClass</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.controller.controllers.html">Bristleback.controller.controllers</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.LOCAL_HOSTNAME.html">Bristleback.LOCAL_HOSTNAME</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.template.TemplateController.html">Bristleback.template.TemplateController</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.USER_CONTEXT.html">Bristleback.USER_CONTEXT</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.USER_DETAILS.html">Bristleback.USER_DETAILS</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.utils.html">Bristleback.utils</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="..&#x2F;modules/auth.html">auth</a></li>
+            
+                <li><a href="..&#x2F;modules/Bristleback.html">Bristleback</a></li>
+            
+                <li><a href="..&#x2F;modules/controller.html">controller</a></li>
+            
+                <li><a href="..&#x2F;modules/core.html">core</a></li>
+            
+                <li><a href="..&#x2F;modules/serialization.html">serialization</a></li>
+            
+                <li><a href="..&#x2F;modules/template.html">template</a></li>
+            
+                <li><a href="..&#x2F;modules/utils.html">utils</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: bristle-template.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+&#x2F;**
+ Template module
+
+ @module Bristleback
+ @submodule template
+ @main Bristleback
+ **&#x2F;
+
+&#x2F;**
+ * Template controller is responsible for registering template frameworks and storing, caching and rendering templates.
+ * Before using template controller, template framework implementation must be registered via registerTemplateFramework() method.
+ * @class TemplateController
+ * @namespace Bristleback.template
+ * @constructor
+ *&#x2F;
+Bristleback.template.TemplateController = function () {
+  this.parsedTemplates = {};
+
+  &#x2F;**
+   Rendering modes, by default there are 3 modes available: &quot;replace&quot;, &quot;prepend&quot; and &quot;append&quot;.
+   By default, &quot;replace&quot; mode is being applied. Replacing mode sets inner html content of the container.
+
+   @property renderingModes
+   @type Object
+   **&#x2F;
+  this.renderingModes = Bristleback.template.builtInRenderingModes;
+};
+
+Bristleback.template.TemplateController.prototype.constructTemplateInformation = function (templateName, containerId, rootObjectName, renderingMode) {
+  containerId = containerId ? containerId : &quot;#&quot; + templateName + &quot;-div&quot;;
+  renderingMode = renderingMode ? renderingMode : &quot;replace&quot;;
+  if (!this.renderingModes[renderingMode]) {
+    var logMsg = &quot;Cannot find rendering mode with name: &quot; + renderingMode;
+    Bristleback.Console.log(logMsg);
+    throw new Error(logMsg);
+  }
+
+  var templateInformation = {};
+  templateInformation.rootObjectName = rootObjectName;
+  templateInformation.containerId = containerId;
+  templateInformation.templateName = templateName;
+  templateInformation.displayTemplate = this.renderingModes[renderingMode];
+  return templateInformation;
+};
+
+&#x2F;**
+ * Checks if there is template with name given as parameter.
+ * @method containsTemplate
+ * @param templateName
+ * @return {Boolean}
+ *&#x2F;
+Bristleback.template.TemplateController.prototype.containsTemplate = function (templateName) {
+  return this.parsedTemplates[templateName] != undefined;
+};
+
+&#x2F;**
+ * Resolves template with name given as parameter.
+ * If there is no parsed template cached in templates container, template framework is used to parse template.
+ * @method getTemplate
+ * @param {String} templateName
+ * @return {Object} parsed template.
+ *&#x2F;
+Bristleback.template.TemplateController.prototype.getTemplate = function (templateName) {
+  if (!this.containsTemplate(templateName)) {
+    this.parsedTemplates[templateName] =
+      this.templateFramework.parseTemplate(templateName);
+  }
+  return this.parsedTemplates[templateName];
+};
+
+&#x2F;**
+ * Renders template using template information object.
+ * @method render
+ * @param {Object} templateInformation information about template.
+ * @param {Object} object data used by template.
+ *&#x2F;
+Bristleback.template.TemplateController.prototype.render = function (templateInformation, object) {
+  if (templateInformation.rootObjectName) {
+    var data = {};
+    data[templateInformation.rootObjectName] = object;
+  } else {
+    data = object;
+  }
+
+  var parsedTemplate = this.getTemplate(templateInformation.templateName);
+  var result = this.templateFramework.processTemplate(parsedTemplate, data);
+  templateInformation.displayTemplate(result, templateInformation);
+};
+
+&#x2F;**
+ * Registers template framework that will be used by template controller.
+ * Template framework must provide 2 methods:
+ * &lt;ul&gt;
+ *   &lt;li&gt;parseTemplate(templateName)&lt;&#x2F;li&gt;
+ *   &lt;li&gt;processTemplate(parsedTemplate, data)&lt;&#x2F;li&gt;
+ * &lt;&#x2F;ul&gt;
+ * Several template frameworks can be found in Bristleback.templateFrameworks object.
+ * @method registerTemplateFramework
+ * @param {Object} templateFramework
+ *&#x2F;
+Bristleback.template.TemplateController.prototype.registerTemplateFramework = function (templateFramework) {
+  this.templateFramework = templateFramework;
+};
+
+
+Bristleback.template.builtInRenderingModes = {
+  replace: function (result, templateInformation) {
+    var idWithoutHash = templateInformation.containerId.substring(1);
+    var container = document.getElementById(idWithoutHash);
+    container.innerHTML = result;
+  },
+  append: function (result, templateInformation) {
+    var idWithoutHash = templateInformation.containerId.substring(1);
+    var container = document.getElementById(idWithoutHash);
+    container.innerHTML = container.innerHTML + result;
+  },
+  prepend: function (result, templateInformation) {
+    var idWithoutHash = templateInformation.containerId.substring(1);
+    var container = document.getElementById(idWithoutHash);
+    container.innerHTML = result + container.innerHTML;
+  }
+};
+
+Bristleback.templateFrameworks = {
+
+  trimpath: {
+    parseTemplate: function (templateName) {
+      if (!document.getElementById(templateName)) {
+        var logMsg = &quot;Cannot find template with id: &quot; + templateName;
+        Bristleback.Console.log(logMsg);
+        throw new Error(logMsg);
+      }
+      return TrimPath.parseDOMTemplate(templateName);
+    },
+    processTemplate: function (parsedTemplate, data) {
+      return parsedTemplate.process(data);
+    }
+  },
+  handlebars: {
+    parseTemplate: function (templateName) {
+      var templateContainer = document.getElementById(templateName);
+      if (!templateContainer) {
+        var logMsg = &quot;Cannot find template with id: &quot; + templateName;
+        Bristleback.Console.log(logMsg);
+        throw new Error(logMsg);
+      }
+
+      var source = templateContainer.innerHTML;
+      return Handlebars.compile(source);
+    },
+    processTemplate: function (parsedTemplate, data) {
+      return parsedTemplate(data);
+    }
+  }
+
+};
+
+Bristleback.templateController = new Bristleback.template.TemplateController();
+
+
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="..&#x2F;assets/js/yui-prettify.js"></script>
+<script src="..&#x2F;assets/../api.js"></script>
+<script src="..&#x2F;assets/js/api-filter.js"></script>
+<script src="..&#x2F;assets/js/api-list.js"></script>
+<script src="..&#x2F;assets/js/api-search.js"></script>
+<script src="..&#x2F;assets/js/apidocs.js"></script>
+</body>
+</html>
