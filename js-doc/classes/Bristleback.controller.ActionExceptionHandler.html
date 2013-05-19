@@ -15,11 +15,11 @@
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
             
-                <h1><img src="http:&#x2F;&#x2F;bristleback.pl&#x2F;img&#x2F;logo.png" title="Bristleback Client API"></h1>
+                <h1><img src="http:&#x2F;&#x2F;bristleback.pl&#x2F;img&#x2F;bristleback-logo-green.png" title="Bristleback Client API"></h1>
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.2.1</em>
+            <em>API Docs for: 0.3.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,9 +41,9 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="..&#x2F;classes/Bristleback.Client.html">Bristleback.Client</a></li>
+                <li><a href="..&#x2F;classes/Bristleback.auth.SystemAuthentication.html">Bristleback.auth.SystemAuthentication</a></li>
             
-                <li><a href="..&#x2F;classes/Bristleback.CONNECTOR.html">Bristleback.CONNECTOR</a></li>
+                <li><a href="..&#x2F;classes/Bristleback.Client.html">Bristleback.Client</a></li>
             
                 <li><a href="..&#x2F;classes/Bristleback.Console.html">Bristleback.Console</a></li>
             
@@ -57,15 +57,27 @@
             
                 <li><a href="..&#x2F;classes/Bristleback.controller.ActionExceptionHandler.html">Bristleback.controller.ActionExceptionHandler</a></li>
             
+                <li><a href="..&#x2F;classes/Bristleback.controller.ActionMessage.html">Bristleback.controller.ActionMessage</a></li>
+            
                 <li><a href="..&#x2F;classes/Bristleback.controller.ClientActionClass.html">Bristleback.controller.ClientActionClass</a></li>
             
+                <li><a href="..&#x2F;classes/Bristleback.controller.controllers.html">Bristleback.controller.controllers</a></li>
+            
                 <li><a href="..&#x2F;classes/Bristleback.LOCAL_HOSTNAME.html">Bristleback.LOCAL_HOSTNAME</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.template.TemplateController.html">Bristleback.template.TemplateController</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.USER_CONTEXT.html">Bristleback.USER_CONTEXT</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.USER_DETAILS.html">Bristleback.USER_DETAILS</a></li>
             
                 <li><a href="..&#x2F;classes/Bristleback.utils.html">Bristleback.utils</a></li>
             
             </ul>
 
             <ul id="api-modules" class="apis modules">
+            
+                <li><a href="..&#x2F;modules/auth.html">auth</a></li>
             
                 <li><a href="..&#x2F;modules/Bristleback.html">Bristleback</a></li>
             
@@ -74,6 +86,8 @@
                 <li><a href="..&#x2F;modules/core.html">core</a></li>
             
                 <li><a href="..&#x2F;modules/serialization.html">serialization</a></li>
+            
+                <li><a href="..&#x2F;modules/template.html">template</a></li>
             
                 <li><a href="..&#x2F;modules/utils.html">utils</a></li>
             
@@ -120,7 +134,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="..&#x2F;files&#x2F;bristle-controller.js.html#l49"><code>bristle-controller.js:49</code></a>
+            Defined in: <a href="..&#x2F;files&#x2F;bristle-controller.js.html#l56"><code>bristle-controller.js:56</code></a>
         </div>
     
 
@@ -177,7 +191,7 @@ also there is one exception handler in action controller object.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;bristle-controller.js.html#l49"><code>bristle-controller.js:49</code></a>
+        <a href="..&#x2F;files&#x2F;bristle-controller.js.html#l56"><code>bristle-controller.js:56</code></a>
         
         </p>
 
@@ -224,6 +238,20 @@ also there is one exception handler in action controller object.</p>
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
+                                <a href="#method_renderOnDefaultException">renderOnDefaultException</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_renderOnException">renderOnException</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_setDefaultExceptionHandler">setDefaultExceptionHandler</a>
 
                                 
@@ -251,6 +279,297 @@ also there is one exception handler in action controller object.</p>
         
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_renderOnDefaultException" class="method item">
+    <h3 class="name"><code>renderOnDefaultException</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>templateName</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>containerId</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>renderingMode</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag chainable">chainable</span>
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;bristle-controller.js.html#l116"><code>bristle-controller.js:116</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Adds default rendering handler to be used when exception occurs.
+Before using rendering functionality, templating framework implementation should be provided by calling
+Bristleback.templateController.registerTemplateFramework() method.
+Rendering handlers ALWAYS break exception processing cycle.</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">templateName</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>template name that should be used.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">containerId</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>id of the parent container for rendered template.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">renderingMode</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>name of rendering mode, one of the specified in
+<strong>Bristleback.templateController.renderingModes</strong> map. By default, "replace" mode is used.</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_renderOnException" class="method item">
+    <h3 class="name"><code>renderOnException</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>exceptionType</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>templateName</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>containerId</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>renderingMode</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag chainable">chainable</span>
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;bristle-controller.js.html#l95"><code>bristle-controller.js:95</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Adds rendering handler to be used when given exception type occurs.
+Before using rendering functionality, templating framework implementation should be provided by calling
+Bristleback.templateController.registerTemplateFramework() method.
+Rendering handlers ALWAYS break exception processing cycle.</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">exceptionType</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>exception type to handle.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">templateName</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>template name that should be used.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">containerId</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>id of the parent container for rendered template.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">renderingMode</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>name of rendering mode, one of the specified in
+<strong>Bristleback.templateController.renderingModes</strong> map. By default, "replace" mode is used.</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
 
                 
                     <div id="method_setDefaultExceptionHandler" class="method item">
@@ -281,6 +600,8 @@ also there is one exception handler in action controller object.</p>
     
 
     
+        <span class="flag chainable">chainable</span>
+    
 
     
 
@@ -295,7 +616,7 @@ also there is one exception handler in action controller object.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;bristle-controller.js.html#l62"><code>bristle-controller.js:62</code></a>
+        <a href="..&#x2F;files&#x2F;bristle-controller.js.html#l71"><code>bristle-controller.js:71</code></a>
         
         </p>
 
@@ -375,6 +696,8 @@ cannot be found or it has been found and returned "false".</p>
     
 
     
+        <span class="flag chainable">chainable</span>
+    
 
     
 
@@ -389,7 +712,7 @@ cannot be found or it has been found and returned "false".</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;bristle-controller.js.html#l73"><code>bristle-controller.js:73</code></a>
+        <a href="..&#x2F;files&#x2F;bristle-controller.js.html#l83"><code>bristle-controller.js:83</code></a>
         
         </p>
 
