@@ -44,24 +44,17 @@ import javax.inject.Inject;
 @Component
 public class ActionDispatcher {
 
+    @Inject
   private ActionsContainer actionsContainer;
 
   @Inject
   private ResponseHelper responseHelper;
 
   @Inject
-  private ActionClassesResolver actionClassesResolver;
-
-  @Inject
   private BristleSpringIntegration springIntegration;
 
   @Inject
   private ActionInterceptorsExecutor interceptorPolicyExecutor;
-
-  @PostConstruct
-  public void init() {
-    actionsContainer = actionClassesResolver.resolve();
-  }
 
   public void dispatch(ActionExecutionContext context) throws Exception {
     ActionInformation action = extractAction(context);

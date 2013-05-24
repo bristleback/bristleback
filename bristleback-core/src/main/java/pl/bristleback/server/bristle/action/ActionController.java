@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.client.ClientActionsInitializer;
 import pl.bristleback.server.bristle.action.exception.handler.ActionExceptionHandlers;
+import pl.bristleback.server.bristle.action.streaming.StreamingActionDispatcher;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.SerializationEngine;
@@ -32,6 +33,9 @@ import javax.inject.Inject;
 public class ActionController implements DataController {
 
   private static Logger log = Logger.getLogger(ActionController.class.getName());
+
+    @Inject
+  private StreamingActionDispatcher streamingDispatcher;
 
   @Inject
   private ActionDispatcher dispatcher;
@@ -78,6 +82,6 @@ public class ActionController implements DataController {
 
   @Override
   public void processBinaryData(byte[] binaryData, UserContext userContext) {
-    processTextData(new String(binaryData), userContext);
+     streamingDispatcher.dispatch(binaryData, userContext);
   }
 }
