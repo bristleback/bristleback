@@ -22,12 +22,12 @@ public class BristlebackStreamingAction {
     private ActionsContainer actionsContainer;
 
     @Action
-    public boolean initStreaming(String actionClass, UserContext userContext) {
+    public boolean initStreaming(String handlingStreamingClass, UserContext userContext) {
         if (registeredClientStreams.isUserStreamExist(userContext)) {
-            throw new StreamInitializationException("Could not init streaming for " + actionClass + " action class. " +
+            throw new StreamInitializationException("Could not init streaming for " + handlingStreamingClass + " action class. " +
                     "User with id " + userContext.getId() + " has already registered stream.");
         }
-        ActionClassInformation actionClassInformation = actionsContainer.getActionClass(actionClass);
+        ActionClassInformation actionClassInformation = actionsContainer.getActionClass(handlingStreamingClass);
         if (!StreamingActionClass.class.isAssignableFrom(actionClassInformation.getType())) {
             throw new StreamInitializationException("Action class " + actionClassInformation.getName() + " is not a streaming class. \n" +
                     "Streaming action class must implement " + StreamingActionClass.class.getSimpleName() + " interface.");

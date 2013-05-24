@@ -562,6 +562,16 @@ Bristleback.controller.ClientActionClass.prototype.onMessage = function (actionM
   actionMessage.action.apply(actionMessage.actionClass, parameters);
 };
 
+//------------- STREAMING ACTION CLASS
+
+Bristleback.controller.StreamingActionClass = function(name) {
+    this.name =name;
+};
+
+Bristleback.controller.StreamingActionClass.prototype.initOutgoingStream = function() {
+
+};
+
 //------------- DEFAULT CONTROLLERS
 
 Bristleback.controller.controllers["system.controller.action"] = Bristleback.controller.ActionController;
