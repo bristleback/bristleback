@@ -297,6 +297,14 @@ Bristleback.controller.ActionController.prototype.registerClientActionClass = fu
   this.clientActionClasses[actionClassName] = new Bristleback.controller.ClientActionClass(actionClassName, actionClass);
 };
 
+Bristleback.controller.ActionController.prototype.getStreamingActionClass = function (actionClassName) {
+  var actionClass = this.actionClasses[actionClassName];
+  if (actionClass === undefined) {
+    actionClass = new Bristleback.controller.StreamingActionClass(actionClassName, this);
+    this.actionClasses[actionClassName] = actionClass;
+  }
+  return actionClass;
+};
 
 //------------- ACTION CLASS
 
@@ -564,12 +572,19 @@ Bristleback.controller.ClientActionClass.prototype.onMessage = function (actionM
 
 //------------- STREAMING ACTION CLASS
 
-Bristleback.controller.StreamingActionClass = function(name) {
-    this.name =name;
+Bristleback.controller.StreamingActionClass = function (name, actionController) {
+  this.name = name;
+  this.actionController = actionController;
 };
 
-Bristleback.controller.StreamingActionClass.prototype.initOutgoingStream = function() {
+Bristleback.controller.StreamingActionClass.prototype.initOutgoingStream = function (acceptCallback) {
+  this.acceptCallback = acceptCallback;
+  var parameters = [this.name, Bristleback.USER_CONTEXT];
+  this.actionController.client.sendMessage("BristlebackStreamingAction.initStreaming", parameters);
+};
 
+Bristleback.controller.StreamingActionClass.prototype.stream = function(bytes) {
+  this.actionController.client.sendBinaryMessage(bytes);
 };
 
 //------------- DEFAULT CONTROLLERS

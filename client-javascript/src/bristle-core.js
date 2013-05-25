@@ -105,13 +105,22 @@ Bristleback.Client.prototype.connect = function () {
  * @param message message object to send.
  */
 Bristleback.Client.prototype.sendMessage = function (message) {
+ this.assertConnection();
+  var serializedMessage = this.serializationEngine.serialize(message);
+  this.connection.send(serializedMessage);
+};
+
+Bristleback.Client.prototype.sendBinaryMessage = function(bytes) {
+  this.assertConnection();
+  this.connection.send(bytes);
+};
+
+Bristleback.Client.prototype.assertConnection = function() {
   if (!this.isConnected()) {
     var msg = "Cannot send a message, connection is not open.";
     Bristleback.Console.log(msg);
     throw new Error(msg);
   }
-  var serializedMessage = this.serializationEngine.serialize(message);
-  this.connection.send(serializedMessage);
 };
 
 /**
