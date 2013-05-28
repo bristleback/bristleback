@@ -4,11 +4,12 @@
 
   <groupId>com.example</groupId>
   <artifactId>websocket</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.5-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <properties>
-    <jetty-version>7.5.0.RC1</jetty-version>
+    <jetty-version>8.1.10.v20130312</jetty-version>
+      <tomcat.version>7.0.32</tomcat.version>
   </properties>
 
   <name>websocket</name>
@@ -25,6 +26,29 @@
           <skipTests>true</skipTests>
         </configuration>
       </plugin>
+           <plugin>
+<!--               <artifactId>maven-assembly-plugin</artifactId>
+               <version>2.2</version>
+               <configuration>
+                 <descriptors>
+                   <descriptor>src/main/assembly/jar-dependencies.xml</descriptor>
+                   &lt;!&ndash;<descriptor>src/main/assembly/all.xml</descriptor>&ndash;&gt;
+                 </descriptors>
+               </configuration>-->
+             <artifactId>maven-assembly-plugin</artifactId>
+               <version>2.4</version>
+             <configuration>
+               <archive>
+                 <manifest>
+                   <!--<mainClass>fully.qualified.MainClass</mainClass>-->
+                 </manifest>
+               </archive>
+
+               <descriptorRefs>
+                 <descriptorRef>jar-with-dependencies</descriptorRef>
+               </descriptorRefs>
+             </configuration>
+           </plugin>
     </plugins>
   </build>
 
@@ -40,7 +64,73 @@
       <artifactId>jetty-servlet</artifactId>
       <version>${jetty-version}</version>
       <type>jar</type>
+<!--        <exclusions>
+            <exclusion>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-security</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-servlet</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-util</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-http</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-io</artifactId>
+            </exclusion>
+        </exclusions>-->
     </dependency>
+
+      <!--TOMCAT-->
+      <dependency>
+        <groupId>org.apache.tomcat</groupId>
+        <artifactId>tomcat-catalina</artifactId>
+        <version>${tomcat.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.tomcat</groupId>
+        <artifactId>tomcat-coyote</artifactId>
+        <version>${tomcat.version}</version>
+      </dependency>
+
+      <!-- Tomcat 7.027+ Needs icu4j version > 2.6.1 -->
+      <dependency>
+        <groupId>com.ibm.icu</groupId>
+        <artifactId>icu4j</artifactId>
+        <version>3.4.4</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.ning</groupId>
+        <artifactId>async-http-client</artifactId>
+        <version>1.7.16</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.glassfish.grizzly</groupId>
+          <artifactId>grizzly-framework</artifactId>
+          <version>2.3.2</version>
+      </dependency>
+      <dependency>
+           <groupId>org.glassfish.grizzly</groupId>
+           <artifactId>grizzly-http</artifactId>
+           <version>2.3.2</version>
+      </dependency>
+      <dependency>
+           <groupId>org.glassfish.grizzly</groupId>
+           <artifactId>grizzly-websockets</artifactId>
+           <version>2.3.2</version>
+      </dependency>
+
+
   </dependencies>
 
   <profiles>

@@ -1,5 +1,9 @@
 package com.example.websocket;
 
+/*import org.eclipse.jetty.websocket.WebSocket;
+import org.eclipse.jetty.websocket.WebSocketClient;*/
+
+
 import org.eclipse.jetty.websocket.WebSocket;
 import org.eclipse.jetty.websocket.WebSocketClient;
 
@@ -13,11 +17,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /* ------------------------------------------------------------ */
 
-/**
- * WebSocket Example Chat client. <p>This class is a example of the Jetty WebSocket client API to create a load tester
- * for the simple {@link ChatServlet}. It create a number of WebSocket chat connections and then picks random
- * connections to send messages on.   The received messages are simply counted.
- */
 public class ChatLoadClient implements WebSocket.OnTextMessage {
   private static final AtomicLong sent = new AtomicLong(0);
   private static final AtomicLong received = new AtomicLong(0);
@@ -112,8 +111,8 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
   public static void main(String... arg) throws Exception {
 //       String host = arg.length > 0 ? arg[0] : "localhost";
 //    int port = arg.length > 1 ? Integer.parseInt(arg[1]) : 8080;
-    int mesgs = arg.length > 0 ? Integer.parseInt(arg[3]) : 1000;
-    int clients = arg.length > 1 ? Integer.parseInt(arg[2]) : 1000;
+    int mesgs = arg.length > 0 ? Integer.parseInt(arg[3]) : 10;
+    int clients = arg.length > 1 ? Integer.parseInt(arg[2]) : 2;
 
     long testResult = runTests(mesgs, clients);
     System.out.println("TEST RESULT: " + testResult);
@@ -121,12 +120,12 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
 
   }
 
-  private static long runTests(int messagesCount, int clientsCount) throws Exception {
+  public static long runTests(int messagesCount, int clientsCount) throws Exception {
     WebSocketClient webSocketClient = new WebSocketClient();
-    webSocketClient.setBufferSize(4096);
+//    webSocketClient.setBufferSize(4096);
     webSocketClient.setMaxIdleTime(30000);
     webSocketClient.setProtocol("");
-    webSocketClient.start();
+//    webSocketClient.();
 
     // Create client serially
     ChatLoadClient[] chatClients = createClients(webSocketClient, clientsCount);
@@ -185,7 +184,7 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
 
     System.err.printf("Closed %d connections to %s:%d in %dms\n", clientsCount, host, port, (end - start));
 
-    webSocketClient.stop();
+//    webSocketClient.stop();
     return messagesSentCount;
   }
 

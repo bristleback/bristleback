@@ -4,7 +4,7 @@
 
   <groupId>pl.bristleback</groupId>
   <artifactId>bristleback-parent</artifactId>
-  <version>0.3.0</version>
+  <version>0.4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <modules>
@@ -14,6 +14,7 @@
     <module>websocket-engine-netty</module>
     <module>sample-app</module>
     <module>serialization-engine-jackson</module>
+      <module>client-java-jetty</module>
   </modules>
 
   <name>Bristleback Framework parent module</name>
