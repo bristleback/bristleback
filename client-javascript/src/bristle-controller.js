@@ -230,6 +230,9 @@ Bristleback.controller.ActionController = function () {
   this.exceptionHandler.setDefaultExceptionHandler(this.defaultHandlerFunction);
 
   this.authentication = new Bristleback.auth.SystemAuthentication(this);
+
+  this.registerStreamActionClass = this.getActionClass("BristlebackStreamingAction");
+  this.registerStreamActionClass.defineAction("initStreaming");
 };
 
 Bristleback.controller.ActionController.prototype.onMessage = function (message) {
@@ -578,12 +581,10 @@ Bristleback.controller.StreamingActionClass = function (name, actionController) 
 };
 
 Bristleback.controller.StreamingActionClass.prototype.initOutgoingStream = function (acceptCallback) {
-  this.acceptCallback = acceptCallback;
-  var parameters = [this.name, Bristleback.USER_CONTEXT];
-  this.actionController.client.sendMessage("BristlebackStreamingAction.initStreaming", parameters);
+  this.actionController.registerStreamActionClass.initStreaming(this.name, Bristleback.USER_CONTEXT, acceptCallback);
 };
 
-Bristleback.controller.StreamingActionClass.prototype.stream = function(bytes) {
+Bristleback.controller.StreamingActionClass.prototype.stream = function (bytes) {
   this.actionController.client.sendBinaryMessage(bytes);
 };
 
