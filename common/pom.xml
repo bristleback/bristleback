@@ -10,11 +10,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>pl.bristleback</groupId>
-  <artifactId>websocket-engine-jetty</artifactId>
+  <artifactId>common</artifactId>
   <version>0.4.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>Bristleback Jetty Websocket Engine</name>
+  <name>Bristleback common module</name>
   <url>http://bristleback.pl</url>
   <description>High level, Spring integrated WebSocket Framework</description>
   <licenses>
@@ -54,49 +54,7 @@
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>pl.bristleback</groupId>
-      <artifactId>bristleback-core</artifactId>
-      <version>0.4.0-SNAPSHOT</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context</artifactId>
-      <version>${org.springframework.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-websocket</artifactId>
-      <version>${jetty.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-api</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-log4j12</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
 
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-server</artifactId>
-      <version>${jetty.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-api</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-log4j12</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
   </dependencies>
 
   <build>

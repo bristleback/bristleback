@@ -17,8 +17,8 @@ package pl.bristleback.server.bristle.action.client;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import pl.bristleback.common.serialization.message.BristleMessage;
 import pl.bristleback.server.bristle.api.action.ClientActionSender;
-import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 
 import java.util.HashMap;

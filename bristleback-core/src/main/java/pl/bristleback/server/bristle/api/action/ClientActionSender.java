@@ -16,7 +16,7 @@
 package pl.bristleback.server.bristle.api.action;
 
 import pl.bristleback.server.bristle.action.client.ClientActionInformation;
-import pl.bristleback.server.bristle.message.BristleMessage;
+import pl.bristleback.common.serialization.message.BristleMessage;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 
 /**

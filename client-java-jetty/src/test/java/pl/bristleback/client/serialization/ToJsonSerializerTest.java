@@ -1,6 +1,7 @@
 package pl.bristleback.client.serialization;
 
 import org.junit.Test;
+import pl.bristleback.common.serialization.message.BristleMessage;
 
 import static org.fest.assertions.Assertions.assertThat;
 

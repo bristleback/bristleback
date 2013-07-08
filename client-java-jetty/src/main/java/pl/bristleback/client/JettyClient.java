@@ -6,12 +6,12 @@ import org.eclipse.jetty.websocket.WebSocketClientFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.bristleback.client.api.BristlebackClient;
+import pl.bristleback.client.api.onmessage.OnMessageCallback;
 import pl.bristleback.client.connection.ServerUrl;
 import pl.bristleback.client.exceptions.ConnectionException;
 import pl.bristleback.client.exceptions.MessageSendingException;
-import pl.bristleback.client.api.onmessage.OnMessageCallback;
-import pl.bristleback.client.serialization.BristleMessage;
 import pl.bristleback.client.serialization.ToJsonSerializer;
+import pl.bristleback.common.serialization.message.BristleMessage;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;

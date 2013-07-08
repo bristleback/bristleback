@@ -25,7 +25,7 @@ import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.SerializationEngine;
 import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.conf.resolver.action.BristleMessageSerializationUtils;
-import pl.bristleback.server.bristle.message.BristleMessage;
+import pl.bristleback.common.serialization.message.BristleMessage;
 
 import javax.inject.Inject;
 

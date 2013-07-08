@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import pl.bristleback.server.bristle.message.BristleMessage;
+import pl.bristleback.common.serialization.message.BristleMessage;
 import pl.bristleback.server.bristle.serialization.system.BristleSerializationResolver;
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
 import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;

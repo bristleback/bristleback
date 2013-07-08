@@ -20,7 +20,7 @@ import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.annotations.ObjectSender;
 import pl.bristleback.server.bristle.conf.resolver.SpringConfigurationResolver;
-import pl.bristleback.server.bristle.message.BristleMessage;
+import pl.bristleback.common.serialization.message.BristleMessage;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;

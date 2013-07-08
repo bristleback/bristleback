@@ -22,7 +22,7 @@ import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.SerializationResolver;
 import pl.bristleback.server.bristle.conf.resolver.action.BristleMessageSerializationUtils;
 import pl.bristleback.server.bristle.conf.resolver.serialization.SerializationInputResolver;
-import pl.bristleback.server.bristle.message.BristleMessage;
+import pl.bristleback.common.serialization.message.BristleMessage;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
 import pl.bristleback.server.bristle.serialization.SerializationResolvingException;
 import pl.bristleback.server.bristle.serialization.system.annotation.Bind;

@@ -16,12 +16,12 @@
 package pl.bristleback.server.bristle.action.client.strategy;
 
 import org.springframework.stereotype.Component;
+import pl.bristleback.common.serialization.message.BristleMessage;
 import pl.bristleback.server.bristle.action.client.ClientActionInformation;
 import pl.bristleback.server.bristle.api.action.ClientActionSender;
 import pl.bristleback.server.bristle.api.users.UserContext;
-import pl.bristleback.server.bristle.security.UsersContainer;
-import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
+import pl.bristleback.server.bristle.security.UsersContainer;
 
 import javax.inject.Inject;
 import java.util.List;

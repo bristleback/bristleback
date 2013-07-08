@@ -16,7 +16,7 @@
 package pl.bristleback.server.bristle.conf.resolver.action;
 
 import org.springframework.stereotype.Component;
-import pl.bristleback.server.bristle.message.BristleMessage;
+import pl.bristleback.common.serialization.message.BristleMessage;
 import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;
 import pl.bristleback.server.bristle.utils.PropertyUtils;
 

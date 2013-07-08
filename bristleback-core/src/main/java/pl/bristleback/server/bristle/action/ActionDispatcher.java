@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.interceptor.ActionInterceptorsExecutor;
 import pl.bristleback.server.bristle.action.response.ResponseHelper;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
-import pl.bristleback.server.bristle.message.BristleMessage;
+import pl.bristleback.common.serialization.message.BristleMessage;
 
 import javax.inject.Inject;
 
