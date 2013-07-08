@@ -13,7 +13,7 @@
  * ---------------------------------------------------------------------------
  */
 
-package pl.bristleback.server.bristle.message;
+package pl.bristleback.common.serialization.message;
 
 /**
  * Pawel Machowski
