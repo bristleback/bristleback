@@ -8,6 +8,7 @@
   <packaging>pom</packaging>
 
   <modules>
+    <module>common</module>
     <module>bristleback-core</module>
     <module>websocket-engine-jetty</module>
     <module>websocket-engine-tomcat</module>

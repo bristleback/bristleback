@@ -15,6 +15,7 @@
 
 package pl.bristleback.server.bristle.message;
 
+import pl.bristleback.common.serialization.message.BristleMessage;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.MessageDispatcher;
 import pl.bristleback.server.bristle.api.SerializationEngine;

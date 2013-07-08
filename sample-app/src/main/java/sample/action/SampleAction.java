@@ -8,7 +8,7 @@ import pl.bristleback.server.bristle.api.annotations.Intercept;
 import pl.bristleback.server.bristle.api.annotations.ObjectSender;
 import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.engine.user.BaseUserContext;
-import pl.bristleback.server.bristle.message.BristleMessage;
+import pl.bristleback.common.serialization.message.BristleMessage;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import sample.Card;
 import sample.User;
