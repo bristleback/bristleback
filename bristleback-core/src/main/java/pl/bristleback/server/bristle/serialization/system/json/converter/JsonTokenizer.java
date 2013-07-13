@@ -33,6 +33,7 @@ public class JsonTokenizer {
   private String jsonAsText;
 
   private int index = -1;
+  private int lastTokenBeginIndex = -1;
 
   private String lastTokenValue;
 
@@ -149,7 +150,7 @@ public class JsonTokenizer {
       return lastTokenType;
     }
     char c = this.nextClean();
-
+    lastTokenBeginIndex = index;
     if (c == ':') {
       lastTokenType = JsonTokenType.PROPERTY_NAME;
       return nextToken();
@@ -361,5 +362,13 @@ public class JsonTokenizer {
    */
   public JsonTokenType getLastTokenType() {
     return lastTokenType;
+  }
+
+  public int getIndex() {
+    return index;
+  }
+
+  public int getLastTokenBeginIndex() {
+    return lastTokenBeginIndex;
   }
 }

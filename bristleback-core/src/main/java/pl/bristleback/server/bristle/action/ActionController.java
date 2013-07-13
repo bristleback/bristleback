@@ -21,10 +21,10 @@ import pl.bristleback.server.bristle.action.client.ClientActionsInitializer;
 import pl.bristleback.server.bristle.action.exception.handler.ActionExceptionHandlers;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.DataController;
-import pl.bristleback.server.bristle.api.SerializationEngine;
 import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.conf.resolver.action.BristleMessageSerializationUtils;
 import pl.bristleback.server.bristle.message.BristleMessage;
+import pl.bristleback.server.bristle.serialization.RawMessageSerializationEngine;
 
 import javax.inject.Inject;
 
@@ -45,17 +45,12 @@ public class ActionController implements DataController {
   @Inject
   private ClientActionsInitializer clientActionsInitializer;
 
-  private Object messageSerialization;
+  @Inject
+  private RawMessageSerializationEngine rawMessageSerializationEngine;
 
-  private SerializationEngine serializationEngine;
 
   @Override
   public void init(BristlebackConfig configuration) {
-    this.serializationEngine = configuration.getSerializationEngine();
-
-    messageSerialization = serializationEngine.getSerializationResolver()
-      .resolveSerialization(serializationHelper.getSerializedArrayMessageType());
-
     exceptionHandlers.initHandlers();
 
     clientActionsInitializer.initActionClasses();
@@ -67,7 +62,7 @@ public class ActionController implements DataController {
     ActionExecutionContext context = new ActionExecutionContext(userContext);
     try {
       log.debug("Incoming message: " + textData);
-      BristleMessage<String[]> actionMessage = (BristleMessage<String[]>) serializationEngine.deserialize(textData, messageSerialization);
+      BristleMessage<String[]> actionMessage = rawMessageSerializationEngine.deserialize(textData);
       context.setMessage(actionMessage);
       dispatcher.dispatch(context);
     } catch (Exception e) {

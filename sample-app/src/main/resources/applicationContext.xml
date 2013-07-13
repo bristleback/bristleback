@@ -20,6 +20,7 @@
 
   <bean id="initPojoConfigResolver" class="pl.bristleback.server.bristle.conf.resolver.init.PojoConfigResolver">
     <!--<property name="serializationEngine" value="system.jacksonSerializer"/>-->
+    <property name="loggingLevel" value="DEBUG"/>
   </bean>
 
   <bean id="propertiesFileConfigResolver"

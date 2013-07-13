@@ -9,7 +9,7 @@
 
   <groupId>pl.bristleback</groupId>
   <artifactId>serialization-engine-jackson</artifactId>
-  <version>0.3.0</version>
+  <version>0.3.1</version>
   <packaging>jar</packaging>
 
   <name>Bristleback Jackson Serialization Engine</name>
@@ -53,7 +53,7 @@
     <dependency>
       <groupId>pl.bristleback</groupId>
       <artifactId>bristleback-core</artifactId>
-      <version>0.3.0</version>
+      <version>0.3.1</version>
       <scope>provided</scope>
     </dependency>
 

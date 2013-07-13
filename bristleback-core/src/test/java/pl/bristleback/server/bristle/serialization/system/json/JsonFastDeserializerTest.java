@@ -72,6 +72,7 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
   private Long rawCustomFormatLong;
 
   private long rawLong;
+  private String rawString;
 
   private double[] rawArray;
 
@@ -276,6 +277,21 @@ public class JsonFastDeserializerTest extends AbstractJUnit4SpringContextTests {
 
     //then
     assertEquals(332221L, deserialized);
+  }
+
+  @Test
+  public void deserializeStringWithSpecialCharacters() throws Exception {
+    //given
+    Locale.setDefault(Locale.ENGLISH);
+    String serializedForm = "\"#<script>alert(\\\"something\\\");</script>\"";
+    Type type = PropertyUtils.getDeclaredFieldType(JsonFastDeserializerTest.class, "rawString");
+    PropertySerialization serialization = serializationResolver.resolveSerialization(type, getFieldsAnnotations("rawString"));
+
+    //when
+    Object deserialized = deserializer.deserialize(serializedForm, serialization);
+
+    //then
+    assertEquals("#<script>alert(\"something\");</script>", deserialized);
   }
 
   @Test
