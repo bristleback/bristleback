@@ -59,6 +59,12 @@
     </dependency>
 
     <dependency>
+      <groupId>pl.bristleback</groupId>
+      <artifactId>serialization-engine-jackson</artifactId>
+      <version>0.3.1</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
       <version>${org.springframework.version}</version>
