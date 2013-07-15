@@ -1,4 +1,4 @@
-package com.example.websocket;
+package pl.bristleback.performance;
 
 import org.eclipse.jetty.websocket.WebSocket;
 import org.eclipse.jetty.websocket.WebSocketClient;
@@ -14,8 +14,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /* ------------------------------------------------------------ */
 
 /**
- * WebSocket Example Chat client. <p>This class is a example of the Jetty WebSocket client API to create a load tester
- * for the simple {@link ChatServlet}. It create a number of WebSocket chat connections and then picks random
+ * WebSocket Example Chat client. It creates a number of WebSocket chat connections and then picks random
  * connections to send messages on.   The received messages are simply counted.
  */
 public class ChatLoadClient implements WebSocket.OnTextMessage {

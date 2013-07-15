@@ -12,8 +12,9 @@
     <module>websocket-engine-jetty</module>
     <module>websocket-engine-tomcat</module>
     <module>websocket-engine-netty</module>
-    <module>sample-app</module>
     <module>serialization-engine-jackson</module>
+    <module>sample-app</module>
+    <module>performance-test</module>
   </modules>
 
   <name>Bristleback Framework parent module</name>
