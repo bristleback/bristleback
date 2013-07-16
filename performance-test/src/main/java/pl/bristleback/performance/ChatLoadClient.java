@@ -2,6 +2,7 @@ package pl.bristleback.performance;
 
 import org.eclipse.jetty.websocket.WebSocket;
 import org.eclipse.jetty.websocket.WebSocketClient;
+import org.eclipse.jetty.websocket.WebSocketClientFactory;
 
 import java.io.IOException;
 import java.net.URI;
@@ -21,11 +22,10 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
   private static final AtomicLong sent = new AtomicLong(0);
   private static final AtomicLong received = new AtomicLong(0);
   private static final Set<ChatLoadClient> members = new CopyOnWriteArraySet<ChatLoadClient>();
-  private final String name;
   private final Connection connection;
 
   private static String host = "localhost";
-  private static int port = 8080;
+  private static int port = 8765;
 
 
   /* ------------------------------------------------------------ */
@@ -33,15 +33,13 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
   /**
    * Construct a Chat Load Client
    *
-   * @param username The username of the client
-   * @param client   The WebSocketClient to use for the connection.
-   * @param host     The host to connect to
-   * @param port     The port to connect to
+   * @param client The WebSocketClient to use for the connection.
+   * @param host   The host to connect to
+   * @param port   The port to connect to
    * @throws Exception
    */
-  public ChatLoadClient(String username, WebSocketClient client, String host, int port)
+  public ChatLoadClient(WebSocketClient client, String host, int port)
     throws Exception {
-    name = username;
     URI uri = new URI("ws://" + host + ":" + port + "/websocket");
     connection = client.open(uri, this).get();
   }
@@ -111,8 +109,8 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
   public static void main(String... arg) throws Exception {
 //       String host = arg.length > 0 ? arg[0] : "localhost";
 //    int port = arg.length > 1 ? Integer.parseInt(arg[1]) : 8080;
-    int mesgs = arg.length > 0 ? Integer.parseInt(arg[3]) : 1000;
-    int clients = arg.length > 1 ? Integer.parseInt(arg[2]) : 1000;
+    int mesgs = arg.length > 0 ? Integer.parseInt(arg[3]) : 1000000;
+    int clients = arg.length > 1 ? Integer.parseInt(arg[2]) : 10;
 
     long testResult = runTests(mesgs, clients);
     System.out.println("TEST RESULT: " + testResult);
@@ -121,12 +119,11 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
   }
 
   private static long runTests(int messagesCount, int clientsCount) throws Exception {
-    WebSocketClient webSocketClient = new WebSocketClient();
-    webSocketClient.setBufferSize(4096);
+    WebSocketClientFactory clientFactory = new WebSocketClientFactory();
+    WebSocketClient webSocketClient = clientFactory.newWebSocketClient();
     webSocketClient.setMaxIdleTime(30000);
     webSocketClient.setProtocol("");
-    webSocketClient.start();
-
+    clientFactory.start();
     // Create client serially
     ChatLoadClient[] chatClients = createClients(webSocketClient, clientsCount);
 
@@ -143,7 +140,7 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
         clientIndex = 0;
       }
       ChatLoadClient chatClient = chatClients[clientIndex];
-      String msg = buildBristlebackMessage();
+      String msg = buildBristlebackMessage(random.nextInt());
       chatClient.send(msg);
       clientIndex++;
     }
@@ -173,8 +170,9 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
 
     // Close all connections
     start = System.currentTimeMillis();
-    for (int i = 0; i < chatClients.length; i++)
-      chatClients[i].disconnect();
+    for (ChatLoadClient chatClient : chatClients) {
+      chatClient.disconnect();
+    }
     while (members.size() > 0) {
       if (System.currentTimeMillis() > (start + webSocketClient.getMaxIdleTime()))
         break;
@@ -184,7 +182,7 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
 
     System.err.printf("Closed %d connections to %s:%d in %dms\n", clientsCount, host, port, (end - start));
 
-    webSocketClient.stop();
+    clientFactory.stop();
     return messagesSentCount;
   }
 
@@ -204,15 +202,13 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
   private static ChatLoadClient[] createClients(WebSocketClient client, int clientsCount) throws Exception {
     ChatLoadClient[] chatClients = new ChatLoadClient[clientsCount];
     for (int i = 0; i < chatClients.length; i++) {
-      chatClients[i] = new ChatLoadClient("user" + i, client, host, port);
+      chatClients[i] = new ChatLoadClient(client, host, port);
     }
     return chatClients;
   }
 
-  private static String buildBristlebackMessage() {
-    Random random = new Random();
-    int randomText = random.nextInt();
-    return "{\"name\":\"HelloWorld\",\"payload\":[\"cn\",\"" + randomText + "\"],\"id\":2}";
+  private static String buildBristlebackMessage(int randomText) {
+    return "{\"name\":\"HelloWorld\",\"payload\":[\"uc\",{\"key\":" + randomText + "}],\"id\":2}";
   }
 
 }

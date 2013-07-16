@@ -8,7 +8,7 @@
   <packaging>jar</packaging>
 
   <properties>
-    <jetty-version>7.5.0.RC1</jetty-version>
+    <jetty-version>8.1.10.v20130312</jetty-version>
   </properties>
 
   <name>Bristleback performance test</name>
