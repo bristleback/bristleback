@@ -11,24 +11,14 @@ import pl.bristleback.server.bristle.serialization.system.BristleSerializationRe
 import pl.bristleback.server.bristle.serialization.system.PropertySerialization;
 import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;
 import pl.bristleback.server.bristle.utils.PropertyUtils;
-import pl.bristleback.server.mock.beans.AbstractBean;
-import pl.bristleback.server.mock.beans.ImplementationBean;
-import pl.bristleback.server.mock.beans.InterfaceForBean;
-import pl.bristleback.server.mock.beans.SpringMockBeansFactory;
-import pl.bristleback.server.mock.beans.VerySimpleMockBean;
+import pl.bristleback.server.mock.beans.*;
 
 import javax.inject.Inject;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import static junit.framework.Assert.assertEquals;
 
