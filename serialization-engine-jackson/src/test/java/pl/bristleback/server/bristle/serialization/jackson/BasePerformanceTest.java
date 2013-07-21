@@ -63,7 +63,7 @@ public abstract class BasePerformanceTest extends AbstractJUnit4SpringContextTes
 
   @Before
   public void setUp() {
-    serializer = mockBeansFactory.getFrameworkBean("system.jacksonSerializer", JacksonSerializationEngine.class);
+    serializer = mockBeansFactory.getFrameworkBean("system.serializer.jackson", JacksonSerializationEngine.class);
     serializationResolver = mockBeansFactory.getFrameworkBean("jacksonSerializer.serializationResolver", JacksonSerializationResolver.class);
   }
 

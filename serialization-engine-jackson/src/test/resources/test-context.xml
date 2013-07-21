@@ -13,7 +13,7 @@
   <bean id="mockBeansFactory" class="pl.bristleback.server.mock.beans.SpringMockBeansFactory"/>
 
   <bean id="initPojoConfigResolver" class="pl.bristleback.server.bristle.conf.resolver.init.PojoConfigResolver">
-    <property name="serializationEngine" value="system.jacksonSerializer"/>
+    <property name="serializationEngine" value="system.serializer.jackson"/>
   </bean>
 
   <bean id="testServerInstance" class="pl.bristleback.server.bristle.app.BristlebackServerInstance"

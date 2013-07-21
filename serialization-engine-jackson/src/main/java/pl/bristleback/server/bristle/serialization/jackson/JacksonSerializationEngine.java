@@ -31,7 +31,7 @@ import javax.inject.Named;
  *
  * @author Wojciech Niemiec
  */
-@Component("system.jacksonSerializer")
+@Component("system.serializer.jackson")
 public class JacksonSerializationEngine implements SerializationEngine<JacksonSerialization> {
 
   @Inject
