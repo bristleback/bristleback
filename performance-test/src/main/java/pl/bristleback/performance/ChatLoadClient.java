@@ -93,7 +93,7 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
    * @throws IOException
    */
   public void disconnect() throws IOException {
-    connection.disconnect();
+    connection.close();
   }
 
   /* ------------------------------------------------------------ */
@@ -109,7 +109,7 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
   public static void main(String... arg) throws Exception {
 //       String host = arg.length > 0 ? arg[0] : "localhost";
 //    int port = arg.length > 1 ? Integer.parseInt(arg[1]) : 8080;
-    int mesgs = arg.length > 0 ? Integer.parseInt(arg[3]) : 1000000;
+    int mesgs = arg.length > 0 ? Integer.parseInt(arg[3]) : 100000;
     int clients = arg.length > 1 ? Integer.parseInt(arg[2]) : 10;
 
     long testResult = runTests(mesgs, clients);
