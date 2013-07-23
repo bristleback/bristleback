@@ -50,7 +50,7 @@ Bristleback.Client = function (config) {
 };
 
 /**
- * Gets current client connection state. The returned value is equals to the one of fallowing fields:
+ * Gets current client connection state. The returned value is equals to the one of following fields:
  *
  *  * WebSocket.CONNECTING
  *  * WebSocket.OPEN

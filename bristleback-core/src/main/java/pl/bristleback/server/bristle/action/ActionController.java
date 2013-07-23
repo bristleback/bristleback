@@ -22,7 +22,6 @@ import pl.bristleback.server.bristle.action.exception.handler.ActionExceptionHan
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.users.UserContext;
-import pl.bristleback.server.bristle.conf.resolver.action.BristleMessageSerializationUtils;
 import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.serialization.RawMessageSerializationEngine;
 
@@ -38,9 +37,6 @@ public class ActionController implements DataController {
 
   @Inject
   private ActionExceptionHandlers exceptionHandlers;
-
-  @Inject
-  private BristleMessageSerializationUtils serializationHelper;
 
   @Inject
   private ClientActionsInitializer clientActionsInitializer;

@@ -62,9 +62,4 @@ public class JacksonSerializationResolver implements SerializationResolver<Jacks
     serialization.setType(rootType);
     return serialization;
   }
-
-  @Override
-  public void setSerializationForField(JacksonSerialization parentSerialization, String fieldName, JacksonSerialization fieldSerialization) {
-
-  }
 }

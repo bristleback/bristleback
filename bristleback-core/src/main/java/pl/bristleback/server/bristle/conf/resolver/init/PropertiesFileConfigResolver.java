@@ -133,7 +133,7 @@ import java.util.Set;
  * {@link pl.bristleback.server.bristle.api.SerializationEngine}
  * </td>
  * <td>
- * system.serializer.json
+ * system.serializer.jackson
  * </td>
  * </tr>
  * <tr>

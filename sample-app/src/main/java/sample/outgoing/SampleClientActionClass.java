@@ -7,7 +7,6 @@ import pl.bristleback.server.bristle.api.annotations.ClientActionClass;
 import pl.bristleback.server.bristle.api.annotations.Ignore;
 import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.security.authorisation.conditions.AllUsersCondition;
-import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
 import sample.Card;
 
 @ClientActionClass
@@ -25,7 +24,7 @@ public class SampleClientActionClass {
   }
 
   @ClientAction("sendCardsToUser")
-  public UserContext sendCardsToUser(@Bind Card[] cards, @Ignore UserContext user) {
+  public UserContext sendCardsToUser(Card[] cards, @Ignore UserContext user) {
     return user;
   }
 

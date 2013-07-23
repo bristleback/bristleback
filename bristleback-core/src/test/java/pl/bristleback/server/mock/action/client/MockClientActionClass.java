@@ -4,7 +4,6 @@ import pl.bristleback.server.bristle.api.annotations.ClientAction;
 import pl.bristleback.server.bristle.api.annotations.ClientActionClass;
 import pl.bristleback.server.bristle.api.annotations.Ignore;
 import pl.bristleback.server.bristle.api.users.UserContext;
-import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
 import pl.bristleback.server.mock.beans.VerySimpleMockBean;
 
 @ClientActionClass
@@ -19,7 +18,7 @@ public class MockClientActionClass {
   public static final String SINGLE_PARAM_ACTION_NAME = "nonDefaultName";
 
   @ClientAction
-  public UserContext simpleClientAction(String param1, @Bind() VerySimpleMockBean simpleMockBean, @Ignore UserContext ignoredParam) {
+  public UserContext simpleClientAction(String param1, VerySimpleMockBean simpleMockBean, @Ignore UserContext ignoredParam) {
     return ignoredParam;
   }
 

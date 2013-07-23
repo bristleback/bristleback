@@ -32,16 +32,27 @@ public class ClientActionInformation {
   private String name;
 
   private List<ClientActionParameterInformation> parameters;
-  private Object serialization;
   private ClientActionSender sender;
+  private int payloadLength;
 
-  public ClientActionInformation(String name, String fullName, Object serialization,
+  public ClientActionInformation(String name, String fullName,
                                  List<ClientActionParameterInformation> parameters, ClientActionSender sender) {
     this.name = name;
     this.fullName = fullName;
     this.parameters = parameters;
-    this.serialization = serialization;
     this.sender = sender;
+
+    payloadLength = checkPayloadLength();
+  }
+
+  private int checkPayloadLength() {
+    int length = 0;
+    for (ClientActionParameterInformation parameter : parameters) {
+      if (parameter.isForSerialization()) {
+        length++;
+      }
+    }
+    return length;
   }
 
   public List<ClientActionParameterInformation> getParameters() {
@@ -56,11 +67,11 @@ public class ClientActionInformation {
     return fullName;
   }
 
-  public Object getSerialization() {
-    return serialization;
-  }
-
   public ClientActionSender getResponse() {
     return sender;
+  }
+
+  public int getPayloadLength() {
+    return payloadLength;
   }
 }

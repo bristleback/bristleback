@@ -13,7 +13,7 @@
  * ---------------------------------------------------------------------------
  */
 
-package pl.bristleback.server.bristle.serialization.system.json.converter;
+package pl.bristleback.server.bristle.serialization.system.converter;
 
 import pl.bristleback.server.bristle.serialization.system.DeserializationException;
 
@@ -129,7 +129,7 @@ public class JsonTokenizer {
 
   /**
    * Sets special flag that will point this tokenizer on
-   * {@link pl.bristleback.server.bristle.serialization.system.json.converter.JsonTokenizer#nextToken()}
+   * {@link pl.bristleback.server.bristle.serialization.system.converter.JsonTokenizer#nextToken()}
    * to return token that was previously read instead of taking next token. After <code>nextToken()</code> method
    * is invoked, the flag is set to false again (another <code>nextToken()</code> call will take the next token).
    */
@@ -343,7 +343,7 @@ public class JsonTokenizer {
   }
 
   /**
-   * Gets last read token value. It returns not null value only if last read token type is one of the fallowing types:
+   * Gets last read token value. It returns not null value only if last read token type is one of the following types:
    * <ul>
    * <li>{@link JsonTokenType#PROPERTY_NAME_OR_RAW_VALUE}</li>
    * <li>{@link JsonTokenType#PROPERTY_VALUE}</li>

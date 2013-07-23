@@ -20,10 +20,12 @@
 
   <bean id="mockServerEngine" class="pl.bristleback.server.mock.MockServerEngine"/>
 
+  <bean id="mockSerializationEngine" class="pl.bristleback.server.mock.MockSerializationEngine"/>
+
   <bean id="initPojoConfigResolver" class="pl.bristleback.server.bristle.conf.resolver.init.PojoConfigResolver">
     <property name="engineName" value="mockServerEngine"/>
     <property name="userContextClass" value="pl.bristleback.server.mock.MockUserContext"/>
-    <!--<property name="serializationEngine" value="jackson-json"/>-->
+    <property name="serializationEngine" value="mockSerializationEngine"/>
   </bean>
 
   <bean id="testServerInstance" class="pl.bristleback.server.bristle.app.BristlebackServerInstance"

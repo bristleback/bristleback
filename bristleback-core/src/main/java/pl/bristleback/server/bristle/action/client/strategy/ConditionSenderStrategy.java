@@ -21,14 +21,12 @@ import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.action.ClientActionSender;
 import pl.bristleback.server.bristle.api.action.SendCondition;
 import pl.bristleback.server.bristle.security.UsersContainer;
-import pl.bristleback.server.bristle.message.BristleMessage;
-import pl.bristleback.server.bristle.message.ConditionObjectSender;
 
 import javax.inject.Inject;
 import java.util.List;
 
 /**
- * //@todo class description
+ * Condition sender strategy uses {@link SendCondition} implementations to determine list of recipients.
  * <p/>
  * Created on: 2012-07-08 14:09:36 <br/>
  *
@@ -41,8 +39,7 @@ public class ConditionSenderStrategy implements ClientActionSender<SendCondition
   private UsersContainer connectedUsers;
 
   @Override
-  public void sendClientAction(SendCondition actionCondition, BristleMessage message, ConditionObjectSender objectSender, ClientActionInformation actionInformation) throws Exception {
-    List<WebsocketConnector> connectors = connectedUsers.getConnectorsByCondition(actionCondition);
-    objectSender.sendMessage(message, actionInformation.getSerialization(), connectors);
+  public List<WebsocketConnector> chooseRecipients(SendCondition actionCondition, ClientActionInformation actionInformation) throws Exception {
+    return connectedUsers.getConnectorsByCondition(actionCondition);
   }
 }

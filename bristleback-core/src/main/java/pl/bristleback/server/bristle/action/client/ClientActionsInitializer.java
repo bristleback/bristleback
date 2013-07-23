@@ -18,17 +18,17 @@ package pl.bristleback.server.bristle.action.client;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
-import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.conf.resolver.SpringConfigurationResolver;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
+import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * //@todo class description
+ * This component initializes client action classes proxy.
  * <p/>
  * Created on: 2012-07-08 21:03:42 <br/>
  *
@@ -59,8 +59,7 @@ public class ClientActionsInitializer {
     SerializationBundle serializationBundle = new SerializationBundle();
     ConditionObjectSender objectSender = initObjectSender(serializationBundle);
 
-    proxyInterceptor.init(clientActionClasses, objectSender);
-
+    proxyInterceptor.init(springIntegration, objectSender);
   }
 
   private ClientActionProxyInterceptor getClientActionInterceptor() {

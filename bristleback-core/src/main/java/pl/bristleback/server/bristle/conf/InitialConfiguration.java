@@ -45,7 +45,7 @@ public class InitialConfiguration {
 
   public static final String DEFAULT_DATA_CONTROLLER = "system.controller.action";
 
-  public static final String DEFAULT_SERIALIZATION_ENGINE = "system.serializer.json";
+  public static final String DEFAULT_SERIALIZATION_ENGINE = "system.serializer.jackson";
 
   public static final String DEFAULT_MESSAGE_DISPATCHER = "system.dispatcher.multi.threaded";
 

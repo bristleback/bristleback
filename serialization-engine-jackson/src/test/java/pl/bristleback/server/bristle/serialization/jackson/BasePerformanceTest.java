@@ -23,7 +23,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pl.bristleback.server.bristle.api.SerializationEngine;
 import pl.bristleback.server.bristle.api.SerializationResolver;
 import pl.bristleback.server.bristle.message.BristleMessage;
-import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;
 import pl.bristleback.server.bristle.utils.PropertyUtils;
 import pl.bristleback.server.mock.beans.SpringMockBeansFactory;
 import pl.bristleback.server.mock.beans.VerySimpleMockBean;
@@ -48,7 +47,6 @@ public abstract class BasePerformanceTest extends AbstractJUnit4SpringContextTes
 
   protected Long rawLong;
 
-  @Serialize(format = "0.0000")
   private BigDecimal rawCustomFormatBigDecimal;
 
   private Double[] rawObjectArray;

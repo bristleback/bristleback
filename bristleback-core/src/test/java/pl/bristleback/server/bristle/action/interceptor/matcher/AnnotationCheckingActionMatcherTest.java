@@ -6,7 +6,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pl.bristleback.server.bristle.action.ActionClassInformation;
 import pl.bristleback.server.bristle.action.ActionInformation;
-import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;
+import pl.bristleback.server.bristle.api.annotations.Authorized;
 import pl.bristleback.server.mock.action.MockActionInterceptor;
 import pl.bristleback.server.mock.action.SimpleActionClass;
 
@@ -23,7 +23,7 @@ public class AnnotationCheckingActionMatcherTest extends AbstractMatcherTest {
   @SuppressWarnings("unchecked")
   public void shouldInterceptorBeApplicable() throws Exception {
     //given
-    AnnotationCheckingActionMatcher matcher = new AnnotationCheckingActionMatcher(Serialize.class);
+    AnnotationCheckingActionMatcher matcher = new AnnotationCheckingActionMatcher(Authorized.class);
 
     ActionClassInformation actionClass = actionsContainer.getActionClass(SimpleActionClass.NAME);
     ActionInformation actionInformation = actionClass.getActions().get("unusualActionName");
@@ -39,7 +39,7 @@ public class AnnotationCheckingActionMatcherTest extends AbstractMatcherTest {
   public void shouldInterceptorBeNotApplicable() throws Exception {
     //given
     AnnotationCheckingActionMatcher matcher = new AnnotationCheckingActionMatcher();
-    matcher.setAnnotationClasses(Arrays.asList(Serialize.class, Test.class));
+    matcher.setAnnotationClasses(Arrays.asList(Authorized.class, Test.class));
 
     ActionClassInformation actionClass = actionsContainer.getActionClass(SimpleActionClass.NAME);
     ActionInformation actionInformation = actionClass.getActions().get("unusualActionName");

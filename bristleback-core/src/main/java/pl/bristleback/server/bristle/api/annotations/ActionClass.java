@@ -33,7 +33,7 @@ public @interface ActionClass {
 
   /**
    * Custom action class name.
-   * Names should fallow normal Java classes naming conventions, e.g., should start with Capital letter,
+   * Names should follow normal Java classes naming conventions, e.g., should start with Capital letter,
    * contain only alphanumeric characters, etc. If custom name is not specified, action class simple name is used.
    *
    * @return custom action class name.

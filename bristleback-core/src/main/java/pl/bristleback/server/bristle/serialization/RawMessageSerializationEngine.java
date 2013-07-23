@@ -3,14 +3,17 @@ package pl.bristleback.server.bristle.serialization;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.serialization.system.DeserializationException;
-import pl.bristleback.server.bristle.serialization.system.json.converter.JsonTokenType;
-import pl.bristleback.server.bristle.serialization.system.json.converter.JsonTokenizer;
+import pl.bristleback.server.bristle.serialization.system.converter.JsonTokenType;
+import pl.bristleback.server.bristle.serialization.system.converter.JsonTokenizer;
+import pl.bristleback.server.bristle.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class RawMessageSerializationEngine {
+
+  private static final int INITIAL_MESSAGE_BUILDER_CAPACITY = 40;
 
   public BristleMessage<String[]> deserialize(String serializedMessage) {
     JsonTokenizer tokenizer = new JsonTokenizer(serializedMessage);
@@ -52,4 +55,37 @@ public class RawMessageSerializationEngine {
     message.withPayload(payload.toArray(new String[payload.size()]));
   }
 
+  public String serialize(String id, String name, String... payload) {
+    StringBuilder messageBuilder = new StringBuilder(INITIAL_MESSAGE_BUILDER_CAPACITY);
+    messageBuilder.append(StringUtils.LEFT_CURLY);
+    if (id != null) {
+      messageBuilder.append(StringUtils.LITERAL_MARK).append("id").append(StringUtils.LITERAL_MARK)
+        .append(StringUtils.COLON)
+        .append(StringUtils.LITERAL_MARK).append(id).append(StringUtils.LITERAL_MARK);
+    }
+    messageBuilder.append(StringUtils.LITERAL_MARK).append("name").append(StringUtils.LITERAL_MARK)
+      .append(StringUtils.COLON)
+      .append(StringUtils.LITERAL_MARK).append(name).append(StringUtils.LITERAL_MARK);
+
+    messageBuilder.append(StringUtils.LITERAL_MARK).append("payload").append(StringUtils.LITERAL_MARK)
+      .append(StringUtils.COLON);
+
+    if (payload.length == 1) {
+      messageBuilder.append(payload[0]);
+    } else if (payload.length > 1) {
+      messageBuilder.append(StringUtils.LEFT_BRACKET);
+      for (int i = 0; i < payload.length; i++) {
+        String payloadPart = payload[i];
+        messageBuilder.append(payloadPart);
+        if (i < payload.length - 1) {
+          messageBuilder.append(StringUtils.COMMA);
+        }
+      }
+      messageBuilder.append(StringUtils.RIGHT_BRACKET);
+    } else {
+      messageBuilder.append(StringUtils.LITERAL_MARK).append(StringUtils.EMPTY).append(StringUtils.LITERAL_MARK);
+    }
+
+    return messageBuilder.toString();
+  }
 }

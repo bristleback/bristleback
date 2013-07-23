@@ -13,25 +13,24 @@
  * ---------------------------------------------------------------------------
  */
 
-package pl.bristleback.server.bristle.serialization.system.annotation;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+package pl.bristleback.server.bristle.serialization.system.converter;
 
 /**
- * If there is more than one serialization to be specified in {@link pl.bristleback.server.bristle.message.ConditionObjectSender} object,
- * this container annotation gathers multiple {@link Serialize} annotations.
- * Note that there can be maximum one serialization per payload type.
+ * This enumeration gathers types of json object fragment.
  * <p/>
- * <p/>
- * Created on: 15.12.12 21:53 <br/>
+ * Created on: 02.01.13 19:59 <br/>
  *
  * @author Wojciech Niemiec
  */
-@Target({ElementType.FIELD})
-@Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
-public @interface SerializeBundle {
+public enum JsonTokenType {
 
-  Serialize[] value();
+  OBJECT_START,
+  OBJECT_END,
+  ARRAY_START,
+  ARRAY_END,
+  PROPERTY_NAME,
+  PROPERTY_NAME_OR_RAW_VALUE,
+  PROPERTY_VALUE,
+
+  END_OF_JSON
 }

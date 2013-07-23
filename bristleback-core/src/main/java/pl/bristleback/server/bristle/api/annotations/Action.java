@@ -32,7 +32,7 @@ import java.lang.annotation.Target;
 public @interface Action {
 
   /**
-   * Name of this action. Names should fallow normal methods naming conventions, e.g., should start with small letter,
+   * Name of this action. Names should follow normal methods naming conventions, e.g., should start with small letter,
    * contain only alphanumeric characters, etc.
    * If custom name is not specified, action method name is used.
    * There cannot be multiple action classes with the same name.

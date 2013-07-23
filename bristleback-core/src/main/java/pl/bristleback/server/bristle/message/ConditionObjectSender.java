@@ -23,8 +23,8 @@ import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.WebsocketMessage;
 import pl.bristleback.server.bristle.api.action.SendCondition;
 import pl.bristleback.server.bristle.api.users.UserContext;
-import pl.bristleback.server.bristle.conf.resolver.action.BristleMessageSerializationUtils;
 import pl.bristleback.server.bristle.security.UsersContainer;
+import pl.bristleback.server.bristle.serialization.RawMessageSerializationEngine;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
 
 import java.lang.reflect.Field;
@@ -50,7 +50,7 @@ public class ConditionObjectSender {
 
   private UsersContainer connectedUsers;
 
-  private BristleMessageSerializationUtils messageSerializationUtils;
+  private RawMessageSerializationEngine rawMessageSerializationEngine;
 
   private Field field;
 
@@ -60,19 +60,19 @@ public class ConditionObjectSender {
     serializationEngine = configuration.getSerializationEngine();
     serializationResolver = serializationEngine.getSerializationResolver();
     globalDefaultSerializations = new SerializationBundle();
-    messageSerializationUtils = configuration.getSpringIntegration().getFrameworkBean("bristleMessageSerializationUtils", BristleMessageSerializationUtils.class);
+    rawMessageSerializationEngine = configuration.getSpringIntegration().getFrameworkBean("rawMessageSerializationEngine", RawMessageSerializationEngine.class);
   }
 
   /**
    * Sends a message with serialization information and list of recipients provided.
    *
-   * @param message       message to be sent.
-   * @param serialization serialization information.
-   * @param connectors    list of recipients.
+   * @param message              message to be sent.
+   * @param payloadSerialization payload serialization information.
+   * @param connectors           list of recipients.
    * @throws Exception serialization exceptions.
    */
-  public void sendMessage(BristleMessage message, Object serialization, List<WebsocketConnector> connectors) throws Exception {
-    WebsocketMessage websocketMessage = serializeToWebSocketMessage(message, serialization, connectors);
+  public void sendMessage(BristleMessage message, Object payloadSerialization, List<WebsocketConnector> connectors) throws Exception {
+    WebsocketMessage websocketMessage = serializeToWebSocketMessage(message, payloadSerialization, connectors);
     queueNewMessage(websocketMessage);
   }
 
@@ -156,7 +156,7 @@ public class ConditionObjectSender {
 
   @SuppressWarnings("unchecked")
   private void doSendUsingSerialization(BristleMessage message, List<WebsocketConnector> connectors) throws Exception {
-    Object serialization;
+    Object payloadSerialization;
     Class payloadType;
     if (message.getPayload() != null) {
       payloadType = message.getPayload().getClass();
@@ -164,28 +164,27 @@ public class ConditionObjectSender {
       payloadType = String.class;
     }
     if (localSerializations.isSerializationForPayloadTypeExist(payloadType)) {
-      serialization = localSerializations.getSerialization(payloadType);
+      payloadSerialization = localSerializations.getSerialization(payloadType);
     } else if (globalDefaultSerializations.isSerializationForPayloadTypeExist(payloadType)) {
-      serialization = globalDefaultSerializations.getSerialization(payloadType);
+      payloadSerialization = globalDefaultSerializations.getSerialization(payloadType);
     } else {
-      Object payloadSerialization = serializationResolver.resolveSerialization(payloadType);
-      serialization = serializationResolver.resolveSerialization(messageSerializationUtils.getSimpleMessageType());
-      serializationResolver.setSerializationForField(serialization, "payload", payloadSerialization);
-      globalDefaultSerializations.addSerialization(payloadType, serialization);
+      payloadSerialization = serializationResolver.resolveSerialization(payloadType);
+      globalDefaultSerializations.addSerialization(payloadType, payloadSerialization);
     }
 
-    WebsocketMessage websocketMessage = serializeToWebSocketMessage(message, serialization, connectors);
+    WebsocketMessage websocketMessage = serializeToWebSocketMessage(message, payloadSerialization, connectors);
     queueNewMessage(websocketMessage);
   }
 
-  private void queueNewMessage(WebsocketMessage websocketMessage) {
+  public void queueNewMessage(WebsocketMessage websocketMessage) {
     messageDispatcher.addMessage(websocketMessage);
   }
 
   @SuppressWarnings("unchecked")
-  private WebsocketMessage serializeToWebSocketMessage(BristleMessage message, Object serialization, List<WebsocketConnector> connectors) throws Exception {
+  private WebsocketMessage serializeToWebSocketMessage(BristleMessage message, Object payloadSerialization, List<WebsocketConnector> connectors) throws Exception {
     WebsocketMessage<String> websocketMessage = new BaseMessage<String>(MessageType.TEXT);
-    String serializedMessage = serializationEngine.serialize(message, serialization);
+    String serializedPayload = serializationEngine.serialize(message, payloadSerialization);
+    String serializedMessage = rawMessageSerializationEngine.serialize(message.getId(), message.getName(), serializedPayload);
     websocketMessage.setContent(serializedMessage);
     websocketMessage.setRecipients(connectors);
     return websocketMessage;

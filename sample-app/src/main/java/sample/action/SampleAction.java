@@ -10,9 +10,6 @@ import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.engine.user.BaseUserContext;
 import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
-import pl.bristleback.server.bristle.serialization.system.annotation.Bind;
-import pl.bristleback.server.bristle.serialization.system.annotation.Property;
-import pl.bristleback.server.bristle.serialization.system.annotation.Serialize;
 import sample.Card;
 import sample.User;
 import sample.action.interceptor.SampleInterceptor;
@@ -32,9 +29,6 @@ import java.util.Map;
 public class SampleAction implements DefaultAction<BaseUserContext, Map<String, BigDecimal>> {
 
   @ObjectSender
-  @Serialize(target = User.class, properties = {
-    @Property(name = "friend", skipped = true)
-  })
   private ConditionObjectSender sender;
 
   @Inject
@@ -44,25 +38,19 @@ public class SampleAction implements DefaultAction<BaseUserContext, Map<String, 
   private SampleClientActionClass clientActionClass;
 
   @Action(name = "customName")
-  @Serialize(properties = {
-    @Property(name = "friend", skipped = true)
-  })
-  public User changeAge(int newAge,
-                        @Bind(properties = {
-                          @Property(name = "age", skipped = true)
-                        }) User user) {
+  public User changeAge(int newAge, User user) {
     user.setAge(newAge);
     return user;
   }
 
   @Action(name = "myActionName")
-  public User changeUserAge(User user, @Bind(required = true) int age) {
+  public User changeUserAge(User user, int age) {
     user.setAge(age);
     return user;
   }
 
   @Action(name = "hello")
-  public void sayHello(@Bind(required = true) String name, int age, BaseUserContext user) throws Exception {
+  public void sayHello(String name, int age, BaseUserContext user) throws Exception {
     BristleMessage<User> message = new BristleMessage<User>();
     User userData = new User();
     userData.setAge(age);
@@ -80,10 +68,7 @@ public class SampleAction implements DefaultAction<BaseUserContext, Map<String, 
   }
 
   @Action
-  @Serialize(containerElementClass = User.class, properties = {
-    @Property(name = "friend", skipped = true)
-  })
-  public List<User> getFactorials(@Bind(required = true) int size) {
+  public List<User> getFactorials(int size) {
     if (size < 0) {
       throw new RuntimeException();
     }
