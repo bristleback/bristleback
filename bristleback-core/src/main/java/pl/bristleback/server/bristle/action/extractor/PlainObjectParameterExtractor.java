@@ -18,7 +18,6 @@ package pl.bristleback.server.bristle.action.extractor;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionParameterInformation;
-import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.SerializationEngine;
 import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
 
@@ -48,8 +47,5 @@ public class PlainObjectParameterExtractor implements ActionParameterExtractor {
   @Override
   public boolean isDeserializationRequired() {
     return true;
-  }
-
-  public void init(BristlebackConfig configuration) {
   }
 }

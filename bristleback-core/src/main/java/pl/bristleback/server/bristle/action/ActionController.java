@@ -47,9 +47,10 @@ public class ActionController implements DataController {
 
   @Override
   public void init(BristlebackConfig configuration) {
+    dispatcher.init(configuration);
     exceptionHandlers.initHandlers();
 
-    clientActionsInitializer.initActionClasses();
+    clientActionsInitializer.initActionClasses(configuration);
   }
 
   @Override

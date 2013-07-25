@@ -18,7 +18,6 @@ package pl.bristleback.server.bristle.conf.resolver;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import pl.bristleback.server.bristle.api.ConnectionStateListener;
 import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.MessageDispatcher;
@@ -44,6 +43,7 @@ import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.utils.ReflectionUtils;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,13 +57,14 @@ import java.util.Map;
  * @author Wojciech Niemiec
  */
 @Configuration
-@Lazy
 public class SpringConfigurationResolver {
 
   public static final String CONFIG_BEAN_NAME = "bristlebackConfiguration";
 
+  @Inject
   private BristleSpringIntegration springIntegration;
 
+  @Inject
   private InitialConfiguration initialConfiguration;
 
   @Bean
@@ -177,7 +178,7 @@ public class SpringConfigurationResolver {
     ObjectSenderInitializer objectSenderInitializer = objectSenderInitializer();
     List<ConditionObjectSender> senders = springIntegration.getApplicationBean(ObjectSenderInjector.class).getRegisteredSenders();
     for (ConditionObjectSender sender : senders) {
-      objectSenderInitializer.initObjectSender(sender);
+      objectSenderInitializer.initObjectSender(bristlebackConfiguration(), sender);
     }
   }
 
@@ -228,9 +229,5 @@ public class SpringConfigurationResolver {
 
   public void setSpringIntegration(BristleSpringIntegration springIntegration) {
     this.springIntegration = springIntegration;
-  }
-
-  public void setInitialConfiguration(InitialConfiguration initialConfiguration) {
-    this.initialConfiguration = initialConfiguration;
   }
 }

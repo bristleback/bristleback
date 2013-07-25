@@ -1,7 +1,6 @@
 package pl.bristleback.server.bristle.validation;
 
 
-import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.api.action.ActionInterceptor;
 import pl.bristleback.server.bristle.api.action.ActionInterceptorMatcher;
@@ -10,7 +9,6 @@ import pl.bristleback.server.bristle.utils.AnnotationUtils;
 import javax.validation.Valid;
 import java.lang.annotation.Annotation;
 
-@Component
 public class ValidationInterceptorMatcher implements ActionInterceptorMatcher {
 
   @Override

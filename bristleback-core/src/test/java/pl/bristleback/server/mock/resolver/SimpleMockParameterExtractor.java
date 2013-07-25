@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionParameterInformation;
-import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
 import pl.bristleback.server.mock.beans.NonDefaultSerializedMockBean;
 
@@ -24,9 +23,5 @@ public class SimpleMockParameterExtractor implements ActionParameterExtractor<No
   @Override
   public boolean isDeserializationRequired() {
     return true;
-  }
-
-  @Override
-  public void init(BristlebackConfig configuration) {
   }
 }

@@ -23,7 +23,7 @@ public class ValidatorActionInterceptor implements ActionInterceptor<ValidationI
 
   @Override
   public void intercept(ActionInformation actionInformation, ActionExecutionContext context, ValidationInterceptorContext interceptorContext) {
-    System.out.println("dupaaa");
+    System.out.println("ss");
   }
 
   @Override

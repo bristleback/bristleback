@@ -17,7 +17,6 @@ package pl.bristleback.server.bristle.api.action;
 
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionParameterInformation;
-import pl.bristleback.server.bristle.api.ConfigurationAware;
 
 /**
  * In addition to custom value serializers, action controller uses parameter extractors for resolving action parameters
@@ -35,7 +34,7 @@ import pl.bristleback.server.bristle.api.ConfigurationAware;
  *
  * @author Wojciech Niemiec
  */
-public interface ActionParameterExtractor<T> extends ConfigurationAware {
+public interface ActionParameterExtractor<T> {
 
   /**
    * Retrieves action parameters using text sent by client, action parameter information and context of the

@@ -18,11 +18,11 @@ package pl.bristleback.server.bristle.action;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.interceptor.ActionInterceptorsExecutor;
 import pl.bristleback.server.bristle.action.response.ResponseHelper;
+import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.conf.resolver.action.ActionClassesResolver;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.message.BristleMessage;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 /**
@@ -58,9 +58,9 @@ public class ActionDispatcher {
   @Inject
   private ActionInterceptorsExecutor interceptorPolicyExecutor;
 
-  @PostConstruct
-  public void init() {
+  public void init(BristlebackConfig configuration) {
     actionsContainer = actionClassesResolver.resolve();
+    responseHelper.init(configuration);
   }
 
   public void dispatch(ActionExecutionContext context) throws Exception {
