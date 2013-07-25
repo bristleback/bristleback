@@ -13,6 +13,7 @@
     <module>websocket-engine-tomcat</module>
     <module>websocket-engine-netty</module>
     <module>serialization-engine-jackson</module>
+    <module>action-validation</module>
     <module>sample-app</module>
     <module>performance-test</module>
   </modules>

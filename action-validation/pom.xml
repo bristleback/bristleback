@@ -3,18 +3,15 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>5</version>
+    <artifactId>bristleback-parent</artifactId>
+    <groupId>pl.bristleback</groupId>
+    <version>0.3.1</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>pl.bristleback</groupId>
-  <artifactId>sample-app</artifactId>
-  <version>0.3.1</version>
-  <packaging>jar</packaging>
+  <artifactId>action-validation</artifactId>
 
-  <name>Bristleback Sample Testing App</name>
+  <name>Bristleback Action Validation</name>
   <url>http://bristleback.pl</url>
   <description>High level, Spring integrated WebSocket Framework</description>
   <licenses>
@@ -56,39 +53,28 @@
       <groupId>pl.bristleback</groupId>
       <artifactId>bristleback-core</artifactId>
       <version>0.3.1</version>
-    </dependency>
-
-    <dependency>
-      <groupId>pl.bristleback</groupId>
-      <artifactId>serialization-engine-jackson</artifactId>
-      <version>0.3.1</version>
-    </dependency>
-
-    <dependency>
-      <groupId>pl.bristleback</groupId>
-      <artifactId>websocket-engine-jetty</artifactId>
-      <version>0.3.1</version>
-    </dependency>
-
-    <dependency>
-      <groupId>pl.bristleback</groupId>
-      <artifactId>action-validation</artifactId>
-      <version>0.3.1</version>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
       <version>${org.springframework.version}</version>
+      <scope>provided</scope>
     </dependency>
-
 
     <dependency>
-      <groupId>org.easytesting</groupId>
-      <artifactId>fest-assert</artifactId>
-      <version>1.4</version>
-      <scope>test</scope>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>5.0.1.Final</version>
     </dependency>
+
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <version>1.1.0.Final</version>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -102,8 +88,26 @@
           <target>1.6</target>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <phase>test</phase>
+            <goals>
+              <goal>checkstyle</goal>
+            </goals>
+            <configuration>
+              <configLocation>../checkstyle.xml</configLocation>
+              <suppressionsLocation>suppressions.xml</suppressionsLocation>
+              <skip>false</skip>
+              <failsOnError>true</failsOnError>
+              <encoding>UTF-8</encoding>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
-
-
 </project>
