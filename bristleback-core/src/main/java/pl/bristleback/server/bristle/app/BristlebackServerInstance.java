@@ -31,7 +31,7 @@ import pl.bristleback.server.bristle.api.ServerEngine;
  */
 public class BristlebackServerInstance {
 
-  public static final String BRISTLEBACK_VERSION = "0.3.1";
+  public static final String BRISTLEBACK_VERSION = "0.3.5";
 
   public static final String BRISTLEBACK_HOMEPAGE = "http://bristleback.pl";
 
