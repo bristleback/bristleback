@@ -18,6 +18,7 @@ import sample.service.HelloServiceBean;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class SampleAction implements DefaultAction<BaseUserContext, Map<String, 
   }
 
   @Action(name = "hello")
-  public void sayHello(@Valid @NotNull String name, int age, BaseUserContext user) throws Exception {
+  public void sayHello(@Valid @NotNull String name, @Min(10)int age, BaseUserContext user) throws Exception {
     BristleMessage<User> message = new BristleMessage<User>();
     User userData = new User();
     userData.setAge(age);

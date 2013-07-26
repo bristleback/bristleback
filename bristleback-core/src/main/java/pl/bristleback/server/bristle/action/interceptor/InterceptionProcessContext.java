@@ -16,7 +16,6 @@
 package pl.bristleback.server.bristle.action.interceptor;
 
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
-import pl.bristleback.server.bristle.action.ActionInformation;
 
 /**
  * This class is a container used in action interception process.
@@ -39,8 +38,8 @@ public class InterceptionProcessContext {
     this.interceptorInformation = interceptorInformation;
   }
 
-  public void intercept(ActionInformation actionInformation, ActionExecutionContext context) {
-    interceptorInformation.getInterceptorInstance().intercept(actionInformation, context, interceptorContext);
+  public void intercept(ActionExecutionContext context) {
+    interceptorInformation.getInterceptorInstance().intercept(context, interceptorContext);
   }
 
   public ActionInterceptorInformation getInterceptorInformation() {

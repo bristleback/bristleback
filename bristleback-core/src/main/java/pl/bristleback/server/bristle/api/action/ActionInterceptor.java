@@ -16,7 +16,6 @@
 package pl.bristleback.server.bristle.api.action;
 
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
-import pl.bristleback.server.bristle.action.ActionInformation;
 
 /**
  * Every action can be intercepted by any number of action interceptors. To be considered as an interceptor,
@@ -37,11 +36,10 @@ public interface ActionInterceptor<T> {
    * Interceptor may modify or change various action execution information, as well as cancel response sending by calling
    * {@link pl.bristleback.server.bristle.action.ActionExecutionContext#cancelResponseSending()} method.
    *
-   * @param actionInformation  meta information about executed action.
    * @param context            action execution context object, created for each action execution.
    * @param interceptorContext interception execution context, created for each interception operation.
    */
-  void intercept(ActionInformation actionInformation, ActionExecutionContext context, T interceptorContext);
+  void intercept(ActionExecutionContext context, T interceptorContext);
 
   ActionInterceptorContextResolver<T> getContextResolver();
 }

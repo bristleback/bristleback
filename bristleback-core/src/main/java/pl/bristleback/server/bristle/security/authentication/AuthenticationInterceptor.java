@@ -18,7 +18,6 @@ package pl.bristleback.server.bristle.security.authentication;
 import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
-import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.ConfigurationAware;
 import pl.bristleback.server.bristle.api.action.ActionInterceptor;
@@ -61,7 +60,7 @@ public class AuthenticationInterceptor implements ActionInterceptor<Authenticati
   }
 
   @Override
-  public void intercept(ActionInformation actionInformation, ActionExecutionContext context, AuthenticationOperationContext interceptorContext) {
+  public void intercept(ActionExecutionContext context, AuthenticationOperationContext interceptorContext) {
     UserDetails userDetails = (UserDetails) context.getResponse();
     if (authenticationsContainer.hasValidAuthenticationForConnection(context.getUserContext().getId())) {
       throw new UserAlreadyAuthenticatedException(userDetails.getUsername());
