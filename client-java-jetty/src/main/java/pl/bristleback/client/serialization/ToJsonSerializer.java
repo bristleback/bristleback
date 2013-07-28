@@ -1,6 +1,8 @@
 package pl.bristleback.client.serialization;
 
-import pl.bristleback.server.bristle.serialization.jackson.JacksonSerializationEngine;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 
 /**
  * <p/>
@@ -10,13 +12,12 @@ import pl.bristleback.server.bristle.serialization.jackson.JacksonSerializationE
  */
 public class ToJsonSerializer {
 
-
   public String objectToJson(Object object) {
-    JacksonSerializationEngine serializationEngine = new JacksonSerializationEngine();
-    serializationEngine.init(null);
+    ObjectMapper mapper = new ObjectMapper();
+
     try {
-      return serializationEngine.serialize(object);
-    } catch (Exception e) {
+      return mapper.writeValueAsString(object);
+    } catch (IOException e) {
       //TODO handle
       System.out.println(e);
     }
