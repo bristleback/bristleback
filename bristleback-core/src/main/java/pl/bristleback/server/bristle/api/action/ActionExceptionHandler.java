@@ -33,7 +33,7 @@ import pl.bristleback.server.bristle.action.ActionExecutionStage;
 public interface ActionExceptionHandler<T extends Exception> {
 
   /**
-   * Handles occurring exception. Returned object will be serialized and send as a response.
+   * Handles occurring exception. Returned object will be serialized and sent as the response.
    * Although this method may return objects of any type,
    * it is recommended to return {@link pl.bristleback.server.bristle.action.response.ExceptionResponse} (or its subclasses),
    * as this type is recognised by Action Controller (special exception response is sent when ExceptionResponse object is returned).
