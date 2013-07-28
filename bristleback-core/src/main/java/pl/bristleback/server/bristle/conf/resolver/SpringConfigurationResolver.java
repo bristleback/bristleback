@@ -18,6 +18,7 @@ package pl.bristleback.server.bristle.conf.resolver;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import pl.bristleback.server.bristle.api.ConnectionStateListener;
 import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.MessageDispatcher;
@@ -98,6 +99,7 @@ public class SpringConfigurationResolver {
   }
 
   @Bean
+  @Lazy
   public ServerEngine serverEngine() {
     EngineConfig engineConfiguration = initialConfiguration.getEngineConfiguration();
     String expectedEngineName = engineConfiguration.getName();
@@ -109,6 +111,7 @@ public class SpringConfigurationResolver {
   }
 
   @Bean
+  @Lazy
   public SerializationEngine serializationEngine() {
     String serializationEngineName = initialConfiguration.getSerializationEngine();
 
@@ -119,6 +122,7 @@ public class SpringConfigurationResolver {
   }
 
   @Bean
+  @Lazy
   public DataControllers dataControllers() {
     Map<String, DataController> dataControllersMap = new HashMap<String, DataController>();
     for (String acceptedControllerName : initialConfiguration.getAcceptedControllerNames()) {
@@ -133,6 +137,7 @@ public class SpringConfigurationResolver {
   }
 
   @Bean
+  @Lazy
   public ListenersContainer listenersContainer() {
     // framework handlers will always run first
     Map<String, ConnectionStateListener> frameworkHandlers = springIntegration.getFrameworkBeansOfType(ConnectionStateListener.class);
@@ -159,6 +164,7 @@ public class SpringConfigurationResolver {
   }
 
   @Bean
+  @Lazy
   public MessageConfiguration messageConfiguration() {
     MessageConfiguration messageConfiguration = new MessageConfiguration();
     messageConfiguration.setMessageDispatcher(messageDispatcher());
