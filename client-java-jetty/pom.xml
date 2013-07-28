@@ -45,7 +45,7 @@
     <dependency>
       <groupId>pl.bristleback</groupId>
       <artifactId>common</artifactId>
-      <version>0.4.0-SNAPSHOT</version>
+      <version>0.3.5-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
@@ -60,21 +60,9 @@
       <type>jar</type>
     </dependency>
     <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-core</artifactId>
-      <version>2.0.0-RC1</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-annotations</artifactId>
-      <version>2.0.0-RC1</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>2.0.0-RC1</version>
+      <groupId>pl.bristleback</groupId>
+      <artifactId>serialization-engine-jackson</artifactId>
+      <version>0.3.5</version>
     </dependency>
 
     <!--LOGGING-->
