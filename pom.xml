@@ -17,6 +17,7 @@
     <module>action-validation</module>
     <module>sample-app</module>
     <module>performance-test</module>
+    <module>client-java-jetty</module>
   </modules>
 
   <name>Bristleback Framework parent module</name>
