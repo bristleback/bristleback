@@ -1,7 +1,7 @@
 package pl.bristleback.server.bristle.serialization;
 
 import org.springframework.stereotype.Component;
-import pl.bristleback.server.bristle.message.BristleMessage;
+import pl.bristleback.common.serialization.message.BristleMessage;
 import pl.bristleback.server.bristle.serialization.system.DeserializationException;
 import pl.bristleback.server.bristle.serialization.system.converter.JsonTokenType;
 import pl.bristleback.server.bristle.serialization.system.converter.JsonTokenizer;
