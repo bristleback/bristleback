@@ -61,11 +61,13 @@ public class RawMessageSerializationEngine {
     if (id != null) {
       messageBuilder.append(StringUtils.LITERAL_MARK).append("id").append(StringUtils.LITERAL_MARK)
         .append(StringUtils.COLON)
-        .append(StringUtils.LITERAL_MARK).append(id).append(StringUtils.LITERAL_MARK);
+        .append(StringUtils.LITERAL_MARK).append(id).append(StringUtils.LITERAL_MARK)
+        .append(StringUtils.COMMA);
     }
     messageBuilder.append(StringUtils.LITERAL_MARK).append("name").append(StringUtils.LITERAL_MARK)
       .append(StringUtils.COLON)
-      .append(StringUtils.LITERAL_MARK).append(name).append(StringUtils.LITERAL_MARK);
+      .append(StringUtils.LITERAL_MARK).append(name).append(StringUtils.LITERAL_MARK)
+      .append(StringUtils.COMMA);
 
     messageBuilder.append(StringUtils.LITERAL_MARK).append("payload").append(StringUtils.LITERAL_MARK)
       .append(StringUtils.COLON);
@@ -85,6 +87,8 @@ public class RawMessageSerializationEngine {
     } else {
       messageBuilder.append(StringUtils.LITERAL_MARK).append(StringUtils.EMPTY).append(StringUtils.LITERAL_MARK);
     }
+
+    messageBuilder.append(StringUtils.RIGHT_CURLY);
 
     return messageBuilder.toString();
   }

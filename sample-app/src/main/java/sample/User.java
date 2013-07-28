@@ -1,5 +1,7 @@
 package sample;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class User {
 
   private String firstName;
@@ -8,6 +10,7 @@ public class User {
 
   private int age;
 
+  @JsonIgnore
   private User friend;
 
   public User getFriend() {

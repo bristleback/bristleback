@@ -42,6 +42,6 @@ public class ClientActionParameterResolver {
       Object serialization = serializationResolver.resolveSerialization(parameterType, annotations);
       return new ClientActionParameterInformation(parameterType, serialization);
     }
-    return new ClientActionParameterInformation(parameterType, forSerialization);
+    return new ClientActionParameterInformation(parameterType);
   }
 }

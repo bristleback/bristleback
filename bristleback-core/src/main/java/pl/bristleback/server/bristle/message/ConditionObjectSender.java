@@ -183,7 +183,7 @@ public class ConditionObjectSender {
   @SuppressWarnings("unchecked")
   private WebsocketMessage serializeToWebSocketMessage(BristleMessage message, Object payloadSerialization, List<WebsocketConnector> connectors) throws Exception {
     WebsocketMessage<String> websocketMessage = new BaseMessage<String>(MessageType.TEXT);
-    String serializedPayload = serializationEngine.serialize(message, payloadSerialization);
+    String serializedPayload = serializationEngine.serialize(message.getPayload(), payloadSerialization);
     String serializedMessage = rawMessageSerializationEngine.serialize(message.getId(), message.getName(), serializedPayload);
     websocketMessage.setContent(serializedMessage);
     websocketMessage.setRecipients(connectors);
