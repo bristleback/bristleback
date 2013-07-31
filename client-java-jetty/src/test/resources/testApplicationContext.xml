@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:bb="http://www.bristleback.pl/schema/bristleback"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        	http://www.springframework.org/schema/context
+         	http://www.springframework.org/schema/context/spring-context-2.5.xsd
+         	http://www.bristleback.pl/schema/bristleback
+         	http://www.bristleback.pl/schema/bristleback/bristleback.xsd">
+
+  <context:component-scan base-package="pl.bristleback.client.mockinstance.action"/>
+
+  <bb:serverMessages/>
+
+  <bean id="pojoConfigResolver" class="pl.bristleback.server.bristle.conf.resolver.init.PojoConfigResolver">
+    <property name="enginePort" value="8080"/>
+  </bean>
+
+  <bb:standaloneServer configurationResolver="pojoConfigResolver"/>
+
+
+</beans>
