@@ -31,8 +31,10 @@ Bristleback.controller.ActionMessage = function (controller, message) {
   var actionName = actionElements[1] ? actionElements[1] : "";
   if (message.id) {
     this.actionClass = controller.actionClasses[actionClassName];
+    this.content = message.payload[0];
   } else {
     this.actionClass = controller.clientActionClasses[actionClassName];
+    this.content = message.payload;
   }
 
   if (this.actionClass == undefined) {
@@ -49,7 +51,6 @@ Bristleback.controller.ActionMessage = function (controller, message) {
   }
 
   this.callback = controller.callbacks[message.id];
-  this.content = message.payload;
   this.exceptionType = messageElements.length > 1 ? this.content.type : undefined;
 };
 
@@ -540,26 +541,7 @@ Bristleback.controller.ClientActionClass = function (name, actionClass) {
 };
 
 Bristleback.controller.ClientActionClass.prototype.onMessage = function (actionMessage) {
-  var parameters = [];
-  var hasMoreParams = true;
-  var currentIndex = 0;
-  if (actionMessage.content != undefined && actionMessage.content != null) {
-    while (hasMoreParams) {
-      var paramName = "p" + currentIndex;
-      var parameter = actionMessage.content[paramName];
-      if (parameter != undefined) {
-        parameters[currentIndex] = parameter;
-        currentIndex++;
-      } else {
-        hasMoreParams = false;
-      }
-    }
-  }
-  if (parameters.length == 0) {
-    parameters[0] = actionMessage.content;
-  }
-
-  actionMessage.action.apply(actionMessage.actionClass, parameters);
+  actionMessage.action.apply(actionMessage.actionClass, actionMessage.content);
 };
 
 //------------- DEFAULT CONTROLLERS
