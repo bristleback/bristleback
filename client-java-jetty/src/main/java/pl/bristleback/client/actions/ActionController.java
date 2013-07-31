@@ -1,6 +1,5 @@
 package pl.bristleback.client.actions;
 
-import pl.bristleback.client.serialization.ClientActionHandlers;
 import pl.bristleback.client.api.onmessage.MessageHandler;
 import pl.bristleback.client.api.onmessage.OnMessageCallback;
 import pl.bristleback.client.serialization.FromJsonDeserializer;
@@ -24,9 +23,8 @@ public class ActionController implements OnMessageCallback{
 
   @Override
   public void onMessage(String payload) {
-    BristleMessage bristleMessage = (BristleMessage) fromJsonDeserializer.jsonToObject(payload, BristleMessage.class);
-    clientActionHandlers.
-    //To change body of implemented methods use File | Settings | File Templates.
+    BristleMessage<String[]> bristleMessage = fromJsonDeserializer.jsonToObject(payload);
+    clientActionHandlers.onServerEvent(bristleMessage);
   }
 
 

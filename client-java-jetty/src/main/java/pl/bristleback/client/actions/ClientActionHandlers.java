@@ -21,7 +21,7 @@ public class ClientActionHandlers {
     handlers.put(actionFullName, handler);
   }
 
-  protected void onServerEvent(BristleMessage message) {
+  protected void onServerEvent(BristleMessage<String[]> message) {
     MessageHandler messageHandler = handlers.get(message.getName());
     messageHandler.onMessage(message.getPayload());
   }

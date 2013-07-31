@@ -6,5 +6,7 @@ package pl.bristleback.client.api.onmessage;
  *
  * @author Pawel Machowski
  */
-public interface MessageHandler {
+public interface MessageHandler<T> {
+
+  public void onMessage(T payload);
 }
