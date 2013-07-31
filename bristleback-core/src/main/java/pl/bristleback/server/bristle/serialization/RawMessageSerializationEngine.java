@@ -69,27 +69,25 @@ public class RawMessageSerializationEngine {
       .append(StringUtils.LITERAL_MARK).append(name).append(StringUtils.LITERAL_MARK)
       .append(StringUtils.COMMA);
 
-    messageBuilder.append(StringUtils.LITERAL_MARK).append("payload").append(StringUtils.LITERAL_MARK)
-      .append(StringUtils.COLON);
-
-    if (payload.length == 1) {
-      messageBuilder.append(payload[0]);
-    } else if (payload.length > 1) {
-      messageBuilder.append(StringUtils.LEFT_BRACKET);
-      for (int i = 0; i < payload.length; i++) {
-        String payloadPart = payload[i];
-        messageBuilder.append(payloadPart);
-        if (i < payload.length - 1) {
-          messageBuilder.append(StringUtils.COMMA);
-        }
-      }
-      messageBuilder.append(StringUtils.RIGHT_BRACKET);
-    } else {
-      messageBuilder.append(StringUtils.LITERAL_MARK).append(StringUtils.EMPTY).append(StringUtils.LITERAL_MARK);
-    }
+    serializePayload(messageBuilder, payload);
 
     messageBuilder.append(StringUtils.RIGHT_CURLY);
 
     return messageBuilder.toString();
+  }
+
+  private void serializePayload(StringBuilder messageBuilder, String[] payload) {
+    messageBuilder.append(StringUtils.LITERAL_MARK).append("payload").append(StringUtils.LITERAL_MARK)
+      .append(StringUtils.COLON)
+      .append(StringUtils.LEFT_BRACKET);
+
+    for (int i = 0; i < payload.length; i++) {
+      String payloadPart = payload[i];
+      messageBuilder.append(payloadPart);
+      if (i < payload.length - 1) {
+        messageBuilder.append(StringUtils.COMMA);
+      }
+    }
+    messageBuilder.append(StringUtils.RIGHT_BRACKET);
   }
 }
