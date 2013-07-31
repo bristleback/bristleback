@@ -43,14 +43,14 @@ Bristleback.auth.SystemAuthentication = function (dataController) {
       if (authentication.authenticationSuccessCallback) {
         authentication.authenticationSuccessCallback(username);
       } else {
-        Bristleback.Console.log("User '" + username + "' has been successfully authenticated.")
+        console.log("User '%s' has been successfully authenticated.", username);
       }
     },
     logout: function (logoutMessage) {
       if (authentication.logoutCallback) {
         authentication.logoutCallback(logoutMessage);
       } else {
-        Bristleback.Console.log("User '" + logoutMessage.username + "' has been logged out (logout reason: " + logoutMessage.logoutReason + ").")
+        console.log("User '%s' has been logged out (logout reason: %s).", logoutMessage.username, logoutMessage.logoutReason);
       }
     }
   };
@@ -79,7 +79,6 @@ Bristleback.auth.SystemAuthentication = function (dataController) {
 Bristleback.auth.SystemAuthentication.prototype.defaultSecurityExceptionHandler = function (exception) {
   var usernameMessageSuffix = exception.content.username ? " for user '" + exception.content.username + "'." : ".";
   var exceptionMessage = "Unexpected " + exception.exceptionType + " security exception occurred" + usernameMessageSuffix;
-  Bristleback.Console.log("[ERROR] " + exceptionMessage);
   throw new Error(exceptionMessage);
 };
 
@@ -89,9 +88,7 @@ Bristleback.auth.SystemAuthentication.prototype.defaultSecurityExceptionHandler 
  * @param {Object} exception exception containing content and meta information, like exception type or action execution phase.
  */
 Bristleback.auth.SystemAuthentication.prototype.defaultIncorrectPasswordHandler = function (exception) {
-  var exceptionMessage = "Incorrect username or password, username provided: '" + exception.content.username + "'.";
-  Bristleback.Console.log("[ERROR] " + exceptionMessage);
-  throw new Error(exceptionMessage);
+  throw new Error("Incorrect username or password, username provided: '" + exception.content.username + "'.");
 };
 
 /**
@@ -100,9 +97,7 @@ Bristleback.auth.SystemAuthentication.prototype.defaultIncorrectPasswordHandler 
  * @param {Object} exception exception containing content and meta information, like exception type or action execution phase.
  */
 Bristleback.auth.SystemAuthentication.prototype.defaultAuthorizationExceptionHandler = function (exception) {
-  var exceptionMessage = "User '" + exception.content.username + "' tried to invoke action without required authority: '" + exception.content.authority + "'.";
-  Bristleback.Console.log("[ERROR] " + exceptionMessage);
-  throw new Error(exceptionMessage);
+  throw new Error("User '" + exception.content.username + "' tried to invoke action without required authority: '" + exception.content.authority + "'.");
 };
 
 /**

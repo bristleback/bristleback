@@ -30,9 +30,7 @@ Bristleback.template.TemplateController.prototype.constructTemplateInformation =
   containerId = containerId ? containerId : "#" + templateName + "-div";
   renderingMode = renderingMode ? renderingMode : "replace";
   if (!this.renderingModes[renderingMode]) {
-    var logMsg = "Cannot find rendering mode with name: " + renderingMode;
-    Bristleback.Console.log(logMsg);
-    throw new Error(logMsg);
+    throw new Error("Cannot find rendering mode with name: " + renderingMode);
   }
 
   var templateInformation = {};
@@ -126,9 +124,7 @@ Bristleback.templateFrameworks = {
   trimpath: {
     parseTemplate: function (templateName) {
       if (!document.getElementById(templateName)) {
-        var logMsg = "Cannot find template with id: " + templateName;
-        Bristleback.Console.log(logMsg);
-        throw new Error(logMsg);
+        throw new Error("Cannot find template with id: " + templateName);
       }
       return TrimPath.parseDOMTemplate(templateName);
     },
@@ -140,9 +136,7 @@ Bristleback.templateFrameworks = {
     parseTemplate: function (templateName) {
       var templateContainer = document.getElementById(templateName);
       if (!templateContainer) {
-        var logMsg = "Cannot find template with id: " + templateName;
-        Bristleback.Console.log(logMsg);
-        throw new Error(logMsg);
+        throw new Error("Cannot find template with id: " + templateName);
       }
 
       var source = templateContainer.innerHTML;

@@ -21,7 +21,6 @@
         // $('#status').text("The WebSocket Connection Is Open.");
       },
       onClose: function (event) {
-        Bristleback.Console.disableConsole();
         document.getElementById('status').innerHTML = "The WebSocket Connection Is Closed.";
       }
     };
@@ -36,7 +35,7 @@
       });
 
     sampleAction.exceptionHandler.setDefaultExceptionHandler(function () {
-      Bristleback.Console.log("[ERROR in SampleAction] Exception in hello action, this handler will return false and thus let default handlers run.");
+      console.log("[ERROR in SampleAction] Exception in hello action, this handler will return false and thus let default handlers run.");
       return false;
     });
     sampleAction.defineDefaultAction()
@@ -59,7 +58,7 @@
     dataController.exceptionHandler.setExceptionHandler("sample.NumberFormatException", function () {
       $('#age').css("border-color", "red");
       $('#status').text("Field age must be a number!");
-      Bristleback.Console.log("Field age must be a number!");
+      console.log("Field age must be a number!");
       return true;
     });
 
@@ -89,7 +88,6 @@
 
     function connect() {
       client.connect();
-      Bristleback.Console.enableConsole();
     }
 
     function sendText() {

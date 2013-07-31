@@ -38,16 +38,12 @@ Bristleback.controller.ActionMessage = function (controller, message) {
   }
 
   if (this.actionClass == undefined) {
-    var errorMsg = "[ERROR] Cannot find a client action class \"" + actionClassName + "\"";
-    Bristleback.Console.log(errorMsg);
-    throw new Error(errorMsg);
+    throw new Error("[ERROR] Cannot find a client action class \"" + actionClassName + "\"");
   }
 
   this.action = this.actionClass.actions[actionName];
   if (this.action == undefined) {
-    errorMsg = "[ERROR] Cannot find action " + (actionName ? "\"" + actionName + "\"" : "default action ") + " in action class \"" + actionClassName + "\"";
-    Bristleback.Console.log(errorMsg);
-    throw new Error(errorMsg);
+    throw new Error("[ERROR] Cannot find action " + (actionName ? "\"" + actionName + "\"" : "default action ") + " in action class \"" + actionClassName + "\"");
   }
 
   this.callback = controller.callbacks[message.id];
@@ -280,10 +276,9 @@ Bristleback.controller.ActionController.prototype.onExceptionMessage = function 
 Bristleback.controller.ActionController.prototype.defaultHandlerFunction = function (exceptionMessage) {
   var actionToString = "[" + (exceptionMessage.action.name ? "Action " + exceptionMessage.actionClass.name + "."
     + exceptionMessage.action.name + "()" : "Default action of class " + exceptionMessage.actionClass.name) + "]";
-  var exceptionMessageString = actionToString
-    + " returned with exception of type \"" + exceptionMessage.exceptionType + "\" and detail message \"" + Bristleback.utils.objectToString(exceptionMessage.content) + "\"";
-  Bristleback.Console.log("[ERROR] " + exceptionMessageString);
-  throw new Error(exceptionMessageString);
+  throw new Error(actionToString
+    + " returned with exception of type \"" + exceptionMessage.exceptionType + "\" and detail message \""
+    + Bristleback.utils.objectToString(exceptionMessage.content) + "\"");
 };
 
 /**
@@ -427,9 +422,7 @@ Bristleback.controller.ActionClass.prototype.runHandlers = function (actionMessa
   var action = actionMessage.action;
   if (action.responseHandler == undefined) {
     var actionToString = "[" + (action.name ? "Action " + this.name + "." + action.name + "()" : "Default action of " + this.name) + "]";
-    var errorMsg = actionToString + " Cannot find response handler for incoming action";
-    Bristleback.Console.log("[ERROR] " + errorMsg);
-    throw new Error(errorMsg);
+    throw new Error(actionToString + " Cannot find response handler for incoming action");
   } else {
     action.responseHandler(actionMessage.content);
   }
@@ -441,9 +434,7 @@ Bristleback.controller.ActionClass.prototype.runHandlers = function (actionMessa
 Bristleback.controller.ActionClass.prototype.defaultProtocolExceptionHandlerFunction = function (exceptionMessage) {
   var protocolViolationType = exceptionMessage.content;
   if (protocolViolationType == 'NO_ACTION_CLASS_FOUND') {
-    var exceptionMessageString = "Cannot find action class with name \"" + exceptionMessage.actionClass.name + "\"";
-    Bristleback.Console.log("[ERROR] " + exceptionMessageString);
-    throw new Error(exceptionMessageString);
+    throw new Error("Cannot find action class with name \"" + exceptionMessage.actionClass.name + "\"");
   } else {
     return false;
   }
@@ -519,7 +510,6 @@ Bristleback.controller.Action.prototype.defaultProtocolExceptionHandlerFunction 
   } else {
     return false;
   }
-  Bristleback.Console.log("[ERROR] " + exceptionMessageString);
   throw new Error(exceptionMessageString);
 };
 

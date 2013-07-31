@@ -9,3 +9,5 @@ var JSON = {};
 var $ = {
 
 };
+
+var console = {};

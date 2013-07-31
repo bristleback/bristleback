@@ -31,12 +31,12 @@ Bristleback.Client = function (config) {
   this.serializationEngine = new Bristleback.serialization.serializationEngines[config.serializationEngine]();
 
   config.onOpen = config.onOpen || function () {
-    Bristleback.Console.log("Connected to " + config.serverUrl);
+    console.log("connected");
     alert("connected");
   };
 
   config.onClose = config.onClose || function () {
-    Bristleback.Console.log("Disconnected from " + config.serverUrl);
+    console.log("disconnected");
     alert("disconnected");
   };
 
@@ -88,9 +88,7 @@ Bristleback.Client.prototype.isDisconnected = function () {
  */
 Bristleback.Client.prototype.connect = function () {
   if (!this.isDisconnected()) {
-    var msg = "Connection is not closed, cannot establish another connection.";
-    Bristleback.Console.log(msg);
-    throw new Error(msg);
+    throw new Error("Connection is not closed, cannot establish another connection.");
   }
   this.connection = new WebSocket(this.configuration.serverUrl, this.configuration.dataController);
   this.connection.onopen = this.configuration.onOpen;
@@ -106,9 +104,7 @@ Bristleback.Client.prototype.connect = function () {
  */
 Bristleback.Client.prototype.sendMessage = function (message) {
   if (!this.isConnected()) {
-    var msg = "Cannot send a message, connection is not open.";
-    Bristleback.Console.log(msg);
-    throw new Error(msg);
+    throw new Error("Cannot send a message, connection is not open.");
   }
   var serializedMessage = this.serializationEngine.serialize(message);
   this.connection.send(serializedMessage);
@@ -121,9 +117,7 @@ Bristleback.Client.prototype.sendMessage = function (message) {
  */
 Bristleback.Client.prototype.disconnect = function () {
   if (!this.isConnected()) {
-    var msg = "Connection is not open, it may be already closed or in closing state. Actual state: " + this.getConnectionState();
-    Bristleback.Console.log(msg);
-    throw new Error(msg);
+    throw new Error("Connection is not open, it may be already closed or in closing state. Actual state: " + this.getConnectionState());
   }
   this.connection.close();
 };

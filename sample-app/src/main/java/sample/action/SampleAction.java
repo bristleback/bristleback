@@ -1,6 +1,7 @@
 package sample.action;
 
 import org.springframework.stereotype.Component;
+import pl.bristleback.common.serialization.message.BristleMessage;
 import pl.bristleback.server.bristle.api.action.DefaultAction;
 import pl.bristleback.server.bristle.api.annotations.Action;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
@@ -8,7 +9,6 @@ import pl.bristleback.server.bristle.api.annotations.Intercept;
 import pl.bristleback.server.bristle.api.annotations.ObjectSender;
 import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.engine.user.BaseUserContext;
-import pl.bristleback.common.serialization.message.BristleMessage;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import sample.Card;
 import sample.User;
@@ -18,6 +18,7 @@ import sample.service.HelloServiceBean;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -53,7 +54,7 @@ public class SampleAction implements DefaultAction<BaseUserContext, Map<String, 
   }
 
   @Action(name = "hello")
-  public void sayHello(@Valid @NotNull String name, @Min(10)int age, BaseUserContext user) throws Exception {
+  public void sayHello(@Valid @NotNull String name, @Min(10) int age, BaseUserContext user) throws Exception {
     BristleMessage<User> message = new BristleMessage<User>();
     User userData = new User();
     userData.setAge(age);
@@ -71,13 +72,7 @@ public class SampleAction implements DefaultAction<BaseUserContext, Map<String, 
   }
 
   @Action
-  public List<User> getFactorials(int size) {
-    if (size < 0) {
-      throw new RuntimeException();
-    }
-    if (size > 10) {
-      throw new IllegalArgumentException("This would be too high number");
-    }
+  public List<User> getFactorials(@Valid @Min(1) @Max(10) int size) {
     List<User> returnedList = new ArrayList<User>(size);
     int result = 1;
     for (int i = 1; i <= size; i++) {
