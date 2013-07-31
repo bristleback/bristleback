@@ -13,7 +13,7 @@
  * @namespace Bristleback.template
  * @constructor
  */
-Bristleback.template.TemplateController = function () {
+BB.template.TemplateController = function () {
   this.parsedTemplates = {};
 
   /**
@@ -23,10 +23,10 @@ Bristleback.template.TemplateController = function () {
    @property renderingModes
    @type Object
    **/
-  this.renderingModes = Bristleback.template.builtInRenderingModes;
+  this.renderingModes = BB.template.builtInRenderingModes;
 };
 
-Bristleback.template.TemplateController.prototype.constructTemplateInformation = function (templateName, containerId, rootObjectName, renderingMode) {
+BB.template.TemplateController.prototype.constructTemplateInformation = function (templateName, containerId, rootObjectName, renderingMode) {
   containerId = containerId ? containerId : "#" + templateName + "-div";
   renderingMode = renderingMode ? renderingMode : "replace";
   if (!this.renderingModes[renderingMode]) {
@@ -47,7 +47,7 @@ Bristleback.template.TemplateController.prototype.constructTemplateInformation =
  * @param templateName
  * @return {Boolean}
  */
-Bristleback.template.TemplateController.prototype.containsTemplate = function (templateName) {
+BB.template.TemplateController.prototype.containsTemplate = function (templateName) {
   return this.parsedTemplates[templateName] != undefined;
 };
 
@@ -58,7 +58,7 @@ Bristleback.template.TemplateController.prototype.containsTemplate = function (t
  * @param {String} templateName
  * @return {Object} parsed template.
  */
-Bristleback.template.TemplateController.prototype.getTemplate = function (templateName) {
+BB.template.TemplateController.prototype.getTemplate = function (templateName) {
   if (!this.containsTemplate(templateName)) {
     this.parsedTemplates[templateName] =
       this.templateFramework.parseTemplate(templateName);
@@ -72,7 +72,7 @@ Bristleback.template.TemplateController.prototype.getTemplate = function (templa
  * @param {Object} templateInformation information about template.
  * @param {Object} object data used by template.
  */
-Bristleback.template.TemplateController.prototype.render = function (templateInformation, object) {
+BB.template.TemplateController.prototype.render = function (templateInformation, object) {
   if (templateInformation.rootObjectName) {
     var data = {};
     data[templateInformation.rootObjectName] = object;
@@ -96,12 +96,12 @@ Bristleback.template.TemplateController.prototype.render = function (templateInf
  * @method registerTemplateFramework
  * @param {Object} templateFramework
  */
-Bristleback.template.TemplateController.prototype.registerTemplateFramework = function (templateFramework) {
+BB.template.TemplateController.prototype.registerTemplateFramework = function (templateFramework) {
   this.templateFramework = templateFramework;
 };
 
 
-Bristleback.template.builtInRenderingModes = {
+BB.template.builtInRenderingModes = {
   replace: function (result, templateInformation) {
     var idWithoutHash = templateInformation.containerId.substring(1);
     var container = document.getElementById(idWithoutHash);
@@ -119,7 +119,7 @@ Bristleback.template.builtInRenderingModes = {
   }
 };
 
-Bristleback.templateFrameworks = {
+BB.templateFrameworks = {
 
   trimpath: {
     parseTemplate: function (templateName) {
@@ -149,6 +149,6 @@ Bristleback.templateFrameworks = {
 
 };
 
-Bristleback.templateController = new Bristleback.template.TemplateController();
+BB.templateController = new BB.template.TemplateController();
 
 

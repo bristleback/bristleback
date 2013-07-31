@@ -15,7 +15,7 @@
  * @final
  * @default "ud"
  **/
-Bristleback.USER_DETAILS = "ud";
+BB.USER_DETAILS = "ud";
 
 /**
  * Creates a new instance of System Authentication controller, which is a part of Action controller.
@@ -30,7 +30,7 @@ Bristleback.USER_DETAILS = "ud";
  * @namespace Bristleback.auth
  * @constructor
  */
-Bristleback.auth.SystemAuthentication = function (dataController) {
+BB.auth.SystemAuthentication = function (dataController) {
   var defaultAuthenticationActionClass = dataController.getActionClass("BristleSystemUserAuthentication");
   this.setAsDefaultAuthenticationAction(defaultAuthenticationActionClass.defineAction("authenticate"));
 
@@ -76,7 +76,7 @@ Bristleback.auth.SystemAuthentication = function (dataController) {
  * @method defaultSecurityExceptionHandler
  * @param {Object} exception exception containing content and meta information, like exception type or action execution phase.
  */
-Bristleback.auth.SystemAuthentication.prototype.defaultSecurityExceptionHandler = function (exception) {
+BB.auth.SystemAuthentication.prototype.defaultSecurityExceptionHandler = function (exception) {
   var usernameMessageSuffix = exception.content.username ? " for user '" + exception.content.username + "'." : ".";
   var exceptionMessage = "Unexpected " + exception.exceptionType + " security exception occurred" + usernameMessageSuffix;
   throw new Error(exceptionMessage);
@@ -87,7 +87,7 @@ Bristleback.auth.SystemAuthentication.prototype.defaultSecurityExceptionHandler 
  * @method defaultIncorrectPasswordHandler
  * @param {Object} exception exception containing content and meta information, like exception type or action execution phase.
  */
-Bristleback.auth.SystemAuthentication.prototype.defaultIncorrectPasswordHandler = function (exception) {
+BB.auth.SystemAuthentication.prototype.defaultIncorrectPasswordHandler = function (exception) {
   throw new Error("Incorrect username or password, username provided: '" + exception.content.username + "'.");
 };
 
@@ -96,7 +96,7 @@ Bristleback.auth.SystemAuthentication.prototype.defaultIncorrectPasswordHandler 
  * @method defaultIncorrectPasswordHandler
  * @param {Object} exception exception containing content and meta information, like exception type or action execution phase.
  */
-Bristleback.auth.SystemAuthentication.prototype.defaultAuthorizationExceptionHandler = function (exception) {
+BB.auth.SystemAuthentication.prototype.defaultAuthorizationExceptionHandler = function (exception) {
   throw new Error("User '" + exception.content.username + "' tried to invoke action without required authority: '" + exception.content.authority + "'.");
 };
 
@@ -106,7 +106,7 @@ Bristleback.auth.SystemAuthentication.prototype.defaultAuthorizationExceptionHan
  * use {{#crossLink "Bristleback.auth.SystemAuthentication/setAsDefaultAuthenticationAction"}}{{/crossLink}} method.
  * @method authenticate
  */
-Bristleback.auth.SystemAuthentication.prototype.authenticate = function () {
+BB.auth.SystemAuthentication.prototype.authenticate = function () {
   this.invokeAction(this.defaultAuthenticationAction, arguments);
 };
 
@@ -116,11 +116,11 @@ Bristleback.auth.SystemAuthentication.prototype.authenticate = function () {
  * use {{#crossLink "Bristleback.auth.SystemAuthentication/setAsDefaultLogoutAction"}}{{/crossLink}} method.
  * @method logout
  */
-Bristleback.auth.SystemAuthentication.prototype.logout = function () {
+BB.auth.SystemAuthentication.prototype.logout = function () {
   this.invokeAction(this.defaultLogoutAction, arguments);
 };
 
-Bristleback.auth.SystemAuthentication.prototype.invokeAction = function (action, argumentsList) {
+BB.auth.SystemAuthentication.prototype.invokeAction = function (action, argumentsList) {
   var correctParameters = [];
   var parametersLength = argumentsList.length;
   for (var i = 0; i < parametersLength; i++) {
@@ -135,7 +135,7 @@ Bristleback.auth.SystemAuthentication.prototype.invokeAction = function (action,
  * @method setAsDefaultAuthenticationAction
  * @param {Object} action object created by calling {{#crossLink "Bristleback.controller.ActionClass/defineAction"}}{{/crossLink}} method.
  */
-Bristleback.auth.SystemAuthentication.prototype.setAsDefaultAuthenticationAction = function (action) {
+BB.auth.SystemAuthentication.prototype.setAsDefaultAuthenticationAction = function (action) {
   this.defaultAuthenticationAction = action;
 };
 
@@ -145,7 +145,7 @@ Bristleback.auth.SystemAuthentication.prototype.setAsDefaultAuthenticationAction
  * @method setAsDefaultLogoutAction
  * @param {Object} action object created by calling {{#crossLink "Bristleback.controller.ActionClass/defineAction"}}{{/crossLink}} method.
  */
-Bristleback.auth.SystemAuthentication.prototype.setAsDefaultLogoutAction = function (action) {
+BB.auth.SystemAuthentication.prototype.setAsDefaultLogoutAction = function (action) {
   this.defaultLogoutAction = action;
 };
 
@@ -155,7 +155,7 @@ Bristleback.auth.SystemAuthentication.prototype.setAsDefaultLogoutAction = funct
  * @method setAuthenticationSuccessCallback
  * @param {Function} authenticationSuccessCallback function that takes one String parameter: username.
  */
-Bristleback.auth.SystemAuthentication.prototype.setAuthenticationSuccessCallback = function (authenticationSuccessCallback) {
+BB.auth.SystemAuthentication.prototype.setAuthenticationSuccessCallback = function (authenticationSuccessCallback) {
   this.authenticationSuccessCallback = authenticationSuccessCallback;
 };
 
@@ -166,6 +166,6 @@ Bristleback.auth.SystemAuthentication.prototype.setAuthenticationSuccessCallback
  * @param {Function} logoutCallback function that takes one Object parameter: logoutMessage,
  * containing fields: username and logoutReason.
  */
-Bristleback.auth.SystemAuthentication.prototype.setLogoutCallback = function (logoutCallback) {
+BB.auth.SystemAuthentication.prototype.setLogoutCallback = function (logoutCallback) {
   this.logoutCallback = logoutCallback;
 };

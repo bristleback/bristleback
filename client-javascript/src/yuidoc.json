@@ -5,7 +5,7 @@
   "url": "http://bristleback.pl/",
   "logo": "http://bristleback.pl/img/bristleback-logo-green.png",
   "options": {
-    "outdir": "../../../target/js-doc"
+    "outdir": "../../target/js-doc"
   },
   "exclude":"trimpath-template-1.0.38.js"
 }

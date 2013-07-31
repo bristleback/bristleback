@@ -16,7 +16,7 @@
  * @type String
  * @final
  **/
-Bristleback.LOCAL_HOSTNAME = "ws://" + ( self.location.hostname ? self.location.hostname : "127.0.0.1" ) + ":8765/websocket";
+BB.LOCAL_HOSTNAME = "ws://" + ( self.location.hostname ? self.location.hostname : "127.0.0.1" ) + ":8765/websocket";
 
 /**
  * Bristleback User Context action parameter placeholder
@@ -27,14 +27,14 @@ Bristleback.LOCAL_HOSTNAME = "ws://" + ( self.location.hostname ? self.location.
  * @final
  * @default "uc"
  **/
-Bristleback.USER_CONTEXT = "uc";
+BB.USER_CONTEXT = "uc";
 
 /**
  * @class utils
  * @namespace Bristleback
  * @static
  */
-Bristleback.utils = {};
+BB.utils = {};
 
 //------------- UTILITY FUNCTIONS
 
@@ -46,12 +46,12 @@ Bristleback.utils = {};
  * @param p {Object} object that will be copied
  * @param c {Object} object that will receive state of first object
  **/
-Bristleback.utils.deepCopy = function(p, c) {
+BB.utils.deepCopy = function(p, c) {
   c = c || {};
   for (var i in p) {
     if (typeof p[i] === 'object') {
       c[i] = (p[i].constructor === Array) ? [] : {};
-      Bristleback.utils.deepCopy(p[i], c[i]);
+      BB.utils.deepCopy(p[i], c[i]);
     } else {
       if (typeof p[i] !== 'function') {
         c[i] = p[i];
@@ -67,7 +67,7 @@ Bristleback.utils.deepCopy = function(p, c) {
  * @static
  * @param obj
  */
-Bristleback.utils.objectToString = function(obj) {
+BB.utils.objectToString = function(obj) {
   var objectAsString = "";
   var innerObject = "";
   var startMark = "{";
@@ -78,7 +78,7 @@ Bristleback.utils.objectToString = function(obj) {
         startMark = "[";
         endMark = "]";
       }
-      innerObject = Bristleback.utils.objectToString(obj[field]);
+      innerObject = BB.utils.objectToString(obj[field]);
       if (innerObject != "") {
         objectAsString += field + " " + startMark + "\n";
         objectAsString += innerObject;
@@ -100,7 +100,7 @@ Bristleback.utils.objectToString = function(obj) {
  * @static
  * @param txt text to escape characters
  */
-Bristleback.utils.escapeHTML = function(txt) {
+BB.utils.escapeHTML = function(txt) {
   var div = document.createElement('div');
   var text = document.createTextNode(txt);
   div.appendChild(text);
