@@ -21,6 +21,10 @@ import org.springframework.stereotype.Component;
 import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
 
+/**
+ * This is a default validator factory initializer implementation, providing {@link HibernateValidator} factory
+ * with default options.
+ */
 @Component
 public class HibernateSimpleValidatorInitializer implements ValidatorFactoryInitializer {
 

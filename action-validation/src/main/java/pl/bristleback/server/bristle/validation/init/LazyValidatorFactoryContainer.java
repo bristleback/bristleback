@@ -15,17 +15,20 @@
 
 package pl.bristleback.server.bristle.validation.init;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.conf.ConfigurationElementResolver;
 
 import javax.inject.Inject;
 import javax.validation.ValidatorFactory;
 
+/**
+ * Helper class used to lazily retrieve and build {@link ValidatorFactory} using {@link ValidatorFactoryInitializer} implementation.
+ * To use custom validator initializer, create bean implementing {@link ValidatorFactoryInitializer} interface.
+ *
+ * @see HibernateSimpleValidatorInitializer Default validator factory initializer
+ */
 @Component
 public class LazyValidatorFactoryContainer {
-
-  private static Logger log = Logger.getLogger(LazyValidatorFactoryContainer.class.getName());
 
   @Inject
   private ConfigurationElementResolver elementResolver;

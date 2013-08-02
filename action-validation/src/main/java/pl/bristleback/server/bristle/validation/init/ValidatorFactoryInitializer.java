@@ -17,6 +17,9 @@ package pl.bristleback.server.bristle.validation.init;
 
 import javax.validation.ValidatorFactory;
 
+/**
+ * Classes implementing this interface are responsible for providing fully initialized {@link ValidatorFactory}.
+ */
 public interface ValidatorFactoryInitializer {
 
   ValidatorFactory createValidatorFactory();
