@@ -54,7 +54,7 @@ public class SampleAction implements DefaultAction<BaseUserContext, Map<String, 
   }
 
   @Action(name = "hello")
-  public void sayHello(@Valid @Size(min = 10) String name, @Min(10) int age, BaseUserContext user) throws Exception {
+  public void sayHello(@Size(min = 10) String name, @Min(10) int age, BaseUserContext user) throws Exception {
     BristleMessage<User> message = new BristleMessage<User>();
     User userData = new User();
     userData.setAge(age);
