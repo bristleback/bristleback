@@ -16,22 +16,19 @@
 package pl.bristleback.server.bristle.validation.init;
 
 import org.apache.log4j.Logger;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
-import pl.bristleback.server.bristle.conf.BristleInitializationException;
-import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
+import pl.bristleback.server.bristle.conf.ConfigurationElementResolver;
 
 import javax.inject.Inject;
 import javax.validation.ValidatorFactory;
-import java.util.Map;
 
 @Component
-public class LazyValidatorFactoryContainer implements ApplicationContextAware {
+public class LazyValidatorFactoryContainer {
 
   private static Logger log = Logger.getLogger(LazyValidatorFactoryContainer.class.getName());
 
-  private ApplicationContext applicationContext;
+  @Inject
+  private ConfigurationElementResolver elementResolver;
 
   @Inject
   private HibernateSimpleValidatorInitializer defaultInitializer;
@@ -46,22 +43,8 @@ public class LazyValidatorFactoryContainer implements ApplicationContextAware {
   }
 
   private ValidatorFactory buildValidatorFactory() {
-    BristleSpringIntegration springIntegration = applicationContext.getBean("springIntegration", BristleSpringIntegration.class);
-    Map<String, ValidatorFactoryInitializer> customFactories = springIntegration.getApplicationBeansOfType(ValidatorFactoryInitializer.class);
-    ValidatorFactoryInitializer factoryInitializer;
-    if (customFactories.isEmpty()) {
-      factoryInitializer = defaultInitializer;
-    } else if (customFactories.size() > 1) {
-      throw new BristleInitializationException("Multiple custom validator factory initializers.");
-    } else {
-      factoryInitializer = customFactories.values().iterator().next();
-    }
+    ValidatorFactoryInitializer factoryInitializer = elementResolver.getConfigurationElement(ValidatorFactoryInitializer.class, defaultInitializer);
 
     return factoryInitializer.createValidatorFactory();
-  }
-
-  @Override
-  public void setApplicationContext(ApplicationContext applicationContext) {
-    this.applicationContext = applicationContext;
   }
 }

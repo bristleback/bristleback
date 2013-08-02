@@ -34,7 +34,7 @@ import java.lang.reflect.Type;
  *
  * @author Wojciech Niemiec
  */
-public interface SerializationResolver<T> extends ConfigurationAware {
+public interface SerializationResolver<T> {
 
   SerializationBundle initSerializationBundle(Field objectSenderField);
 

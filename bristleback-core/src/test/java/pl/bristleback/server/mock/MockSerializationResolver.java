@@ -1,6 +1,5 @@
 package pl.bristleback.server.mock;
 
-import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.SerializationResolver;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
 
@@ -18,10 +17,5 @@ public class MockSerializationResolver implements SerializationResolver<Object> 
   @Override
   public Object resolveSerialization(Type objectType, Annotation... annotations) {
     return "testSerializationInformation";
-  }
-
-  @Override
-  public void init(BristlebackConfig configuration) {
-
   }
 }

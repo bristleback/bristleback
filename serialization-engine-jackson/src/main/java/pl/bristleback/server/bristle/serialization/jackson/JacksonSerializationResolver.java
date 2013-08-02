@@ -18,17 +18,16 @@ package pl.bristleback.server.bristle.serialization.jackson;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
-import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.SerializationResolver;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * //@todo class description
+ * Resolves serialization information using Jackson framework.
+ * {@link ObjectMapper#constructType(java.lang.reflect.Type)} method is used to resolve serialization information.
  * <p/>
  * Created on: 2012-03-09 18:45:49 <br/>
  *
@@ -37,11 +36,10 @@ import java.lang.reflect.Type;
 @Component("jacksonSerializer.serializationResolver")
 public class JacksonSerializationResolver implements SerializationResolver<JacksonSerialization> {
 
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper;
 
-  @Override
-  public void init(BristlebackConfig configuration) {
-
+  void setObjectMapper(ObjectMapper objectMapper) {
+    this.objectMapper = objectMapper;
   }
 
   @Override
@@ -52,12 +50,7 @@ public class JacksonSerializationResolver implements SerializationResolver<Jacks
   @Override
   public JacksonSerialization resolveSerialization(Type objectType, Annotation... annotations) {
     JacksonSerialization serialization = new JacksonSerialization();
-    if (objectType instanceof ParameterizedType) {
-      JavaType rootType = objectMapper.constructType(objectType);
-      serialization.setType(rootType);
-      return serialization;
-    }
-    JavaType rootType = objectMapper.getTypeFactory().constructType(objectType);
+    JavaType rootType = objectMapper.constructType(objectType);
 
     serialization.setType(rootType);
     return serialization;
