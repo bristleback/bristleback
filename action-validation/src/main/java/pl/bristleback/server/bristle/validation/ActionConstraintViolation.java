@@ -15,6 +15,16 @@
 
 package pl.bristleback.server.bristle.validation;
 
+/**
+ * Serializable object used in validation exception responses.
+ * This object represents single constraint violation returned by {@link javax.validation.Validator}.
+ * It contains information about:
+ * <ul>
+ * <li>Full path of the field in which this violation occurs</li>
+ * <li>The non-interpolated error message for this constraint violation</li>
+ * <li>The interpolated error message for this constraint violation</li>
+ * </ul>
+ */
 public class ActionConstraintViolation {
 
   private String field;
@@ -29,14 +39,23 @@ public class ActionConstraintViolation {
     this.message = message;
   }
 
+  /**
+   * @return Full path of the field in which this violation occurs
+   */
   public String getField() {
     return field;
   }
 
+  /**
+   * @return The non-interpolated error message for this constraint violation
+   */
   public String getCode() {
     return code;
   }
 
+  /**
+   * @return The interpolated error message for this constraint violation
+   */
   public String getMessage() {
     return message;
   }
