@@ -2,6 +2,12 @@
 isIndexActive: menuButtonActive
 layout: default
 ---
+<div>
+  <p class="newElement" id="newVersionInformation">New version 0.3.5 is out!
+    Check <a href="https://github.com/bristleback/bristleback/wiki/Changelog" class="classicLinkBold">release notes</a>.
+  </p>
+</div>
+
 <div class="leftSideIndexContent">
   <div class="bristlebackContentHeaderDiv">
     What is Bristleback?
@@ -42,7 +48,10 @@ layout: default
         Avoiding low level connection details, operating on high level abstractions
       </li>
       <li>
-        <b>Object serialization</b> working out of the box
+        <strong class="newElement">New!</strong> Jackson Framework used in serialization
+      </li>
+      <li>
+        <strong class="newElement">New!</strong> Support for JSR 303: Bean Validation v1.1
       </li>
       <li>
         Integrated with <b>Spring Framework</b> and <b>Maven</b>
@@ -91,7 +100,7 @@ layout: default
     1. Type following command in your console: <br>
 
     <code class="overflowCodeSnippet">
-      mvn archetype:generate -DarchetypeGroupId=pl.bristleback -DarchetypeArtifactId=webapp-archetype -DarchetypeVersion=0.3.0
+      mvn archetype:generate -DarchetypeGroupId=pl.bristleback -DarchetypeArtifactId=webapp-archetype -DarchetypeVersion=0.3.5
     </code>
 
     and enter additional information about the project.
@@ -123,7 +132,7 @@ layout: default
       &lt;dependency> <br>
       &nbsp;&nbsp; &lt;groupId>pl.bristleback&lt;/groupid> <br>
       &nbsp;&nbsp; &lt;artifactId>bristleback-core&lt;/artifactid> <br>
-      &nbsp;&nbsp; &lt;version>0.3.0&lt;/version> <br>
+      &nbsp;&nbsp; &lt;version>0.3.5&lt;/version> <br>
       &lt;/dependency> <br>
     </code>
     <br>

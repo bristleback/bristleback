@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Bristleback.controller.Action - Bristleback Client API</title>
+    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.7.0&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="..&#x2F;assets/favicon.png">
+    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.7.0&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="http:&#x2F;&#x2F;bristleback.pl&#x2F;img&#x2F;bristleback-logo-green.png" title="Bristleback Client API"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.3.5</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="..&#x2F;classes/Bristleback.auth.SystemAuthentication.html">Bristleback.auth.SystemAuthentication</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.Client.html">Bristleback.Client</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.controller.Action.html">Bristleback.controller.Action</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.controller.ActionCallback.html">Bristleback.controller.ActionCallback</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.controller.ActionClass.html">Bristleback.controller.ActionClass</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.controller.ActionController.html">Bristleback.controller.ActionController</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.controller.ActionExceptionHandler.html">Bristleback.controller.ActionExceptionHandler</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.controller.ActionMessage.html">Bristleback.controller.ActionMessage</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.controller.ClientActionClass.html">Bristleback.controller.ClientActionClass</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.controller.controllers.html">Bristleback.controller.controllers</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.LOCAL_HOSTNAME.html">Bristleback.LOCAL_HOSTNAME</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.template.TemplateController.html">Bristleback.template.TemplateController</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.USER_CONTEXT.html">Bristleback.USER_CONTEXT</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.USER_DETAILS.html">Bristleback.USER_DETAILS</a></li>
+            
+                <li><a href="..&#x2F;classes/Bristleback.utils.html">Bristleback.utils</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="..&#x2F;modules/auth.html">auth</a></li>
+            
+                <li><a href="..&#x2F;modules/Bristleback.html">Bristleback</a></li>
+            
+                <li><a href="..&#x2F;modules/controller.html">controller</a></li>
+            
+                <li><a href="..&#x2F;modules/core.html">core</a></li>
+            
+                <li><a href="..&#x2F;modules/serialization.html">serialization</a></li>
+            
+                <li><a href="..&#x2F;modules/template.html">template</a></li>
+            
+                <li><a href="..&#x2F;modules/utils.html">utils</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1>Bristleback.controller.Action Class</h1>
+<div class="box meta">
+    
+
+    
+
+    
+        <div class="foundat">
+            Defined in: <a href="..&#x2F;files&#x2F;bristle-controller.js.html#l445"><code>bristle-controller.js:445</code></a>
+        </div>
+    
+
+    
+        
+            Module: <a href="../modules/controller.html">controller</a><br>
+            Parent Module: <a href="../modules/Bristleback.html">Bristleback</a>
+        
+    
+
+    
+</div>
+
+
+
+<div class="box intro">
+    <p>This is a single server action definition, created within a server action class.
+This class provides fluent API for building action behaviour.
+Constructor of this class should not be used directly by application user.
+User should rather create action using <a href="..\classes\Bristleback.controller.ActionClass.html#method_defineDefaultAction" class="crosslink">defineDefaultAction</a>
+and <a href="..\classes\Bristleback.controller.ActionClass.html#method_defineAction" class="crosslink">defineAction</a> .</p>
+</div>
+
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+        
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+        
+        
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+        
+        
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+            
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                        
+                            <li class="index-item method">
+                                <a href="#method_renderOnResponse">renderOnResponse</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_setResponseHandler">setResponseHandler</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                        
+                            <li class="index-item property">
+                                <a href="#property_exceptionHandler">exceptionHandler</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+
+            
+        </div>
+
+        
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_renderOnResponse" class="method item">
+    <h3 class="name"><code>renderOnResponse</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>templateName</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>containerId</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>rootObjectName</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>renderingMode</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag chainable">chainable</span>
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;bristle-controller.js.html#l481"><code>bristle-controller.js:481</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Sets a rendering response handler function for this action.
+If there is another response handler defined for this action (by invoking setResponseHandler() method),
+rendering handler function runs after that response handler, so normal handler can modify or prepare action response.</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">templateName</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>template name that should be used.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">containerId</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>id of the parent container for rendered template.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">rootObjectName</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>if specified,
+template controller will prepare literal object containing property with name given by this parameter
+and value returned by server.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">renderingMode</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>name of rendering mode, one of the specified in
+<strong>Bristleback.templateController.renderingModes</strong> map. By default, "replace" mode is used.</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_setResponseHandler" class="method item">
+    <h3 class="name"><code>setResponseHandler</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>handler</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag chainable">chainable</span>
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;bristle-controller.js.html#l470"><code>bristle-controller.js:470</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Sets a response handler function for this action.</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">handler</code>
+                        <span class="type">Function</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>handler function taking one parameter (actual response object from server).</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property_exceptionHandler" class="property item">
+    <h3 class="name"><code>exceptionHandler</code></h3>
+    <span class="type"><a href="..\classes\Bristleback.controller.ActionExceptionHandler.html" class="crosslink">Bristleback.controller.ActionExceptionHandler</a></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;bristle-controller.js.html#l460"><code>bristle-controller.js:460</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Exception handler object for specifying reaction for exception responses.</p>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+
+        
+    </div>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="..&#x2F;assets/js/yui-prettify.js"></script>
+<script src="..&#x2F;assets/../api.js"></script>
+<script src="..&#x2F;assets/js/api-filter.js"></script>
+<script src="..&#x2F;assets/js/api-list.js"></script>
+<script src="..&#x2F;assets/js/api-search.js"></script>
+<script src="..&#x2F;assets/js/apidocs.js"></script>
+</body>
+</html>

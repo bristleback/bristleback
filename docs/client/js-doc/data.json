@@ -1,0 +1,1315 @@
+{
+    "project": {
+        "name": "Bristleback Client API",
+        "description": "The Bristleback Client: JavaScript library, providing simple and powerful API to cooperate with the server side",
+        "version": "0.3.5",
+        "url": "http://bristleback.pl/",
+        "logo": "http://bristleback.pl/img/bristleback-logo-green.png",
+        "exclude": "trimpath-template-1.0.38.js"
+    },
+    "files": {
+        "bristle-auth.js": {
+            "name": "bristle-auth.js",
+            "modules": {
+                "Bristleback": 1,
+                "auth": 1
+            },
+            "classes": {
+                "Bristleback.USER_DETAILS": 1,
+                "Bristleback.auth.SystemAuthentication": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "Bristleback": 1,
+                "Bristleback.auth": 1
+            }
+        },
+        "bristle-controller.js": {
+            "name": "bristle-controller.js",
+            "modules": {
+                "controller": 1
+            },
+            "classes": {
+                "Bristleback.controller.controllers": 1,
+                "Bristleback.controller.ActionMessage": 1,
+                "Bristleback.controller.ActionExceptionHandler": 1,
+                "Bristleback.controller.ActionCallback": 1,
+                "Bristleback.controller.ActionController": 1,
+                "Bristleback.controller.ActionClass": 1,
+                "Bristleback.controller.Action": 1,
+                "Bristleback.controller.ClientActionClass": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "Bristleback.controller": 1
+            }
+        },
+        "bristle-core.js": {
+            "name": "bristle-core.js",
+            "modules": {
+                "core": 1
+            },
+            "classes": {
+                "Bristleback.Client": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "Bristleback": 1
+            }
+        },
+        "bristle-namespace.js": {
+            "name": "bristle-namespace.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "bristle-serialization.js": {
+            "name": "bristle-serialization.js",
+            "modules": {
+                "serialization": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "bristle-template.js": {
+            "name": "bristle-template.js",
+            "modules": {
+                "template": 1
+            },
+            "classes": {
+                "Bristleback.template.TemplateController": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "Bristleback.template": 1
+            }
+        },
+        "bristle-utils.js": {
+            "name": "bristle-utils.js",
+            "modules": {
+                "utils": 1
+            },
+            "classes": {
+                "Bristleback.LOCAL_HOSTNAME": 1,
+                "Bristleback.USER_CONTEXT": 1,
+                "Bristleback.utils": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "Bristleback": 1
+            }
+        }
+    },
+    "modules": {
+        "Bristleback": {
+            "name": "Bristleback",
+            "submodules": {
+                "auth": 1,
+                "controller": 1,
+                "core": 1,
+                "serialization": 1,
+                "template": 1,
+                "utils": 1
+            },
+            "classes": {
+                "Bristleback.USER_DETAILS": 1,
+                "Bristleback.auth.SystemAuthentication": 1,
+                "Bristleback.controller.controllers": 1,
+                "Bristleback.controller.ActionMessage": 1,
+                "Bristleback.controller.ActionExceptionHandler": 1,
+                "Bristleback.controller.ActionCallback": 1,
+                "Bristleback.controller.ActionController": 1,
+                "Bristleback.controller.ActionClass": 1,
+                "Bristleback.controller.Action": 1,
+                "Bristleback.controller.ClientActionClass": 1,
+                "Bristleback.Client": 1,
+                "Bristleback.template.TemplateController": 1,
+                "Bristleback.LOCAL_HOSTNAME": 1,
+                "Bristleback.USER_CONTEXT": 1,
+                "Bristleback.utils": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "Bristleback": 1,
+                "Bristleback.auth": 1,
+                "Bristleback.controller": 1,
+                "Bristleback.template": 1
+            },
+            "file": "bristle-utils.js",
+            "line": 32,
+            "description": "Authentication module",
+            "tag": "main",
+            "itemtype": "main"
+        },
+        "auth": {
+            "name": "auth",
+            "submodules": {},
+            "classes": {
+                "Bristleback.USER_DETAILS": 1,
+                "Bristleback.auth.SystemAuthentication": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {
+                "Bristleback": 1,
+                "Bristleback.auth": 1
+            },
+            "module": "Bristleback",
+            "namespace": "",
+            "file": "bristle-auth.js",
+            "line": 20,
+            "description": "Authentication module",
+            "tag": "main",
+            "itemtype": "main"
+        },
+        "controller": {
+            "name": "controller",
+            "submodules": {},
+            "classes": {
+                "Bristleback.controller.controllers": 1,
+                "Bristleback.controller.ActionMessage": 1,
+                "Bristleback.controller.ActionExceptionHandler": 1,
+                "Bristleback.controller.ActionCallback": 1,
+                "Bristleback.controller.ActionController": 1,
+                "Bristleback.controller.ActionClass": 1,
+                "Bristleback.controller.Action": 1,
+                "Bristleback.controller.ClientActionClass": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {
+                "Bristleback.controller": 1
+            },
+            "module": "Bristleback",
+            "namespace": "",
+            "file": "bristle-controller.js",
+            "line": 518,
+            "description": "Action controller module",
+            "tag": "main",
+            "itemtype": "main"
+        },
+        "core": {
+            "name": "core",
+            "submodules": {},
+            "classes": {
+                "Bristleback.Client": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {
+                "Bristleback": 1
+            },
+            "module": "Bristleback",
+            "namespace": "",
+            "file": "bristle-core.js",
+            "line": 9,
+            "description": "Core module",
+            "tag": "main",
+            "itemtype": "main"
+        },
+        "serialization": {
+            "name": "serialization",
+            "submodules": {},
+            "classes": {},
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "Bristleback",
+            "namespace": "",
+            "file": "bristle-serialization.js",
+            "line": 1,
+            "description": "Serialization module",
+            "tag": "main",
+            "itemtype": "main"
+        },
+        "template": {
+            "name": "template",
+            "submodules": {},
+            "classes": {
+                "Bristleback.template.TemplateController": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {
+                "Bristleback.template": 1
+            },
+            "module": "Bristleback",
+            "namespace": "",
+            "file": "bristle-template.js",
+            "line": 9,
+            "description": "Template module",
+            "tag": "main",
+            "itemtype": "main"
+        },
+        "utils": {
+            "name": "utils",
+            "submodules": {},
+            "classes": {
+                "Bristleback.LOCAL_HOSTNAME": 1,
+                "Bristleback.USER_CONTEXT": 1,
+                "Bristleback.utils": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {
+                "Bristleback": 1
+            },
+            "module": "Bristleback",
+            "namespace": "",
+            "file": "bristle-utils.js",
+            "line": 32,
+            "description": "Utilities module"
+        }
+    },
+    "classes": {
+        "Bristleback.USER_DETAILS": {
+            "name": "Bristleback.USER_DETAILS",
+            "shortname": "Bristleback.USER_DETAILS",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Bristleback",
+            "submodule": "auth",
+            "namespace": "Bristleback",
+            "file": "bristle-auth.js",
+            "line": 9,
+            "description": "User Details action parameter placeholder",
+            "type": "String",
+            "final": 1,
+            "default": "\"ud\""
+        },
+        "Bristleback.auth.SystemAuthentication": {
+            "name": "Bristleback.auth.SystemAuthentication",
+            "shortname": "Bristleback.auth.SystemAuthentication",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Bristleback",
+            "submodule": "auth",
+            "namespace": "Bristleback.auth",
+            "file": "bristle-auth.js",
+            "line": 20,
+            "description": "Creates a new instance of System Authentication controller, which is a part of Action controller.\nAuthentication controller provides methods for logging in and logging out.\nIt also allow user to handle various events and authentication/authorization exceptions.\nThis controller provides few built in handlers, all of them can be overridden by application creator.\nNote that this is a first, beta version of the authentication controller,\nfuture version will probably bring more sophisticated and more general solution,\nthat could be used also with Spring Security.",
+            "params": [
+                {
+                    "name": "dataController",
+                    "description": "data controller.",
+                    "type": "Object"
+                }
+            ],
+            "is_constructor": 1
+        },
+        "Bristleback.controller.controllers": {
+            "name": "Bristleback.controller.controllers",
+            "shortname": "Bristleback.controller.controllers",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller",
+            "file": "bristle-controller.js",
+            "line": 9,
+            "description": "Controllers container map.",
+            "static": 1,
+            "type": "Object"
+        },
+        "Bristleback.controller.ActionMessage": {
+            "name": "Bristleback.controller.ActionMessage",
+            "shortname": "Bristleback.controller.ActionMessage",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller",
+            "file": "bristle-controller.js",
+            "line": 18,
+            "description": "Creates a new action message",
+            "params": [
+                {
+                    "name": "controller",
+                    "description": "data controller",
+                    "type": "Object"
+                },
+                {
+                    "name": "message",
+                    "description": "message to sent",
+                    "type": "Object"
+                }
+            ],
+            "is_constructor": 1,
+            "access": "private",
+            "tagname": ""
+        },
+        "Bristleback.controller.ActionExceptionHandler": {
+            "name": "Bristleback.controller.ActionExceptionHandler",
+            "shortname": "Bristleback.controller.ActionExceptionHandler",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller",
+            "file": "bristle-controller.js",
+            "line": 53,
+            "description": "Action exception handler class allows to fully control exception handling process.\nInstance of this class is created for every action, action class, action callback object and\nalso there is one exception handler in action controller object.",
+            "is_constructor": 1
+        },
+        "Bristleback.controller.ActionCallback": {
+            "name": "Bristleback.controller.ActionCallback",
+            "shortname": "Bristleback.controller.ActionCallback",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller",
+            "file": "bristle-controller.js",
+            "line": 164,
+            "description": "This class is the highest level response handler used in server actions.\nAction callbacks can be placed as last parameter in server action invocations.\nAction callback contains fields for both normal and exception responses.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "responseHandler",
+                    "description": "handler function taking one parameter (actual response object from server).",
+                    "type": "Function"
+                }
+            ]
+        },
+        "Bristleback.controller.ActionController": {
+            "name": "Bristleback.controller.ActionController",
+            "shortname": "Bristleback.controller.ActionController",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller",
+            "file": "bristle-controller.js",
+            "line": 202,
+            "description": "Action controller is a default, built in data controller used in Bristleback Server.\nAction controller uses server and client action classes to communicate with server.\nName of this controller: 'system.controller.action'. To use action controller,\nserver must have it enabled in configuration.",
+            "is_constructor": 1
+        },
+        "Bristleback.controller.ActionClass": {
+            "name": "Bristleback.controller.ActionClass",
+            "shortname": "Bristleback.controller.ActionClass",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller",
+            "file": "bristle-controller.js",
+            "line": 299,
+            "description": "ActionClass is a client representation of server action class defined on Java side.\nUsing this class, user can invoke server actions and specify how to handle normal/exception responses.\nAction class instances should not be created using directly this constructors,\nbut using {{#crossLink \"Bristleback.controller.ActionController/getActionClass\"}}{{/crossLink}} method",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "name",
+                    "description": "name of this action class.",
+                    "type": "String"
+                },
+                {
+                    "name": "actionController",
+                    "description": "",
+                    "type": "Object"
+                }
+            ]
+        },
+        "Bristleback.controller.Action": {
+            "name": "Bristleback.controller.Action",
+            "shortname": "Bristleback.controller.Action",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller",
+            "file": "bristle-controller.js",
+            "line": 445,
+            "description": "This is a single server action definition, created within a server action class.\nThis class provides fluent API for building action behaviour.\nConstructor of this class should not be used directly by application user.\nUser should rather create action using {{#crossLink \"Bristleback.controller.ActionClass/defineDefaultAction\"}}{{/crossLink}}\nand {{#crossLink \"Bristleback.controller.ActionClass/defineAction\"}}{{/crossLink}} .",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "name of this action"
+                },
+                {
+                    "name": "actionClass",
+                    "description": "action class containing this action"
+                }
+            ]
+        },
+        "Bristleback.controller.ClientActionClass": {
+            "name": "Bristleback.controller.ClientActionClass",
+            "shortname": "Bristleback.controller.ClientActionClass",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller",
+            "file": "bristle-controller.js",
+            "line": 518,
+            "description": "This is a client action class definition.\nInstances of this class should be created directly by application user.\nInstead, they can use {{#crossLink \"Bristleback.controller.ActionController/registerClientActionClass\"}}{{/crossLink}}",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "name",
+                    "description": "name of this client action class",
+                    "type": "String"
+                },
+                {
+                    "name": "actionClass",
+                    "description": "real client action class instance.",
+                    "type": "Object"
+                }
+            ]
+        },
+        "Bristleback.Client": {
+            "name": "Bristleback.Client",
+            "shortname": "Bristleback.Client",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Bristleback",
+            "submodule": "core",
+            "namespace": "Bristleback",
+            "file": "bristle-core.js",
+            "line": 9,
+            "description": "This class is a WebSocket connection abstraction. It uses WebSocket object to connect and communicate with the server.\nSingle Client object represents a single client-server connection. There can be multiple instances of this class\n(there can be multiple connections from single browser tab).",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "configuration object."
+                }
+            ]
+        },
+        "Bristleback.template.TemplateController": {
+            "name": "Bristleback.template.TemplateController",
+            "shortname": "Bristleback.template.TemplateController",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Bristleback",
+            "submodule": "template",
+            "namespace": "Bristleback.template",
+            "file": "bristle-template.js",
+            "line": 9,
+            "description": "Template controller is responsible for registering template frameworks and storing, caching and rendering templates.\nBefore using template controller, template framework implementation must be registered via registerTemplateFramework() method.",
+            "is_constructor": 1
+        },
+        "Bristleback.LOCAL_HOSTNAME": {
+            "name": "Bristleback.LOCAL_HOSTNAME",
+            "shortname": "Bristleback.LOCAL_HOSTNAME",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Bristleback",
+            "submodule": "utils",
+            "namespace": "Bristleback",
+            "file": "bristle-utils.js",
+            "line": 11,
+            "description": "Local host name with port 8765.",
+            "type": "String",
+            "final": 1
+        },
+        "Bristleback.USER_CONTEXT": {
+            "name": "Bristleback.USER_CONTEXT",
+            "shortname": "Bristleback.USER_CONTEXT",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Bristleback",
+            "submodule": "utils",
+            "namespace": "Bristleback",
+            "file": "bristle-utils.js",
+            "line": 21,
+            "description": "Bristleback User Context action parameter placeholder",
+            "type": "String",
+            "final": 1,
+            "default": "\"uc\""
+        },
+        "Bristleback.utils": {
+            "name": "Bristleback.utils",
+            "shortname": "Bristleback.utils",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Bristleback",
+            "submodule": "utils",
+            "namespace": "Bristleback",
+            "file": "bristle-utils.js",
+            "line": 32,
+            "static": 1
+        }
+    },
+    "classitems": [
+        {
+            "file": "bristle-auth.js",
+            "line": 68,
+            "description": "This is a default handler for following exception types:\n<ul>\n  <li>BristleSecurityException</li>\n  <li>InactiveUserException</li>\n  <li>UserAlreadyAuthenticatedException</li>\n  <li>UserNotAuthenticatedException</li>\n</ul>",
+            "itemtype": "method",
+            "name": "defaultSecurityExceptionHandler",
+            "params": [
+                {
+                    "name": "exception",
+                    "description": "exception containing content and meta information, like exception type or action execution phase.",
+                    "type": "Object"
+                }
+            ],
+            "class": "Bristleback.auth.SystemAuthentication",
+            "module": "Bristleback",
+            "submodule": "auth",
+            "namespace": "Bristleback.auth"
+        },
+        {
+            "file": "bristle-auth.js",
+            "line": 85,
+            "description": "This is a default handler for incorrect username or password exception (IncorrectUsernameOrPasswordException).",
+            "itemtype": "method",
+            "name": "defaultIncorrectPasswordHandler",
+            "params": [
+                {
+                    "name": "exception",
+                    "description": "exception containing content and meta information, like exception type or action execution phase.",
+                    "type": "Object"
+                }
+            ],
+            "class": "Bristleback.auth.SystemAuthentication",
+            "module": "Bristleback",
+            "submodule": "auth",
+            "namespace": "Bristleback.auth"
+        },
+        {
+            "file": "bristle-auth.js",
+            "line": 94,
+            "description": "This is a default handler for incorrect username or password exception (IncorrectUsernameOrPasswordException).",
+            "itemtype": "method",
+            "name": "defaultIncorrectPasswordHandler",
+            "params": [
+                {
+                    "name": "exception",
+                    "description": "exception containing content and meta information, like exception type or action execution phase.",
+                    "type": "Object"
+                }
+            ],
+            "class": "Bristleback.auth.SystemAuthentication",
+            "module": "Bristleback",
+            "submodule": "auth",
+            "namespace": "Bristleback.auth"
+        },
+        {
+            "file": "bristle-auth.js",
+            "line": 103,
+            "description": "Invokes default authentication action. Arguments of this method passed by user are further transferred to authentication action.\nSystem authentication system provides built in default authentication action. To set custom action as the default,\nuse {{#crossLink \"Bristleback.auth.SystemAuthentication/setAsDefaultAuthenticationAction\"}}{{/crossLink}} method.",
+            "itemtype": "method",
+            "name": "authenticate",
+            "class": "Bristleback.auth.SystemAuthentication",
+            "module": "Bristleback",
+            "submodule": "auth",
+            "namespace": "Bristleback.auth"
+        },
+        {
+            "file": "bristle-auth.js",
+            "line": 113,
+            "description": "Invokes default logout action. Arguments of this method passed by user are further transferred to logout action.\nSystem authentication system provides built in default logout action. To set custom action as the default,\nuse {{#crossLink \"Bristleback.auth.SystemAuthentication/setAsDefaultLogoutAction\"}}{{/crossLink}} method.",
+            "itemtype": "method",
+            "name": "logout",
+            "class": "Bristleback.auth.SystemAuthentication",
+            "module": "Bristleback",
+            "submodule": "auth",
+            "namespace": "Bristleback.auth"
+        },
+        {
+            "file": "bristle-auth.js",
+            "line": 132,
+            "description": "Sets given action as the default authentication action invoked when calling\n{{#crossLink \"Bristleback.auth.SystemAuthentication/authenticate\"}}{{/crossLink}} method.",
+            "itemtype": "method",
+            "name": "setAsDefaultAuthenticationAction",
+            "params": [
+                {
+                    "name": "action",
+                    "description": "object created by calling {{#crossLink \"Bristleback.controller.ActionClass/defineAction\"}}{{/crossLink}} method.",
+                    "type": "Object"
+                }
+            ],
+            "class": "Bristleback.auth.SystemAuthentication",
+            "module": "Bristleback",
+            "submodule": "auth",
+            "namespace": "Bristleback.auth"
+        },
+        {
+            "file": "bristle-auth.js",
+            "line": 142,
+            "description": "Sets given action as the default authentication action invoked when calling\n{{#crossLink \"Bristleback.auth.SystemAuthentication/logout\"}}{{/crossLink}} method.",
+            "itemtype": "method",
+            "name": "setAsDefaultLogoutAction",
+            "params": [
+                {
+                    "name": "action",
+                    "description": "object created by calling {{#crossLink \"Bristleback.controller.ActionClass/defineAction\"}}{{/crossLink}} method.",
+                    "type": "Object"
+                }
+            ],
+            "class": "Bristleback.auth.SystemAuthentication",
+            "module": "Bristleback",
+            "submodule": "auth",
+            "namespace": "Bristleback.auth"
+        },
+        {
+            "file": "bristle-auth.js",
+            "line": 152,
+            "description": "Sets authentication success callback, invoked when system sends a message about successful authentication.",
+            "itemtype": "method",
+            "name": "setAuthenticationSuccessCallback",
+            "params": [
+                {
+                    "name": "authenticationSuccessCallback",
+                    "description": "function that takes one String parameter: username.",
+                    "type": "Function"
+                }
+            ],
+            "class": "Bristleback.auth.SystemAuthentication",
+            "module": "Bristleback",
+            "submodule": "auth",
+            "namespace": "Bristleback.auth"
+        },
+        {
+            "file": "bristle-auth.js",
+            "line": 162,
+            "description": "Sets logout callback, invoked when system sends a message about finishing logging out process.",
+            "itemtype": "method",
+            "name": "setLogoutCallback",
+            "params": [
+                {
+                    "name": "logoutCallback",
+                    "description": "function that takes one Object parameter: logoutMessage,\ncontaining fields: username and logoutReason.",
+                    "type": "Function"
+                }
+            ],
+            "class": "Bristleback.auth.SystemAuthentication",
+            "module": "Bristleback",
+            "submodule": "auth",
+            "namespace": "Bristleback.auth"
+        },
+        {
+            "file": "bristle-controller.js",
+            "line": 68,
+            "description": "Sets a default exception handler function that will be invoked when exception handler for given exception type\ncannot be found or it has been found and returned \"false\".",
+            "itemtype": "method",
+            "name": "setDefaultExceptionHandler",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "handlerFunction",
+                    "description": "exception handler function reference, containing one parameter, which is actual exception message.",
+                    "type": "Function"
+                }
+            ],
+            "class": "Bristleback.controller.ActionExceptionHandler",
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller"
+        },
+        {
+            "file": "bristle-controller.js",
+            "line": 80,
+            "description": "Sets exception handler function applicable for exception type given as first parameter.",
+            "itemtype": "method",
+            "name": "setExceptionHandler",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "exceptionType",
+                    "description": "exception type",
+                    "type": "String"
+                },
+                {
+                    "name": "handlerFunction",
+                    "description": "exception handler function reference, containing one parameter, which is actual exception message.",
+                    "type": "Function"
+                }
+            ],
+            "class": "Bristleback.controller.ActionExceptionHandler",
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller"
+        },
+        {
+            "file": "bristle-controller.js",
+            "line": 92,
+            "description": "Adds rendering handler to be used when given exception type occurs.\nBefore using rendering functionality, templating framework implementation should be provided by calling\nBristleback.templateController.registerTemplateFramework() method.\nRendering handlers ALWAYS break exception processing cycle.",
+            "itemtype": "method",
+            "name": "renderOnException",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "exceptionType",
+                    "description": "exception type to handle.",
+                    "type": "String"
+                },
+                {
+                    "name": "templateName",
+                    "description": "template name that should be used.",
+                    "type": "String"
+                },
+                {
+                    "name": "containerId",
+                    "description": "id of the parent container for rendered template.",
+                    "type": "String"
+                },
+                {
+                    "name": "renderingMode",
+                    "description": "name of rendering mode, one of the specified in\n<strong>Bristleback.templateController.renderingModes</strong> map. By default, \"replace\" mode is used.",
+                    "type": "String"
+                }
+            ],
+            "class": "Bristleback.controller.ActionExceptionHandler",
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller"
+        },
+        {
+            "file": "bristle-controller.js",
+            "line": 113,
+            "description": "Adds default rendering handler to be used when exception occurs.\nBefore using rendering functionality, templating framework implementation should be provided by calling\nBristleback.templateController.registerTemplateFramework() method.\nRendering handlers ALWAYS break exception processing cycle.",
+            "itemtype": "method",
+            "name": "renderOnDefaultException",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "templateName",
+                    "description": "template name that should be used."
+                },
+                {
+                    "name": "containerId",
+                    "description": "id of the parent container for rendered template."
+                },
+                {
+                    "name": "renderingMode",
+                    "description": "name of rendering mode, one of the specified in\n<strong>Bristleback.templateController.renderingModes</strong> map. By default, \"replace\" mode is used.",
+                    "type": "String"
+                }
+            ],
+            "class": "Bristleback.controller.ActionExceptionHandler",
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller"
+        },
+        {
+            "file": "bristle-controller.js",
+            "line": 175,
+            "description": "Handler function taking one parameter (actual response object from server).\n This handler is invoked in case when non exceptional response is returned by the server.",
+            "itemtype": "property",
+            "name": "responseHandler",
+            "type": "Function",
+            "class": "Bristleback.controller.ActionCallback",
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller"
+        },
+        {
+            "file": "bristle-controller.js",
+            "line": 183,
+            "description": "Exception handler object for specifying reaction for exception responses.",
+            "itemtype": "property",
+            "name": "exceptionHandler",
+            "type": "Bristleback.controller.ActionExceptionHandler",
+            "class": "Bristleback.controller.ActionCallback",
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller"
+        },
+        {
+            "file": "bristle-controller.js",
+            "line": 219,
+            "description": "Exception handler object for specifying reaction for exception responses.",
+            "itemtype": "property",
+            "name": "exceptionHandler",
+            "type": "Bristleback.controller.ActionExceptionHandler",
+            "class": "Bristleback.controller.ActionController",
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller"
+        },
+        {
+            "file": "bristle-controller.js",
+            "line": 253,
+            "description": "Gets a server action class with name given as parameter.\nIf action class doesn't exist, this method transparently creates one\nand immediately returns it.",
+            "itemtype": "method",
+            "name": "getActionClass",
+            "params": [
+                {
+                    "name": "actionClassName",
+                    "description": "name of requested server action class.",
+                    "type": "String"
+                }
+            ],
+            "class": "Bristleback.controller.ActionController",
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller"
+        },
+        {
+            "file": "bristle-controller.js",
+            "line": 284,
+            "description": "Registers given object as client action class.\nAfter registration, server is able to invoke methods of given client action class.\nClient action classes are normal Object instances created in any way.",
+            "itemtype": "method",
+            "name": "registerClientActionClass",
+            "params": [
+                {
+                    "name": "actionClassName",
+                    "description": "name of client action class",
+                    "type": "String"
+                },
+                {
+                    "name": "actionClass",
+                    "description": "client action class object.",
+                    "type": "Object"
+                }
+            ],
+            "class": "Bristleback.controller.ActionController",
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller"
+        },
+        {
+            "file": "bristle-controller.js",
+            "line": 316,
+            "description": "Exception handler object for specifying reaction for exception responses.",
+            "itemtype": "property",
+            "name": "exceptionHandler",
+            "type": "Bristleback.controller.ActionExceptionHandler",
+            "class": "Bristleback.controller.ActionClass",
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller"
+        },
+        {
+            "file": "bristle-controller.js",
+            "line": 326,
+            "description": "Creates a default action definition for this action class.\nDefault actions don't have names (message name consists of action class name only).\nTo invoke default action on server, use {{#crossLink \"Bristleback.controller.ActionClass/executeDefault\"}}{{/crossLink}}",
+            "itemtype": "method",
+            "name": "defineDefaultAction",
+            "class": "Bristleback.controller.ActionClass",
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller"
+        },
+        {
+            "file": "bristle-controller.js",
+            "line": 336,
+            "description": "Creates a non default action definition with name given as parameter.\nIn addition, the action controller creates method and attaches it to this action class.\nUser can then invoke created action like any other methods.",
+            "itemtype": "method",
+            "name": "defineAction",
+            "params": [
+                {
+                    "name": "actionName",
+                    "description": "name of action",
+                    "type": "String"
+                }
+            ],
+            "class": "Bristleback.controller.ActionClass",
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller"
+        },
+        {
+            "file": "bristle-controller.js",
+            "line": 354,
+            "description": "Invokes default action of this action class on the server side.\nAction execution is always asynchronous.\nResponse handler can be specified by setting handler method in\n{{#crossLink \"Bristleback.controller.Action\"}}{{/crossLink}} object\nor by adding additional parameter at the end of parameters list.\nSuch additional parameter can be function (which will be used when normal, non exceptional response arrives)\nor {{#crossLink \"Bristleback.USER_CONTEXT\"}}{{/crossLink}} object.",
+            "itemtype": "method",
+            "name": "executeDefault",
+            "params": [
+                {
+                    "name": "connector",
+                    "description": "user connection placeholder,\n{{#crossLink \"Bristleback.USER_CONTEXT\"}}{{/crossLink}} constant should be used.",
+                    "type": "String"
+                },
+                {
+                    "name": "payload",
+                    "description": "payload object",
+                    "type": "Object"
+                }
+            ],
+            "class": "Bristleback.controller.ActionClass",
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller"
+        },
+        {
+            "file": "bristle-controller.js",
+            "line": 372,
+            "description": "Gets an action definition with name given as parameter.",
+            "itemtype": "method",
+            "name": "getAction",
+            "params": [
+                {
+                    "name": "actionName",
+                    "description": "action name.",
+                    "type": "String"
+                }
+            ],
+            "class": "Bristleback.controller.ActionClass",
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller"
+        },
+        {
+            "file": "bristle-controller.js",
+            "line": 381,
+            "description": "Gets a default action definition.",
+            "itemtype": "method",
+            "name": "getDefaultAction",
+            "class": "Bristleback.controller.ActionClass",
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller"
+        },
+        {
+            "file": "bristle-controller.js",
+            "line": 460,
+            "description": "Exception handler object for specifying reaction for exception responses.",
+            "itemtype": "property",
+            "name": "exceptionHandler",
+            "type": "Bristleback.controller.ActionExceptionHandler",
+            "class": "Bristleback.controller.Action",
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller"
+        },
+        {
+            "file": "bristle-controller.js",
+            "line": 470,
+            "description": "Sets a response handler function for this action.",
+            "itemtype": "method",
+            "name": "setResponseHandler",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "handler",
+                    "description": "handler function taking one parameter (actual response object from server).",
+                    "type": "Function"
+                }
+            ],
+            "class": "Bristleback.controller.Action",
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller"
+        },
+        {
+            "file": "bristle-controller.js",
+            "line": 481,
+            "description": "Sets a rendering response handler function for this action.\nIf there is another response handler defined for this action (by invoking setResponseHandler() method),\nrendering handler function runs after that response handler, so normal handler can modify or prepare action response.",
+            "itemtype": "method",
+            "name": "renderOnResponse",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "templateName",
+                    "description": "template name that should be used.",
+                    "type": "String"
+                },
+                {
+                    "name": "containerId",
+                    "description": "id of the parent container for rendered template.",
+                    "type": "String"
+                },
+                {
+                    "name": "rootObjectName",
+                    "description": "if specified,\ntemplate controller will prepare literal object containing property with name given by this parameter\nand value returned by server.",
+                    "type": "String"
+                },
+                {
+                    "name": "renderingMode",
+                    "description": "name of rendering mode, one of the specified in\n<strong>Bristleback.templateController.renderingModes</strong> map. By default, \"replace\" mode is used.",
+                    "type": "String"
+                }
+            ],
+            "class": "Bristleback.controller.Action",
+            "module": "Bristleback",
+            "submodule": "controller",
+            "namespace": "Bristleback.controller"
+        },
+        {
+            "file": "bristle-core.js",
+            "line": 52,
+            "description": "Gets current client connection state. The returned value is equals to the one of following fields:\n\n * WebSocket.CONNECTING\n * WebSocket.OPEN\n * WebSocket.CLOSING\n * WebSocket.CLOSED",
+            "itemtype": "method",
+            "name": "getConnectionState",
+            "class": "Bristleback.Client",
+            "module": "Bristleback",
+            "submodule": "core",
+            "namespace": "Bristleback"
+        },
+        {
+            "file": "bristle-core.js",
+            "line": 68,
+            "description": "Checks whether this client is connected (has connection state equals to WebSocket.OPEN).",
+            "itemtype": "method",
+            "name": "isConnected",
+            "class": "Bristleback.Client",
+            "module": "Bristleback",
+            "submodule": "core",
+            "namespace": "Bristleback"
+        },
+        {
+            "file": "bristle-core.js",
+            "line": 76,
+            "description": "Checks whether this client is disconnected (has connection state equals to WebSocket.CLOSED).",
+            "itemtype": "method",
+            "name": "isDisconnected",
+            "class": "Bristleback.Client",
+            "module": "Bristleback",
+            "submodule": "core",
+            "namespace": "Bristleback"
+        },
+        {
+            "file": "bristle-core.js",
+            "line": 84,
+            "description": "Connects to remote server using configuration passed as constructor parameter.\nIf connection is not closed in the moment of connection, exception is thrown.",
+            "itemtype": "method",
+            "name": "connect",
+            "class": "Bristleback.Client",
+            "module": "Bristleback",
+            "submodule": "core",
+            "namespace": "Bristleback"
+        },
+        {
+            "file": "bristle-core.js",
+            "line": 99,
+            "description": "Sends a message to remote server. Message is serialized using client serialization engine.\nThis method should generally be not used by application creator. Instead, data controller should be user.",
+            "itemtype": "method",
+            "name": "sendMessage",
+            "params": [
+                {
+                    "name": "message",
+                    "description": "message object to send."
+                }
+            ],
+            "class": "Bristleback.Client",
+            "module": "Bristleback",
+            "submodule": "core",
+            "namespace": "Bristleback"
+        },
+        {
+            "file": "bristle-core.js",
+            "line": 113,
+            "description": "Disconnects client from remote server.\nIf connection is not open, exception is thrown.",
+            "itemtype": "method",
+            "name": "disconnect",
+            "class": "Bristleback.Client",
+            "module": "Bristleback",
+            "submodule": "core",
+            "namespace": "Bristleback"
+        },
+        {
+            "file": "bristle-core.js",
+            "line": 125,
+            "description": "Creates a new instance of client, using passed configuration object.",
+            "itemtype": "method",
+            "name": "newClient",
+            "static": 1,
+            "params": [
+                {
+                    "name": "config",
+                    "description": ""
+                }
+            ],
+            "class": "Bristleback.Client",
+            "module": "Bristleback",
+            "submodule": "core",
+            "namespace": "Bristleback"
+        },
+        {
+            "file": "bristle-template.js",
+            "line": 19,
+            "description": "Rendering modes, by default there are 3 modes available: \"replace\", \"prepend\" and \"append\".\nBy default, \"replace\" mode is being applied. Replacing mode sets inner html content of the container.",
+            "itemtype": "property",
+            "name": "renderingModes",
+            "type": "Object",
+            "class": "Bristleback.template.TemplateController",
+            "module": "Bristleback",
+            "submodule": "template",
+            "namespace": "Bristleback.template"
+        },
+        {
+            "file": "bristle-template.js",
+            "line": 44,
+            "description": "Checks if there is template with name given as parameter.",
+            "itemtype": "method",
+            "name": "containsTemplate",
+            "params": [
+                {
+                    "name": "templateName",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Bristleback.template.TemplateController",
+            "module": "Bristleback",
+            "submodule": "template",
+            "namespace": "Bristleback.template"
+        },
+        {
+            "file": "bristle-template.js",
+            "line": 54,
+            "description": "Resolves template with name given as parameter.\nIf there is no parsed template cached in templates container, template framework is used to parse template.",
+            "itemtype": "method",
+            "name": "getTemplate",
+            "params": [
+                {
+                    "name": "templateName",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "parsed template.",
+                "type": "Object"
+            },
+            "class": "Bristleback.template.TemplateController",
+            "module": "Bristleback",
+            "submodule": "template",
+            "namespace": "Bristleback.template"
+        },
+        {
+            "file": "bristle-template.js",
+            "line": 69,
+            "description": "Renders template using template information object.",
+            "itemtype": "method",
+            "name": "render",
+            "params": [
+                {
+                    "name": "templateInformation",
+                    "description": "information about template.",
+                    "type": "Object"
+                },
+                {
+                    "name": "object",
+                    "description": "data used by template.",
+                    "type": "Object"
+                }
+            ],
+            "class": "Bristleback.template.TemplateController",
+            "module": "Bristleback",
+            "submodule": "template",
+            "namespace": "Bristleback.template"
+        },
+        {
+            "file": "bristle-template.js",
+            "line": 88,
+            "description": "Registers template framework that will be used by template controller.\nTemplate framework must provide 2 methods:\n<ul>\n  <li>parseTemplate(templateName)</li>\n  <li>processTemplate(parsedTemplate, data)</li>\n</ul>\nSeveral template frameworks can be found in Bristleback.templateFrameworks object.",
+            "itemtype": "method",
+            "name": "registerTemplateFramework",
+            "params": [
+                {
+                    "name": "templateFramework",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "Bristleback.template.TemplateController",
+            "module": "Bristleback",
+            "submodule": "template",
+            "namespace": "Bristleback.template"
+        },
+        {
+            "file": "bristle-utils.js",
+            "line": 41,
+            "description": "Creates a deep copy of object.",
+            "itemtype": "method",
+            "name": "deepCopy",
+            "static": 1,
+            "params": [
+                {
+                    "name": "p",
+                    "description": "object that will be copied",
+                    "type": "Object"
+                },
+                {
+                    "name": "c",
+                    "description": "object that will receive state of first object",
+                    "type": "Object"
+                }
+            ],
+            "class": "Bristleback.utils",
+            "module": "Bristleback",
+            "submodule": "utils",
+            "namespace": "Bristleback"
+        },
+        {
+            "file": "bristle-utils.js",
+            "line": 64,
+            "description": "This utility method iterates over all fields of given object and returns complete state of it in a \"JSON\" like way.",
+            "itemtype": "method",
+            "name": "objectToString",
+            "static": 1,
+            "params": [
+                {
+                    "name": "obj",
+                    "description": ""
+                }
+            ],
+            "class": "Bristleback.utils",
+            "module": "Bristleback",
+            "submodule": "utils",
+            "namespace": "Bristleback"
+        },
+        {
+            "file": "bristle-utils.js",
+            "line": 96,
+            "description": "Function used to prevent cross site scripting.\nYou should used it on every message from server that you want to insert into DOM.",
+            "itemtype": "method",
+            "name": "escapeHTML",
+            "static": 1,
+            "params": [
+                {
+                    "name": "txt",
+                    "description": "text to escape characters"
+                }
+            ],
+            "class": "Bristleback.utils",
+            "module": "Bristleback",
+            "submodule": "utils",
+            "namespace": "Bristleback"
+        }
+    ],
+    "warnings": []
+}
