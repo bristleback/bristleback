@@ -38,10 +38,6 @@ public class ValidatorActionInterceptor implements ActionInterceptor<ValidationI
   @Inject
   private ValidationInterceptorContextResolver validationInterceptorContextResolver;
 
-  public ValidatorActionInterceptor() {
-    System.out.println("ValidatorActionInterceptor");
-  }
-
   @Override
   public void intercept(ActionExecutionContext context, ValidationInterceptorContext interceptorContext) {
     Set<ConstraintViolation<Object>> validationResults = interceptorContext.getValidator().validateParameters(context.getActionClassInstance(),
