@@ -15,8 +15,7 @@ import pl.bristleback.common.serialization.message.BristleMessage;
  */
 public class JettyClient implements BristlebackClient {
 
-
-  public ToJsonSerializer serializer = new ToJsonSerializer();
+  private ToJsonSerializer serializer = new ToJsonSerializer();
 
   private ActionController actionController = new ActionController();
   private WebSocketConnection connection;

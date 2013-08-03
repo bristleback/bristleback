@@ -16,12 +16,13 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * WebSocket Example Chat client. It creates a number of WebSocket chat connections and then picks random
- * connections to send messages on.   The received messages are simply counted.
+ * connections to send messages on.   The RECEIVED messages are simply counted.
  */
 public class ChatLoadClient implements WebSocket.OnTextMessage {
-  private static final AtomicLong sent = new AtomicLong(0);
-  private static final AtomicLong received = new AtomicLong(0);
-  private static final Set<ChatLoadClient> members = new CopyOnWriteArraySet<ChatLoadClient>();
+
+  private static final AtomicLong SENT = new AtomicLong(0);
+  private static final AtomicLong RECEIVED = new AtomicLong(0);
+  private static final Set<ChatLoadClient> MEMBERS = new CopyOnWriteArraySet<ChatLoadClient>();
   private final Connection connection;
 
   private static String host = "localhost";
@@ -54,7 +55,7 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
    */
   public void send(String message) throws IOException {
     connection.sendMessage(message);
-    sent.incrementAndGet();
+    SENT.incrementAndGet();
   }
 
   /* ------------------------------------------------------------ */
@@ -63,7 +64,7 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
    * Callback on successful open of the websocket connection.
    */
   public void onOpen(Connection connection) {
-    members.add(this);
+    MEMBERS.add(this);
   }
 
   /* ------------------------------------------------------------ */
@@ -72,7 +73,7 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
    * Callback on close of the WebSocket connection
    */
   public void onClose(int closeCode, String message) {
-    members.remove(this);
+    MEMBERS.remove(this);
   }
 
   /* ------------------------------------------------------------ */
@@ -81,8 +82,7 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
    * Callback on receiving a message
    */
   public void onMessage(String data) {
-//    System.out.println(data);
-    received.incrementAndGet();
+    RECEIVED.incrementAndGet();
   }
 
   /* ------------------------------------------------------------ */
@@ -107,8 +107,6 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
    * @throws Exception
    */
   public static void main(String... arg) throws Exception {
-//       String host = arg.length > 0 ? arg[0] : "localhost";
-//    int port = arg.length > 1 ? Integer.parseInt(arg[1]) : 8080;
     int mesgs = arg.length > 0 ? Integer.parseInt(arg[3]) : 100000;
     int clients = arg.length > 1 ? Integer.parseInt(arg[2]) : 10;
 
@@ -147,35 +145,30 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
 //    System.out.println("sent all messages");
     long last = 0;
     long progress = start;
-//    System.out.println(received.get() < (clientsCount * MESSAGES_COUNT));
-//    System.out.println("clientsCount * MESSAGES_COUNT: " + clientsCount * MESSAGES_COUNT);
-    while (received.get() < (messagesCount)) {
-//      System.out.println(received.get() < (clientsCount * MESSAGES_COUNT));
+    while (RECEIVED.get() < (messagesCount)) {
       if (System.currentTimeMillis() > (progress + webSocketClient.getMaxIdleTime())) {
         System.out.println("TIMEOUT!");
         break;
       }
-      if (received.get() != last) {
+      if (RECEIVED.get() != last) {
         progress = System.currentTimeMillis();
-//        System.out.println(progress);
-        last = received.get();
+        last = RECEIVED.get();
       }
-//      System.out.println("RECEIVED GET: " + received.get());
       Thread.sleep(1);
     }
-//    System.out.println("all messages received");
     long end = System.currentTimeMillis();
-    long messagesSentCount = (received.get() * 1000) / (end - start);
-    System.err.printf("Sent/Received %d/%d messages in %dms: %dmsg/s\n", sent.get(), received.get(), (end - start), messagesSentCount);
+    long messagesSentCount = (RECEIVED.get() * 1000) / (end - start);
+    System.err.printf("Sent/Received %d/%d messages in %dms: %dmsg/s\n", SENT.get(), RECEIVED.get(), (end - start), messagesSentCount);
 
     // Close all connections
     start = System.currentTimeMillis();
     for (ChatLoadClient chatClient : chatClients) {
       chatClient.disconnect();
     }
-    while (members.size() > 0) {
-      if (System.currentTimeMillis() > (start + webSocketClient.getMaxIdleTime()))
+    while (MEMBERS.size() > 0) {
+      if (System.currentTimeMillis() > (start + webSocketClient.getMaxIdleTime())) {
         break;
+      }
       Thread.sleep(10);
     }
     end = System.currentTimeMillis();
@@ -188,7 +181,7 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
 
   private static void testOpenConnection(WebSocketClient webSocketClient, int clientsCount) throws InterruptedException {
     long startTime = System.currentTimeMillis();
-    while (members.size() < clientsCount) {
+    while (MEMBERS.size() < clientsCount) {
       if (System.currentTimeMillis() > (startTime + webSocketClient.getMaxIdleTime())) {
         break;
       }
@@ -196,7 +189,7 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
     }
     long end = System.currentTimeMillis();
 
-    System.err.printf("Opened %d of %d connections to %s:%d in %dms\n", members.size(), clientsCount, host, port, (end - startTime));
+    System.err.printf("Opened %d of %d connections to %s:%d in %dms\n", MEMBERS.size(), clientsCount, host, port, (end - startTime));
   }
 
   private static ChatLoadClient[] createClients(WebSocketClient client, int clientsCount) throws Exception {

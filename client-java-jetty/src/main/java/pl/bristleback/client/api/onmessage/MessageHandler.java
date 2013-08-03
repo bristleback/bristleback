@@ -8,5 +8,5 @@ package pl.bristleback.client.api.onmessage;
  */
 public interface MessageHandler<T> {
 
-  public void onMessage(T payload);
+  void onMessage(T payload);
 }

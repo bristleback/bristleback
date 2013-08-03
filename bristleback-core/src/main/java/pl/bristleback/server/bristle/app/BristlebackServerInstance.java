@@ -15,7 +15,6 @@
 
 package pl.bristleback.server.bristle.app;
 
-import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.MessageDispatcher;
 import pl.bristleback.server.bristle.api.ServerEngine;
@@ -34,8 +33,6 @@ public class BristlebackServerInstance {
   public static final String BRISTLEBACK_VERSION = "0.3.5";
 
   public static final String BRISTLEBACK_HOMEPAGE = "http://bristleback.pl";
-
-  private static Logger log = Logger.getLogger(BristlebackServerInstance.class.getName());
 
   private boolean running;
 

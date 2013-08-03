@@ -36,9 +36,6 @@ import javax.inject.Inject;
 public class ClientActionsInitializer {
 
   @Inject
-  private ClientActionClasses clientActionClasses;
-
-  @Inject
   private BristleSpringIntegration springIntegration;
 
   @Inject
