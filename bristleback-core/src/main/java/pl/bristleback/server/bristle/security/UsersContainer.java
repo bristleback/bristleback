@@ -107,4 +107,15 @@ public class UsersContainer {
   public void removeUser(WebsocketConnector connector) {
     connectedUsers.remove(connector.getConnectorId());
   }
+
+  @SuppressWarnings("unchecked")
+  public List<UserContext> getUsersByCondition(SendCondition condition) {
+    List<UserContext> applicableUsers = new LinkedList<UserContext>();
+    for (Map.Entry<String, ConnectedUser> user : connectedUsers.entrySet()) {
+      if (condition.isApplicable(user.getValue().getUserContext())) {
+        applicableUsers.add(user.getValue().getUserContext());
+      }
+    }
+    return applicableUsers;
+  }
 }

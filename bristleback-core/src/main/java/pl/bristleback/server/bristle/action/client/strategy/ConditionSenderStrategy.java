@@ -17,9 +17,9 @@ package pl.bristleback.server.bristle.action.client.strategy;
 
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.client.ClientActionInformation;
-import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.action.ClientActionSender;
 import pl.bristleback.server.bristle.api.action.SendCondition;
+import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.security.UsersContainer;
 
 import javax.inject.Inject;
@@ -39,7 +39,7 @@ public class ConditionSenderStrategy implements ClientActionSender<SendCondition
   private UsersContainer connectedUsers;
 
   @Override
-  public List<WebsocketConnector> chooseRecipients(SendCondition actionCondition, ClientActionInformation actionInformation) throws Exception {
-    return connectedUsers.getConnectorsByCondition(actionCondition);
+  public List<UserContext> chooseRecipients(SendCondition actionCondition, ClientActionInformation actionInformation) throws Exception {
+    return connectedUsers.getUsersByCondition(actionCondition);
   }
 }
