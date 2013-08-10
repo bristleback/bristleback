@@ -1,4 +1,4 @@
-== Bristleback Framework version 0.3.5
+== Bristleback Framework version 0.4.0
 Welcome,
 
 Bristleback Framework has got a new homepage http://bristleback.pl.
@@ -6,19 +6,19 @@ Several samples and tutorials can be found there.
 
 If you like our project, please star or fork the project!
 
-Latest Bristleback version: 0.3.5
+Latest Bristleback version: 0.4.0
 
 Download section is no longer valid on GitHub.
 To download JavaScript client, visit http://bristleback.pl/download.html
 
 Check our wiki pages for tutorials.
 
-0.3.5 is now available in central Maven repository:
+0.4.0 is now available in central Maven repository:
 
     <dependency>
       <groupId>pl.bristleback</groupId>
       <artifactId>bristleback-core</artifactId>
-      <version>0.3.5</version>
+      <version>0.4.0</version>
     </dependency>
 
 Few samples are available at https://github.com/bristleback/bristleback-samples
@@ -30,7 +30,7 @@ Few samples are available at https://github.com/bristleback/bristleback-samples
     mvn archetype:generate
       -DarchetypeGroupId=pl.bristleback
       -DarchetypeArtifactId=webapp-archetype
-      -DarchetypeVersion=0.3.5
+      -DarchetypeVersion=0.4.0
 
 2. Enter additional information about the project.
 

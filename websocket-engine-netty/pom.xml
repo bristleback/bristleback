@@ -11,7 +11,7 @@
 
   <groupId>pl.bristleback</groupId>
   <artifactId>websocket-engine-netty</artifactId>
-  <version>0.3.5</version>
+  <version>0.4.0</version>
   <packaging>jar</packaging>
 
   <name>Bristleback Netty Websocket Engine</name>
@@ -57,7 +57,7 @@
     <dependency>
       <groupId>pl.bristleback</groupId>
       <artifactId>bristleback-core</artifactId>
-      <version>0.3.5</version>
+      <version>0.4.0</version>
       <scope>provided</scope>
     </dependency>
 

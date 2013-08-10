@@ -11,7 +11,7 @@
 
   <groupId>pl.bristleback</groupId>
   <artifactId>bristleback-core</artifactId>
-  <version>0.3.5</version>
+  <version>0.4.0</version>
   <packaging>jar</packaging>
 
   <name>Bristleback core module</name>
@@ -56,7 +56,7 @@
     <dependency>
       <groupId>pl.bristleback</groupId>
       <artifactId>common</artifactId>
-      <version>0.3.5</version>
+      <version>0.4.0</version>
     </dependency>
     <dependency>
       <groupId>commons-configuration</groupId>

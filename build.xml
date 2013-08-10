@@ -9,7 +9,7 @@
   <filter filtersfile="${basedir}/config/build.properties"/>
   <filter filtersfile="${basedir}/config/${user.name}/build.properties"/>
 
-  <property name="bristleback.version" value="0.3.5"/>
+  <property name="bristleback.version" value="0.4.0"/>
 
   <property name="bristleback.zip.filename" value="bristleback-client-${bristleback.version}.zip"/>
   <property name="bristleback.js.filename" value="bristleback-${bristleback.version}.js"/>

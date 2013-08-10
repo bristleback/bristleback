@@ -11,7 +11,7 @@
 
   <groupId>pl.bristleback</groupId>
   <artifactId>sample-app</artifactId>
-  <version>0.3.5</version>
+  <version>0.4.0</version>
   <packaging>jar</packaging>
 
   <name>Bristleback Sample Testing App</name>
@@ -55,25 +55,25 @@
     <dependency>
       <groupId>pl.bristleback</groupId>
       <artifactId>bristleback-core</artifactId>
-      <version>0.3.5</version>
+      <version>0.4.0</version>
     </dependency>
 
     <dependency>
       <groupId>pl.bristleback</groupId>
       <artifactId>serialization-engine-jackson</artifactId>
-      <version>0.3.5</version>
+      <version>0.4.0</version>
     </dependency>
 
     <dependency>
       <groupId>pl.bristleback</groupId>
       <artifactId>websocket-engine-jetty</artifactId>
-      <version>0.3.5</version>
+      <version>0.4.0</version>
     </dependency>
 
     <dependency>
       <groupId>pl.bristleback</groupId>
       <artifactId>action-validation</artifactId>
-      <version>0.3.5</version>
+      <version>0.4.0</version>
     </dependency>
 
     <dependency>
