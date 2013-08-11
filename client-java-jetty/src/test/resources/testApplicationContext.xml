@@ -16,6 +16,7 @@
 
   <bean id="pojoConfigResolver" class="pl.bristleback.server.bristle.conf.resolver.init.PojoConfigResolver">
     <property name="enginePort" value="8080"/>
+    <property name="loggingLevel" value="ERROR"/>
   </bean>
 
   <bb:standaloneServer configurationResolver="pojoConfigResolver"/>

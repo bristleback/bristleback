@@ -11,14 +11,12 @@ import pl.bristleback.server.bristle.serialization.jackson.JacksonSerializationE
 public class ToJsonSerializer {
 
   public String objectToJson(Object object) {
-    JacksonSerializationEngine engine = new JacksonSerializationEngine();
-    engine.init(null);
+    JacksonSerializationEngine engine = JacksonSerializationEngine.simpleEngine();
+
     try {
       return engine.serialize(object);
     } catch (Exception e) {
-      //TODO handle
-      System.out.println(e);
+      throw new IllegalArgumentException(e);
     }
-    return "";
   }
 }

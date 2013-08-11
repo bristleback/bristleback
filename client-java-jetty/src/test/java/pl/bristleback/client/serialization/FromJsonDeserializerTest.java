@@ -23,7 +23,7 @@ public class FromJsonDeserializerTest {
     bristleMessage.withPayload(new Person());
 
 
-    BristleMessage<String[]> deserialized = fromJsonDeserializer.jsonToObject("{\"id\":\"123\",\"name\":\"name\",\"payload\":[{\"name\":\"john\",\"age\":12}]}");
+    BristleMessage<String[]> deserialized = fromJsonDeserializer.jsonToBristleMessage("{\"id\":\"123\",\"name\":\"name\",\"payload\":[{\"name\":\"john\",\"age\":12}]}");
 
     assertThat(deserialized.getName()).isEqualTo("name");
   }

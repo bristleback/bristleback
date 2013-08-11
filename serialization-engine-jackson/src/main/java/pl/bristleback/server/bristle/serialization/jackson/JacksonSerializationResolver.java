@@ -38,7 +38,7 @@ public class JacksonSerializationResolver implements SerializationResolver<Jacks
 
   private ObjectMapper objectMapper;
 
-  void setObjectMapper(ObjectMapper objectMapper) {
+  public void setObjectMapper(ObjectMapper objectMapper) {
     this.objectMapper = objectMapper;
   }
 

@@ -1,6 +1,7 @@
 package pl.bristleback.client.mockinstance.action;
 
 import org.springframework.stereotype.Controller;
+import pl.bristleback.client.serialization.Person;
 import pl.bristleback.server.bristle.api.annotations.Action;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
 
@@ -15,8 +16,14 @@ import pl.bristleback.server.bristle.api.annotations.ActionClass;
 public class MockActionClass {
 
   @Action
-  public void testMethod() {
-    System.out.println("----------------------WORKING");
+  public Person testMethod(Person person) {
+    return person;
+  }
+
+  @Action
+  public Person incrementAge(Person person) {
+    person.incrementAge();
+    return person;
   }
 
 }

@@ -21,6 +21,7 @@ import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.SerializationEngine;
 import pl.bristleback.server.bristle.api.SerializationResolver;
 import pl.bristleback.server.bristle.serialization.jackson.init.ObjectMapperInitializer;
+import pl.bristleback.server.bristle.serialization.jackson.init.SimpleObjectMapperFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -60,6 +61,13 @@ public class JacksonSerializationEngine implements SerializationEngine<JacksonSe
     serializationResolver.setObjectMapper(mapper);
   }
 
+  public static JacksonSerializationEngine  simpleEngine(){
+    JacksonSerializationEngine engine = new JacksonSerializationEngine();
+    SimpleObjectMapperFactory objectMapperFactory = new SimpleObjectMapperFactory();
+    engine.setMapper(objectMapperFactory.initObjectMapper());
+    return engine;
+  }
+
   @Override
   public SerializationResolver<JacksonSerialization> getSerializationResolver() {
     return serializationResolver;
@@ -78,5 +86,9 @@ public class JacksonSerializationEngine implements SerializationEngine<JacksonSe
   @Override
   public String serialize(Object object) throws Exception {
     return mapper.writeValueAsString(object);
+  }
+
+  private void setMapper(ObjectMapper mapper) {
+    this.mapper = mapper;
   }
 }

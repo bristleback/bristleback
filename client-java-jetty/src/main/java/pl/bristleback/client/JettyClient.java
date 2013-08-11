@@ -34,6 +34,10 @@ public class JettyClient implements BristlebackClient {
     connection.disconnect();
   }
 
+  public ActionController actionController() {
+    return actionController;
+  }
+
   public void sendMessage(BristleMessage bristleMessage) {
     bristleMessage.withId(Math.random() + "");
 

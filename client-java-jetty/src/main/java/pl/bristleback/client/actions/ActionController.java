@@ -1,6 +1,5 @@
 package pl.bristleback.client.actions;
 
-import pl.bristleback.client.api.onmessage.MessageHandler;
 import pl.bristleback.client.api.onmessage.OnMessageCallback;
 import pl.bristleback.client.serialization.FromJsonDeserializer;
 import pl.bristleback.common.serialization.message.BristleMessage;
@@ -17,13 +16,14 @@ public class ActionController implements OnMessageCallback{
   private FromJsonDeserializer fromJsonDeserializer = new FromJsonDeserializer();
 
 
-  public <T> void registerHandler(String actionClass, String actionMethod, MessageHandler<T> handler) {
-   clientActionHandlers.registerHandler(actionClass + actionMethod, handler);
+  public ActionClassHandler registerActionClass(String actionClassName) {
+    return new ActionClassHandler(actionClassName, clientActionHandlers);
+
   }
 
   @Override
   public void onMessage(String payload) {
-    BristleMessage<String[]> bristleMessage = fromJsonDeserializer.jsonToObject(payload);
+    BristleMessage<String[]> bristleMessage = fromJsonDeserializer.jsonToBristleMessage(payload);
     clientActionHandlers.onServerEvent(bristleMessage);
   }
 
