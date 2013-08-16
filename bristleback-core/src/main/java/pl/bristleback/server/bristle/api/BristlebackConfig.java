@@ -15,11 +15,11 @@
 
 package pl.bristleback.server.bristle.api;
 
+import pl.bristleback.server.bristle.conf.BristlebackComponentsContainer;
 import pl.bristleback.server.bristle.conf.DataControllers;
 import pl.bristleback.server.bristle.conf.InitialConfiguration;
 import pl.bristleback.server.bristle.conf.MessageConfiguration;
 import pl.bristleback.server.bristle.conf.UserConfiguration;
-import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.listener.ListenersContainer;
 
 /**
@@ -83,11 +83,11 @@ public interface BristlebackConfig {
   SerializationEngine getSerializationEngine();
 
   /**
-   * Gets Spring integration, containing actual application context and Bristleback internal application context.
+   * Gets components container, containing actual application context and Bristleback internal application context.
    *
-   * @return Spring application contexts container.
+   * @return components container container.
    */
-  BristleSpringIntegration getSpringIntegration();
+  BristlebackComponentsContainer getComponentsContainer();
 
   UserConfiguration getUserConfiguration();
 }

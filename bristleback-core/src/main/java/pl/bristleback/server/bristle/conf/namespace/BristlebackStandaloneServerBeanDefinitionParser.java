@@ -20,7 +20,7 @@ import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
-import pl.bristleback.server.bristle.app.StandaloneServerRunner;
+import pl.bristleback.server.bristle.app.StandaloneSpringServerRunner;
 import pl.bristleback.server.bristle.conf.BristleInitializationException;
 
 /**
@@ -35,7 +35,7 @@ public class BristlebackStandaloneServerBeanDefinitionParser extends BaseBristle
   public static final String DEFAULT_STANDALONE_SERVER_NAME = "bristlebackStandaloneServer";
 
   protected Class getBeanClass(Element element) {
-    return StandaloneServerRunner.class;
+    return StandaloneSpringServerRunner.class;
   }
 
   protected String resolveId(Element element, AbstractBeanDefinition definition, ParserContext parserContext) {

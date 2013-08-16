@@ -17,7 +17,6 @@ package pl.bristleback.server.bristle.conf;
 
 import org.apache.log4j.Level;
 import pl.bristleback.server.bristle.api.users.UserContext;
-import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.utils.StringUtils;
 
 import java.util.Set;
@@ -65,7 +64,7 @@ public class InitialConfiguration {
 
   private Level loggingLevel;
 
-  private BristleSpringIntegration springIntegration;
+  private BristlebackComponentsContainer springIntegration;
 
   private Class<? extends UserContext> userContextClass;
 
@@ -115,11 +114,11 @@ public class InitialConfiguration {
     this.serializationEngine = serializationEngine;
   }
 
-  public BristleSpringIntegration getSpringIntegration() {
+  public BristlebackComponentsContainer getSpringIntegration() {
     return springIntegration;
   }
 
-  public void setSpringIntegration(BristleSpringIntegration springIntegration) {
+  public void setSpringIntegration(BristlebackComponentsContainer springIntegration) {
     this.springIntegration = springIntegration;
   }
 

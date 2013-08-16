@@ -16,7 +16,7 @@
 package pl.bristleback.server.bristle.action;
 
 import pl.bristleback.server.bristle.action.exception.BrokenActionProtocolException;
-import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
+import pl.bristleback.server.bristle.conf.BristlebackComponentsContainer;
 
 import java.util.Map;
 
@@ -39,11 +39,11 @@ public class ActionsContainer {
     return actionClass;
   }
 
-  public Object getActionClassInstance(ActionClassInformation actionClass, BristleSpringIntegration springIntegration) {
+  public Object getActionClassInstance(ActionClassInformation actionClass, BristlebackComponentsContainer componentsContainer) {
     if (actionClass.isSingleton()) {
       return actionClass.getSingletonActionClassInstance();
     } else {
-      return springIntegration.getApplicationBean(actionClass.getSpringBeanName(), actionClass.getType());
+      return componentsContainer.getApplicationBean(actionClass.getSpringBeanName(), actionClass.getType());
     }
   }
 

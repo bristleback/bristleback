@@ -13,10 +13,11 @@
  * ---------------------------------------------------------------------------
  */
 
-package pl.bristleback.server.bristle.integration.spring;
+package pl.bristleback.server.bristle.conf;
 
 import org.springframework.context.ApplicationContext;
 import pl.bristleback.server.bristle.BristleRuntimeException;
+import pl.bristleback.server.bristle.api.ApplicationComponentsResolver;
 
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
@@ -31,20 +32,20 @@ import java.util.Map;
  *
  * @author Wojciech Niemiec
  */
-public final class BristleSpringIntegration {
+public final class BristlebackComponentsContainer {
 
-  private ApplicationContext actualContext;
+  private ApplicationComponentsResolver applicationComponentsResolver;
 
   private ApplicationContext bristlebackFrameworkContext;
 
   /**
    * Creates the new Spring integration object, containing both application and Bristleback Server Spring contexts.
    *
-   * @param actualContext               actual application context.
+   * @param applicationComponentsResolver               actual application context.
    * @param bristlebackFrameworkContext Bristleback Server internal context.
    */
-  public BristleSpringIntegration(ApplicationContext actualContext, ApplicationContext bristlebackFrameworkContext) {
-    this.actualContext = actualContext;
+  public BristlebackComponentsContainer(ApplicationComponentsResolver applicationComponentsResolver, ApplicationContext bristlebackFrameworkContext) {
+    this.applicationComponentsResolver = applicationComponentsResolver;
     this.bristlebackFrameworkContext = bristlebackFrameworkContext;
   }
 
@@ -53,8 +54,8 @@ public final class BristleSpringIntegration {
    *
    * @return actual application context.
    */
-  public ApplicationContext getActualContext() {
-    return actualContext;
+  public ApplicationComponentsResolver getActualContext() {
+    return applicationComponentsResolver;
   }
 
   /**
@@ -87,7 +88,7 @@ public final class BristleSpringIntegration {
    * @return actual application context Spring bean instance.
    */
   public <T> T getApplicationBean(String beanName, Class<T> beanClass) {
-    return actualContext.getBean(beanName, beanClass);
+    return applicationComponentsResolver.getBean(beanName, beanClass);
   }
 
   /**
@@ -100,21 +101,21 @@ public final class BristleSpringIntegration {
    * @return Spring bean instance either from the actual application context or Bristleback internal context.
    */
   public <T> T getBean(String beanName, Class<T> beanClass) {
-    if (actualContext.containsBean(beanName)) {
+    if (applicationComponentsResolver.containsBean(beanName)) {
       return getApplicationBean(beanName, beanClass);
     }
     return getFrameworkBean(beanName, beanClass);
   }
 
   public <T> T getBean(Class<T> beanClass) {
-    Map<String, T> beansOfType = actualContext.getBeansOfType(beanClass);
+    Map<String, T> beansOfType = applicationComponentsResolver.getBeansOfType(beanClass);
     if (beansOfType.isEmpty()) {
       return bristlebackFrameworkContext.getBean(beanClass);
     }
     if (beansOfType.size() > 1) {
       throw new BristleRuntimeException("More than one matching Spring bean found for type: " + beanClass);
     }
-    return actualContext.getBean(beanClass);
+    return applicationComponentsResolver.getBean(beanClass);
   }
 
   /**
@@ -125,7 +126,7 @@ public final class BristleSpringIntegration {
    * @return actual application bean instance that uniquely matches the given object type, if any.
    */
   public <T> T getApplicationBean(Class<T> beanClass) {
-    return actualContext.getBean(beanClass);
+    return applicationComponentsResolver.getBean(beanClass);
   }
 
   /**
@@ -171,7 +172,7 @@ public final class BristleSpringIntegration {
    * @return a Map with the matching beans, containing the bean names as keys and the corresponding bean instances as values.
    */
   public <T> Map<String, T> getApplicationBeansOfType(Class<T> beanClass) {
-    return actualContext.getBeansOfType(beanClass);
+    return applicationComponentsResolver.getBeansOfType(beanClass);
   }
 
   /**
@@ -181,14 +182,14 @@ public final class BristleSpringIntegration {
    * @return whether this bean corresponds to a singleton instance.
    */
   public boolean isSingleton(String beanName) {
-    if (actualContext.containsBean(beanName)) {
-      return actualContext.isSingleton(beanName);
+    if (applicationComponentsResolver.containsBean(beanName)) {
+      return applicationComponentsResolver.isSingleton(beanName);
     }
     return bristlebackFrameworkContext.isSingleton(beanName);
   }
 
   public Map<String, Object> getBeansWithAnnotation(Class<? extends Annotation> annotation) {
-    Map<String, Object> beans = actualContext.getBeansWithAnnotation(annotation);
+    Map<String, Object> beans = applicationComponentsResolver.getBeansWithAnnotation(annotation);
     beans.putAll(bristlebackFrameworkContext.getBeansWithAnnotation(annotation));
     return beans;
   }

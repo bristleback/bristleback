@@ -26,7 +26,7 @@ import pl.bristleback.server.bristle.api.action.ActionInterceptor;
 import pl.bristleback.server.bristle.api.annotations.Intercept;
 import pl.bristleback.server.bristle.api.annotations.Interceptor;
 import pl.bristleback.server.bristle.conf.BristleInitializationException;
-import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
+import pl.bristleback.server.bristle.conf.BristlebackComponentsContainer;
 import pl.bristleback.server.bristle.utils.AnnotationUtils;
 
 import javax.annotation.PostConstruct;
@@ -50,7 +50,7 @@ import java.util.Map;
 public class ActionInterceptorsResolver {
 
   @Inject
-  private BristleSpringIntegration springIntegration;
+  private BristlebackComponentsContainer componentsContainer;
 
   @Inject
   private ActionInterceptorsSorter actionInterceptorsSorter;
@@ -70,12 +70,12 @@ public class ActionInterceptorsResolver {
 
   private void loadInterceptorMatcherList() {
     allInterceptorMappings =
-      new ArrayList<ActionInterceptorMapping>(springIntegration.getBeansOfType(ActionInterceptorMapping.class).values());
+      new ArrayList<ActionInterceptorMapping>(componentsContainer.getBeansOfType(ActionInterceptorMapping.class).values());
   }
 
   private void loadAllInterceptors() {
     allInterceptors = new HashMap<Class, ActionInterceptorInformation>();
-    Map<String, ActionInterceptor> interceptorBeans = springIntegration.getBeansOfType(ActionInterceptor.class);
+    Map<String, ActionInterceptor> interceptorBeans = componentsContainer.getBeansOfType(ActionInterceptor.class);
     for (ActionInterceptor actionInterceptor : interceptorBeans.values()) {
       ActionInterceptorInformation interceptorInformation = loadInterceptor(actionInterceptor);
       if (allInterceptors.containsKey(actionInterceptor.getClass())) {
@@ -133,10 +133,10 @@ public class ActionInterceptorsResolver {
   private List<Class<? extends ActionInterceptor>> getInterceptorBeans(Intercept interceptAnnotation) {
     List<Class<? extends ActionInterceptor>> interceptors = new ArrayList<Class<? extends ActionInterceptor>>();
     for (String interceptorReference : interceptAnnotation.refs()) {
-      interceptors.add(springIntegration.getBean(interceptorReference, ActionInterceptor.class).getClass());
+      interceptors.add(componentsContainer.getBean(interceptorReference, ActionInterceptor.class).getClass());
     }
     for (Class<? extends ActionInterceptor> interceptorClass : interceptAnnotation.value()) {
-      interceptors.add(springIntegration.getBean(interceptorClass).getClass());
+      interceptors.add(componentsContainer.getBean(interceptorClass).getClass());
     }
     return interceptors;
   }

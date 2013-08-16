@@ -21,7 +21,7 @@ import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
 import pl.bristleback.server.bristle.action.response.ResponseHelper;
 import pl.bristleback.server.bristle.api.action.ActionExceptionHandler;
-import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
+import pl.bristleback.server.bristle.conf.BristlebackComponentsContainer;
 import pl.bristleback.server.bristle.utils.ReflectionUtils;
 
 import javax.inject.Inject;
@@ -45,7 +45,7 @@ public final class ActionExceptionHandlers {
   private ResponseHelper responseHelper;
 
   @Inject
-  private BristleSpringIntegration springIntegration;
+  private BristlebackComponentsContainer componentsContainer;
 
   private Map<ActionExecutionStage, HandlersForStage> handlerGroups;
 
@@ -57,9 +57,9 @@ public final class ActionExceptionHandlers {
   }
 
   public void initHandlers() {
-    Map<String, ActionExceptionHandler> defaultHandlers = springIntegration.getFrameworkBeansOfType(ActionExceptionHandler.class);
+    Map<String, ActionExceptionHandler> defaultHandlers = componentsContainer.getFrameworkBeansOfType(ActionExceptionHandler.class);
     addHandlers(defaultHandlers.values());
-    Map<String, ActionExceptionHandler> customHandlers = springIntegration.getApplicationBeansOfType(ActionExceptionHandler.class);
+    Map<String, ActionExceptionHandler> customHandlers = componentsContainer.getApplicationBeansOfType(ActionExceptionHandler.class);
     addHandlers(customHandlers.values());
   }
 

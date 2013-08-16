@@ -13,7 +13,7 @@
  * ---------------------------------------------------------------------------
  */
 
-package pl.bristleback.server.bristle.conf.resolver;
+package pl.bristleback.server.bristle.conf.resolver.spring;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +28,7 @@ import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.api.users.UserContextFactory;
 import pl.bristleback.server.bristle.conf.BristleConfig;
 import pl.bristleback.server.bristle.conf.BristleInitializationException;
+import pl.bristleback.server.bristle.conf.BristlebackComponentsContainer;
 import pl.bristleback.server.bristle.conf.DataControllers;
 import pl.bristleback.server.bristle.conf.EngineConfig;
 import pl.bristleback.server.bristle.conf.InitialConfiguration;
@@ -38,7 +39,6 @@ import pl.bristleback.server.bristle.conf.resolver.message.ObjectSenderInitializ
 import pl.bristleback.server.bristle.conf.resolver.message.ObjectSenderInjector;
 import pl.bristleback.server.bristle.engine.user.BaseUserContext;
 import pl.bristleback.server.bristle.engine.user.DefaultUserContextFactory;
-import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.listener.ListenersContainer;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import pl.bristleback.server.bristle.security.UsersContainer;
@@ -63,7 +63,7 @@ public class SpringConfigurationResolver {
   public static final String CONFIG_BEAN_NAME = "bristlebackConfiguration";
 
   @Inject
-  private BristleSpringIntegration springIntegration;
+  private BristlebackComponentsContainer componentsContainer;
 
   @Inject
   private InitialConfiguration initialConfiguration;
@@ -87,15 +87,15 @@ public class SpringConfigurationResolver {
   public BristleConfig bristlebackConfiguration() {
     BristleConfig configuration = new BristleConfig();
 
-    configuration.setSpringIntegration(springIntegration);
+    configuration.setSpringIntegration(componentsContainer);
 
     configuration.setInitialConfiguration(initialConfiguration);
     return configuration;
   }
 
   @Bean
-  public BristleSpringIntegration springIntegration() {
-    return springIntegration;
+  public BristlebackComponentsContainer componentsContainer() {
+    return componentsContainer;
   }
 
   @Bean
@@ -104,7 +104,7 @@ public class SpringConfigurationResolver {
     EngineConfig engineConfiguration = initialConfiguration.getEngineConfiguration();
     String expectedEngineName = engineConfiguration.getName();
 
-    ServerEngine serverEngine = springIntegration.getBean(expectedEngineName, ServerEngine.class);
+    ServerEngine serverEngine = componentsContainer.getBean(expectedEngineName, ServerEngine.class);
     serverEngine.init(bristlebackConfiguration());
 
     return serverEngine;
@@ -115,7 +115,7 @@ public class SpringConfigurationResolver {
   public SerializationEngine serializationEngine() {
     String serializationEngineName = initialConfiguration.getSerializationEngine();
 
-    SerializationEngine serializationEngine = springIntegration.getBean(serializationEngineName, SerializationEngine.class);
+    SerializationEngine serializationEngine = componentsContainer.getBean(serializationEngineName, SerializationEngine.class);
     serializationEngine.init(bristlebackConfiguration());
 
     return serializationEngine;
@@ -126,7 +126,7 @@ public class SpringConfigurationResolver {
   public DataControllers dataControllers() {
     Map<String, DataController> dataControllersMap = new HashMap<String, DataController>();
     for (String acceptedControllerName : initialConfiguration.getAcceptedControllerNames()) {
-      DataController controller = springIntegration.getBean(acceptedControllerName, DataController.class);
+      DataController controller = componentsContainer.getBean(acceptedControllerName, DataController.class);
       controller.init(bristlebackConfiguration());
 
       dataControllersMap.put(acceptedControllerName, controller);
@@ -140,8 +140,8 @@ public class SpringConfigurationResolver {
   @Lazy
   public ListenersContainer listenersContainer() {
     // framework handlers will always run first
-    Map<String, ConnectionStateListener> frameworkHandlers = springIntegration.getFrameworkBeansOfType(ConnectionStateListener.class);
-    Map<String, ConnectionStateListener> customHandlers = springIntegration.getApplicationBeansOfType(ConnectionStateListener.class);
+    Map<String, ConnectionStateListener> frameworkHandlers = componentsContainer.getFrameworkBeansOfType(ConnectionStateListener.class);
+    Map<String, ConnectionStateListener> customHandlers = componentsContainer.getApplicationBeansOfType(ConnectionStateListener.class);
     List<ConnectionStateListener> connectionStateListeners = new ArrayList<ConnectionStateListener>(frameworkHandlers.values());
     connectionStateListeners.addAll(customHandlers.values());
     sortInIncreasingOrder(connectionStateListeners);
@@ -174,7 +174,7 @@ public class SpringConfigurationResolver {
   @Bean
   public MessageDispatcher messageDispatcher() {
     String dispatcherName = initialConfiguration.getMessageDispatcher();
-    MessageDispatcher dispatcher = springIntegration.getBean(dispatcherName, MessageDispatcher.class);
+    MessageDispatcher dispatcher = componentsContainer.getBean(dispatcherName, MessageDispatcher.class);
     dispatcher.setServer(serverEngine());
 
     return dispatcher;
@@ -182,14 +182,14 @@ public class SpringConfigurationResolver {
 
   public void initObjectSenders() {
     ObjectSenderInitializer objectSenderInitializer = objectSenderInitializer();
-    List<ConditionObjectSender> senders = springIntegration.getApplicationBean(ObjectSenderInjector.class).getRegisteredSenders();
+    List<ConditionObjectSender> senders = componentsContainer.getApplicationBean(ObjectSenderInjector.class).getRegisteredSenders();
     for (ConditionObjectSender sender : senders) {
       objectSenderInitializer.initObjectSender(bristlebackConfiguration(), sender);
     }
   }
 
   private ObjectSenderInitializer objectSenderInitializer() {
-    return springIntegration.getFrameworkBean("objectSenderInitializer", ObjectSenderInitializer.class);
+    return componentsContainer.getFrameworkBean("objectSenderInitializer", ObjectSenderInitializer.class);
   }
 
   @SuppressWarnings("unchecked")
@@ -200,7 +200,7 @@ public class SpringConfigurationResolver {
     Class<? extends UserContext> userContextClass =
       (Class<? extends UserContext>) ReflectionUtils.getParameterTypes(userContextFactory().getClass(), UserContextFactory.class)[0];
 
-    UsersContainer usersContainer = springIntegration().getBean(UsersContainer.class);
+    UsersContainer usersContainer = componentsContainer().getBean(UsersContainer.class);
 
     return new UserConfiguration(userContextFactory, userContextClass, usersContainer);
   }
@@ -210,14 +210,14 @@ public class SpringConfigurationResolver {
     String customUserContextFactoryName = initialConfiguration.getUserContextFactory();
 
     if (StringUtils.isNotBlank(customUserContextFactoryName)) {
-      return springIntegration.getApplicationBean(customUserContextFactoryName, UserContextFactory.class);
+      return componentsContainer.getApplicationBean(customUserContextFactoryName, UserContextFactory.class);
     }
-    Map<String, UserContextFactory> userContextFactoryBeans = springIntegration.getApplicationBeansOfType(UserContextFactory.class);
+    Map<String, UserContextFactory> userContextFactoryBeans = componentsContainer.getApplicationBeansOfType(UserContextFactory.class);
     if (userContextFactoryBeans.size() == 0) { //no beans found
       return userContextFactoryUsingContextClass();
     }
     if (userContextFactoryBeans.size() == 1) { //one bean found in application configuration
-      return springIntegration.getApplicationBean(UserContextFactory.class);
+      return componentsContainer.getApplicationBean(UserContextFactory.class);
     } else { //more than one bean found in application configuration (initial configuration doesn't contain property which one to choose
       throw new BristleInitializationException("Found more than one implementation of class"
         + UserContextFactory.class.getName() + ". "
@@ -233,7 +233,7 @@ public class SpringConfigurationResolver {
     return new DefaultUserContextFactory(userContextClass);
   }
 
-  public void setSpringIntegration(BristleSpringIntegration springIntegration) {
-    this.springIntegration = springIntegration;
+  public void setComponentsContainer(BristlebackComponentsContainer componentsContainer) {
+    this.componentsContainer = componentsContainer;
   }
 }

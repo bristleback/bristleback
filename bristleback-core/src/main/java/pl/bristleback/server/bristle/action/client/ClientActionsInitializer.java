@@ -18,7 +18,7 @@ package pl.bristleback.server.bristle.action.client;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
-import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
+import pl.bristleback.server.bristle.conf.BristlebackComponentsContainer;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
@@ -36,7 +36,7 @@ import javax.inject.Inject;
 public class ClientActionsInitializer {
 
   @Inject
-  private BristleSpringIntegration springIntegration;
+  private BristlebackComponentsContainer componentsContainer;
 
   @Inject
   private UsersContainer usersContainer;
@@ -50,12 +50,12 @@ public class ClientActionsInitializer {
     SerializationBundle serializationBundle = new SerializationBundle();
     ConditionObjectSender objectSender = initObjectSender(configuration, serializationBundle);
 
-    proxyInterceptor.init(springIntegration, objectSender);
+    proxyInterceptor.init(componentsContainer, objectSender);
   }
 
   private ClientActionProxyInterceptor getClientActionInterceptor() {
     try {
-      return springIntegration.getApplicationBean(ClientActionProxyInterceptor.class);
+      return componentsContainer.getApplicationBean(ClientActionProxyInterceptor.class);
     } catch (NoSuchBeanDefinitionException e) {
       return null;
     }

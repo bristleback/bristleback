@@ -5,7 +5,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import pl.bristleback.server.bristle.app.StandaloneServerRunner;
+import pl.bristleback.server.bristle.app.StandaloneSpringServerRunner;
 
 /**
  * <p/>
@@ -17,7 +17,7 @@ public class BristlebacTestInstance {
 
   private static final String[] CONFIG_FILES =
     {"testApplicationContext.xml"};
-  private StandaloneServerRunner runner;
+  private StandaloneSpringServerRunner runner;
 
 
   public void startServer() {
@@ -26,7 +26,7 @@ public class BristlebacTestInstance {
 
     ApplicationContext applicationContext = new ClassPathXmlApplicationContext(CONFIG_FILES);
 
-    runner = (StandaloneServerRunner) applicationContext.getBean("bristlebackStandaloneServer");
+    runner = (StandaloneSpringServerRunner) applicationContext.getBean("bristlebackStandaloneServer");
 
   }
 

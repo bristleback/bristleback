@@ -19,8 +19,8 @@ import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.interceptor.ActionInterceptorsExecutor;
 import pl.bristleback.server.bristle.action.response.ResponseHelper;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
+import pl.bristleback.server.bristle.conf.BristlebackComponentsContainer;
 import pl.bristleback.server.bristle.conf.resolver.action.ActionClassesResolver;
-import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.common.serialization.message.BristleMessage;
 
 import javax.inject.Inject;
@@ -53,7 +53,7 @@ public class ActionDispatcher {
   private ActionClassesResolver actionClassesResolver;
 
   @Inject
-  private BristleSpringIntegration springIntegration;
+  private BristlebackComponentsContainer componentsContainer;
 
   @Inject
   private ActionInterceptorsExecutor interceptorPolicyExecutor;
@@ -76,7 +76,7 @@ public class ActionDispatcher {
     ActionInformation action = actionClass.getActionToExecute(context);
     context.setAction(action);
 
-    context.setActionClassInstance(actionsContainer.getActionClassInstance(action.getActionClass(), springIntegration));
+    context.setActionClassInstance(actionsContainer.getActionClassInstance(action.getActionClass(), componentsContainer));
     interceptorPolicyExecutor.executeInterceptorPolicy(context);
 
     return action;

@@ -20,22 +20,23 @@ import org.springframework.context.ApplicationContextAware;
 import pl.bristleback.server.bristle.BristleRuntimeException;
 import pl.bristleback.server.bristle.api.InitialConfigurationResolver;
 import pl.bristleback.server.bristle.conf.BristleInitializationException;
-import pl.bristleback.server.bristle.conf.runner.ServerInstanceResolver;
+import pl.bristleback.server.bristle.conf.resolver.ServerInstanceResolver;
+import pl.bristleback.server.bristle.conf.resolver.spring.SpringApplicationComponentsResolver;
 
 /**
  * This is a "main" class in standalone websocket applications.
  * Instance of this class is created by <code>&lt;bb:standaloneServer&gt;</code> tag.
  * Each standalone server runner can be used to start only one server instance.
  * To start server, one should set <code>startAfterInit</code> property to <code>true</code> in
- * <code>&lt;bb:standaloneServer&gt;</code> tag or retrieve {@link StandaloneServerRunner} bean from the
- * Spring Application Context and run {@link pl.bristleback.server.bristle.app.StandaloneServerRunner#startServer()} method.
- * To stop the standalone server, invoke {@link pl.bristleback.server.bristle.app.StandaloneServerRunner#stopServer()} method.
+ * <code>&lt;bb:standaloneServer&gt;</code> tag or retrieve {@link StandaloneSpringServerRunner} bean from the
+ * Spring Application Context and run {@link StandaloneSpringServerRunner#startServer()} method.
+ * To stop the standalone server, invoke {@link StandaloneSpringServerRunner#stopServer()} method.
  * <p/>
  * Created on: 2011-09-26 22:00:49 <br/>
  *
  * @author Wojciech Niemiec
  */
-public final class StandaloneServerRunner implements ApplicationContextAware {
+public final class StandaloneSpringServerRunner implements ApplicationContextAware {
 
   private InitialConfigurationResolver initialConfigurationResolver;
 
@@ -53,7 +54,8 @@ public final class StandaloneServerRunner implements ApplicationContextAware {
       throw new BristleInitializationException("Cannot start Bristleback Server, create a new ServerRunner instance to start new server.");
     }
 
-    ServerInstanceResolver serverInstanceResolver = new ServerInstanceResolver(initialConfigurationResolver, actualApplicationContext);
+    SpringApplicationComponentsResolver componentsResolver = new SpringApplicationComponentsResolver(actualApplicationContext);
+    ServerInstanceResolver serverInstanceResolver = new ServerInstanceResolver(initialConfigurationResolver, componentsResolver);
     serverInstance = serverInstanceResolver.resolverServerInstance();
 
     serverInstance.startServer();

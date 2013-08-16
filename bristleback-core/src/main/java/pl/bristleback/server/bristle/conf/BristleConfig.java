@@ -20,7 +20,6 @@ import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.DataController;
 import pl.bristleback.server.bristle.api.SerializationEngine;
 import pl.bristleback.server.bristle.api.ServerEngine;
-import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.listener.ListenersContainer;
 
 /**
@@ -34,7 +33,7 @@ import pl.bristleback.server.bristle.listener.ListenersContainer;
 @Component
 public class BristleConfig implements BristlebackConfig {
 
-  private BristleSpringIntegration springIntegration;
+  private BristlebackComponentsContainer springIntegration;
 
   private ListenersContainer listenersContainer;
 
@@ -94,11 +93,11 @@ public class BristleConfig implements BristlebackConfig {
     this.serializationEngine = serializationEngine;
   }
 
-  public BristleSpringIntegration getSpringIntegration() {
+  public BristlebackComponentsContainer getComponentsContainer() {
     return springIntegration;
   }
 
-  public void setSpringIntegration(BristleSpringIntegration springIntegration) {
+  public void setSpringIntegration(BristlebackComponentsContainer springIntegration) {
     this.springIntegration = springIntegration;
   }
 

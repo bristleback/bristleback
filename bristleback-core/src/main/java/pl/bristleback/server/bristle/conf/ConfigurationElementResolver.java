@@ -2,7 +2,6 @@ package pl.bristleback.server.bristle.conf;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 
 import java.util.Map;
 
@@ -10,10 +9,10 @@ import java.util.Map;
 public class ConfigurationElementResolver {
 
   @Autowired
-  private BristleSpringIntegration springIntegration;
+  private BristlebackComponentsContainer componentsContainer;
 
   public <T> T getConfigurationElement(Class<T> elementClass, T defaultElement) {
-    Map<String, T> customFactories = springIntegration.getApplicationBeansOfType(elementClass);
+    Map<String, T> customFactories = componentsContainer.getApplicationBeansOfType(elementClass);
     T chosenElement;
     if (customFactories.isEmpty()) {
       chosenElement = defaultElement;

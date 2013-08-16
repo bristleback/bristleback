@@ -3,9 +3,10 @@ package pl.bristleback.server.mock;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import pl.bristleback.server.bristle.conf.BristleConfig;
+import pl.bristleback.server.bristle.conf.BristlebackComponentsContainer;
 import pl.bristleback.server.bristle.conf.EngineConfig;
 import pl.bristleback.server.bristle.conf.InitialConfiguration;
-import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
+import pl.bristleback.server.bristle.conf.resolver.spring.SpringApplicationComponentsResolver;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -45,10 +46,11 @@ public class ConfigurationMockFactory {
     return initialConfiguration;
   }
 
-  private static BristleSpringIntegration getSpringIntegration(ApplicationContext applicationContext) {
+  private static BristlebackComponentsContainer getSpringIntegration(ApplicationContext applicationContext) {
     ApplicationContext frameworkContext = mock(ApplicationContext.class);
 
-    return new BristleSpringIntegration(applicationContext, frameworkContext);
+    SpringApplicationComponentsResolver componentsResolver = new SpringApplicationComponentsResolver(applicationContext);
+    return new BristlebackComponentsContainer(componentsResolver, frameworkContext);
   }
 
   private static void getEngineConfiguration(InitialConfiguration initialConfiguration) {

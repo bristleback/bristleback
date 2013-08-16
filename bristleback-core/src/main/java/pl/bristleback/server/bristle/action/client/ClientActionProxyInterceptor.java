@@ -21,7 +21,7 @@ import pl.bristleback.server.bristle.api.SerializationEngine;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.WebsocketMessage;
 import pl.bristleback.server.bristle.api.action.ClientActionSender;
-import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
+import pl.bristleback.server.bristle.conf.BristlebackComponentsContainer;
 import pl.bristleback.server.bristle.message.BaseMessage;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import pl.bristleback.server.bristle.message.MessageType;
@@ -46,10 +46,10 @@ public class ClientActionProxyInterceptor implements MethodInterceptor {
 
   private RawMessageSerializationEngine rawMessageSerializationEngine;
 
-  public void init(BristleSpringIntegration springIntegration, ConditionObjectSender objectsSender) {
-    this.actionClasses = springIntegration.getFrameworkBean("clientActionClasses", ClientActionClasses.class);
-    this.serializationEngine = springIntegration.getFrameworkBean("serializationEngine", SerializationEngine.class);
-    this.rawMessageSerializationEngine = springIntegration.getFrameworkBean("rawMessageSerializationEngine", RawMessageSerializationEngine.class);
+  public void init(BristlebackComponentsContainer componentsContainer, ConditionObjectSender objectsSender) {
+    this.actionClasses = componentsContainer.getFrameworkBean("clientActionClasses", ClientActionClasses.class);
+    this.serializationEngine = componentsContainer.getFrameworkBean("serializationEngine", SerializationEngine.class);
+    this.rawMessageSerializationEngine = componentsContainer.getFrameworkBean("rawMessageSerializationEngine", RawMessageSerializationEngine.class);
     this.objectSender = objectsSender;
   }
 

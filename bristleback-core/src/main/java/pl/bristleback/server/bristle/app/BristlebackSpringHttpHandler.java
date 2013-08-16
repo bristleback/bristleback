@@ -13,7 +13,7 @@
  * ---------------------------------------------------------------------------
  */
 
-package pl.bristleback.server.bristle.engine.servlet;
+package pl.bristleback.server.bristle.app;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -22,9 +22,9 @@ import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.InitialConfigurationResolver;
 import pl.bristleback.server.bristle.api.ServerEngine;
 import pl.bristleback.server.bristle.api.ServletServerEngine;
-import pl.bristleback.server.bristle.app.BristlebackServerInstance;
 import pl.bristleback.server.bristle.conf.BristleInitializationException;
-import pl.bristleback.server.bristle.conf.runner.ServerInstanceResolver;
+import pl.bristleback.server.bristle.conf.resolver.ServerInstanceResolver;
+import pl.bristleback.server.bristle.conf.resolver.spring.SpringApplicationComponentsResolver;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -65,7 +65,7 @@ import java.io.IOException;
  *
  * @author Wojciech Niemiec
  */
-public class BristlebackHttpHandler implements HttpRequestHandler, ApplicationContextAware {
+public class BristlebackSpringHttpHandler implements HttpRequestHandler, ApplicationContextAware {
 
   private InitialConfigurationResolver initialConfigurationResolver;
 
@@ -77,7 +77,8 @@ public class BristlebackHttpHandler implements HttpRequestHandler, ApplicationCo
 
   @PostConstruct
   public void startServer() {
-    ServerInstanceResolver serverInstanceResolver = new ServerInstanceResolver(initialConfigurationResolver, applicationContext);
+    SpringApplicationComponentsResolver componentsResolver = new SpringApplicationComponentsResolver(applicationContext);
+    ServerInstanceResolver serverInstanceResolver = new ServerInstanceResolver(initialConfigurationResolver, componentsResolver);
     serverInstance = serverInstanceResolver.resolverServerInstance();
 
     setServletEngine(serverInstance.getConfiguration());

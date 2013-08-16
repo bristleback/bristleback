@@ -4,7 +4,8 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import pl.bristleback.server.bristle.api.InitialConfigurationResolver;
 import pl.bristleback.server.bristle.app.BristlebackServerInstance;
-import pl.bristleback.server.bristle.conf.runner.ServerInstanceResolver;
+import pl.bristleback.server.bristle.conf.resolver.ServerInstanceResolver;
+import pl.bristleback.server.bristle.conf.resolver.spring.SpringApplicationComponentsResolver;
 
 import javax.inject.Inject;
 
@@ -23,9 +24,10 @@ public class SpringMockBeansFactory {
 
   public BristlebackServerInstance mockServerInstance() {
     InitialConfigurationResolver initialConfigurationResolver = applicationContext.getBean("initPojoConfigResolver", InitialConfigurationResolver.class);
-    ServerInstanceResolver instanceResolver = new ServerInstanceResolver(initialConfigurationResolver, applicationContext);
+    SpringApplicationComponentsResolver componentsResolver = new SpringApplicationComponentsResolver(applicationContext);
+    ServerInstanceResolver instanceResolver = new ServerInstanceResolver(initialConfigurationResolver, componentsResolver);
     BristlebackServerInstance serverInstance = instanceResolver.resolverServerInstance();
-    frameworkContext = serverInstance.getConfiguration().getSpringIntegration().getBristlebackFrameworkContext();
+    frameworkContext = serverInstance.getConfiguration().getComponentsContainer().getBristlebackFrameworkContext();
     return serverInstance;
   }
 

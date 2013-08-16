@@ -22,7 +22,7 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.w3c.dom.Element;
-import pl.bristleback.server.bristle.engine.servlet.BristlebackHttpHandler;
+import pl.bristleback.server.bristle.app.BristlebackSpringHttpHandler;
 import pl.bristleback.server.bristle.conf.BristleInitializationException;
 
 import java.util.HashMap;
@@ -42,7 +42,7 @@ public class BristlebackServletBeanDefinitionParser extends BaseBristlebackBeanD
   public static final String DEFAULT_HANDLER_MAPPINGS_NAME = "bristlebackHandlerMappings";  //handlerMapping
 
   protected Class getBeanClass(Element element) {
-    return BristlebackHttpHandler.class;
+    return BristlebackSpringHttpHandler.class;
   }
 
   protected String resolveId(Element element, AbstractBeanDefinition definition, ParserContext parserContext) {

@@ -17,11 +17,10 @@ package pl.bristleback.server.bristle.conf.resolver.action.client;
 
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.action.ClientActionSender;
-import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
+import pl.bristleback.server.bristle.conf.BristlebackComponentsContainer;
 import pl.bristleback.server.bristle.utils.ReflectionUtils;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -38,13 +37,12 @@ import java.util.Map;
 public class ClientActionResponsesResolver {
 
   @Inject
-  @Named("springIntegration")
-  private BristleSpringIntegration springIntegration;
+  private BristlebackComponentsContainer componentsContainer;
 
   public Map<Class, ClientActionSender> resolve() {
     Map<Class, ClientActionSender> strategies = new HashMap<Class, ClientActionSender>();
 
-    Map<String, ClientActionSender> strategiesBeans = springIntegration.getBeansOfType(ClientActionSender.class);
+    Map<String, ClientActionSender> strategiesBeans = componentsContainer.getBeansOfType(ClientActionSender.class);
     for (ClientActionSender strategy : strategiesBeans.values()) {
       Type type = ReflectionUtils.getParameterTypes(strategy.getClass(), ClientActionSender.class)[0];
       Class objectType;

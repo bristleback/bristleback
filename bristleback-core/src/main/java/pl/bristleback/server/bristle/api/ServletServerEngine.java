@@ -24,12 +24,12 @@ import java.io.IOException;
  * This is an extension for {@link pl.bristleback.server.bristle.api.ServerEngine ServerEngine} interface.
  * Provides functionality for accepting incoming HTTP requests as WebSockets connection.
  * Servlet server engines are required in web applications. Servlet engines works in combination with
- * {@link pl.bristleback.server.bristle.engine.servlet.BristlebackHttpHandler} and Spring Framework DispatcherServlet,
+ * {@link pl.bristleback.server.bristle.app.BristlebackSpringHttpHandler} and Spring Framework DispatcherServlet,
  * <p/>
  * Created on: 2012-04-25 17:05:35 <br/>
  *
  * @author Wojciech Niemiec
- * @see pl.bristleback.server.bristle.engine.servlet.BristlebackHttpHandler
+ * @see pl.bristleback.server.bristle.app.BristlebackSpringHttpHandler
  * @see <a href="http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html">Spring DispatcherServlet JavaDoc</a>
  */
 public interface ServletServerEngine extends ServerEngine {

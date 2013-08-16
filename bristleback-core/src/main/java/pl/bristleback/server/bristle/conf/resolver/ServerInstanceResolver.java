@@ -13,20 +13,20 @@
  * ---------------------------------------------------------------------------
  */
 
-package pl.bristleback.server.bristle.conf.runner;
+package pl.bristleback.server.bristle.conf.resolver;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import pl.bristleback.server.bristle.api.ApplicationComponentsResolver;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.InitialConfigurationResolver;
 import pl.bristleback.server.bristle.app.BristlebackServerInstance;
+import pl.bristleback.server.bristle.conf.BristlebackComponentsContainer;
 import pl.bristleback.server.bristle.conf.InitialConfiguration;
-import pl.bristleback.server.bristle.conf.resolver.BristlebackBeanFactoryPostProcessor;
-import pl.bristleback.server.bristle.conf.resolver.SpringConfigurationResolver;
-import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
+import pl.bristleback.server.bristle.conf.resolver.spring.BristlebackBeanFactoryPostProcessor;
+import pl.bristleback.server.bristle.conf.resolver.spring.SpringConfigurationResolver;
 
 /**
  * This component resolves Bristleback Server instance and initializes internal Bristleback Spring context.
@@ -42,11 +42,12 @@ public class ServerInstanceResolver {
 
   private InitialConfigurationResolver initialConfigurationResolver;
 
-  private ApplicationContext actualApplicationContext;
+  private ApplicationComponentsResolver applicationComponentsResolver;
 
-  public ServerInstanceResolver(InitialConfigurationResolver initialConfigurationResolver, ApplicationContext actualApplicationContext) {
+  public ServerInstanceResolver(InitialConfigurationResolver initialConfigurationResolver,
+                                ApplicationComponentsResolver applicationComponentsResolver) {
     this.initialConfigurationResolver = initialConfigurationResolver;
-    this.actualApplicationContext = actualApplicationContext;
+    this.applicationComponentsResolver = applicationComponentsResolver;
   }
 
   public BristlebackServerInstance resolverServerInstance() {
@@ -54,7 +55,7 @@ public class ServerInstanceResolver {
     startLogger(initialConfiguration);
 
     AnnotationConfigApplicationContext frameworkContext = new AnnotationConfigApplicationContext();
-    BristleSpringIntegration springIntegration = new BristleSpringIntegration(actualApplicationContext, frameworkContext);
+    BristlebackComponentsContainer springIntegration = new BristlebackComponentsContainer(applicationComponentsResolver, frameworkContext);
     BristlebackBeanFactoryPostProcessor bristlebackPostProcessor = new BristlebackBeanFactoryPostProcessor(initialConfiguration, springIntegration);
     frameworkContext.addBeanFactoryPostProcessor(bristlebackPostProcessor);
     frameworkContext.register(SpringConfigurationResolver.class);

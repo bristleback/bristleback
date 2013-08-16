@@ -61,7 +61,7 @@ public class ConditionObjectSender {
     serializationEngine = configuration.getSerializationEngine();
     serializationResolver = serializationEngine.getSerializationResolver();
     globalDefaultSerializations = new SerializationBundle();
-    rawMessageSerializationEngine = configuration.getSpringIntegration().getFrameworkBean("rawMessageSerializationEngine", RawMessageSerializationEngine.class);
+    rawMessageSerializationEngine = configuration.getComponentsContainer().getFrameworkBean("rawMessageSerializationEngine", RawMessageSerializationEngine.class);
   }
 
   /**

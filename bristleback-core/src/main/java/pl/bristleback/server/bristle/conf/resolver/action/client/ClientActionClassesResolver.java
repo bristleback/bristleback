@@ -22,7 +22,7 @@ import pl.bristleback.server.bristle.action.client.ClientActionClassInformation;
 import pl.bristleback.server.bristle.action.client.ClientActionInformation;
 import pl.bristleback.server.bristle.api.annotations.ClientAction;
 import pl.bristleback.server.bristle.api.annotations.ClientActionClass;
-import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
+import pl.bristleback.server.bristle.conf.BristlebackComponentsContainer;
 
 import javax.inject.Inject;
 import java.lang.reflect.Method;
@@ -40,7 +40,7 @@ import java.util.Map;
 public class ClientActionClassesResolver {
 
   @Inject
-  private BristleSpringIntegration springIntegration;
+  private BristlebackComponentsContainer componentsContainer;
 
   @Inject
   private ClientActionResolver clientActionResolver;
@@ -48,7 +48,7 @@ public class ClientActionClassesResolver {
   public Map<String, ClientActionClassInformation> resolve() {
     Map<String, ClientActionClassInformation> actionClasses = new HashMap<String, ClientActionClassInformation>();
 
-    Map<String, Object> foundActions = springIntegration.getActualContext().getBeansWithAnnotation(ClientActionClass.class);
+    Map<String, Object> foundActions = componentsContainer.getActualContext().getBeansWithAnnotation(ClientActionClass.class);
     for (Map.Entry<String, Object> actionClassEntry : foundActions.entrySet()) {
       Object actionClass = actionClassEntry.getValue();
       ClientActionClassInformation actionClassInformation = prepareActionClass(actionClass);

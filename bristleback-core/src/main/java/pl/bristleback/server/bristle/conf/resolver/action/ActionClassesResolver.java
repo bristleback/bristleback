@@ -24,8 +24,8 @@ import pl.bristleback.server.bristle.action.ActionsContainer;
 import pl.bristleback.server.bristle.action.exception.ActionInitializationException;
 import pl.bristleback.server.bristle.api.annotations.Action;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
+import pl.bristleback.server.bristle.conf.BristlebackComponentsContainer;
 import pl.bristleback.server.bristle.conf.resolver.action.interceptor.ActionInterceptorsResolver;
-import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.utils.PropertyUtils;
 
 import javax.inject.Inject;
@@ -48,7 +48,7 @@ public class ActionClassesResolver {
   private ActionResolver actionResolver;
 
   @Inject
-  private BristleSpringIntegration springIntegration;
+  private BristlebackComponentsContainer componentsContainer;
 
   @Inject
   private ActionInterceptorsResolver actionInterceptorsResolver;
@@ -56,7 +56,7 @@ public class ActionClassesResolver {
   public ActionsContainer resolve() {
     ActionsContainer actionsContainer = new ActionsContainer();
     Map<String, ActionClassInformation> actionClasses = new HashMap<String, ActionClassInformation>();
-    Map<String, Object> foundActions = springIntegration.getBeansWithAnnotation(ActionClass.class);
+    Map<String, Object> foundActions = componentsContainer.getBeansWithAnnotation(ActionClass.class);
     for (Map.Entry<String, Object> actionClassEntry : foundActions.entrySet()) {
       String actionClassBeanName = actionClassEntry.getKey();
       Object actionClass = actionClassEntry.getValue();
@@ -83,7 +83,7 @@ public class ActionClassesResolver {
     actionClassInformation.setName(actionClassName);
     actionClassInformation.setSpringBeanName(actionClassBeanName);
     actionClassInformation.setType(actionClassType);
-    actionClassInformation.setSingleton(springIntegration.isSingleton(actionClassBeanName));
+    actionClassInformation.setSingleton(componentsContainer.isSingleton(actionClassBeanName));
 
     if (actionClassInformation.isSingleton()) {
       actionClassInformation.setSingletonActionClassInstance(actionClass);

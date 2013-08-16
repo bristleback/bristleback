@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.BristleRuntimeException;
 import pl.bristleback.server.bristle.action.extractor.ActionExtractorsContainer;
 import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
-import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
+import pl.bristleback.server.bristle.conf.BristlebackComponentsContainer;
 import pl.bristleback.server.bristle.utils.ReflectionUtils;
 
 import javax.inject.Inject;
@@ -39,7 +39,7 @@ import java.util.Map;
 public class ActionExtractorsResolver {
 
   @Inject
-  private BristleSpringIntegration springIntegration;
+  private BristlebackComponentsContainer componentsContainer;
 
   public ActionExtractorsContainer resolveParameterExtractors() {
     Map<Class, ActionParameterExtractor> extractors = new HashMap<Class, ActionParameterExtractor>();
@@ -52,12 +52,12 @@ public class ActionExtractorsResolver {
   }
 
   private void resolveCustomParameterExtractors(Map<Class, ActionParameterExtractor> extractors) {
-    Map<String, ActionParameterExtractor> extractorInstances = springIntegration.getApplicationBeansOfType(ActionParameterExtractor.class);
+    Map<String, ActionParameterExtractor> extractorInstances = componentsContainer.getApplicationBeansOfType(ActionParameterExtractor.class);
     addExtractors(extractors, extractorInstances, ActionParameterExtractor.class);
   }
 
   private void resolveDefaultParameterExtractors(Map<Class, ActionParameterExtractor> extractors) {
-    Map<String, ActionParameterExtractor> extractorInstances = springIntegration.getFrameworkBeansOfType(ActionParameterExtractor.class);
+    Map<String, ActionParameterExtractor> extractorInstances = componentsContainer.getFrameworkBeansOfType(ActionParameterExtractor.class);
     addExtractors(extractors, extractorInstances, ActionParameterExtractor.class);
   }
 
