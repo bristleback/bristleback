@@ -1,9 +1,6 @@
 package pl.bristleback.server.bristle.conf.resolver.plain;
 
 
-import org.apache.commons.collections.MapUtils;
-import org.apache.commons.collections.Predicate;
-import org.apache.commons.collections.functors.TruePredicate;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import pl.bristleback.server.bristle.api.ApplicationComponentsResolver;
 import pl.bristleback.server.bristle.conf.BristleInitializationException;
@@ -18,18 +15,18 @@ public class PlainJavaApplicationComponentsResolver implements ApplicationCompon
   private Map<String, Object> components = new HashMap<String, Object>();
 
   public void addComponent(String name, Object component) {
-    components.put(name, new JavaComponentInformation(component));
+    components.put(name, component);
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public <T> T getBean(final Class<T> beanClass) {
     Collection<T> beansFound = getBeansOfType(beanClass).values();
-    if (beansFound.isEmpty() || beansFound.size() > 0) {
+    if (beansFound.isEmpty() || beansFound.size() > 1) {
       throw new NoSuchBeanDefinitionException("Could not find exactly one application component of type " + beanClass
         + ", components found: " + beansFound.size());
     }
-    return (T) beansFound.iterator().next();
+    return beansFound.iterator().next();
   }
 
   @Override
@@ -54,7 +51,7 @@ public class PlainJavaApplicationComponentsResolver implements ApplicationCompon
   @Override
   @SuppressWarnings("unchecked")
   public <T> Map<String, T> getBeansOfType(final Class<T> beanClass) {
-    return MapUtils.predicatedMap(components, TruePredicate.getInstance(), new Predicate() {
+    return (Map<String, T>) FilteredMap.filteredValues(components, new TypedPredicate<Object>() {
       @Override
       public boolean evaluate(Object object) {
         return beanClass.isAssignableFrom(object.getClass());
@@ -70,7 +67,7 @@ public class PlainJavaApplicationComponentsResolver implements ApplicationCompon
   @Override
   @SuppressWarnings("unchecked")
   public Map<String, Object> getBeansWithAnnotation(final Class<? extends Annotation> annotationType) {
-    return MapUtils.predicatedMap(components, TruePredicate.getInstance(), new Predicate() {
+    return FilteredMap.filteredValues(components, new TypedPredicate<Object>() {
       @Override
       public boolean evaluate(Object object) {
         Annotation annotation = object.getClass().getAnnotation(annotationType);

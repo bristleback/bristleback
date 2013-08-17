@@ -97,13 +97,13 @@ public class BristlebackServerMessagesBeanDefinitionParser extends BaseBristleba
   }
 
   private void registerObjectSendersContainer(ParserContext parserContext) {
-    registerRootBean(parserContext, RegisteredObjectSenders.class, "system.sender.container", BeanDefinition.SCOPE_SINGLETON);
+    registerRootBean(parserContext, RegisteredObjectSenders.class, RegisteredObjectSenders.COMPONENT_NAME, BeanDefinition.SCOPE_SINGLETON);
   }
 
   private void registerConditionSenderBeanPostProcessor(ParserContext parserContext) {
     BeanDefinition conditionSenderBeanPostProcessor = BeanDefinitionBuilder
       .rootBeanDefinition(ObjectSenderInjector.class)
-      .addPropertyReference("registeredObjectSenders", "system.sender.container")
+      .addPropertyReference("registeredObjectSenders", RegisteredObjectSenders.COMPONENT_NAME)
       .getBeanDefinition();
     registerBean(parserContext, conditionSenderBeanPostProcessor, "conditionSenderBeanPostProcessor");
   }

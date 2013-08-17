@@ -10,6 +10,8 @@ import java.util.Map;
 
 public class RegisteredObjectSenders {
 
+  public static final String COMPONENT_NAME = "system.sender.container";
+
   private Map<Field, ConditionObjectSender> registeredSenders = new HashMap<Field, ConditionObjectSender>();
 
   public boolean containsSenderForField(Field field) {
