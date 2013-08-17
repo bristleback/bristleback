@@ -28,7 +28,8 @@ import org.w3c.dom.Element;
 import pl.bristleback.server.bristle.action.client.ClientActionProxyInterceptor;
 import pl.bristleback.server.bristle.api.annotations.ClientAction;
 import pl.bristleback.server.bristle.api.annotations.ClientActionClass;
-import pl.bristleback.server.bristle.conf.resolver.message.ObjectSenderInjector;
+import pl.bristleback.server.bristle.conf.resolver.message.RegisteredObjectSenders;
+import pl.bristleback.server.bristle.conf.resolver.spring.ObjectSenderInjector;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 
 /**
@@ -51,6 +52,7 @@ public class BristlebackServerMessagesBeanDefinitionParser extends BaseBristleba
   @Override
   protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
     registerConditionSenderBean(parserContext);
+    registerObjectSendersContainer(parserContext);
     registerConditionSenderBeanPostProcessor(parserContext);
 
     registerClientActionClasses(parserContext);
@@ -94,8 +96,16 @@ public class BristlebackServerMessagesBeanDefinitionParser extends BaseBristleba
     registerBean(parserContext, clientActionMessageProxyAdvisor, "clientActionMessageProxyAdvisor");
   }
 
+  private void registerObjectSendersContainer(ParserContext parserContext) {
+    registerRootBean(parserContext, RegisteredObjectSenders.class, "system.sender.container", BeanDefinition.SCOPE_SINGLETON);
+  }
+
   private void registerConditionSenderBeanPostProcessor(ParserContext parserContext) {
-    registerRootBean(parserContext, ObjectSenderInjector.class, "system.sender.condition.injector", BeanDefinition.SCOPE_SINGLETON);
+    BeanDefinition conditionSenderBeanPostProcessor = BeanDefinitionBuilder
+      .rootBeanDefinition(ObjectSenderInjector.class)
+      .addPropertyReference("registeredObjectSenders", "system.sender.container")
+      .getBeanDefinition();
+    registerBean(parserContext, conditionSenderBeanPostProcessor, "conditionSenderBeanPostProcessor");
   }
 
   private void registerConditionSenderBean(ParserContext parserContext) {

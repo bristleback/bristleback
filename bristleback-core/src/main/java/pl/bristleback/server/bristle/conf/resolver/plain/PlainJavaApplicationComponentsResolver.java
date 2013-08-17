@@ -4,6 +4,7 @@ package pl.bristleback.server.bristle.conf.resolver.plain;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.collections.functors.TruePredicate;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import pl.bristleback.server.bristle.api.ApplicationComponentsResolver;
 import pl.bristleback.server.bristle.conf.BristleInitializationException;
 
@@ -25,7 +26,7 @@ public class PlainJavaApplicationComponentsResolver implements ApplicationCompon
   public <T> T getBean(final Class<T> beanClass) {
     Collection<T> beansFound = getBeansOfType(beanClass).values();
     if (beansFound.isEmpty() || beansFound.size() > 0) {
-      throw new BristleInitializationException("Could not find exactly one application component of type " + beanClass
+      throw new NoSuchBeanDefinitionException("Could not find exactly one application component of type " + beanClass
         + ", components found: " + beansFound.size());
     }
     return (T) beansFound.iterator().next();
@@ -39,7 +40,7 @@ public class PlainJavaApplicationComponentsResolver implements ApplicationCompon
       throw new BristleInitializationException("Could not find application component with name \"" + beanName + "\"");
     }
     if (!beanClass.isAssignableFrom(componentInformation.getClass())) {
-      throw new BristleInitializationException("Component with name " + beanName + " is not of type: " + beanClass
+      throw new NoSuchBeanDefinitionException("Component with name " + beanName + " is not of type: " + beanClass
         + ", actual type: " + componentInformation.getClass());
     }
     return (T) componentInformation;

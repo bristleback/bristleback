@@ -36,7 +36,7 @@ import pl.bristleback.server.bristle.conf.MessageConfiguration;
 import pl.bristleback.server.bristle.conf.UserConfiguration;
 import pl.bristleback.server.bristle.conf.resolver.action.IncreasingOrderSorter;
 import pl.bristleback.server.bristle.conf.resolver.message.ObjectSenderInitializer;
-import pl.bristleback.server.bristle.conf.resolver.message.ObjectSenderInjector;
+import pl.bristleback.server.bristle.conf.resolver.message.RegisteredObjectSenders;
 import pl.bristleback.server.bristle.engine.user.BaseUserContext;
 import pl.bristleback.server.bristle.engine.user.DefaultUserContextFactory;
 import pl.bristleback.server.bristle.listener.ListenersContainer;
@@ -182,7 +182,7 @@ public class SpringConfigurationResolver {
 
   public void initObjectSenders() {
     ObjectSenderInitializer objectSenderInitializer = objectSenderInitializer();
-    List<ConditionObjectSender> senders = componentsContainer.getApplicationBean(ObjectSenderInjector.class).getRegisteredSenders();
+    List<ConditionObjectSender> senders = componentsContainer.getApplicationBean(RegisteredObjectSenders.class).getRegisteredSenders();
     for (ConditionObjectSender sender : senders) {
       objectSenderInitializer.initObjectSender(bristlebackConfiguration(), sender);
     }

@@ -3,6 +3,7 @@ package pl.bristleback.server.bristle.app;
 import pl.bristleback.server.bristle.api.ApplicationComponentsResolver;
 import pl.bristleback.server.bristle.api.InitialConfigurationResolver;
 import pl.bristleback.server.bristle.conf.resolver.ServerInstanceResolver;
+import pl.bristleback.server.bristle.conf.resolver.init.PojoConfigResolver;
 import pl.bristleback.server.bristle.conf.resolver.plain.PlainJavaApplicationComponentsResolver;
 
 public final class BristlebackBootstrap {
@@ -10,17 +11,13 @@ public final class BristlebackBootstrap {
   private InitialConfigurationResolver initialConfigurationResolver;
   private ApplicationComponentsResolver componentsResolver;
 
-  private BristlebackBootstrap() {
-    this.componentsResolver = new PlainJavaApplicationComponentsResolver();
-  }
-
   private BristlebackBootstrap(InitialConfigurationResolver initialConfigurationResolver) {
-    this();
+    this.componentsResolver = new PlainJavaApplicationComponentsResolver();
     this.initialConfigurationResolver = initialConfigurationResolver;
   }
 
   public static BristlebackBootstrap init() {
-    return new BristlebackBootstrap();
+    return new BristlebackBootstrap(new PojoConfigResolver());
   }
 
   public static BristlebackBootstrap init(InitialConfigurationResolver initialConfigurationResolver) {

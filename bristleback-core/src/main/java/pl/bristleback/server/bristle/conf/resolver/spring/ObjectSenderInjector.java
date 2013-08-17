@@ -13,7 +13,7 @@
  * ---------------------------------------------------------------------------
  */
 
-package pl.bristleback.server.bristle.conf.resolver.message;
+package pl.bristleback.server.bristle.conf.resolver.spring;
 
 import org.apache.commons.lang.reflect.FieldUtils;
 import org.springframework.beans.BeanInstantiationException;
@@ -21,14 +21,11 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import pl.bristleback.server.bristle.api.annotations.ObjectSender;
+import pl.bristleback.server.bristle.conf.resolver.message.RegisteredObjectSenders;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * //@todo class description
@@ -41,7 +38,7 @@ public class ObjectSenderInjector implements BeanPostProcessor, ApplicationConte
 
   private ApplicationContext applicationContext;
 
-  private Map<Field, ConditionObjectSender> registeredSenders = new HashMap<Field, ConditionObjectSender>();
+  private RegisteredObjectSenders registeredObjectSenders;
 
   @Override
   public Object postProcessBeforeInitialization(Object bean, String beanName) {
@@ -69,21 +66,17 @@ public class ObjectSenderInjector implements BeanPostProcessor, ApplicationConte
   }
 
   private ConditionObjectSender resolveSender(Field field) {
-    if (registeredSenders.containsKey(field)) {
-      return registeredSenders.get(field);
+    if (registeredObjectSenders.containsSenderForField(field)) {
+      return registeredObjectSenders.getSender(field);
     }
     ConditionObjectSender conditionObjectSender = applicationContext.getBean(ConditionObjectSender.class);
     conditionObjectSender.setField(field);
     SerializationBundle serializationBundle = new SerializationBundle();
 
     conditionObjectSender.setLocalSerializations(serializationBundle);
-    registeredSenders.put(field, conditionObjectSender);
+    registeredObjectSenders.putSender(field, conditionObjectSender);
 
     return conditionObjectSender;
-  }
-
-  public List<ConditionObjectSender> getRegisteredSenders() {
-    return new ArrayList<ConditionObjectSender>(registeredSenders.values());
   }
 
   @Override
@@ -91,5 +84,8 @@ public class ObjectSenderInjector implements BeanPostProcessor, ApplicationConte
     this.applicationContext = applicationContext;
   }
 
+  public void setRegisteredObjectSenders(RegisteredObjectSenders registeredObjectSenders) {
+    this.registeredObjectSenders = registeredObjectSenders;
+  }
 }
 

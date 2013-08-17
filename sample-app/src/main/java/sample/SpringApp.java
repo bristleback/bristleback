@@ -10,12 +10,12 @@ import java.util.Scanner;
  * Sample application used for development of new features
  * Hello world!
  */
-public final class App {
+public final class SpringApp {
 
   private static final String[] CONFIG_FILES =
     {"applicationContext.xml"};
 
-  private App() {
+  private SpringApp() {
   }
 
   public static void main(String[] args) {
