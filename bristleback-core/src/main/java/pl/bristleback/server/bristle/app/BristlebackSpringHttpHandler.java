@@ -24,7 +24,7 @@ import pl.bristleback.server.bristle.api.ServerEngine;
 import pl.bristleback.server.bristle.api.ServletServerEngine;
 import pl.bristleback.server.bristle.conf.BristleInitializationException;
 import pl.bristleback.server.bristle.conf.resolver.ServerInstanceResolver;
-import pl.bristleback.server.bristle.conf.resolver.spring.SpringApplicationComponentsResolver;
+import pl.bristleback.server.bristle.conf.resolver.spring.SpringApplicationComponentsContainer;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -77,7 +77,7 @@ public class BristlebackSpringHttpHandler implements HttpRequestHandler, Applica
 
   @PostConstruct
   public void startServer() {
-    SpringApplicationComponentsResolver componentsResolver = new SpringApplicationComponentsResolver(applicationContext);
+    SpringApplicationComponentsContainer componentsResolver = new SpringApplicationComponentsContainer(applicationContext);
     ServerInstanceResolver serverInstanceResolver = new ServerInstanceResolver(initialConfigurationResolver, componentsResolver);
     serverInstance = serverInstanceResolver.resolverServerInstance();
 

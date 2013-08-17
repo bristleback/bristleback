@@ -19,7 +19,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import pl.bristleback.server.bristle.api.ApplicationComponentsResolver;
+import pl.bristleback.server.bristle.api.ApplicationComponentsContainer;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.InitialConfigurationResolver;
 import pl.bristleback.server.bristle.app.BristlebackServerInstance;
@@ -42,12 +42,12 @@ public class ServerInstanceResolver {
 
   private InitialConfigurationResolver initialConfigurationResolver;
 
-  private ApplicationComponentsResolver applicationComponentsResolver;
+  private ApplicationComponentsContainer applicationComponentsContainer;
 
   public ServerInstanceResolver(InitialConfigurationResolver initialConfigurationResolver,
-                                ApplicationComponentsResolver applicationComponentsResolver) {
+                                ApplicationComponentsContainer applicationComponentsContainer) {
     this.initialConfigurationResolver = initialConfigurationResolver;
-    this.applicationComponentsResolver = applicationComponentsResolver;
+    this.applicationComponentsContainer = applicationComponentsContainer;
   }
 
   public BristlebackServerInstance resolverServerInstance() {
@@ -55,7 +55,7 @@ public class ServerInstanceResolver {
     startLogger(initialConfiguration);
 
     AnnotationConfigApplicationContext frameworkContext = new AnnotationConfigApplicationContext();
-    BristlebackComponentsContainer springIntegration = new BristlebackComponentsContainer(applicationComponentsResolver, frameworkContext);
+    BristlebackComponentsContainer springIntegration = new BristlebackComponentsContainer(applicationComponentsContainer, frameworkContext);
     BristlebackBeanFactoryPostProcessor bristlebackPostProcessor = new BristlebackBeanFactoryPostProcessor(initialConfiguration, springIntegration);
     frameworkContext.addBeanFactoryPostProcessor(bristlebackPostProcessor);
     frameworkContext.register(SpringConfigurationResolver.class);

@@ -6,7 +6,7 @@ import pl.bristleback.server.bristle.conf.BristleConfig;
 import pl.bristleback.server.bristle.conf.BristlebackComponentsContainer;
 import pl.bristleback.server.bristle.conf.EngineConfig;
 import pl.bristleback.server.bristle.conf.InitialConfiguration;
-import pl.bristleback.server.bristle.conf.resolver.spring.SpringApplicationComponentsResolver;
+import pl.bristleback.server.bristle.conf.resolver.spring.SpringApplicationComponentsContainer;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -49,7 +49,7 @@ public class ConfigurationMockFactory {
   private static BristlebackComponentsContainer getSpringIntegration(ApplicationContext applicationContext) {
     ApplicationContext frameworkContext = mock(ApplicationContext.class);
 
-    SpringApplicationComponentsResolver componentsResolver = new SpringApplicationComponentsResolver(applicationContext);
+    SpringApplicationComponentsContainer componentsResolver = new SpringApplicationComponentsContainer(applicationContext);
     return new BristlebackComponentsContainer(componentsResolver, frameworkContext);
   }
 

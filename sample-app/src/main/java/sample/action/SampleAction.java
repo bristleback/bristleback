@@ -14,7 +14,6 @@ import sample.Card;
 import sample.User;
 import sample.action.interceptor.SampleInterceptor;
 import sample.outgoing.SampleClientActionClass;
-import sample.service.HelloServiceBean;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -34,9 +33,6 @@ public class SampleAction implements DefaultAction<BaseUserContext, Map<String, 
 
   @ObjectSender
   private ConditionObjectSender sender;
-
-  @Inject
-  private HelloServiceBean helloServiceBean;
 
   @Inject
   private SampleClientActionClass clientActionClass;
@@ -65,7 +61,7 @@ public class SampleAction implements DefaultAction<BaseUserContext, Map<String, 
 
   @Action
   public String executeDefault(BaseUserContext userContext, Map<String, BigDecimal> message) {
-    String helloWorld = helloServiceBean.sayHello(message.get("mapField"));
+    String helloWorld = "Hello! Magic number " + message.get("mapField");
     clientActionClass.sendCardsToUser(Card.values(), userContext);
     clientActionClass.notification(true, 1, "df");
     return helloWorld;
@@ -83,5 +79,9 @@ public class SampleAction implements DefaultAction<BaseUserContext, Map<String, 
       returnedList.add(user);
     }
     return returnedList;
+  }
+
+  public void setClientActionClass(SampleClientActionClass clientActionClass) {
+    this.clientActionClass = clientActionClass;
   }
 }

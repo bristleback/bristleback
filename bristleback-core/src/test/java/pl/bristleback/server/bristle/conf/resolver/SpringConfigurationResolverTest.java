@@ -7,7 +7,7 @@ import org.springframework.core.annotation.Order;
 import pl.bristleback.server.bristle.api.ConnectionStateListener;
 import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.conf.BristlebackComponentsContainer;
-import pl.bristleback.server.bristle.conf.resolver.spring.SpringApplicationComponentsResolver;
+import pl.bristleback.server.bristle.conf.resolver.spring.SpringApplicationComponentsContainer;
 import pl.bristleback.server.bristle.conf.resolver.spring.SpringConfigurationResolver;
 import pl.bristleback.server.bristle.listener.ConnectionStateListenerChain;
 import pl.bristleback.server.bristle.listener.ListenersContainer;
@@ -38,7 +38,7 @@ public class SpringConfigurationResolverTest {
   public void setUp() {
     ApplicationContext applicationContextMock = mock(ApplicationContext.class);
     bristlebackFrameworkContextMock = mock(ApplicationContext.class);
-    SpringApplicationComponentsResolver componentsResolver = new SpringApplicationComponentsResolver(applicationContextMock);
+    SpringApplicationComponentsContainer componentsResolver = new SpringApplicationComponentsContainer(applicationContextMock);
     BristlebackComponentsContainer springIntegrationMock = new BristlebackComponentsContainer(componentsResolver, bristlebackFrameworkContextMock);
     resolver = new SpringConfigurationResolver();
     resolver.setComponentsContainer(springIntegrationMock);

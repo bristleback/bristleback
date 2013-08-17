@@ -2,7 +2,7 @@ package pl.bristleback.server.bristle.conf.resolver.plain;
 
 
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import pl.bristleback.server.bristle.api.ApplicationComponentsResolver;
+import pl.bristleback.server.bristle.api.ApplicationComponentsContainer;
 import pl.bristleback.server.bristle.conf.BristleInitializationException;
 
 import java.lang.annotation.Annotation;
@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PlainJavaApplicationComponentsResolver implements ApplicationComponentsResolver {
+public class PlainJavaApplicationComponentsContainer implements ApplicationComponentsContainer {
 
   private Map<String, Object> components = new HashMap<String, Object>();
 

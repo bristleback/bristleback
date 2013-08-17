@@ -3,7 +3,7 @@ package pl.bristleback.server.bristle.api;
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
-public interface ApplicationComponentsResolver {
+public interface ApplicationComponentsContainer {
 
   <T> T getBean(Class<T> beanClass);
 

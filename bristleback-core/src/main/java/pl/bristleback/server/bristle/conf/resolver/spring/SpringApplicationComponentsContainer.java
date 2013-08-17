@@ -2,16 +2,16 @@ package pl.bristleback.server.bristle.conf.resolver.spring;
 
 
 import org.springframework.context.ApplicationContext;
-import pl.bristleback.server.bristle.api.ApplicationComponentsResolver;
+import pl.bristleback.server.bristle.api.ApplicationComponentsContainer;
 
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
-public class SpringApplicationComponentsResolver implements ApplicationComponentsResolver {
+public class SpringApplicationComponentsContainer implements ApplicationComponentsContainer {
 
   private ApplicationContext applicationContext;
 
-  public SpringApplicationComponentsResolver(ApplicationContext applicationContext) {
+  public SpringApplicationComponentsContainer(ApplicationContext applicationContext) {
     this.applicationContext = applicationContext;
   }
 

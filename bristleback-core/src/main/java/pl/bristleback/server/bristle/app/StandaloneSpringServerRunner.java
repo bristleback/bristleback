@@ -21,7 +21,7 @@ import pl.bristleback.server.bristle.BristleRuntimeException;
 import pl.bristleback.server.bristle.api.InitialConfigurationResolver;
 import pl.bristleback.server.bristle.conf.BristleInitializationException;
 import pl.bristleback.server.bristle.conf.resolver.ServerInstanceResolver;
-import pl.bristleback.server.bristle.conf.resolver.spring.SpringApplicationComponentsResolver;
+import pl.bristleback.server.bristle.conf.resolver.spring.SpringApplicationComponentsContainer;
 
 /**
  * This is a "main" class in standalone websocket applications.
@@ -54,7 +54,7 @@ public final class StandaloneSpringServerRunner implements ApplicationContextAwa
       throw new BristleInitializationException("Cannot start Bristleback Server, create a new ServerRunner instance to start new server.");
     }
 
-    SpringApplicationComponentsResolver componentsResolver = new SpringApplicationComponentsResolver(actualApplicationContext);
+    SpringApplicationComponentsContainer componentsResolver = new SpringApplicationComponentsContainer(actualApplicationContext);
     ServerInstanceResolver serverInstanceResolver = new ServerInstanceResolver(initialConfigurationResolver, componentsResolver);
     serverInstance = serverInstanceResolver.resolverServerInstance();
 
