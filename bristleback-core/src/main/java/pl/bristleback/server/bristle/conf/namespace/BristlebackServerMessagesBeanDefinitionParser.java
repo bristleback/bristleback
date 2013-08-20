@@ -29,7 +29,7 @@ import pl.bristleback.server.bristle.action.client.ClientActionProxyInterceptor;
 import pl.bristleback.server.bristle.api.annotations.ClientAction;
 import pl.bristleback.server.bristle.api.annotations.ClientActionClass;
 import pl.bristleback.server.bristle.conf.resolver.message.RegisteredObjectSenders;
-import pl.bristleback.server.bristle.conf.resolver.spring.ObjectSenderInjector;
+import pl.bristleback.server.bristle.conf.resolver.spring.ObjectSenderBeanPostProcessor;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 
 /**
@@ -102,8 +102,8 @@ public class BristlebackServerMessagesBeanDefinitionParser extends BaseBristleba
 
   private void registerConditionSenderBeanPostProcessor(ParserContext parserContext) {
     BeanDefinition conditionSenderBeanPostProcessor = BeanDefinitionBuilder
-      .rootBeanDefinition(ObjectSenderInjector.class)
-      .addPropertyReference("registeredObjectSenders", RegisteredObjectSenders.COMPONENT_NAME)
+      .rootBeanDefinition(ObjectSenderBeanPostProcessor.class)
+      .addConstructorArgReference(RegisteredObjectSenders.COMPONENT_NAME)
       .getBeanDefinition();
     registerBean(parserContext, conditionSenderBeanPostProcessor, "conditionSenderBeanPostProcessor");
   }

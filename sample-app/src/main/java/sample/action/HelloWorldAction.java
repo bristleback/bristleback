@@ -1,10 +1,14 @@
 package sample.action;
 
 import org.springframework.stereotype.Controller;
+import pl.bristleback.common.serialization.message.BristleMessage;
 import pl.bristleback.server.bristle.api.action.DefaultAction;
 import pl.bristleback.server.bristle.api.annotations.Action;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
+import pl.bristleback.server.bristle.api.annotations.ObjectSender;
 import pl.bristleback.server.bristle.engine.user.BaseUserContext;
+import pl.bristleback.server.bristle.message.ConditionObjectSender;
+import pl.bristleback.server.bristle.security.authorisation.conditions.AllUsersCondition;
 import sample.User;
 
 import java.math.BigDecimal;
@@ -14,11 +18,17 @@ import java.util.Map;
 @ActionClass(name = "HelloWorld")
 public class HelloWorldAction implements DefaultAction<BaseUserContext, Map<String, BigDecimal>> {
 
+  @ObjectSender
+  private ConditionObjectSender conditionObjectSender;
+
   @Action
-  public User executeDefault(BaseUserContext userContext, Map<String, BigDecimal> message) {
+  public User executeDefault(BaseUserContext userContext, Map<String, BigDecimal> message) throws Exception {
     User user = new User();
     user.setAge(message.get("key").intValue());
     user.setFirstName("John");
+
+    BristleMessage<User> serverMsg = new BristleMessage<User>().withName("ClientAction.someAction").withPayload(user);
+    conditionObjectSender.sendMessage(serverMsg, AllUsersCondition.getInstance());
 
     return user;
   }

@@ -13,15 +13,11 @@
  * ---------------------------------------------------------------------------
  */
 
-package pl.bristleback.server.bristle.conf.resolver.spring;
+package pl.bristleback.server.bristle.conf.resolver.message;
 
 import org.apache.commons.lang.reflect.FieldUtils;
 import org.springframework.beans.BeanInstantiationException;
-import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import pl.bristleback.server.bristle.api.annotations.ObjectSender;
-import pl.bristleback.server.bristle.conf.resolver.message.RegisteredObjectSenders;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
 
@@ -34,27 +30,22 @@ import java.lang.reflect.Field;
  *
  * @author Wojciech Niemiec
  */
-public class ObjectSenderInjector implements BeanPostProcessor, ApplicationContextAware {
-
-  private ApplicationContext applicationContext;
+public abstract class ObjectSenderInjector {
 
   private RegisteredObjectSenders registeredObjectSenders;
 
-  @Override
-  public Object postProcessBeforeInitialization(Object bean, String beanName) {
-    return bean;
+  public ObjectSenderInjector(RegisteredObjectSenders registeredObjectSenders) {
+    this.registeredObjectSenders = registeredObjectSenders;
   }
 
-  @Override
-  public Object postProcessAfterInitialization(Object bean, String beanName) {
-    Field[] fields = bean.getClass().getDeclaredFields();
+  public void injectSenders(Object component) {
+    Field[] fields = component.getClass().getDeclaredFields();
     for (Field field : fields) {
       if (field.isAnnotationPresent(ObjectSender.class)) {
         ConditionObjectSender objectSender = resolveSender(field);
-        injectProperty(bean, field, objectSender);
+        injectProperty(component, field, objectSender);
       }
     }
-    return bean;
   }
 
   private void injectProperty(Object bean, Field field, ConditionObjectSender objectSender) {
@@ -69,7 +60,7 @@ public class ObjectSenderInjector implements BeanPostProcessor, ApplicationConte
     if (registeredObjectSenders.containsSenderForField(field)) {
       return registeredObjectSenders.getSender(field);
     }
-    ConditionObjectSender conditionObjectSender = applicationContext.getBean(ConditionObjectSender.class);
+    ConditionObjectSender conditionObjectSender = getObjectSenderInstance();
     conditionObjectSender.setField(field);
     SerializationBundle serializationBundle = new SerializationBundle();
 
@@ -79,13 +70,6 @@ public class ObjectSenderInjector implements BeanPostProcessor, ApplicationConte
     return conditionObjectSender;
   }
 
-  @Override
-  public void setApplicationContext(ApplicationContext applicationContext) {
-    this.applicationContext = applicationContext;
-  }
-
-  public void setRegisteredObjectSenders(RegisteredObjectSenders registeredObjectSenders) {
-    this.registeredObjectSenders = registeredObjectSenders;
-  }
+  protected abstract ConditionObjectSender getObjectSenderInstance();
 }
 
