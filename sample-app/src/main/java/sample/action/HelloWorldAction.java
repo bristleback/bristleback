@@ -24,7 +24,16 @@ public class HelloWorldAction implements DefaultAction<BaseUserContext, Map<Stri
   private HelloWorldClientAction helloWorldClientAction;
 
   @Action
-  public User executeDefault(BaseUserContext userContext, Map<String, BigDecimal> message) throws Exception {
+  public User executeDefault(BaseUserContext userContext, Map<String, BigDecimal> message) {
+    User user = new User();
+    user.setAge(message.get("key").intValue());
+    user.setFirstName("John");
+
+    return user;
+  }
+
+  @Action
+  public User actionWithObjectSender(Map<String, BigDecimal> message) throws Exception {
     User user = new User();
     user.setAge(message.get("key").intValue());
     user.setFirstName("John");
