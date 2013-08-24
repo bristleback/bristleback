@@ -33,7 +33,10 @@ import pl.bristleback.server.bristle.conf.resolver.spring.ObjectSenderBeanPostPr
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 
 /**
- * //@todo class description
+ * This bean definition parser creates beans used to send server messages.
+ * It defines beans for both condition object sender injecting and client actions proxy.
+ * To invoke this bean definition parser, use <code>Bristleback</code> namespace in your application context file:<br/>
+ * <code>&lt;bb:serverMessages/&gt;</code>
  * <p/>
  * Created on: 2012-08-18 08:59:51 <br/>
  *
@@ -86,7 +89,7 @@ public class BristlebackServerMessagesBeanDefinitionParser extends BaseBristleba
     BeanDefinition clientActionInterceptor = BeanDefinitionBuilder
       .rootBeanDefinition(ClientActionProxyInterceptor.class)
       .getBeanDefinition();
-    registerBean(parserContext, clientActionInterceptor, "clientActionInterceptor");
+    registerBean(parserContext, clientActionInterceptor, ClientActionProxyInterceptor.COMPONENT_NAME);
 
     BeanDefinition clientActionMessageProxyAdvisor = BeanDefinitionBuilder
       .rootBeanDefinition(DefaultPointcutAdvisor.class)

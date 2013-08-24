@@ -1,5 +1,7 @@
 package pl.bristleback.server.bristle.app;
 
+import org.springframework.aop.framework.ProxyFactory;
+import pl.bristleback.server.bristle.action.client.ClientActionProxyInterceptor;
 import pl.bristleback.server.bristle.api.InitialConfigurationResolver;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
 import pl.bristleback.server.bristle.conf.resolver.ServerInstanceResolver;
@@ -23,6 +25,8 @@ public final class BristlebackBootstrap {
     componentsContainer.addComponent(RegisteredObjectSenders.COMPONENT_NAME, registeredObjectSenders);
 
     objectSenderInjector = new PlainObjectSenderInjector(registeredObjectSenders);
+
+    componentsContainer.addComponent(ClientActionProxyInterceptor.COMPONENT_NAME, new ClientActionProxyInterceptor());
   }
 
   public static BristlebackBootstrap init() {
@@ -38,11 +42,22 @@ public final class BristlebackBootstrap {
     return serverInstanceResolver.resolverServerInstance();
   }
 
-  public void registerActionClass(Object actionClass) {
+  public BristlebackBootstrap registerActionClass(Object actionClass) {
     if (actionClass.getClass().getAnnotation(ActionClass.class) == null) {
       throw new IllegalArgumentException("Action class be annotated with " + ActionClass.class + ".");
     }
     registerComponent(actionClass);
+    return this;
+  }
+
+  @SuppressWarnings("unchecked")
+  public <T> T registerClientActionClass(T clientActionClass) {
+    ProxyFactory factory = new ProxyFactory(clientActionClass);
+    factory.addAdvice(componentsContainer.getBean(ClientActionProxyInterceptor.class));
+    T component = (T) factory.getProxy();
+    registerComponent(component);
+
+    return component;
   }
 
   private void registerComponent(Object component) {

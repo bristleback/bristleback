@@ -2,6 +2,7 @@ package pl.bristleback.server.bristle.conf.resolver.plain;
 
 
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.core.annotation.AnnotationUtils;
 import pl.bristleback.server.bristle.api.ApplicationComponentsContainer;
 import pl.bristleback.server.bristle.conf.BristleInitializationException;
 
@@ -70,7 +71,7 @@ public class PlainJavaApplicationComponentsContainer implements ApplicationCompo
     return FilteredMap.filteredValues(components, new TypedPredicate<Object>() {
       @Override
       public boolean evaluate(Object object) {
-        Annotation annotation = object.getClass().getAnnotation(annotationType);
+        Annotation annotation = AnnotationUtils.findAnnotation(object.getClass(), annotationType);
         return annotation != null;
       }
     });

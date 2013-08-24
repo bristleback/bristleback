@@ -21,6 +21,8 @@ public class HelloWorldAction implements DefaultAction<BaseUserContext, Map<Stri
   @ObjectSender
   private ConditionObjectSender conditionObjectSender;
 
+  private HelloWorldClientAction helloWorldClientAction;
+
   @Action
   public User executeDefault(BaseUserContext userContext, Map<String, BigDecimal> message) throws Exception {
     User user = new User();
@@ -33,4 +35,12 @@ public class HelloWorldAction implements DefaultAction<BaseUserContext, Map<Stri
     return user;
   }
 
+  @Action
+  public void broadcast(String hello) {
+    helloWorldClientAction.sayHelloToAll(hello);
+  }
+
+  public void setHelloWorldClientAction(HelloWorldClientAction helloWorldClientAction) {
+    this.helloWorldClientAction = helloWorldClientAction;
+  }
 }

@@ -38,6 +38,8 @@ import java.util.List;
  */
 public class ClientActionProxyInterceptor implements MethodInterceptor {
 
+  public static final String COMPONENT_NAME = "clientActionInterceptor";
+
   private ClientActionClasses actionClasses;
 
   private ConditionObjectSender objectSender;
