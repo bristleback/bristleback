@@ -27,7 +27,8 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
 
   private static String host = "localhost";
   private static int port = 8765;
-
+  private static int clientNumber = 10;
+  private static int messagesNumber = 10000;
 
   /* ------------------------------------------------------------ */
 
@@ -107,33 +108,34 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
    * @throws Exception
    */
   public static void main(String... arg) throws Exception {
-    int mesgs = arg.length > 0 ? Integer.parseInt(arg[3]) : 100000;
-    int clients = arg.length > 1 ? Integer.parseInt(arg[2]) : 10;
 
-    long testResult = runTests(mesgs, clients);
+    host = arg.length > 0 ? arg[0] : "localhost";
+    port = arg.length > 1 ? Integer.parseInt(arg[1]) : 8765;
+    clientNumber = arg.length > 2 ? Integer.parseInt(arg[2]) : 10;
+    messagesNumber = arg.length > 3 ? Integer.parseInt(arg[3]) : 10000;
+
+    long testResult = runTests();
     System.out.println("TEST RESULT: " + testResult);
 
 
   }
 
-  private static long runTests(int messagesCount, int clientsCount) throws Exception {
+  private static long runTests() throws Exception {
     WebSocketClientFactory clientFactory = new WebSocketClientFactory();
     WebSocketClient webSocketClient = clientFactory.newWebSocketClient();
-    webSocketClient.setMaxIdleTime(30000);
+    webSocketClient.setMaxIdleTime(300000);
     webSocketClient.setProtocol("");
     clientFactory.start();
-    // Create client serially
-    ChatLoadClient[] chatClients = createClients(webSocketClient, clientsCount);
 
     //FIRST TEST!
-    testOpenConnection(webSocketClient, clientsCount);
+    ChatLoadClient[] chatClients = testOpenConnection(webSocketClient);
 
     // Send messages
     Random random = new Random();
     long start = System.currentTimeMillis();
 
     int clientIndex = 0;
-    for (int i = 0; i < messagesCount; i++) {
+    for (int i = 0; i < messagesNumber; i++) {
       if (clientIndex == chatClients.length - 1) {
         clientIndex = 0;
       }
@@ -142,10 +144,10 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
       chatClient.send(msg);
       clientIndex++;
     }
-//    System.out.println("sent all messages");
+
     long last = 0;
     long progress = start;
-    while (RECEIVED.get() < (messagesCount)) {
+    while (RECEIVED.get() < (messagesNumber)) {
       if (System.currentTimeMillis() > (progress + webSocketClient.getMaxIdleTime())) {
         System.out.println("TIMEOUT!");
         break;
@@ -173,15 +175,17 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
     }
     end = System.currentTimeMillis();
 
-    System.err.printf("Closed %d connections to %s:%d in %dms\n", clientsCount, host, port, (end - start));
+    System.err.printf("Closed %d connections to %s:%d in %dms\n", clientNumber, host, port, (end - start));
 
     clientFactory.stop();
     return messagesSentCount;
   }
 
-  private static void testOpenConnection(WebSocketClient webSocketClient, int clientsCount) throws InterruptedException {
+  private static ChatLoadClient[] testOpenConnection(WebSocketClient webSocketClient) throws Exception {
     long startTime = System.currentTimeMillis();
-    while (MEMBERS.size() < clientsCount) {
+    // Create client serially
+    ChatLoadClient[] chatClients = createClients(webSocketClient, clientNumber);
+    while (MEMBERS.size() < clientNumber) {
       if (System.currentTimeMillis() > (startTime + webSocketClient.getMaxIdleTime())) {
         break;
       }
@@ -189,7 +193,8 @@ public class ChatLoadClient implements WebSocket.OnTextMessage {
     }
     long end = System.currentTimeMillis();
 
-    System.err.printf("Opened %d of %d connections to %s:%d in %dms\n", MEMBERS.size(), clientsCount, host, port, (end - startTime));
+    System.err.printf("Opened %d of %d connections to %s:%d in %dms\n", MEMBERS.size(), clientNumber, host, port, (end - startTime));
+    return chatClients;
   }
 
   private static ChatLoadClient[] createClients(WebSocketClient client, int clientsCount) throws Exception {
