@@ -21,7 +21,7 @@ public class BristlebackPerformanceTest {
   }
 
   private void runTests() throws Exception {
-    System.out.println("running tests using configuration: " + configuration);
+    System.out.println("Running tests using configuration: " + configuration);
     WebSocketClient websocketClient = init();
     testOpeningConnections(websocketClient);
     testSendingMessages(websocketClient);
@@ -122,7 +122,7 @@ public class BristlebackPerformanceTest {
     System.out.println("Bristleback performance test");
     System.out.println("Usage: \n" +
       "mvn -PclientJar clean compile assembly:single \n" +
-      "java -jar ./target/performance-test.jar <host|localhost> <port|8765> <clients|10> <total_messages|10000>");
+      "java -jar ./target/performance-test.jar <host|localhost> <port|8765> <clients|10> <total_messages|10000>\n");
     String host = args.length > 0 ? args[0] : "localhost";
     int port = args.length > 1 ? Integer.parseInt(args[1]) : 8765;
     int clientNumber = args.length > 2 ? Integer.parseInt(args[2]) : 10;
