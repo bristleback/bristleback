@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>pl.bristleback</groupId>
-  <artifactId>test-server-tomcat</artifactId>
+  <artifactId>test-server-common</artifactId>
   <version>0.3.5</version>
   <packaging>jar</packaging>
 
@@ -13,7 +13,7 @@
     <org.springframework.version>3.1.1.RELEASE</org.springframework.version>
   </properties>
 
-  <name>Bristleback performance test Tomcat server</name>
+  <name>Bristleback performance test common</name>
   <url>http://bristleback.pl</url>
 
   <build>
@@ -23,13 +23,6 @@
   </build>
 
   <dependencies>
-
-    <dependency>
-      <groupId>pl.bristleback</groupId>
-      <artifactId>test-server-common</artifactId>
-      <version>${bristleback-version}</version>
-    </dependency>
-
     <dependency>
       <groupId>pl.bristleback</groupId>
       <artifactId>bristleback-core</artifactId>
