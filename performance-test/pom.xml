@@ -9,6 +9,7 @@
 
   <modules>
     <module>test-client</module>
+    <module>test-server-tomcat</module>
   </modules>
 
   <properties>

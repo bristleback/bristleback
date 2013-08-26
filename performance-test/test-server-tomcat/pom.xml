@@ -1,0 +1,57 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>pl.bristleback</groupId>
+  <artifactId>test-server-tomcat</artifactId>
+  <version>0.3.5</version>
+  <packaging>jar</packaging>
+
+  <properties>
+    <jetty-version>8.1.10.v20130312</jetty-version>
+    <bristleback-version>0.3.5</bristleback-version>
+    <org.springframework.version>3.1.1.RELEASE</org.springframework.version>
+  </properties>
+
+  <name>Bristleback performance test Tomcat server</name>
+  <url>http://bristleback.pl</url>
+
+  <build>
+    <defaultGoal>package</defaultGoal>
+    <plugins>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>pl.bristleback</groupId>
+      <artifactId>bristleback-core</artifactId>
+      <version>${bristleback-version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>pl.bristleback</groupId>
+      <artifactId>websocket-engine-tomcat</artifactId>
+      <version>${bristleback-version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>pl.bristleback</groupId>
+      <artifactId>serialization-engine-jackson</artifactId>
+      <version>${bristleback-version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${org.springframework.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${org.springframework.version}</version>
+    </dependency>
+  </dependencies>
+
+</project>
+
