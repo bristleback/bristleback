@@ -11,7 +11,7 @@
 
   <groupId>pl.bristleback</groupId>
   <artifactId>sample-app</artifactId>
-  <version>0.4.0-SNAPSHOT</version>
+  <version>0.4.0</version>
   <packaging>jar</packaging>
 
   <name>Bristleback Sample Testing App</name>
@@ -55,7 +55,25 @@
     <dependency>
       <groupId>pl.bristleback</groupId>
       <artifactId>bristleback-core</artifactId>
-      <version>0.4.0-SNAPSHOT</version>
+      <version>0.4.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>pl.bristleback</groupId>
+      <artifactId>serialization-engine-jackson</artifactId>
+      <version>0.4.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>pl.bristleback</groupId>
+      <artifactId>websocket-engine-jetty</artifactId>
+      <version>0.4.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>pl.bristleback</groupId>
+      <artifactId>action-validation</artifactId>
+      <version>0.4.0</version>
     </dependency>
 
     <dependency>
@@ -64,19 +82,28 @@
       <version>${org.springframework.version}</version>
     </dependency>
 
-    <dependency>
-      <groupId>pl.bristleback</groupId>
-      <artifactId>websocket-engine-jetty</artifactId>
-      <version>0.4.0-SNAPSHOT</version>
-    </dependency>
 
-      <dependency>
-          <groupId>org.easytesting</groupId>
-          <artifactId>fest-assert</artifactId>
-          <version>1.4</version>
-          <scope>test</scope>
-      </dependency>
+    <dependency>
+      <groupId>org.easytesting</groupId>
+      <artifactId>fest-assert</artifactId>
+      <version>1.4</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.1</version>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 
 </project>

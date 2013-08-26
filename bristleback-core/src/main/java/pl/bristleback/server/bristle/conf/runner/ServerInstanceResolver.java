@@ -24,12 +24,13 @@ import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.InitialConfigurationResolver;
 import pl.bristleback.server.bristle.app.BristlebackServerInstance;
 import pl.bristleback.server.bristle.conf.InitialConfiguration;
+import pl.bristleback.server.bristle.conf.resolver.BristlebackBeanFactoryPostProcessor;
 import pl.bristleback.server.bristle.conf.resolver.SpringConfigurationResolver;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 
 /**
  * This component resolves Bristleback Server instance and initializes internal Bristleback Spring context.
- *
+ * <p/>
  * <p/>
  * Created on: 2012-05-01 16:47:44 <br/>
  *
@@ -53,15 +54,12 @@ public class ServerInstanceResolver {
     startLogger(initialConfiguration);
 
     AnnotationConfigApplicationContext frameworkContext = new AnnotationConfigApplicationContext();
-    frameworkContext.register(SpringConfigurationResolver.class);
-    frameworkContext.refresh();
     BristleSpringIntegration springIntegration = new BristleSpringIntegration(actualApplicationContext, frameworkContext);
-
-    SpringConfigurationResolver springConfigurationResolver = frameworkContext.getBean("springConfigurationResolver", SpringConfigurationResolver.class);
-    springConfigurationResolver.setSpringIntegration(springIntegration);
-    springConfigurationResolver.setInitialConfiguration(initialConfiguration);
-
+    BristlebackBeanFactoryPostProcessor bristlebackPostProcessor = new BristlebackBeanFactoryPostProcessor(initialConfiguration, springIntegration);
+    frameworkContext.addBeanFactoryPostProcessor(bristlebackPostProcessor);
+    frameworkContext.register(SpringConfigurationResolver.class);
     frameworkContext.scan(InitialConfiguration.SYSTEM_BASE_PACKAGES);
+    frameworkContext.refresh();
 
     BristlebackConfig configuration = frameworkContext.getBean("bristlebackConfigurationFinal", BristlebackConfig.class);
     return new BristlebackServerInstance(configuration);

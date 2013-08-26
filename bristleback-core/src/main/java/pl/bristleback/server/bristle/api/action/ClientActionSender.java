@@ -16,11 +16,12 @@
 package pl.bristleback.server.bristle.api.action;
 
 import pl.bristleback.server.bristle.action.client.ClientActionInformation;
-import pl.bristleback.server.bristle.message.BristleMessage;
-import pl.bristleback.server.bristle.message.ConditionObjectSender;
+import pl.bristleback.server.bristle.api.WebsocketConnector;
+
+import java.util.List;
 
 /**
- * By default, client actions must return one of the fallowing object types:
+ * By default, client actions must return one of the following object types:
  * <ol>
  * <li>{@link SendCondition} implementation</li>
  * <li>{@link pl.bristleback.server.bristle.api.users.UserContext} implementation</li>
@@ -39,10 +40,9 @@ public interface ClientActionSender<T> {
    * Type of action condition is the type that client action should return to be processed by this client action sender implementation.
    *
    * @param actionCondition   action condition used to determine recipients of client action message.
-   * @param message           message to sent.
-   * @param objectSender      object sender.
    * @param actionInformation information about client action that sent actual action condition.
+   * @return list of recipients
    * @throws Exception
    */
-  void sendClientAction(T actionCondition, BristleMessage message, ConditionObjectSender objectSender, ClientActionInformation actionInformation) throws Exception;
+  List<WebsocketConnector> chooseRecipients(T actionCondition, ClientActionInformation actionInformation) throws Exception;
 }

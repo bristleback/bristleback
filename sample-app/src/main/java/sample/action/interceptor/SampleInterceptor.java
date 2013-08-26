@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
-import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.api.action.ActionInterceptor;
 import pl.bristleback.server.bristle.api.action.ActionInterceptorContextResolver;
 import pl.bristleback.server.bristle.api.annotations.Interceptor;
@@ -21,7 +20,7 @@ public class SampleInterceptor implements ActionInterceptor<ActionInterceptorCon
   private SampleInterceptorContextResolver sampleInterceptorContextResolver;
 
   @Override
-  public void intercept(ActionInformation actionInformation, ActionExecutionContext context, ActionInterceptorContextObject interceptorContext) {
+  public void intercept(ActionExecutionContext context, ActionInterceptorContextObject interceptorContext) {
     log.debug("interceptor works");
   }
 

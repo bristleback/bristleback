@@ -15,9 +15,9 @@
 
 package pl.bristleback.server.bristle.action;
 
-import pl.bristleback.server.bristle.api.users.UserContext;
+import pl.bristleback.common.serialization.message.BristleMessage;
 import pl.bristleback.server.bristle.action.exception.BrokenActionProtocolException;
-import pl.bristleback.server.bristle.message.BristleMessage;
+import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.utils.StringUtils;
 
 /**
@@ -46,6 +46,8 @@ public class ActionExecutionContext {
   private Object response;
 
   private boolean responseSendingCancelled;
+
+  private Object actionClassInstance;
 
   public ActionExecutionContext(UserContext userContext) {
     stage = ActionExecutionStage.MESSAGE_DESERIALIZATION;
@@ -126,5 +128,13 @@ public class ActionExecutionContext {
 
   public void cancelResponseSending() {
     this.responseSendingCancelled = true;
+  }
+
+  public Object getActionClassInstance() {
+    return actionClassInstance;
+  }
+
+  public void setActionClassInstance(Object actionClassInstance) {
+    this.actionClassInstance = actionClassInstance;
   }
 }

@@ -17,12 +17,17 @@ package pl.bristleback.server.bristle.action.client;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import pl.bristleback.server.bristle.api.SerializationEngine;
+import pl.bristleback.server.bristle.api.WebsocketConnector;
+import pl.bristleback.server.bristle.api.WebsocketMessage;
 import pl.bristleback.server.bristle.api.action.ClientActionSender;
-import pl.bristleback.server.bristle.message.BristleMessage;
+import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
+import pl.bristleback.server.bristle.message.BaseMessage;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
+import pl.bristleback.server.bristle.message.MessageType;
+import pl.bristleback.server.bristle.serialization.RawMessageSerializationEngine;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 /**
  * //@todo class description
@@ -37,8 +42,14 @@ public class ClientActionProxyInterceptor implements MethodInterceptor {
 
   private ConditionObjectSender objectSender;
 
-  public void init(ClientActionClasses clientActionClasses, ConditionObjectSender objectsSender) {
-    this.actionClasses = clientActionClasses;
+  private SerializationEngine serializationEngine;
+
+  private RawMessageSerializationEngine rawMessageSerializationEngine;
+
+  public void init(BristleSpringIntegration springIntegration, ConditionObjectSender objectsSender) {
+    this.actionClasses = springIntegration.getFrameworkBean("clientActionClasses", ClientActionClasses.class);
+    this.serializationEngine = springIntegration.getFrameworkBean("serializationEngine", SerializationEngine.class);
+    this.rawMessageSerializationEngine = springIntegration.getFrameworkBean("rawMessageSerializationEngine", RawMessageSerializationEngine.class);
     this.objectSender = objectsSender;
   }
 
@@ -50,57 +61,28 @@ public class ClientActionProxyInterceptor implements MethodInterceptor {
     Object methodOutput = invocation.proceed();
     Object[] parameters = invocation.getArguments();
 
-    Object payload = null;
-    int parametersToSerializeCount = getNumberOfParametersToSerialize(actionInformation);
-    if (parametersToSerializeCount == 0) {
-      payload = null;
-    } else if (parametersToSerializeCount == 1) {
-      payload = resolveSinglePayload(actionInformation, parameters, payload);
-    } else {
-      payload = resolveMapPayload(actionInformation, parameters);
-    }
+    String[] payload = new String[actionInformation.getPayloadLength()];
 
-    BristleMessage<Object> message = new BristleMessage<Object>()
-      .withName(actionInformation.getFullName()).withPayload(payload);
+    int currentIndex = 0;
 
-    ClientActionSender clientActionSender = actionInformation.getResponse();
-    clientActionSender.sendClientAction(methodOutput, message, objectSender, actionInformation);
-
-    return methodOutput;
-  }
-
-  private Map<String, Object> resolveMapPayload(ClientActionInformation actionInformation, Object[] parameters) {
-    Map<String, Object> parametersAsMap = new HashMap<String, Object>();
-    int index = 0;
     for (int i = 0; i < parameters.length; i++) {
       Object parameter = parameters[i];
       ClientActionParameterInformation parameterInformation = actionInformation.getParameters().get(i);
       if (parameterInformation.isForSerialization()) {
-        parametersAsMap.put("p" + index, parameter);
-        index++;
+        payload[currentIndex] = serializationEngine.serialize(parameter, parameterInformation.getSerialization());
+        currentIndex++;
       }
     }
-    return parametersAsMap;
-  }
 
-  private Object resolveSinglePayload(ClientActionInformation actionInformation, Object[] parameters, Object payload) {
-    for (int i = 0; i < parameters.length; i++) {
-      ClientActionParameterInformation parameterInformation = actionInformation.getParameters().get(i);
-      if (parameterInformation.isForSerialization()) {
-        payload = parameters[i];
-      }
-    }
-    return payload;
-  }
+    String serializedMessage = rawMessageSerializationEngine.serialize(null, actionInformation.getFullName(), payload);
+    ClientActionSender clientActionSender = actionInformation.getResponse();
+    List<WebsocketConnector> recipients = clientActionSender.chooseRecipients(methodOutput, actionInformation);
+    WebsocketMessage<String> message = new BaseMessage<String>(MessageType.TEXT);
+    message.setContent(serializedMessage);
+    message.setRecipients(recipients);
 
-  private int getNumberOfParametersToSerialize(ClientActionInformation actionInformation) {
-    int parametersToSerializeCount = 0;
-    for (ClientActionParameterInformation parameterInformation : actionInformation.getParameters()) {
-      if (parameterInformation.isForSerialization()) {
-        parametersToSerializeCount++;
-      }
-    }
-    return parametersToSerializeCount;
+    objectSender.queueNewMessage(message);
+    return methodOutput;
   }
 
   private ClientActionInformation resolveActionInformation(MethodInvocation invocation) {

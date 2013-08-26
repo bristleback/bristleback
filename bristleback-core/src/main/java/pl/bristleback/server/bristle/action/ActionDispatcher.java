@@ -18,8 +18,10 @@ package pl.bristleback.server.bristle.action;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.interceptor.ActionInterceptorsExecutor;
 import pl.bristleback.server.bristle.action.response.ResponseHelper;
+import pl.bristleback.server.bristle.api.BristlebackConfig;
+import pl.bristleback.server.bristle.conf.resolver.action.ActionClassesResolver;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
-import pl.bristleback.server.bristle.message.BristleMessage;
+import pl.bristleback.common.serialization.message.BristleMessage;
 
 import javax.inject.Inject;
 
@@ -42,11 +44,13 @@ import javax.inject.Inject;
 @Component
 public class ActionDispatcher {
 
-  @Inject
   private ActionsContainer actionsContainer;
 
   @Inject
   private ResponseHelper responseHelper;
+
+  @Inject
+  private ActionClassesResolver actionClassesResolver;
 
   @Inject
   private BristleSpringIntegration springIntegration;
@@ -54,11 +58,16 @@ public class ActionDispatcher {
   @Inject
   private ActionInterceptorsExecutor interceptorPolicyExecutor;
 
+  public void init(BristlebackConfig configuration) {
+    actionsContainer = actionClassesResolver.resolve();
+    responseHelper.init(configuration);
+  }
+
   public void dispatch(ActionExecutionContext context) throws Exception {
-    ActionInformation action = extractAction(context);
-    Object[] parameters = extractActionParameters(context, action);
-    Object response = executeAction(context, action, parameters);
-    sendResponse(context, action, response);
+    extractAction(context);
+    Object[] parameters = extractActionParameters(context);
+    Object response = executeAction(context, parameters);
+    sendResponse(context, response);
   }
 
   private ActionInformation extractAction(ActionExecutionContext context) {
@@ -66,38 +75,41 @@ public class ActionDispatcher {
     ActionClassInformation actionClass = actionsContainer.getActionClass(context.getActionClassName());
     ActionInformation action = actionClass.getActionToExecute(context);
     context.setAction(action);
-    interceptorPolicyExecutor.executeInterceptorPolicy(action, context);
+
+    context.setActionClassInstance(actionsContainer.getActionClassInstance(action.getActionClass(), springIntegration));
+    interceptorPolicyExecutor.executeInterceptorPolicy(context);
 
     return action;
   }
 
-  private Object[] extractActionParameters(ActionExecutionContext context, ActionInformation action) throws Exception {
+  private Object[] extractActionParameters(ActionExecutionContext context) throws Exception {
     context.setStage(ActionExecutionStage.PARAMETERS_EXTRACTION);
-    Object[] actionParameters = resolveActionParameters(action, context);
+    Object[] actionParameters = resolveActionParameters(context);
     context.setActionParameters(actionParameters);
-    interceptorPolicyExecutor.executeInterceptorPolicy(action, context);
+    interceptorPolicyExecutor.executeInterceptorPolicy(context);
     return actionParameters;
   }
 
   @SuppressWarnings("unchecked")
-  private Object executeAction(ActionExecutionContext context, ActionInformation action, Object[] parameters) throws Exception {
+  private Object executeAction(ActionExecutionContext context, Object[] parameters) throws Exception {
     context.setStage(ActionExecutionStage.ACTION_EXECUTION);
-    Object actionClassInstance = actionsContainer.getActionClassInstance(action.getActionClass(), springIntegration);
-    Object response = action.execute(actionClassInstance, parameters);
+
+    Object response = context.getAction().execute(context.getActionClassInstance(), parameters);
     context.setResponse(response);
-    interceptorPolicyExecutor.executeInterceptorPolicy(action, context);
+    interceptorPolicyExecutor.executeInterceptorPolicy(context);
     return response;
   }
 
-  private void sendResponse(ActionExecutionContext context, ActionInformation action, Object response) throws Exception {
+  private void sendResponse(ActionExecutionContext context, Object response) throws Exception {
     context.setStage(ActionExecutionStage.RESPONSE_CONSTRUCTION);
 
-    if (!action.getResponseInformation().isVoidResponse()) {
+    if (!context.getAction().getResponseInformation().isVoidResponse()) {
       responseHelper.sendResponse(response, context);
     }
   }
 
-  private Object[] resolveActionParameters(ActionInformation actionInformation, ActionExecutionContext context) throws Exception {
+  private Object[] resolveActionParameters(ActionExecutionContext context) throws Exception {
+    ActionInformation actionInformation = context.getAction();
     Object[] parameters = new Object[actionInformation.getParameters().size()];
     BristleMessage<String[]> message = context.getMessage();
     for (int i = 0; i < actionInformation.getParameters().size(); i++) {

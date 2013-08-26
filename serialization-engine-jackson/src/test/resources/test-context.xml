@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:bb="http://www.bristleback.pl/schema/bristleback"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.bristleback.pl/schema/bristleback
+              http://www.bristleback.pl/schema/bristleback/bristleback.xsd">
+
+
+  <bb:serverMessages/>
+
+  <bean id="mockBeansFactory" class="pl.bristleback.server.mock.beans.SpringMockBeansFactory"/>
+
+  <bean id="initPojoConfigResolver" class="pl.bristleback.server.bristle.conf.resolver.init.PojoConfigResolver">
+    <property name="serializationEngine" value="system.serializer.jackson"/>
+  </bean>
+
+  <bean id="testServerInstance" class="pl.bristleback.server.bristle.app.BristlebackServerInstance"
+        factory-bean="mockBeansFactory"
+        factory-method="mockServerInstance"/>
+
+</beans>

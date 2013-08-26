@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.api.annotations.ObjectSender;
 import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.api.users.UserDetails;
-import pl.bristleback.server.bristle.message.BristleMessage;
+import pl.bristleback.common.serialization.message.BristleMessage;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 
 import java.util.Collections;

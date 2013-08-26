@@ -15,7 +15,7 @@
 
 package pl.bristleback.server.bristle.action;
 
-import pl.bristleback.server.bristle.message.BristleMessage;
+import pl.bristleback.common.serialization.message.BristleMessage;
 import pl.bristleback.server.bristle.utils.StringUtils;
 
 /**
@@ -24,7 +24,7 @@ import pl.bristleback.server.bristle.utils.StringUtils;
  * Created on: 2012-08-18 08:48:38 <br/>
  *
  * @author Wojciech Niemiec
- * @see pl.bristleback.server.bristle.message.BristleMessage
+ * @see BristleMessage
  */
 public final class ActionMessageFactory {
 

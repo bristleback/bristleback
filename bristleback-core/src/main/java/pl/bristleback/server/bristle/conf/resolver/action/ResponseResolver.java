@@ -38,9 +38,6 @@ public class ResponseResolver {
   @Named("serializationEngine")
   private SerializationEngine serializationEngine;
 
-  @Inject
-  private BristleMessageSerializationUtils messageSerializationUtils;
-
   ActionResponseInformation resolveResponse(Method action) {
     ActionResponseInformation responseInformation = new ActionResponseInformation();
 
@@ -56,13 +53,8 @@ public class ResponseResolver {
 
   @SuppressWarnings("unchecked")
   private void resolveResponseSerialization(Method action, ActionResponseInformation responseInformation) {
-
     SerializationResolver serializationResolver = serializationEngine.getSerializationResolver();
-    Object serialization = serializationResolver.resolveSerialization(messageSerializationUtils.getSimpleMessageType());
-
     Object payloadSerialization = serializationResolver.resolveSerialization(action.getGenericReturnType(), action.getAnnotations());
-    serializationResolver.setSerializationForField(serialization, "payload", payloadSerialization);
-
-    responseInformation.setSerialization(serialization);
+    responseInformation.setSerialization(payloadSerialization);
   }
 }

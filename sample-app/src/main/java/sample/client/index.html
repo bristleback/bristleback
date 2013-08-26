@@ -10,7 +10,7 @@
   <script type="text/javascript" src="js/bristle-controller.js"></script>
   <script type="text/javascript" src="js/bristle-serialization.js"></script>
   <script type="text/javascript" src="js/bristle-core.js"></script>-->
-  <script type="text/javascript" src="js/bristleback-0.4.0-SNAPSHOT.js"></script>
+  <script type="text/javascript" src="js/bristleback-0.4.0.js"></script>
   <script type="text/javascript" src="js/trimpath-template-1.0.38.js"></script>
 
   <script type="text/javascript">
@@ -21,7 +21,6 @@
         // $('#status').text("The WebSocket Connection Is Open.");
       },
       onClose: function (event) {
-        Bristleback.Console.disableConsole();
         document.getElementById('status').innerHTML = "The WebSocket Connection Is Closed.";
       }
     };
@@ -36,7 +35,7 @@
       });
 
     sampleAction.exceptionHandler.setDefaultExceptionHandler(function () {
-      Bristleback.Console.log("[ERROR in SampleAction] Exception in hello action, this handler will return false and thus let default handlers run.");
+      console.log("[ERROR in SampleAction] Exception in hello action, this handler will return false and thus let default handlers run.");
       return false;
     });
     sampleAction.defineDefaultAction()
@@ -59,7 +58,7 @@
     dataController.exceptionHandler.setExceptionHandler("sample.NumberFormatException", function () {
       $('#age').css("border-color", "red");
       $('#status').text("Field age must be a number!");
-      Bristleback.Console.log("Field age must be a number!");
+      console.log("Field age must be a number!");
       return true;
     });
 
@@ -79,6 +78,9 @@
       },
       userDetails: function (user) {
         alert("user data: \n" + Bristleback.utils.objectToString(user));
+      },
+      notification: function(first, second) {
+        alert("first: " + first + ", second: " + second);
       }
     };
 
@@ -86,7 +88,6 @@
 
     function connect() {
       client.connect();
-      Bristleback.Console.enableConsole();
     }
 
     function sendText() {
@@ -151,7 +152,7 @@
   </script>
 
 
-  <title>Bristleback client version 0.4.0-SNAPSHOT</title>
+  <title>Bristleback client version 0.4.0</title>
 </head>
 <body>
 <div id="status">Disconnected. Click connect button to start playing.</div>

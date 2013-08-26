@@ -11,7 +11,7 @@
 
   <groupId>pl.bristleback</groupId>
   <artifactId>bristleback-core</artifactId>
-  <version>0.4.0-SNAPSHOT</version>
+  <version>0.4.0</version>
   <packaging>jar</packaging>
 
   <name>Bristleback core module</name>
@@ -49,20 +49,19 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <org.springframework.version>[3.1.1.RELEASE, )</org.springframework.version>
+    <org.springframework.version>3.1.1.RELEASE</org.springframework.version>
   </properties>
 
   <dependencies>
     <dependency>
+      <groupId>pl.bristleback</groupId>
+      <artifactId>common</artifactId>
+      <version>0.4.0</version>
+    </dependency>
+    <dependency>
       <groupId>commons-configuration</groupId>
       <artifactId>commons-configuration</artifactId>
       <version>1.7</version>
-    </dependency>
-
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.16</version>
     </dependency>
 
     <dependency>
@@ -261,7 +260,7 @@
               <goal>checkstyle</goal>
             </goals>
             <configuration>
-              <configLocation>checkstyle.xml</configLocation>
+              <configLocation>../checkstyle.xml</configLocation>
               <suppressionsLocation>suppressions.xml</suppressionsLocation>
               <skip>false</skip>
               <failsOnError>true</failsOnError>

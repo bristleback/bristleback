@@ -1,4 +1,4 @@
-== Bristleback Framework version 0.4.0-SNAPSHOT
+== Bristleback Framework version 0.4.0
 Welcome,
 
 Bristleback Framework has got a new homepage http://bristleback.pl.
@@ -6,7 +6,7 @@ Several samples and tutorials can be found there.
 
 If you like our project, please star or fork the project!
 
-Latest Bristleback version: 0.4.0-SNAPSHOT
+Latest Bristleback version: 0.4.0
 
 Download section is no longer valid on GitHub.
 To download JavaScript client, visit http://bristleback.pl/download.html
@@ -28,7 +28,6 @@ Few samples are available at https://github.com/bristleback/bristleback-samples
 1. Go to directory where your new Bristleback Project will be created and type:
 
     mvn archetype:generate
-      -DarchetypeCatalog=http://bristleback.pl/archetype/archetype-catalog.xml
       -DarchetypeGroupId=pl.bristleback
       -DarchetypeArtifactId=webapp-archetype
       -DarchetypeVersion=0.4.0

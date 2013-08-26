@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.springframework.core.annotation.Order;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
-import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.action.interceptor.ActionInterceptorInformation;
 import pl.bristleback.server.bristle.action.interceptor.ActionInterceptors;
 import pl.bristleback.server.bristle.action.interceptor.InterceptionProcessContext;
@@ -74,7 +73,7 @@ public class ActionInterceptorsSorterTest {
   private class FirstActionInterceptor implements ActionInterceptor<String> {
 
     @Override
-    public void intercept(ActionInformation actionInformation, ActionExecutionContext context, String interceptorContext) {
+    public void intercept(ActionExecutionContext context, String interceptorContext) {
 
     }
 
@@ -88,7 +87,7 @@ public class ActionInterceptorsSorterTest {
   private class SecondActionInterceptor implements ActionInterceptor<String> {
 
     @Override
-    public void intercept(ActionInformation actionInformation, ActionExecutionContext context, String interceptorContext) {
+    public void intercept(ActionExecutionContext context, String interceptorContext) {
 
     }
 
@@ -101,7 +100,7 @@ public class ActionInterceptorsSorterTest {
   private class OtherActionInterceptor implements ActionInterceptor<String> {
 
     @Override
-    public void intercept(ActionInformation actionInformation, ActionExecutionContext context, String interceptorContext) {
+    public void intercept(ActionExecutionContext context, String interceptorContext) {
 
     }
 

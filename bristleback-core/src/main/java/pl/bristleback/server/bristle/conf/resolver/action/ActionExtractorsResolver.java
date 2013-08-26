@@ -16,16 +16,13 @@
 package pl.bristleback.server.bristle.conf.resolver.action;
 
 import org.springframework.stereotype.Component;
-import pl.bristleback.server.bristle.action.extractor.ActionExtractorsContainer;
-import pl.bristleback.server.bristle.api.BristlebackConfig;
-import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
-import pl.bristleback.server.bristle.conf.resolver.SpringConfigurationResolver;
 import pl.bristleback.server.bristle.BristleRuntimeException;
+import pl.bristleback.server.bristle.action.extractor.ActionExtractorsContainer;
+import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.utils.ReflectionUtils;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -44,10 +41,6 @@ public class ActionExtractorsResolver {
   @Inject
   private BristleSpringIntegration springIntegration;
 
-  @Inject
-  @Named(SpringConfigurationResolver.CONFIG_BEAN_NAME)
-  private BristlebackConfig configuration;
-
   public ActionExtractorsContainer resolveParameterExtractors() {
     Map<Class, ActionParameterExtractor> extractors = new HashMap<Class, ActionParameterExtractor>();
     resolveDefaultParameterExtractors(extractors);
@@ -55,14 +48,7 @@ public class ActionExtractorsResolver {
 
     ActionExtractorsContainer actionExtractorsContainer = new ActionExtractorsContainer();
     actionExtractorsContainer.setParameterExtractors(extractors);
-    initParameterExtractors(actionExtractorsContainer);
     return actionExtractorsContainer;
-  }
-
-  private void initParameterExtractors(ActionExtractorsContainer actionExtractorsContainer) {
-    for (ActionParameterExtractor extractor : actionExtractorsContainer.getParameterExtractors().values()) {
-      extractor.init(configuration);
-    }
   }
 
   private void resolveCustomParameterExtractors(Map<Class, ActionParameterExtractor> extractors) {

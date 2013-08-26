@@ -3,13 +3,14 @@
 
  @module Bristleback
  **/
-var Bristleback = Bristleback || {};
+var BB = BB || {};
+var Bristleback = BB;
 
-Bristleback.controller = {};
+BB.controller = {};
 
-Bristleback.serialization = {};
+BB.serialization = {};
 
-Bristleback.template = {};
+BB.template = {};
 
-Bristleback.auth = {};
+BB.auth = {};
 

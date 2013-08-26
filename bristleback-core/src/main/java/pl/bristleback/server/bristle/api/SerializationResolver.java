@@ -24,7 +24,6 @@ import java.lang.reflect.Type;
 /**
  * Serialization information resolvers cooperate with {@link SerializationEngine} implementations
  * by providing meta information about serialized/deserialized type for them.
- * They also should be able to actualize serialization information object with information about child field.
  * Type of serialization information object is determined by the serialization engine cooperating with this
  * serialization resolver implementation.
  * Serialization resolvers must provide functionality of processing
@@ -35,11 +34,9 @@ import java.lang.reflect.Type;
  *
  * @author Wojciech Niemiec
  */
-public interface SerializationResolver<T> extends ConfigurationAware {
+public interface SerializationResolver<T> {
 
   SerializationBundle initSerializationBundle(Field objectSenderField);
 
   T resolveSerialization(Type objectType, Annotation... annotations);
-
-  void setSerializationForField(T parentSerialization, String fieldName, T fieldSerialization);
 }

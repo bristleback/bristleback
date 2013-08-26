@@ -28,10 +28,21 @@ public class ClientActionParameterInformation {
 
   private Type parameterType;
   private boolean forSerialization;
+  private Object serialization;
 
-  public ClientActionParameterInformation(Type parameterType, boolean forSerialization) {
+
+  private ClientActionParameterInformation(Type parameterType, boolean forSerialization) {
     this.parameterType = parameterType;
     this.forSerialization = forSerialization;
+  }
+
+  public ClientActionParameterInformation(Type parameterType) {
+    this(parameterType, false);
+  }
+
+  public ClientActionParameterInformation(Type parameterType, Object serialization) {
+    this(parameterType, true);
+    this.serialization = serialization;
   }
 
   public Type getParameterType() {
@@ -40,6 +51,10 @@ public class ClientActionParameterInformation {
 
   public boolean isForSerialization() {
     return forSerialization;
+  }
+
+  public Object getSerialization() {
+    return serialization;
   }
 
   @Override

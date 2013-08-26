@@ -4,17 +4,20 @@
 
   <groupId>pl.bristleback</groupId>
   <artifactId>bristleback-parent</artifactId>
-  <version>0.4.0-SNAPSHOT</version>
+  <version>0.4.0</version>
   <packaging>pom</packaging>
 
   <modules>
+    <module>common</module>
     <module>bristleback-core</module>
     <module>websocket-engine-jetty</module>
     <module>websocket-engine-tomcat</module>
     <module>websocket-engine-netty</module>
-    <module>sample-app</module>
     <module>serialization-engine-jackson</module>
-      <module>client-java-jetty</module>
+    <module>action-validation</module>
+    <module>sample-app</module>
+    <module>performance-test</module>
+    <module>client-java-jetty</module>
   </modules>
 
   <name>Bristleback Framework parent module</name>

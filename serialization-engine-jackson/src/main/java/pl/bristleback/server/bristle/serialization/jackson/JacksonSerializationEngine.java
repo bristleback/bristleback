@@ -20,29 +20,52 @@ import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.SerializationEngine;
 import pl.bristleback.server.bristle.api.SerializationResolver;
+import pl.bristleback.server.bristle.serialization.jackson.init.ObjectMapperInitializer;
+import pl.bristleback.server.bristle.serialization.jackson.init.SimpleObjectMapperFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * //@todo class description
+ * This serialization engine uses Jackson processing library.
+ * {@link ObjectMapper} is used in serialization/deserialization operations.
+ * To customize object mapper, create bean implementing
+ * {@link pl.bristleback.server.bristle.serialization.jackson.init.ObjectMapperFactory} interface.
+ * This is a default {@link SerializationEngine} implementation used in Bristleback Framework.
+ * <p>
+ * Name of this serialization engine: <strong>system.serializer.jackson</strong>
+ * </p>
+ * Jackson serialization module relies on following Jackson dependencies: jackson-core, jackson-databind and jackson-annotations,
+ * all of them in version: 2.2.2. If you want to use other versions of Jackson,
+ * you can exclude those three dependencies from your project and place them by yourself in versions you desire.
  * <p/>
  * Created on: 2012-03-09 18:27:48 <br/>
  *
  * @author Wojciech Niemiec
  */
-@Component("system.jacksonSerializer")
+@Component("system.serializer.jackson")
 public class JacksonSerializationEngine implements SerializationEngine<JacksonSerialization> {
 
   @Inject
+  private ObjectMapperInitializer objectMapperInitializer;
+
+  @Inject
   @Named("jacksonSerializer.serializationResolver")
-  private SerializationResolver<JacksonSerialization> serializationResolver;
+  private JacksonSerializationResolver serializationResolver;
 
   private ObjectMapper mapper;
 
   @Override
   public void init(BristlebackConfig configuration) {
-    mapper = new ObjectMapper();
+    mapper = objectMapperInitializer.initObjectMapper();
+    serializationResolver.setObjectMapper(mapper);
+  }
+
+  public static JacksonSerializationEngine  simpleEngine(){
+    JacksonSerializationEngine engine = new JacksonSerializationEngine();
+    SimpleObjectMapperFactory objectMapperFactory = new SimpleObjectMapperFactory();
+    engine.setMapper(objectMapperFactory.initObjectMapper());
+    return engine;
   }
 
   @Override
@@ -65,11 +88,7 @@ public class JacksonSerializationEngine implements SerializationEngine<JacksonSe
     return mapper.writeValueAsString(object);
   }
 
-  public void setSerializationResolver(SerializationResolver<JacksonSerialization> serializationResolver) {
-    this.serializationResolver = serializationResolver;
-  }
-
-  public void setMapper(ObjectMapper mapper) {
+  private void setMapper(ObjectMapper mapper) {
     this.mapper = mapper;
   }
 }

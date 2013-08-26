@@ -18,7 +18,7 @@ package pl.bristleback.server.bristle.serialization.jackson;
 import com.fasterxml.jackson.databind.JavaType;
 
 /**
- * //@todo class description
+ * Jackson serialization information containing implementation details provided by Jackson framework.
  * <p/>
  * Created on: 2012-03-09 18:46:23 <br/>
  *

@@ -18,9 +18,8 @@ package pl.bristleback.server.bristle.conf.resolver.message;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.SerializationEngine;
-import pl.bristleback.server.bristle.security.UsersContainer;
-import pl.bristleback.server.bristle.conf.resolver.SpringConfigurationResolver;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
+import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
 
 import javax.inject.Inject;
@@ -38,17 +37,13 @@ import javax.inject.Named;
 public class ObjectSenderInitializer {
 
   @Inject
-  @Named(SpringConfigurationResolver.CONFIG_BEAN_NAME)
-  private BristlebackConfig configuration;
-
-  @Inject
   @Named("serializationEngine")
   private SerializationEngine serializationEngine;
 
   @Inject
   private UsersContainer connectedUsers;
 
-  public void initObjectSender(ConditionObjectSender objectSender) {
+  public void initObjectSender(BristlebackConfig configuration, ConditionObjectSender objectSender) {
     objectSender.init(configuration, connectedUsers);
     resolveSerializations(objectSender);
   }

@@ -1,6 +1,7 @@
 package pl.bristleback.client.serialization;
 
 import org.junit.Test;
+import pl.bristleback.common.serialization.message.BristleMessage;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -36,25 +37,4 @@ public class ToJsonSerializerTest {
     assertThat(serializedString).isEqualTo("{\"id\":\"123\",\"name\":\"name\",\"payload\":{\"name\":\"john\",\"age\":12}}");
   }
 
-
-  private static class Person {
-    private String name = "john";
-    private int age = 12;
-
-    public String getName() {
-      return name;
-    }
-
-    public void setName(String name) {
-      this.name = name;
-    }
-
-    public int getAge() {
-      return age;
-    }
-
-    public void setAge(int age) {
-      this.age = age;
-    }
-  }
 }

@@ -17,7 +17,6 @@ package pl.bristleback.server.bristle.security;
 
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionParameterInformation;
-import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.action.ActionParameterExtractor;
 import pl.bristleback.server.bristle.api.users.UserDetails;
 import pl.bristleback.server.bristle.security.authentication.AuthenticationsContainer;
@@ -39,10 +38,6 @@ public class UserDetailsParameterExtractor implements ActionParameterExtractor<U
   @Inject
   @Named("bristleAuthenticationsContainer")
   private AuthenticationsContainer authenticationsContainer;
-
-  @Override
-  public void init(BristlebackConfig configuration) {
-  }
 
   @Override
   public UserDetails fromTextContent(String text, ActionParameterInformation parameterInformation, ActionExecutionContext context) throws Exception {

@@ -16,19 +16,16 @@
 package pl.bristleback.server.bristle.action.response;
 
 import org.springframework.stereotype.Component;
+import pl.bristleback.common.serialization.message.BristleMessage;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.annotations.ObjectSender;
-import pl.bristleback.server.bristle.conf.resolver.SpringConfigurationResolver;
-import pl.bristleback.server.bristle.message.BristleMessage;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
 import pl.bristleback.server.bristle.utils.StringUtils;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.Collections;
 
 /**
@@ -44,17 +41,12 @@ public class ResponseHelper {
   private static final String EXCEPTION_RESPONSE_SIGN = "exc";
 
   @Inject
-  @Named(SpringConfigurationResolver.CONFIG_BEAN_NAME)
-  private BristlebackConfig configuration;
-
-  @Inject
   private UsersContainer connectedUsers;
 
   @ObjectSender
   private ConditionObjectSender conditionObjectSender;
 
-  @PostConstruct
-  private void init() {
+  public void init(BristlebackConfig configuration) {
     conditionObjectSender = new ConditionObjectSender();
     conditionObjectSender.init(configuration, connectedUsers);
     conditionObjectSender.setLocalSerializations(new SerializationBundle());

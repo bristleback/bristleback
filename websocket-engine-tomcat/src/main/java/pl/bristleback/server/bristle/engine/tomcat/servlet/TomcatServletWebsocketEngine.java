@@ -17,14 +17,15 @@ package pl.bristleback.server.bristle.engine.tomcat.servlet;
 
 import org.apache.catalina.connector.RequestFacade;
 import org.apache.log4j.Logger;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.FrontController;
 import pl.bristleback.server.bristle.api.ServerEngine;
 import pl.bristleback.server.bristle.api.ServletServerEngine;
 import pl.bristleback.server.bristle.api.WebsocketConnector;
+import pl.bristleback.server.bristle.conf.BristleInitializationException;
 import pl.bristleback.server.bristle.engine.base.AbstractServerEngine;
 import pl.bristleback.server.bristle.engine.tomcat.TomcatConnector;
-import pl.bristleback.server.bristle.conf.BristleInitializationException;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -44,6 +45,7 @@ import java.nio.CharBuffer;
  * @author Andrea Nanni
  */
 @Component(TomcatServletWebsocketEngine.ENGINE_NAME)
+@Lazy
 public class TomcatServletWebsocketEngine extends AbstractServerEngine implements ServerEngine, ServletServerEngine {
   private static Logger log = Logger.getLogger(TomcatServletWebsocketEngine.class.getName());
 

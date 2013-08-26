@@ -17,17 +17,17 @@ package pl.bristleback.server.bristle.action.client.strategy;
 
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.client.ClientActionInformation;
+import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.action.ClientActionSender;
 import pl.bristleback.server.bristle.api.users.UserContext;
-import pl.bristleback.server.bristle.message.BristleMessage;
-import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import pl.bristleback.server.bristle.security.UsersContainer;
 
 import javax.inject.Inject;
 import java.util.Collections;
+import java.util.List;
 
 /**
- * //@todo class description
+ * Single user sender strategy does as its name says, picks passed user as the recipient.
  * <p/>
  * Created on: 2012-07-08 14:08:09 <br/>
  *
@@ -40,7 +40,7 @@ public class SingleUserSenderStrategy implements ClientActionSender<UserContext>
   private UsersContainer connectedUsers;
 
   @Override
-  public void sendClientAction(UserContext user, BristleMessage message, ConditionObjectSender objectSender, ClientActionInformation actionInformation) throws Exception {
-    objectSender.sendMessage(message, actionInformation.getSerialization(), connectedUsers.getConnectorsByUsers(Collections.singletonList(user)));
+  public List<WebsocketConnector> chooseRecipients(UserContext user, ClientActionInformation actionInformation) throws Exception {
+    return connectedUsers.getConnectorsByUsers(Collections.singletonList(user));
   }
 }

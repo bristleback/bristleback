@@ -11,8 +11,9 @@ import java.net.URISyntaxException;
  */
 public class ServerUrl {
 
+  private static final int DEFAULT_PORT = 8080;
+
   private String host = "localhost";
-  private static int port = 8080;
   private String fullUrl;
 
   private URI uri;
@@ -22,16 +23,16 @@ public class ServerUrl {
   }
 
   public URI resolveUrl() {
-    if(uri == null){
-    try {
-      if (fullUrl != null) {
-        uri = new URI(fullUrl);
-      } else {
-        uri = new URI("ws://" + host + ":" + port + "/websocket");
+    if (uri == null) {
+      try {
+        if (fullUrl != null) {
+          uri = new URI(fullUrl);
+        } else {
+          uri = new URI("ws://" + host + ":" + DEFAULT_PORT + "/websocket");
+        }
+      } catch (URISyntaxException e) {
+        throw new IllegalArgumentException("Malformed server URL. " + e);
       }
-    } catch (URISyntaxException e) {
-      throw new IllegalArgumentException("Malformed server URL. " + e);
-    }
     }
     return uri;
   }

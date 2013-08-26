@@ -17,7 +17,6 @@ package pl.bristleback.server.bristle.security.authorisation.interceptor;
 
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
-import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.api.action.ActionInterceptor;
 import pl.bristleback.server.bristle.api.action.ActionInterceptorContextResolver;
 import pl.bristleback.server.bristle.api.annotations.Interceptor;
@@ -47,7 +46,7 @@ public class AuthorizationInterceptor implements ActionInterceptor<RequiredRight
   private AuthorizationInterceptorContextResolver authorizationInterceptorContextResolver;
 
   @Override
-  public void intercept(ActionInformation actionInformation, ActionExecutionContext context, RequiredRights requiredRights) {
+  public void intercept(ActionExecutionContext context, RequiredRights requiredRights) {
     UserAuthentication authentication = authenticationsContainer.getAuthentication(context.getUserContext().getId());
     for (String requiredRight : requiredRights.getRequiredRights()) {
       if (!authentication.getAuthenticatedUser().getAuthorities().contains(requiredRight)) {

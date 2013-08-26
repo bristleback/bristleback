@@ -18,17 +18,15 @@ package pl.bristleback.server.bristle.action.client;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
-import pl.bristleback.server.bristle.security.UsersContainer;
-import pl.bristleback.server.bristle.conf.resolver.SpringConfigurationResolver;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
+import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.serialization.SerializationBundle;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
- * //@todo class description
+ * This component initializes client action classes proxy.
  * <p/>
  * Created on: 2012-07-08 21:03:42 <br/>
  *
@@ -38,29 +36,21 @@ import javax.inject.Named;
 public class ClientActionsInitializer {
 
   @Inject
-  private ClientActionClasses clientActionClasses;
-
-  @Inject
   private BristleSpringIntegration springIntegration;
 
   @Inject
   private UsersContainer usersContainer;
 
-  @Inject
-  @Named(SpringConfigurationResolver.CONFIG_BEAN_NAME)
-  private BristlebackConfig configuration;
-
-  public void initActionClasses() {
+  public void initActionClasses(BristlebackConfig configuration) {
     ClientActionProxyInterceptor proxyInterceptor = getClientActionInterceptor();
     if (proxyInterceptor == null) {
       // client actions not enabled
       return;
     }
     SerializationBundle serializationBundle = new SerializationBundle();
-    ConditionObjectSender objectSender = initObjectSender(serializationBundle);
+    ConditionObjectSender objectSender = initObjectSender(configuration, serializationBundle);
 
-    proxyInterceptor.init(clientActionClasses, objectSender);
-
+    proxyInterceptor.init(springIntegration, objectSender);
   }
 
   private ClientActionProxyInterceptor getClientActionInterceptor() {
@@ -71,7 +61,7 @@ public class ClientActionsInitializer {
     }
   }
 
-  private ConditionObjectSender initObjectSender(SerializationBundle serializationBundle) {
+  private ConditionObjectSender initObjectSender(BristlebackConfig configuration, SerializationBundle serializationBundle) {
     ConditionObjectSender objectSender = new ConditionObjectSender();
     objectSender.init(configuration, usersContainer);
     objectSender.setLocalSerializations(serializationBundle);

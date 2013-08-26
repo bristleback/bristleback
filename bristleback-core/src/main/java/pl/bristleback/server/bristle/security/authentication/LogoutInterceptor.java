@@ -18,7 +18,6 @@ package pl.bristleback.server.bristle.security.authentication;
 import org.apache.log4j.Logger;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;
 import pl.bristleback.server.bristle.action.ActionExecutionStage;
-import pl.bristleback.server.bristle.action.ActionInformation;
 import pl.bristleback.server.bristle.api.action.ActionInterceptor;
 import pl.bristleback.server.bristle.api.action.ActionInterceptorContextResolver;
 import pl.bristleback.server.bristle.api.annotations.Interceptor;
@@ -51,7 +50,7 @@ public class LogoutInterceptor implements ActionInterceptor<AuthenticationOperat
   private AuthenticationInterceptorContextResolver authenticationInterceptorContextResolver;
 
   @Override
-  public void intercept(ActionInformation actionInformation, ActionExecutionContext context, AuthenticationOperationContext interceptorContext) {
+  public void intercept(ActionExecutionContext context, AuthenticationOperationContext interceptorContext) {
     String connectionId = context.getUserContext().getId();
     String username = authenticationsContainer.getAuthentication(connectionId).getAuthenticatedUser().getUsername();
     authenticationsContainer.logout(connectionId);
