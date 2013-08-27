@@ -96,7 +96,7 @@ public class BristlebackPerformanceTest {
   }
 
   private String buildBristlebackMessage(int randomText) {
-    return "{\"name\":\"HelloWorld\",\"payload\":[\"uc\",{\"key\":" + randomText + "}],\"id\":2}";
+    return "{\"name\":\"HelloWorld\",\"payload\":[\"uc\",\"some-text" + randomText + "\"],\"id\":2}";
   }
 
   private void testClosingConnections(WebSocketClient websocketClient) throws Exception {
