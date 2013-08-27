@@ -7,18 +7,15 @@ import pl.bristleback.server.bristle.api.annotations.ActionClass;
 import pl.bristleback.server.bristle.engine.user.BaseUserContext;
 import sample.User;
 
-import java.math.BigDecimal;
-import java.util.Map;
-
 @Controller
 @ActionClass(name = "HelloWorld")
-public class HelloWorldAction implements DefaultAction<BaseUserContext, Map<String, BigDecimal>> {
+public class HelloWorldAction implements DefaultAction<BaseUserContext, String> {
 
   @Action
-  public User executeDefault(BaseUserContext userContext, Map<String, BigDecimal> message) {
+  public User executeDefault(BaseUserContext userContext, String name) {
     User user = new User();
-    user.setAge(message.get("key").intValue());
-    user.setFirstName("John");
+    user.setAge(20);
+    user.setFirstName(name);
 
     return user;
   }
