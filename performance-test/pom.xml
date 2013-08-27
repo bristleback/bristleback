@@ -1,126 +1,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>pl.bristleback</groupId>
   <artifactId>performance-test</artifactId>
-  <version>0.4.0</version>
-  <packaging>jar</packaging>
+  <version>0.3.5</version>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>test-client</module>
+    <module>test-server-common</module>
+    <module>test-server-tomcat</module>
+  </modules>
 
   <properties>
     <jetty-version>8.1.10.v20130312</jetty-version>
   </properties>
 
-  <name>Bristleback performance test</name>
-  <url>http://maven.apache.org</url>
+  <name>Bristleback performance test parent</name>
+  <url>http://bristleback.pl</url>
 
-  <build>
-    <defaultGoal>package</defaultGoal>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.9</version>
-        <configuration>
-          <skipTests>true</skipTests>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-
-  <dependencies>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-websocket</artifactId>
-      <version>${jetty-version}</version>
-      <type>jar</type>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-servlet</artifactId>
-      <version>${jetty-version}</version>
-      <type>jar</type>
-    </dependency>
-  </dependencies>
-
-  <profiles>
-    <profile>
-      <id>server</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <configuration>
-              <executable>java</executable>
-              <arguments>
-                <argument>-showversion</argument>
-                <argument>-Xmx512m</argument>
-                <argument>-Xms512m</argument>
-                <argument>-Xmn256m</argument>
-                <argument>-XX:+PrintCommandLineFlags</argument>
-                <argument>-verbose:gc</argument>
-                <!--<argument>-XX:+PrintGCDetails</argument>-->
-                <!--<argument>-XX:+PrintGCDateStamps</argument>-->
-                <argument>-XX:+UseParallelOldGC</argument>
-                <argument>-XX:-UseAdaptiveSizePolicy</argument>
-                <!--<argument>-XX:+UseConcMarkSweepGC</argument>-->
-                <!--<argument>-XX:+UnlockExperimentalVMOptions</argument>-->
-                <!--<argument>-XX:+UseG1GC</argument>-->
-                <argument>-cp</argument>
-                <classpath />
-                <argument>com.example.websocket.Main</argument>
-                <argument>8080</argument>
-              </arguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>client</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <configuration>
-              <executable>java</executable>
-              <arguments>
-                <argument>-showversion</argument>
-                <argument>-Xmx1024m</argument>
-                <argument>-Xms1024m</argument>
-                <argument>-Xmn512m</argument>
-                <argument>-XX:+PrintCommandLineFlags</argument>
-                <argument>-verbose:gc</argument>
-                <!--<argument>-XX:+PrintGCDetails</argument>-->
-                <!--<argument>-XX:+PrintGCDateStamps</argument>-->
-                <argument>-XX:+UseParallelOldGC</argument>
-                <argument>-XX:-UseAdaptiveSizePolicy</argument>
-                <!--<argument>-XX:+UseConcMarkSweepGC</argument>-->
-                <!--<argument>-XX:+UnlockExperimentalVMOptions</argument>-->
-                <!--<argument>-XX:+UseG1GC</argument>-->
-                <argument>-cp</argument>
-                <classpath />
-                <argument>com.example.websocket.ChatLoadClient</argument>
-                <argument>localhost</argument>
-                <argument>8080</argument>
-                <argument>100</argument>
-                <argument>100000</argument>
-              </arguments>
-<!--
-              <systemProperties>
-                <systemProperty>
-                  <key>org.eclipse.jetty.util.log.DEBUG</key>
-                  <value>true</value>
-                </systemProperty>
-              </systemProperties>
--->
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 </project>
 

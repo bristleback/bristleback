@@ -16,7 +16,7 @@
 package pl.bristleback.server.bristle.api.action;
 
 import pl.bristleback.server.bristle.action.client.ClientActionInformation;
-import pl.bristleback.server.bristle.api.WebsocketConnector;
+import pl.bristleback.server.bristle.api.users.UserContext;
 
 import java.util.List;
 
@@ -44,5 +44,5 @@ public interface ClientActionSender<T> {
    * @return list of recipients
    * @throws Exception
    */
-  List<WebsocketConnector> chooseRecipients(T actionCondition, ClientActionInformation actionInformation) throws Exception;
+  List<UserContext> chooseRecipients(T actionCondition, ClientActionInformation actionInformation) throws Exception;
 }

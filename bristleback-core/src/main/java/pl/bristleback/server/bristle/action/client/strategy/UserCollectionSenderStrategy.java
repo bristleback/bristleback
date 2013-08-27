@@ -17,12 +17,9 @@ package pl.bristleback.server.bristle.action.client.strategy;
 
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.client.ClientActionInformation;
-import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.action.ClientActionSender;
 import pl.bristleback.server.bristle.api.users.UserContext;
-import pl.bristleback.server.bristle.security.UsersContainer;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -35,11 +32,8 @@ import java.util.List;
 @Component
 public class UserCollectionSenderStrategy implements ClientActionSender<List<UserContext>> {
 
-  @Inject
-  private UsersContainer connectedUsers;
-
   @Override
-  public List<WebsocketConnector> chooseRecipients(List<UserContext> users, ClientActionInformation actionInformation) throws Exception {
-    return connectedUsers.getConnectorsByUsers(users);
+  public List<UserContext> chooseRecipients(List<UserContext> users, ClientActionInformation actionInformation) throws Exception {
+    return users;
   }
 }

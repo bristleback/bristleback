@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
@@ -10,28 +9,15 @@
       http://www.bristleback.pl/schema/bristleback
       http://www.bristleback.pl/schema/bristleback/bristleback.xsd">
 
-  <context:component-scan base-package="sample"/>
-
-  <!--BRISTLEBACK BEANS-->
+  <context:component-scan base-package="pl.bristleback.test"/>
 
   <bb:serverMessages/>
 
-  <bb:security userDetailsService="sampleUserDetailsService"/>
-
+  <!--BRISTLEBACK WEB SERVER-->
   <bean id="initPojoConfigResolver" class="pl.bristleback.server.bristle.conf.resolver.init.PojoConfigResolver">
-    <property name="serializationEngine" value="system.serializer.jackson"/>
+    <property name="engineName" value="system.engine.tomcat.servlet"/>
     <property name="loggingLevel" value="ERROR"/>
   </bean>
 
-  <bean id="propertiesFileConfigResolver"
-        class="pl.bristleback.server.bristle.conf.resolver.init.PropertiesFileConfigResolver">
-    <property name="configurationPath" value="bristleback.properties"/>
-  </bean>
-
-  <bb:standaloneServer configurationResolver="initPojoConfigResolver"/>
-
-  <!-- APPLICATION BEANS -->
-
-  <bean id="helloService" class="sample.service.HelloServiceBean"/>
-
+  <bb:servlet configurationResolver="initPojoConfigResolver"/>
 </beans>
