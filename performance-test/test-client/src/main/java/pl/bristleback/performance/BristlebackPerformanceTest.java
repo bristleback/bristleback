@@ -31,7 +31,7 @@ public class BristlebackPerformanceTest {
   private WebSocketClient init() throws Exception {
     WebSocketClient webSocketClient = clientFactory.newWebSocketClient();
     webSocketClient.setMaxIdleTime(300000);
-    webSocketClient.setProtocol("");
+    webSocketClient.setProtocol("system.controller.action");
     clientFactory.start();
     return webSocketClient;
   }
