@@ -2,8 +2,11 @@ package pl.bristleback.server.bristle.app;
 
 import org.springframework.aop.framework.ProxyFactory;
 import pl.bristleback.server.bristle.action.client.ClientActionProxyInterceptor;
+import pl.bristleback.server.bristle.api.ConnectionStateListener;
 import pl.bristleback.server.bristle.api.InitialConfigurationResolver;
+import pl.bristleback.server.bristle.api.action.ActionExceptionHandler;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
+import pl.bristleback.server.bristle.api.users.UserContextFactory;
 import pl.bristleback.server.bristle.conf.resolver.ServerInstanceResolver;
 import pl.bristleback.server.bristle.conf.resolver.init.PojoConfigResolver;
 import pl.bristleback.server.bristle.conf.resolver.message.ObjectSenderInjector;
@@ -60,7 +63,22 @@ public final class BristlebackBootstrap {
     return component;
   }
 
-  private void registerComponent(Object component) {
+  public BristlebackBootstrap registerConnectionStateListener(ConnectionStateListener listener) {
+    registerComponent(listener);
+    return this;
+  }
+
+  public BristlebackBootstrap registerUserContextFactory(UserContextFactory userContextFactory) {
+    registerComponent(userContextFactory);
+    return this;
+  }
+
+  public BristlebackBootstrap registerExceptionHandler(ActionExceptionHandler exceptionHandler) {
+    registerComponent(exceptionHandler);
+    return this;
+  }
+
+  public void registerComponent(Object component) {
     objectSenderInjector.injectSenders(component);
     componentsContainer.addComponent(component.getClass().getName(), component);
   }

@@ -5,6 +5,7 @@ import pl.bristleback.server.bristle.app.BristlebackServerInstance;
 import pl.bristleback.server.bristle.conf.resolver.init.PojoConfigResolver;
 import sample.action.HelloWorldAction;
 import sample.action.HelloWorldClientAction;
+import sample.handlers.StandardConnectionStateListener;
 
 public class PlainApp {
 
@@ -17,6 +18,8 @@ public class PlainApp {
     helloWorldAction.setHelloWorldClientAction(helloWorldClientAction);
 
     bootstrap.registerActionClass(helloWorldAction);
+
+    bootstrap.registerConnectionStateListener(new StandardConnectionStateListener());
 
     BristlebackServerInstance serverInstance = bootstrap.createServerInstance();
 
