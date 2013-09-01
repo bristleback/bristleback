@@ -30,4 +30,9 @@ public class Person {
   public void incrementAge() {
     age++;
   }
+
+  public void resetAge() {
+    age = 0;
+  }
+
 }
