@@ -20,7 +20,6 @@ import org.springframework.aop.TargetClassAware;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionClassInformation;
 import pl.bristleback.server.bristle.action.ActionInformation;
-import pl.bristleback.server.bristle.action.ActionsContainer;
 import pl.bristleback.server.bristle.action.exception.ActionInitializationException;
 import pl.bristleback.server.bristle.api.annotations.Action;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
@@ -53,8 +52,7 @@ public class ActionClassesResolver {
   @Inject
   private ActionInterceptorsResolver actionInterceptorsResolver;
 
-  public ActionsContainer resolve() {
-    ActionsContainer actionsContainer = new ActionsContainer();
+  public Map<String, ActionClassInformation> resolve() {
     Map<String, ActionClassInformation> actionClasses = new HashMap<String, ActionClassInformation>();
     Map<String, Object> foundActions = springIntegration.getBeansWithAnnotation(ActionClass.class);
     for (Map.Entry<String, Object> actionClassEntry : foundActions.entrySet()) {
@@ -64,8 +62,7 @@ public class ActionClassesResolver {
       actionClasses.put(actionClassInformation.getName(), actionClassInformation);
       actionInterceptorsResolver.resolveInterceptors(actionClassInformation);
     }
-    actionsContainer.setActionClasses(actionClasses);
-    return actionsContainer;
+      return actionClasses;
   }
 
   private ActionClassInformation prepareActionClassInformation(Object actionClass, String actionClassBeanName) {

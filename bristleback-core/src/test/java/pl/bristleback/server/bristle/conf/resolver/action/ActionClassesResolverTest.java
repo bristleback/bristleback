@@ -7,15 +7,15 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pl.bristleback.server.bristle.action.ActionClassInformation;
-import pl.bristleback.server.bristle.action.ActionsContainer;
-import pl.bristleback.server.bristle.action.exception.BrokenActionProtocolException;
 import pl.bristleback.server.mock.action.SimpleActionClass;
 import pl.bristleback.server.mock.beans.SpringMockBeansFactory;
 
 import javax.inject.Inject;
+import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -46,11 +46,11 @@ public class ActionClassesResolverTest {
     //given
 
     //when
-    ActionsContainer container = actionClassesResolver.resolve();
+    Map<String, ActionClassInformation> container = actionClassesResolver.resolve();
 
     //then
     assertNotNull(container);
-    ActionClassInformation classInformation = container.getActionClass(SimpleActionClass.NAME);
+    ActionClassInformation classInformation = container.get(SimpleActionClass.NAME);
     assertNotNull(classInformation);
     assertEquals(SimpleActionClass.NAME, classInformation.getName());
     assertEquals("sampleActionBean", classInformation.getSpringBeanName());
@@ -59,15 +59,13 @@ public class ActionClassesResolverTest {
     assertNotNull(classInformation.getSingletonActionClassInstance());
   }
 
-  @Test(expected = BrokenActionProtocolException.class)
   public void shouldResolveCorrectlyNotAnnotatedNotAdded() {
     //given
 
     //when
-    ActionsContainer container = actionClassesResolver.resolve();
+    Map<String, ActionClassInformation> container = actionClassesResolver.resolve();
 
     //then
-    assertNotNull(container);
-    container.getActionClass("notAnnotatedAction");
+    assertNull(container.get("notAnnotatedAction"));
   }
 }
