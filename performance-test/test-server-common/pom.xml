@@ -41,6 +41,12 @@
       <version>${bristleback-version}</version>
     </dependency>
 
+      <dependency>
+          <groupId>pl.bristleback</groupId>
+          <artifactId>action-validation</artifactId>
+          <version>${bristleback-version}</version>
+      </dependency>
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>

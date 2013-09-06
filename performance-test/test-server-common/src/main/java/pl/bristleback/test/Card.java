@@ -1,4 +1,4 @@
-package sample;
+package pl.bristleback.test;
 
 public enum Card {
 

@@ -1,11 +1,11 @@
-package sample.action.secure;
+package pl.bristleback.test.action;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.annotations.Action;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
 import pl.bristleback.server.bristle.api.annotations.Authorized;
-import sample.security.SampleUserDetails;
+import pl.bristleback.test.security.SampleUserDetails;
 
 @ActionClass
 @Component

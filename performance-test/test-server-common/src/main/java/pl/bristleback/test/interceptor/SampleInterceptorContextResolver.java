@@ -1,4 +1,4 @@
-package sample.action.interceptor;
+package pl.bristleback.test.interceptor;
 
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionInformation;

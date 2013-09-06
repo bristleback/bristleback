@@ -10,7 +10,7 @@
       http://www.bristleback.pl/schema/bristleback
       http://www.bristleback.pl/schema/bristleback/bristleback.xsd">
 
-  <context:component-scan base-package="sample"/>
+  <context:component-scan base-package="pl.bristleback.test"/>
 
   <!--BRISTLEBACK BEANS-->
 
@@ -31,7 +31,5 @@
   <bb:standaloneServer configurationResolver="initPojoConfigResolver"/>
 
   <!-- APPLICATION BEANS -->
-
-  <bean id="helloService" class="sample.service.HelloServiceBean"/>
 
 </beans>

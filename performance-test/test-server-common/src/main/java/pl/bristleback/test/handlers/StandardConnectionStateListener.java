@@ -1,4 +1,4 @@
-package sample.handlers;
+package pl.bristleback.test.handlers;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package sample.action.interceptor;
+package pl.bristleback.test.interceptor;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;

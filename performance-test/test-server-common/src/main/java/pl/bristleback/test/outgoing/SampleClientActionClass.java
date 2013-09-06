@@ -1,4 +1,4 @@
-package sample.outgoing;
+package pl.bristleback.test.outgoing;
 
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.action.SendCondition;
@@ -7,7 +7,7 @@ import pl.bristleback.server.bristle.api.annotations.ClientActionClass;
 import pl.bristleback.server.bristle.api.annotations.Ignore;
 import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.security.authorisation.conditions.AllUsersCondition;
-import sample.Card;
+import pl.bristleback.test.Card;
 
 @ClientActionClass
 @Component

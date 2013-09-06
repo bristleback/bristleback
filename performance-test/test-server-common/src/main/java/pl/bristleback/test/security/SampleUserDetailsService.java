@@ -1,4 +1,4 @@
-package sample.security;
+package pl.bristleback.test.security;
 
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.users.UserDetails;

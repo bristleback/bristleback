@@ -1,4 +1,4 @@
-package sample.handlers;
+package pl.bristleback.test.handlers;
 
 import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.ActionExecutionContext;

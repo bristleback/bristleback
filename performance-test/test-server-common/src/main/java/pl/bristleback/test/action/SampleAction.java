@@ -1,4 +1,4 @@
-package sample.action;
+package pl.bristleback.test.action;
 
 import org.springframework.stereotype.Component;
 import pl.bristleback.common.serialization.message.BristleMessage;
@@ -10,11 +10,10 @@ import pl.bristleback.server.bristle.api.annotations.ObjectSender;
 import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.engine.user.BaseUserContext;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
-import sample.Card;
-import sample.User;
-import sample.action.interceptor.SampleInterceptor;
-import sample.outgoing.SampleClientActionClass;
-import sample.service.HelloServiceBean;
+import pl.bristleback.test.Card;
+import pl.bristleback.test.User;
+import pl.bristleback.test.interceptor.SampleInterceptor;
+import pl.bristleback.test.outgoing.SampleClientActionClass;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -34,9 +33,6 @@ public class SampleAction implements DefaultAction<BaseUserContext, Map<String, 
 
   @ObjectSender
   private ConditionObjectSender sender;
-
-  @Inject
-  private HelloServiceBean helloServiceBean;
 
   @Inject
   private SampleClientActionClass clientActionClass;
@@ -65,7 +61,7 @@ public class SampleAction implements DefaultAction<BaseUserContext, Map<String, 
 
   @Action
   public String executeDefault(BaseUserContext userContext, Map<String, BigDecimal> message) {
-    String helloWorld = helloServiceBean.sayHello(message.get("mapField"));
+    String helloWorld = "Hello, magic number is " + message.get("mapField");
     clientActionClass.sendCardsToUser(Card.values(), userContext);
     clientActionClass.notification(true, 1, "df");
     return helloWorld;

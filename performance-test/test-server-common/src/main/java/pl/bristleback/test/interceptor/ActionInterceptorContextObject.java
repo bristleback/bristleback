@@ -1,4 +1,4 @@
-package sample.action.interceptor;
+package pl.bristleback.test.interceptor;
 
 public class ActionInterceptorContextObject {
 
