@@ -32,7 +32,6 @@ public class Person {
   }
 
   public void resetAge() {
-    age = 0;
+    this.age = 0;
   }
-
 }
