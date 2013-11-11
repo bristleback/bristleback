@@ -19,7 +19,8 @@ public class AbstractMatcherTest {
   @Before
   public void setUp() {
     if (actionsContainer == null) {
-      actionsContainer = mockBeansFactory.getFrameworkBean("actionsContainer", ActionsContainer.class);
+      ActionClassesResolver actionClassesResolver = mockBeansFactory.getFrameworkBean("actionClassesResolver", ActionClassesResolver.class);
+      actionsContainer = actionClassesResolver.resolve();
     }
   }
 

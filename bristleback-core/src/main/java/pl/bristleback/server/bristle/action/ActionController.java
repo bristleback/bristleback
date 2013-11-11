@@ -17,15 +17,13 @@ package pl.bristleback.server.bristle.action;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
+import pl.bristleback.common.serialization.message.BristleMessage;
 import pl.bristleback.server.bristle.action.client.ClientActionsInitializer;
 import pl.bristleback.server.bristle.action.exception.handler.ActionExceptionHandlers;
-import pl.bristleback.server.bristle.action.streaming.StreamingActionDispatcher;
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.DataController;
-import pl.bristleback.server.bristle.api.SerializationEngine;
 import pl.bristleback.server.bristle.api.users.UserContext;
-import pl.bristleback.server.bristle.conf.resolver.action.BristleMessageSerializationUtils;
-import pl.bristleback.server.bristle.message.BristleMessage;
+import pl.bristleback.server.bristle.serialization.RawMessageSerializationEngine;
 
 import javax.inject.Inject;
 
@@ -34,9 +32,6 @@ public class ActionController implements DataController {
 
   private static Logger log = Logger.getLogger(ActionController.class.getName());
 
-    @Inject
-  private StreamingActionDispatcher streamingDispatcher;
-
   @Inject
   private ActionDispatcher dispatcher;
 
@@ -44,25 +39,18 @@ public class ActionController implements DataController {
   private ActionExceptionHandlers exceptionHandlers;
 
   @Inject
-  private BristleMessageSerializationUtils serializationHelper;
-
-  @Inject
   private ClientActionsInitializer clientActionsInitializer;
 
-  private Object messageSerialization;
+  @Inject
+  private RawMessageSerializationEngine rawMessageSerializationEngine;
 
-  private SerializationEngine serializationEngine;
 
   @Override
   public void init(BristlebackConfig configuration) {
-    this.serializationEngine = configuration.getSerializationEngine();
-
-    messageSerialization = serializationEngine.getSerializationResolver()
-      .resolveSerialization(serializationHelper.getSerializedArrayMessageType());
-
+    dispatcher.init(configuration);
     exceptionHandlers.initHandlers();
 
-    clientActionsInitializer.initActionClasses();
+    clientActionsInitializer.initActionClasses(configuration);
   }
 
   @Override
@@ -71,7 +59,7 @@ public class ActionController implements DataController {
     ActionExecutionContext context = new ActionExecutionContext(userContext);
     try {
       log.debug("Incoming message: " + textData);
-      BristleMessage<String[]> actionMessage = (BristleMessage<String[]>) serializationEngine.deserialize(textData, messageSerialization);
+      BristleMessage<String[]> actionMessage = rawMessageSerializationEngine.deserialize(textData);
       context.setMessage(actionMessage);
       dispatcher.dispatch(context);
     } catch (Exception e) {
@@ -82,6 +70,6 @@ public class ActionController implements DataController {
 
   @Override
   public void processBinaryData(byte[] binaryData, UserContext userContext) {
-     streamingDispatcher.dispatch(binaryData, userContext);
+    processTextData(new String(binaryData), userContext);
   }
 }

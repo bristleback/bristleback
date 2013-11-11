@@ -31,7 +31,7 @@ public class BristlebackPerformanceTest {
   private WebSocketClient init() throws Exception {
     WebSocketClient webSocketClient = clientFactory.newWebSocketClient();
     webSocketClient.setMaxIdleTime(300000);
-    webSocketClient.setProtocol("system.controller.action");
+    webSocketClient.setProtocol("");
     clientFactory.start();
     return webSocketClient;
   }
@@ -96,7 +96,7 @@ public class BristlebackPerformanceTest {
   }
 
   private String buildBristlebackMessage(int randomText) {
-    return "{\"name\":\"HelloWorld\",\"payload\":[\"uc\",\"some-text" + randomText + "\"],\"id\":2}";
+    return "{\"name\":\"HelloWorld\",\"payload\":[\"uc\",{\"key\":" + randomText + "}],\"id\":2}";
   }
 
   private void testClosingConnections(WebSocketClient websocketClient) throws Exception {

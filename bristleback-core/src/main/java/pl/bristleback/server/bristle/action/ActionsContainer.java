@@ -15,13 +15,9 @@
 
 package pl.bristleback.server.bristle.action;
 
-import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.action.exception.BrokenActionProtocolException;
-import pl.bristleback.server.bristle.conf.resolver.action.ActionClassesResolver;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import java.util.Map;
 
 /**
@@ -31,18 +27,9 @@ import java.util.Map;
  *
  * @author Wojciech Niemiec
  */
-@Component
 public class ActionsContainer {
 
-    @Inject
-    private ActionClassesResolver actionClassesResolver;
-
   private Map<String, ActionClassInformation> actionClasses;
-
-    @PostConstruct
-  private void init() {
-       actionClasses = actionClassesResolver.resolve();
-    }
 
   public ActionClassInformation getActionClass(String actionClassName) {
     ActionClassInformation actionClass = actionClasses.get(actionClassName);

@@ -18,14 +18,13 @@ package pl.bristleback.server.bristle.action.client;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import pl.bristleback.server.bristle.api.SerializationEngine;
+import pl.bristleback.server.bristle.api.WebsocketConnector;
 import pl.bristleback.server.bristle.api.WebsocketMessage;
 import pl.bristleback.server.bristle.api.action.ClientActionSender;
-import pl.bristleback.server.bristle.api.users.UserContext;
 import pl.bristleback.server.bristle.integration.spring.BristleSpringIntegration;
 import pl.bristleback.server.bristle.message.BaseMessage;
 import pl.bristleback.server.bristle.message.ConditionObjectSender;
 import pl.bristleback.server.bristle.message.MessageType;
-import pl.bristleback.server.bristle.security.UsersContainer;
 import pl.bristleback.server.bristle.serialization.RawMessageSerializationEngine;
 
 import java.util.List;
@@ -47,13 +46,10 @@ public class ClientActionProxyInterceptor implements MethodInterceptor {
 
   private RawMessageSerializationEngine rawMessageSerializationEngine;
 
-  private UsersContainer usersContainer;
-
   public void init(BristleSpringIntegration springIntegration, ConditionObjectSender objectsSender) {
     this.actionClasses = springIntegration.getFrameworkBean("clientActionClasses", ClientActionClasses.class);
     this.serializationEngine = springIntegration.getFrameworkBean("serializationEngine", SerializationEngine.class);
     this.rawMessageSerializationEngine = springIntegration.getFrameworkBean("rawMessageSerializationEngine", RawMessageSerializationEngine.class);
-    this.usersContainer = springIntegration.getFrameworkBean("usersContainer", UsersContainer.class);
     this.objectSender = objectsSender;
   }
 
@@ -80,10 +76,10 @@ public class ClientActionProxyInterceptor implements MethodInterceptor {
 
     String serializedMessage = rawMessageSerializationEngine.serialize(null, actionInformation.getFullName(), payload);
     ClientActionSender clientActionSender = actionInformation.getResponse();
-    List<UserContext> recipients = clientActionSender.chooseRecipients(methodOutput, actionInformation);
+    List<WebsocketConnector> recipients = clientActionSender.chooseRecipients(methodOutput, actionInformation);
     WebsocketMessage<String> message = new BaseMessage<String>(MessageType.TEXT);
     message.setContent(serializedMessage);
-    message.setRecipients(usersContainer.getConnectorsByUsers(recipients));
+    message.setRecipients(recipients);
 
     objectSender.queueNewMessage(message);
     return methodOutput;
