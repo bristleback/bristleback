@@ -1,0 +1,31 @@
+body {
+  padding-top: 30px;
+}
+.centeredForm {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+  width: 400px;
+}
+
+.infoPanel {
+  width: 600px;
+  text-align: center;
+  font-weight: bold;
+  font-family: verdana sans-serif;
+  font-size: 2em;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 10px;
+  line-height: 30px;
+  border-top: 1px black solid;
+}
+
+.infoPanelPart {
+  width: 50%;
+  float: left;
+}
+
+#messagesProgress {
+  display: none;
+}

@@ -2,56 +2,61 @@
   "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+  <link rel="stylesheet" href="css/bootstrap.css"/>
+  <link rel="stylesheet" href="css/styles.css"/>
   <script type="text/javascript" src="js/jquery.js"></script>
   <script type="text/javascript" src="js/bristleback-0.4.0.js"></script>
+  <script type="text/javascript" src="js/test-client.js"></script>
 
   <script type="text/javascript">
-    var config = {
-      serverUrl: "ws://127.0.0.1:8080/websocket",
-      onOpen: function () {
-        document.getElementById('status').innerHTML = "The WebSocket Connection Is Open.";
-        // $('#status').text("The WebSocket Connection Is Open.");
-      },
-      onClose: function () {
-        document.getElementById('status').innerHTML = "The WebSocket Connection Is Closed.";
-      }
-    };
-    var client = Bristleback.newClient(config);
-    var dataController = client.dataController;
-
-    var helloWorld = dataController.getActionClass("HelloWorld");
-
-    helloWorld.defineDefaultAction().setResponseHandler(function (user) {
-      $('#status').text("Hello "+user.firstName);
+    $(document).ready(function () {
+      $('#startTests').click(function () {
+        var numberOfClients = $('#numberOfClients').val();
+        var numberOfMessages = $('#numberOfMessages').val();
+        if (numberOfClients > 0 && numberOfMessages > 0) {
+          $(this).prop("disabled", true);
+          BristleTest.performTests(numberOfClients, numberOfMessages);
+        }
+      });
     });
-
-    function connect() {
-      client.connect();
-    }
-
-    function sendText() {
-      var text = $('#textToWrite').val();
-      helloWorld.executeDefault(BB.USER_CONTEXT, text);
-    }
-
-    function closeConnection() {
-      client.disconnect();
-    }
 
   </script>
 
-  <title>Bristleback client version 0.4.0</title>
+  <title>Bristleback client version 0.3.5</title>
 </head>
 <body>
-<div id="status">Disconnected. Click connect button to start playing.</div>
-<br/>
-<input type="button" onclick="connect()" value="Connect">
-<input type="button" onclick="closeConnection()" value="Close connection">
-<br>
-<label>Your name
-  <input type="text" id="textToWrite">
-</label> <br>
 
-<label>
-  <input type="button" onclick="sendText()" value="Click hello world!">
-</label>
+<div class="container">
+  <div class="span12">
+    <div id="status" class="infoPanel">
+      <div class="infoPanelPart">
+        clients: <span id="numberOfClientsInfo"></span>
+      </div>
+
+      <div>
+        total messages: <span id="numberOfMessagesInfo"></span>
+      </div>
+    </div>
+
+    <div id="connectionTestsTime" class="infoPanel"></div>
+    <div id="messagesTestTime" class="infoPanel"></div>
+    <div class="progress" id="messagesProgress">
+      <div class="bar" id="messagesProgressInner" style="width: 0;"></div>
+    </div>
+    <div id="disconnectionTestsTime" class="infoPanel"></div>
+
+    <br>
+
+    <form class="form-inline centeredForm">
+      <label for="numberOfClients">Clients </label>
+      <input type="text" id="numberOfClients" class="input-small" value="10">
+
+      <label for="numberOfMessages">Total messages </label>
+      <input type="text" id="numberOfMessages" class="input-small" value="100000">
+      <br>
+      <br>
+      <input type="button" id="startTests" value="Start tests!" class="btn btn-primary btn-block btn-large">
+    </form>
+
+  </div>
+</div>
