@@ -15,7 +15,6 @@
     <module>websocket-engine-netty</module>
     <module>serialization-engine-jackson</module>
     <module>action-validation</module>
-    <module>sample-app</module>
     <module>performance-test</module>
     <module>client-java-jetty</module>
   </modules>
