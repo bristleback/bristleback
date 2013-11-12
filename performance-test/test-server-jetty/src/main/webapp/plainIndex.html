@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/bristleback-0.4.0.js"></script>
+  <script type="text/javascript" src="js/trimpath-template-1.0.38.js"></script>
+
+  <script type="text/javascript">
+    var config = {
+      //  serverUrl: "ws://localhost:8765/websocket",
+      onOpen: function () {
+        document.getElementById('status').innerHTML = "The WebSocket Connection Is Open.";
+        // $('#status').text("The WebSocket Connection Is Open.");
+      },
+      onClose: function () {
+        document.getElementById('status').innerHTML = "The WebSocket Connection Is Closed.";
+      }
+    };
+    var client = Bristleback.newClient(config);
+    var dataController = client.dataController;
+
+    var helloWorld = dataController.getActionClass("HelloWorld");
+
+    helloWorld.defineAction("broadcast");
+
+    var helloWorldClientAction = {
+      sayHelloToAll: function (text) {
+        $('#status').text("Client action text: " + text);
+      }
+    };
+
+    dataController.registerClientActionClass("HelloWorldClientAction", helloWorldClientAction);
+
+    function connect() {
+      client.connect();
+    }
+
+    function sendText() {
+      var text = $('#textToWrite').val();
+      helloWorld.broadcast(text);
+    }
+
+    function closeConnection() {
+      client.disconnect("exit on demand");
+    }
+
+  </script>
+
+  <title>Bristleback client version 0.4.0</title>
+</head>
+<body>
+<div id="status">Disconnected. Click connect button to start playing.</div>
+<br/>
+<input type="button" onclick="connect()" value="Connect">
+<input type="button" onclick="closeConnection()" value="Close connection">
+<br>
+<label>Your name
+  <input type="text" id="textToWrite">
+</label> <br>
+
+<label>
+  <input type="button" onclick="sendText()" value="Click hello world!">
+</label>
