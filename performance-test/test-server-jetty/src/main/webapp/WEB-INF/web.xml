@@ -8,8 +8,12 @@
 
   <servlet>
     <servlet-name>bristlebackServlet</servlet-name>
-    <servlet-class>pl.bristleback.server.bristle.app.BristlebackServlet</servlet-class>
+    <servlet-class>pl.bristleback.server.bristle.app.servlet.BristlebackServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>resolverClass</param-name>
+      <param-value>sample.ServerInstanceResolver</param-value>
+    </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>bristlebackServlet</servlet-name>

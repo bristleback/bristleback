@@ -1,11 +1,11 @@
-package pl.bristleback.server.bristle.app;
+package pl.bristleback.server.bristle.app.servlet;
 
 
 import pl.bristleback.server.bristle.api.BristlebackConfig;
 import pl.bristleback.server.bristle.api.ServerEngine;
 import pl.bristleback.server.bristle.api.ServletServerEngine;
+import pl.bristleback.server.bristle.app.BristlebackServerInstance;
 import pl.bristleback.server.bristle.conf.BristleInitializationException;
-import pl.bristleback.server.bristle.conf.resolver.init.PojoConfigResolver;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,18 +15,15 @@ import java.io.IOException;
 
 public class BristlebackServlet extends HttpServlet {
 
+  private BristlebackServletManager servletManager = new BristlebackServletManager();
+
   private BristlebackServerInstance serverInstance;
 
   private ServletServerEngine servletServerEngine;
 
   @Override
   public void init() throws ServletException {
-    PojoConfigResolver configResolver = new PojoConfigResolver();
-    configResolver.setEngineName("system.engine.jetty.servlet");
-    configResolver.setLoggingLevel("DEBUG");
-    BristlebackBootstrap bristlebackBootstrap = BristlebackBootstrap.init(configResolver);
-
-    serverInstance = bristlebackBootstrap.createServerInstance();
+    serverInstance = servletManager.createInitialConfigurationResolver(getServletConfig());
     servletServerEngine = getServletEngine(serverInstance.getConfiguration());
 
     serverInstance.startServer();
@@ -36,7 +33,8 @@ public class BristlebackServlet extends HttpServlet {
     ServerEngine serverEngine = configuration.getServerEngine();
     if (!(serverEngine instanceof ServletServerEngine)) {
       throw new BristleInitializationException("Cannot start Bristleback servlet WebSockets engine. "
-        + "Given engine does not implement " + ServletServerEngine.class.getName() + " interface.");
+        + "Websocket engine with name: " + serverEngine.getEngineConfiguration().getName() + " does not implement "
+        + ServletServerEngine.class.getName() + " interface.");
     }
     return (ServletServerEngine) serverEngine;
   }

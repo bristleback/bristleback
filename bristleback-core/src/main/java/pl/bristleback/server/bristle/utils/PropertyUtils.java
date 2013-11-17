@@ -241,7 +241,7 @@ public final class PropertyUtils {
     try {
       return clazz.getDeclaredField(fieldName);
     } catch (NoSuchFieldException e) {
-      throw new BristleInitializationException("This should never happen.", e);
+      throw new BristleInitializationException("Cannot find field " + fieldName + " in class " + clazz, e);
     }
   }
 
