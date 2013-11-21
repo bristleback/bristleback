@@ -3,7 +3,9 @@ package pl.bristleback.server.bristle.app.servlet;
 import org.apache.commons.lang.StringUtils;
 import pl.bristleback.server.bristle.conf.BristleInitializationException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BristlebackServletInitParameters {
@@ -25,12 +27,18 @@ public class BristlebackServletInitParameters {
     return Integer.parseInt(parameters.get(name));
   }
 
-  public String[] getArrayParam(String name) {
+  @SuppressWarnings("unchecked")
+  public List<String> getListParam(String name) {
     if (!parameters.containsKey(name)) {
       return null;
     }
     String rawValue = getParam(name);
-    return StringUtils.split(",");
+    List<String> result = new ArrayList<String>();
+    for (String notTrimmed : StringUtils.split(rawValue, ",")) {
+      result.add(notTrimmed.trim());
+    }
+
+    return result;
   }
 
   public Class<?> getClassParam(String name) {
