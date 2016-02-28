@@ -1,3 +1,5 @@
+== This project is no longer maintained, if you would like to maintain it, please write an issue or create a pull request so I can add you.
+
 == Bristleback Framework version 0.3.5
 Welcome,
 
